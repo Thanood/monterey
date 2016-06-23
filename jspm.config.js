@@ -1,11 +1,17 @@
 SystemJS.config({
   paths: {
     "github:": "jspm_packages/github/",
-    "npm:": "jspm_packages/npm/"
+    "npm:": "jspm_packages/npm/",
+    "local:": "jspm_packages/local/"
   },
   browserConfig: {
     "paths": {
       "monterey-shell/": "dist/"
+    }
+  },
+  nodeConfig: {
+    "paths": {
+      "monterey-shell/": "src/"
     }
   },
   devConfig: {
@@ -26,7 +32,12 @@ SystemJS.config({
       }
     }
   },
-  transpiler: false,
+  transpiler: "plugin-babel",
+  babelOptions: {
+    "optional": [
+      "runtime"
+    ]
+  },
   meta: {
     "bootstrap": {
       "deps": [
@@ -46,11 +57,12 @@ SystemJS.config({
   packageConfigPaths: [
     "npm:@*/*.json",
     "npm:*.json",
-    "github:*/*.json"
+    "github:*/*.json",
+    "local:*.json"
   ],
   map: {
     "aurelia-animator-css": "npm:aurelia-animator-css@1.0.0-rc.1.0.0",
-    "aurelia-binding": "npm:aurelia-binding@1.0.0-rc.1.0.0",
+    "aurelia-binding": "npm:aurelia-binding@1.0.0-rc.1.0.2",
     "aurelia-bootstrapper": "npm:aurelia-bootstrapper@1.0.0-rc.1.0.0",
     "aurelia-dependency-injection": "npm:aurelia-dependency-injection@1.0.0-rc.1.0.0",
     "aurelia-event-aggregator": "npm:aurelia-event-aggregator@1.0.0-rc.1.0.0",
@@ -78,6 +90,7 @@ SystemJS.config({
     "fetch": "github:github/fetch@1.0.0",
     "font-awesome": "npm:font-awesome@4.6.3",
     "jquery": "npm:jquery@2.2.4",
+    "scaffolding": "github:monterey-framework/scaffolding@0.1.0",
     "text": "github:systemjs/plugin-text@0.0.3"
   },
   packages: {
@@ -87,9 +100,6 @@ SystemJS.config({
       }
     },
     "npm:aurelia-animator-css@1.0.0-rc.1.0.0": {
-      "map": {}
-    },
-    "npm:aurelia-binding@1.0.0-rc.1.0.0": {
       "map": {}
     },
     "npm:aurelia-bootstrapper@1.0.0-rc.1.0.0": {
@@ -149,6 +159,11 @@ SystemJS.config({
     "npm:font-awesome@4.6.3": {
       "map": {
         "css": "github:systemjs/plugin-css@0.1.23"
+      }
+    },
+    "github:monterey-framework/scaffolding@0.1.0": {
+      "map": {
+        "aurelia-binding": "npm:aurelia-binding@1.0.0-rc.1.0.2"
       }
     }
   }
