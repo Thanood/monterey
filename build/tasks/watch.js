@@ -13,9 +13,9 @@ function reportChange(event) {
 gulp.task('watch', ['build'], function() {
   electron.start();
 
-  gulp.watch(paths.source, ['build-system', electron.restart]).on('change', reportChange);
-  gulp.watch('index.js', electron.restart).on('change', reportChange);
-  gulp.watch('index.html', electron.restart).on('change', reportChange);
-  gulp.watch(paths.html, ['build-html', electron.restart]).on('change', reportChange);
-  gulp.watch(paths.less, ['build-less', electron.restart]).on('change', reportChange);
+  gulp.watch(paths.source, ['build-system']).on('change', reportChange);
+  gulp.watch('index.js').on('change', reportChange);
+  gulp.watch('index.html').on('change', reportChange);
+  gulp.watch(paths.html, ['build-html']).on('change', reportChange);
+  gulp.watch(paths.less, ['build-less']).on('change', reportChange);
 });

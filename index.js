@@ -6,6 +6,7 @@
 
 const electron = require('electron');
 const app = electron.app;
+const Menu = electron.Menu;
 const BrowserWindow = electron.BrowserWindow;
 let mainWindow;
 
@@ -16,6 +17,8 @@ app.on('window-all-closed', () => {
 });
 
 app.on('ready', () => {
+  setApplicationMenu();
+
   mainWindow = new BrowserWindow({
     width: 1024,
     height: 768
@@ -30,3 +33,34 @@ app.on('ready', () => {
     mainWindow = null;
   });
 });
+
+let setApplicationMenu = function() {
+  // var menus = [];
+  // if (env.name !== 'production') {
+  //   menus.push(devMenuTemplate);
+  // }
+  Menu.setApplicationMenu(Menu.buildFromTemplate(devMenuTemplate));
+};
+
+let devMenuTemplate = [{
+  label: 'DevTools',
+  submenu: [{
+    label: 'Reload',
+    accelerator: 'CmdOrCtrl+R',
+    click: function() {
+      BrowserWindow.getFocusedWindow().webContents.reloadIgnoringCache();
+    }
+  }, {
+    label: 'Toggle DevTools',
+    accelerator: 'Alt+CmdOrCtrl+I',
+    click: function() {
+      BrowserWindow.getFocusedWindow().toggleDevTools();
+    }
+  }, {
+    label: 'Quit',
+    accelerator: 'CmdOrCtrl+Q',
+    click: function() {
+      app.quit();
+    }
+  }]
+}];
