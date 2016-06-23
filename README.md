@@ -9,6 +9,7 @@ The following folder structure is required:
 ![img](http://i.imgur.com/ZBeDtdf.png)
 
 From inside the shell folder:
+
 1. npm install
 2. jspm install
 3. jspm link ../scaffolding/src
