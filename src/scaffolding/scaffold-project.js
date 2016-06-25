@@ -15,6 +15,7 @@ export class ScaffoldProject {
   async activate() {
     this.questions = JSON.parse(await this.fs.readFile('node_modules/aurelia-cli/lib/commands/new/new-application.json'));
 
+    console.log(this.questions);
     alert(`Loaded ${this.questions.activities.length} questions from aurelia-cli`);
   }
 
