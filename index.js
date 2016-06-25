@@ -15,7 +15,7 @@ app.on('window-all-closed', () => {
     app.quit();
   }
 });
-
+app.commandLine.appendSwitch('enable-transparent-visuals');
 app.on('ready', () => {
   setApplicationMenu();
 
