@@ -15,6 +15,7 @@ exports.base = function() {
     presets: [ 'es2015-loose', 'stage-1'],
     plugins: [
       'syntax-flow',
+      'transform-runtime',
       'transform-decorators-legacy',
       'transform-flow-strip-types'
     ]
