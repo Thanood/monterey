@@ -7,6 +7,7 @@ import {AureliaCLI}           from '../shared/abstractions/aurelia-cli';
 @inject(DialogController, Fs, AureliaCLI)
 export class ScaffoldProject {
   finished = false;
+  firstStep = true;
 
   constructor(dialog, fs, aureliaCLI) {
     this.dialog = dialog;
@@ -20,6 +21,15 @@ export class ScaffoldProject {
   }
 
   async next() {
+    if (this.firstStep) {
+      if (this.projectDetail.validation.validate().length > 0) {
+        return;
+      }
+
+      this.firstStep = false;
+      return;
+    }
+
     // don't go to the next step if there is a validation error
     if (this.activity.validation.validate().length > 0) {
       return;
@@ -32,7 +42,7 @@ export class ScaffoldProject {
   }
 
   canDeactivate() {
-    if (this.workflow.currentStep.id > 2) {
+    if (!this.finished) {
       return confirm('Are you sure?');
     }
 

@@ -31,7 +31,7 @@ export class AureliaCLI {
     let configureEditor = require(`aurelia-cli/lib/commands/new/editors/${model.editor.id}`);
     configureEditor(project, options);
 
-    let pathToAddProject = 'D:\\Development\\scaffolded';
+    let pathToAddProject = model.path;
     project.create({}, pathToAddProject);
   }
 

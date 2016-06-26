@@ -1,0 +1,10 @@
+<template>
+  <form validation-renderer="bootstrap-form">
+    <div class="form-group">
+      <label class="control-label" for="path">Where should the project be created?</label>
+      <input type="text" class="form-control" id="path" disabled.bind="true"
+             value.bind="state.path & validate">
+      <button click.delegate="directoryBrowser()" class="btn btn-primary">Choose folder</button>
+    </div>
+  </form>
+</template>

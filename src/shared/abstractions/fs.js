@@ -1,4 +1,5 @@
-const fs = require('fs');
+const fs       = require('fs');
+const dialog   = require('electron').remote.dialog;
 
 export class Fs {
   async readFile(path) {
@@ -9,6 +10,12 @@ export class Fs {
         }
         resolve(data);
       });
+    });
+  }
+
+  async showOpenDialog(config) {
+    return new Promise(resolve => {
+      dialog.showOpenDialog(config, c => resolve(c));
     });
   }
 }

@@ -1,11 +1,14 @@
 <template>
   <require from="./activity"></require>
+  <require from="./project-detail"></require>
 
   <ai-dialog class="scaffold-modal">
     <ai-dialog-body>
       <h2>${workflow.name}</h2>
 
-      <activity step.bind="workflow.currentStep" view-model.ref="activity" submit.delegate="next()"></activity>
+      <project-detail if.bind="firstStep" state.bind="workflow.state" view-model.ref="projectDetail"></project-detail>
+
+      <activity if.bind="!firstStep" step.bind="workflow.currentStep" view-model.ref="activity" submit.delegate="next()"></activity>
 
       <p if.bind="finished">
         Application has been generated
