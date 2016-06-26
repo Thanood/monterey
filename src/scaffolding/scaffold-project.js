@@ -1,48 +1,45 @@
-import {inject}               from 'aurelia-framework';
+import {inject, computedFrom} from 'aurelia-framework';
 import {DialogController}     from 'aurelia-dialog';
-import {WorkflowHelper}       from './workflow-helper';
-import {Fs}                   from '../shared/abstractions/fs';
-import {AureliaCLI}           from '../shared/abstractions/aurelia-cli';
 
-@inject(DialogController, Fs, AureliaCLI)
+@inject(DialogController)
 export class ScaffoldProject {
-  finished = false;
-  firstStep = true;
+  state = {};
+  steps = [{
+    viewModel: './project-detail'
+  }, {
+    viewModel: './activities'
+  }, {
+    viewModel: './project-description'
+  }, {
+    viewModel: './run'
+  }, {
+    viewModel: './finished'
+  }];
+  currentStepIndex = 0;
 
-  constructor(dialog, fs, aureliaCLI) {
+  constructor(dialog) {
     this.dialog = dialog;
-    this.fs = fs;
-    this.aureliaCLI = aureliaCLI;
   }
 
-  async activate() {
-    let definition = JSON.parse(await this.fs.readFile('node_modules/aurelia-cli/lib/commands/new/new-application.json'));
-    this.workflow = new WorkflowHelper(definition, this.aureliaCLI);
+  @computedFrom('currentStepIndex')
+  get currentStep() {
+    return this.steps[this.currentStepIndex];
+  }
+
+  get isLast() {
+    return this.currentStepIndex === this.steps.length - 1;
   }
 
   async next() {
-    if (this.firstStep) {
-      if (this.projectDetail.validation.validate().length > 0) {
-        return;
-      }
-
-      this.firstStep = false;
-      return;
-    }
-
-    // don't go to the next step if there is a validation error
-    if (this.activity.validation.validate().length > 0) {
-      return;
-    }
-
-    // if next() returns false then the wizard has finished
-    if (await this.workflow.next() === false) {
-      this.finished = true;
+    // the step knows whether or not to go to the next step
+    // if next() returns true, then go to the next step
+    if (await this.currentStep.next()) {
+      this.currentStepIndex ++;
     }
   }
 
   canDeactivate() {
-    if (!this.finished) {
+    if (!this.isLast) {
       return confirm('Are you sure?');
     }
 

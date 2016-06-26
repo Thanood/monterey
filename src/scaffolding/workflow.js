@@ -1,13 +1,13 @@
-export class WorkflowHelper {
+export class Workflow {
   currentStep = { id: 0, nextActivity: 1 };
   // the state contains the project configuration and is modified per step
   state = {};
   // some activity types can be run 'automatically' without the user having to press next
-  flowSteps = ['state-assign', 'branch-switch', 'project-create', 'project-install'];
+  flowSteps = ['state-assign', 'branch-switch'];
 
-  constructor(definition, aureliaCLI) {
+  constructor(definition, state) {
     this.definition = definition;
-    this.aureliaCLI = aureliaCLI;
+    this.state = state;
     this.name = definition.name;
 
     this.next();
@@ -30,19 +30,13 @@ export class WorkflowHelper {
       case 'branch-switch':
         nextActivity = this.branchSwitch();
         break;
-      case 'project-create':
-        await this.aureliaCLI.create(this.state);
-        break;
-      case 'project-install':
-        await this.aureliaCLI.install(this.state);
-        break;
       default:
         break;
       }
     }
 
     let nextStep = this.getStep(nextActivity);
-    if (this.isLastStep(nextActivity)) {
+    if (this.isLastStep(nextStep)) {
       return false;
     }
 
@@ -59,8 +53,8 @@ export class WorkflowHelper {
     return this.flowSteps.find(i => i === this.currentStep.type);
   }
 
-  isLastStep(nextActivity) {
-    return !nextActivity;
+  isLastStep(nextStep) {
+    return nextStep.type === 'project-create';
   }
 
   // a branch switch indicates that the nextStep must be determined

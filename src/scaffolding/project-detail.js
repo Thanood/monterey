@@ -1,22 +1,33 @@
-import {inject, NewInstance, bindable}  from 'aurelia-framework';
-import {ValidationRules}                from 'aurelia-validatejs';
-import {ValidationController}           from 'aurelia-validation';
-import {Fs}                             from '../shared/abstractions/fs';
+import {inject, NewInstance}  from 'aurelia-framework';
+import {ValidationRules}      from 'aurelia-validatejs';
+import {ValidationController} from 'aurelia-validation';
+import {Fs}                   from '../shared/abstractions/fs';
 
 @inject(NewInstance.of(ValidationController), Fs)
 export class ProjectDetail {
-
-  @bindable state = {};
-
   constructor(validation, fs) {
     this.validation = validation;
     this.fs = fs;
+  }
+
+  activate(model) {
+    this.state = model.state;
+    this.step = model.step;
+    this.step.next = () => this.next();
   }
 
   attached() {
     ValidationRules
     .ensure('path').required()
     .on(this.state);
+  }
+
+  async next() {
+    if (this.validation.validate().length === 0) {
+      return true;
+    }
+
+    return false;
   }
 
   async directoryBrowser() {

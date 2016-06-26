@@ -1,4 +1,5 @@
 const NPM = require('aurelia-cli/lib/npm').NPM;
+const path = require('path');
 
 export class AureliaCLI {
   async create(model) {
@@ -41,8 +42,14 @@ export class AureliaCLI {
       color: 'always',
       save: true,
       'save-dev': true,
-      workingDirectory: model.path
+      workingDirectory: path.join(model.path, model.name)
     };
-    return await npm.install([], npmOptions);
+
+    try {
+      return await npm.install([], npmOptions);
+    } catch (e) {
+      console.log(e);
+      throw e;
+    }
   }
 }

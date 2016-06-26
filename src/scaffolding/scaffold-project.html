@@ -1,23 +1,14 @@
 <template>
-  <require from="./activity"></require>
-  <require from="./project-detail"></require>
-
   <ai-dialog class="scaffold-modal">
     <ai-dialog-body>
       <h2>${workflow.name}</h2>
 
-      <project-detail if.bind="firstStep" state.bind="workflow.state" view-model.ref="projectDetail"></project-detail>
-
-      <activity if.bind="!firstStep" step.bind="workflow.currentStep" view-model.ref="activity" submit.delegate="next()"></activity>
-
-      <p if.bind="finished">
-        Application has been generated
-      </p>
+      <compose view-model.bind="currentStep.viewModel" model.bind="{ state: state, step: currentStep }"></compose>
     </ai-dialog-body>
 
     <ai-dialog-footer>
       <button click.trigger="dialog.cancel()" tabindex="2">Close</button>
-      <button click.delegate="next()" tabindex="1" if.bind="!finished">Next</button>
+      <button click.delegate="next()" tabindex="1" if.bind="!isLast">Next</button>
     </ai-dialog-footer>
   </ai-dialog>
 </template>

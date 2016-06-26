@@ -1,0 +1,12 @@
+<template>
+  <div if.bind="!finished">
+    <h1>Creating and installing the project....</h1>
+    <p>
+      This may take a while. The project is being created and node_modules are being installed,
+    </p>
+    <i class="fa fa-spinner fa-spin"></i>
+  </div>
+  <div if.bind="finished">
+    <h1>Finished installing</h1>
+  </div>
+</template>

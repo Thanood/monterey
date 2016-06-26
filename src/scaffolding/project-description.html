@@ -1,0 +1,14 @@
+<template>
+  <h2>Project configuration</h2>
+  <p><b>Name:</b> ${state.name}</p>
+  <p><b>Path:</b> ${state.path}</p>
+  <p><b>Platform:</b> ${state.platform.displayName}</p>
+  <p><b>Transpiler:</b> ${state.transpiler.displayName}</p>
+  <p><b>CSS processor:</b> ${state.cssProcessor.displayName}</p>
+
+  <p if.bind="model.unitTestRunner">
+    <b>Unit test runner:</b> ${state.unitTestRunner.displayName}
+  </p>
+
+  <p><b>Editor:</b> ${state.editor.displayName}</p>
+</template>
