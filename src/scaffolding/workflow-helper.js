@@ -1,6 +1,9 @@
 export class WorkflowHelper {
   currentStep = { id: 0, nextActivity: 1 };
+  // the state contains the project configuration and is modified per step
   state = {};
+  // some activity types can be run 'automatically' without the user having to press next
+  flowSteps = ['state-assign', 'branch-switch', 'project-create', 'project-install'];
 
   constructor(definition) {
     this.definition = definition;
@@ -14,39 +17,67 @@ export class WorkflowHelper {
   }
 
   next() {
-    this.saveAnswer(this.currentStep);
+    let nextActivity = this.currentStep.nextActivity;
 
-    let nextStep = this.getStep(this.currentStep.nextActivity);
-    if (!nextStep) { return false; }
+    if (!this.isFlowStep()) {
+      this.saveAnswer(this.currentStep);
+    } else {
+      switch (this.currentStep.type) {
+      case 'state-assign':
+        this.setState(this.currentStep);
+        break;
+      case 'branch-switch':
+        nextActivity = this.branchSwitch();
+        break;
+      case 'project-create':
+        console.log('Create project');
+        break;
+      case 'project-install':
+        console.log('Install project');
+        break;
+      default:
+        break;
+      }
+    }
 
-    let isUserStep = false;
-
-    switch (nextStep.type) {
-    case 'state-assign':
-      this.setState(nextStep.state);
-      break;
-    // case 'branch-switch':
-    //   nextStep = this.branchSwitch(nextStep);
-    //   break;
-    default:
-      isUserStep = true;
-      break;
+    let nextStep = this.getStep(nextActivity);
+    if (this.isLastStep(nextActivity)) {
+      return false;
     }
 
     this.currentStep = nextStep;
 
-    if (!isUserStep) {
-      this.next();
-      return;
+    if (this.isFlowStep()) {
+      return this.next();
     }
+
+    return true;
   }
 
-  // branchSwitch() {
-  //
-  // }
+  isFlowStep() {
+    return this.flowSteps.find(i => i === this.currentStep.type);
+  }
 
-  setState(state) {
-    Object.assign(this.state, state);
+  isLastStep(nextActivity) {
+    return !nextActivity;
+  }
+
+  // a branch switch indicates that the nextStep must be determined
+  // from the value of a property on the state
+  branchSwitch() {
+    let val = this.state[this.currentStep.stateProperty];
+    let nextActivity;
+    this.currentStep.branches.forEach(branch => {
+      if (val === branch.case) {
+        nextActivity = branch.nextActivity;
+      }
+    });
+
+    return nextActivity;
+  }
+
+  setState(step) {
+    Object.assign(this.state, step.state);
     console.log('State: ',  this.state);
   }
 

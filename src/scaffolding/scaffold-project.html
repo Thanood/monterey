@@ -5,14 +5,16 @@
     <ai-dialog-body>
       <h2>${workflow.name}</h2>
 
-      <!-- <form validation-renderer="bootstrap-form"> -->
-        <activity step.bind="workflow.currentStep" view-model.ref="activity" submit.delegate="next()"></activity>
-     <!-- </form> -->
+      <activity step.bind="workflow.currentStep" view-model.ref="activity" submit.delegate="next()"></activity>
+
+      <p if.bind="finished">
+        Application has been generated
+      </p>
     </ai-dialog-body>
 
     <ai-dialog-footer>
       <button click.trigger="dialog.cancel()" tabindex="2">Close</button>
-      <button click.delegate="next()" tabindex="1">Next</button>
+      <button click.delegate="next()" tabindex="1" if.bind="!finished">Next</button>
     </ai-dialog-footer>
   </ai-dialog>
 </template>

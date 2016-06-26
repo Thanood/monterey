@@ -1,14 +1,14 @@
 <template>
-  <form validation-renderer="bootstrap-form" submit.delegate="emitSubmit()">
+  <form validation-renderer="bootstrap-form">
     <div class="form-group" if.bind="step.type === 'input-text'">
       <label class="control-label" for="control${step.id}">${step.question}</label>
-      <input type="text" class="form-control" id="control${step.id}"
+      <input type="text" class="form-control" id="control${step.id}" tabindex="5"
              value.bind="step.answer & validate">
     </div>
 
     <div class="form-group" if.bind="step.type === 'input-select'">
       <label class="control-label" for="control${step.id}">${step.question}</label>
-      <select value.bind="step.answer & validate" class="form-control" style="display: block">
+      <select value.bind="step.answer & validate" class="form-control" style="display: block" tabindex="4">
         <option/>
         <option model.bind="option.value" title.bind="option.description" repeat.for="option of step.options">${option.displayName}</option>
       </select>

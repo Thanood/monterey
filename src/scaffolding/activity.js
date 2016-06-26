@@ -11,22 +11,23 @@ export class Activity {
     this.element = element;
   }
 
+  // whenever a step changes, reapply the validation rules
+  // necessary because the entire step instance changes, not just values of the step
   stepChanged() {
-    $('.form-control', this.element).focus();
-  }
-
-  attached() {
     ValidationRules
     .ensure('answer').required()
     .on(this.step);
-
-    $('.form-control', this.element).focus();
   }
 
-  emitSubmit() {
-    let event = new CustomEvent('submit', {
-      bubbles: true
-    });
-    this.element.dispatchEvent(event);
+  attached() {
+    this.focusInput();
+  }
+
+  // get the first form-control and focus that element
+  focusInput() {
+    let input = this.element.querySelectorAll('.form-control')[0];
+    if (input) {
+      input.focus();
+    }
   }
 }
