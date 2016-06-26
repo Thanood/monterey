@@ -1,5 +1,4 @@
-// const path = fs.getModulePath('aurelia-cli');
-// const ProjectTemplate = require(path + 'lib/commands/new/project-template').ProjectTemplate;
+const NPM = require('aurelia-cli/lib/npm').NPM;
 
 export class AureliaCLI {
   async create(model) {
@@ -36,6 +35,14 @@ export class AureliaCLI {
   }
 
   async install(model) {
-    console.log('install', model);
+    let npm = new NPM();
+    let npmOptions = {
+      loglevel: 'error',
+      color: 'always',
+      save: true,
+      'save-dev': true,
+      workingDirectory: model.path
+    };
+    return await npm.install([], npmOptions);
   }
 }

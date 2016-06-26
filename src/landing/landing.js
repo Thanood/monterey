@@ -7,7 +7,5 @@ export class Landing {
   }
 
   @withModal(ScaffoldProject)
-  create() {
-    alert('create');
-  }
+  create() {}
 }

@@ -79,13 +79,11 @@ export class WorkflowHelper {
 
   setState(step) {
     Object.assign(this.state, step.state);
-    console.log('State: ',  this.state);
   }
 
   saveAnswer(step) {
     if (step.stateProperty) {
       this.state[step.stateProperty] = step.answer;
     }
-    console.log('State: ',  this.state);
   }
 }

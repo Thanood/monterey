@@ -98,6 +98,7 @@
   },
   "dependencies": {
     "aurelia-cli": "^0.13.6",
-    "babel-runtime": "^6.9.2"
+    "babel-runtime": "^6.9.2",
+    "npm": "^3.8.6"
   }
 }
