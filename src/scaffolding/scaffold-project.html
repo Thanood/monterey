@@ -1,35 +1,18 @@
 <template>
-  <ai-dialog>
+  <require from="./activity"></require>
+
+  <ai-dialog class="scaffold-modal">
     <ai-dialog-body>
-      <h2>Scaffold new Aurelia project</h2>
+      <h2>${workflow.name}</h2>
 
-      <form submit.delegate="submit()"
-            validation-renderer="bootstrap-form">
-
-       <div class="form-group">
-         <label class="control-label" for="first">First Name</label>
-         <input type="text" class="form-control" id="first" placeholder="First Name"
-                value.bind="firstName & validate">
-       </div>
-
-       <div class="form-group">
-         <label class="control-label" for="last">Last Name</label>
-         <input type="text" class="form-control" id="last" placeholder="Last Name"
-                value.bind="lastName & validate">
-       </div>
-
-       <div class="form-group">
-         <label class="control-label" for="email">Email</label>
-         <input type="text" class="form-control" id="email" placeholder="Email"
-                value.bind="email & validate">
-       </div>
-
-       <button type="submit" class="btn btn-primary">Submit</button>
-     </form>
+      <!-- <form validation-renderer="bootstrap-form"> -->
+        <activity step.bind="workflow.currentStep" view-model.ref="activity" submit.delegate="next()"></activity>
+     <!-- </form> -->
     </ai-dialog-body>
 
     <ai-dialog-footer>
-      <button click.trigger="dialog.cancel()">Close</button>
+      <button click.trigger="dialog.cancel()" tabindex="2">Close</button>
+      <button click.delegate="next()" tabindex="1">Next</button>
     </ai-dialog-footer>
   </ai-dialog>
 </template>
