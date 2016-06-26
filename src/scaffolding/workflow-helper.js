@@ -5,8 +5,9 @@ export class WorkflowHelper {
   // some activity types can be run 'automatically' without the user having to press next
   flowSteps = ['state-assign', 'branch-switch', 'project-create', 'project-install'];
 
-  constructor(definition) {
+  constructor(definition, aureliaCLI) {
     this.definition = definition;
+    this.aureliaCLI = aureliaCLI;
     this.name = definition.name;
 
     this.next();
@@ -16,7 +17,7 @@ export class WorkflowHelper {
     return this.definition.activities.find(i => i.id === id);
   }
 
-  next() {
+  async next() {
     let nextActivity = this.currentStep.nextActivity;
 
     if (!this.isFlowStep()) {
@@ -30,10 +31,10 @@ export class WorkflowHelper {
         nextActivity = this.branchSwitch();
         break;
       case 'project-create':
-        console.log('Create project');
+        await this.aureliaCLI.create(this.state);
         break;
       case 'project-install':
-        console.log('Install project');
+        await this.aureliaCLI.install(this.state);
         break;
       default:
         break;
@@ -48,7 +49,7 @@ export class WorkflowHelper {
     this.currentStep = nextStep;
 
     if (this.isFlowStep()) {
-      return this.next();
+      return await this.next();
     }
 
     return true;
