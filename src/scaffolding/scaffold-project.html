@@ -7,8 +7,8 @@
     </ai-dialog-body>
 
     <ai-dialog-footer>
-      <button click.trigger="dialog.cancel()" tabindex="2">Close</button>
-      <button click.delegate="next()" tabindex="1" if.bind="!isLast">Next</button>
+      <button click.trigger="close()" tabindex="2">Close</button>
+      <button click.delegate="next()" tabindex="1" if.bind="!hasFinished">Next</button>
     </ai-dialog-footer>
   </ai-dialog>
 </template>

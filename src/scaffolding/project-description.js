@@ -6,6 +6,6 @@ export class ProjectDescription {
   }
 
   async next() {
-    return true;
+    this.step.hasFinished = true;
   }
 }

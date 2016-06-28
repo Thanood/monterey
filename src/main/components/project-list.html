@@ -1,0 +1,11 @@
+<template>
+  <require from="./project"></require>
+  <ul>
+    <li repeat.for="project of state.projects" class="project-list-item">
+      <project project.bind="project"
+               class="${project === selectedProject ? 'selected': ''}"
+               click.delegate="selectedProject = project">
+      </project>
+    </li>
+  </ul>
+</template>

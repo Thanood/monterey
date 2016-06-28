@@ -21,13 +21,11 @@ export class Activities {
     if (this.activity.validation.validate().length === 0) {
       // if next() returns false then the wizard has finished
       if (await this.workflow.next() === false) {
-        return true;
+        this.step.hasFinished = true;
+        return;
       }
-      return false;
     }
 
-    return false;
+    this.step.hasFinished = false;
   }
-
-
 }

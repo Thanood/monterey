@@ -1,0 +1,19 @@
+<template>
+  <div class="main">
+    <require from="./components/project-list"></require>
+
+    <div class="col-md-4 left">
+      <h1>Monterey</h1>
+
+      <button class="open btn btn-primary" click.delegate="addProject()" tabindex="-1">Add project</button>
+      <button class="create btn btn-primary" click.delegate="createProject()" tabindex="-1">Create project</button>
+
+      <div class="project-list-header">Projects</div>
+      <project-list selected-project.two-way="selectedProject"></project-list>
+    </div>
+
+    <div class="col-sm-8 right">
+      <h3 class="pluginTitle" if.bind="selectedProject.name">Plugins for ${selectedProject.name}</h3>
+    </div>
+  </div>
+</template>

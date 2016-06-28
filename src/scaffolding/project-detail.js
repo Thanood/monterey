@@ -24,10 +24,11 @@ export class ProjectDetail {
 
   async next() {
     if (this.validation.validate().length === 0) {
-      return true;
+      this.step.hasFinished = true;
+      return;
     }
 
-    return false;
+    this.step.hasFinished = false;
   }
 
   async directoryBrowser() {

@@ -8,4 +8,4 @@ From inside the shell folder:
 
 1. npm install
 2. jspm install
-3. gulp watch
+3. gulp watch (manually reloading electron with ctrl+R is required) or gulp watch-r to automatically reload electron

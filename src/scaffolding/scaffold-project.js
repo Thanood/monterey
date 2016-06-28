@@ -1,7 +1,9 @@
 import {inject, computedFrom} from 'aurelia-framework';
 import {DialogController}     from 'aurelia-dialog';
+import {Fs}                   from '../shared/abstractions/fs';
+import {ProjectManager}       from '../shared/project-manager';
 
-@inject(DialogController)
+@inject(DialogController, ProjectManager, Fs)
 export class ScaffoldProject {
   state = {};
   steps = [{
@@ -12,13 +14,13 @@ export class ScaffoldProject {
     viewModel: './project-description'
   }, {
     viewModel: './run'
-  }, {
-    viewModel: './finished'
   }];
   currentStepIndex = 0;
 
-  constructor(dialog) {
+  constructor(dialog, projectManager, fs) {
     this.dialog = dialog;
+    this.fs = fs;
+    this.projectManager = projectManager;
   }
 
   @computedFrom('currentStepIndex')
@@ -26,20 +28,30 @@ export class ScaffoldProject {
     return this.steps[this.currentStepIndex];
   }
 
-  get isLast() {
+  get hasFinished() {
     return this.currentStepIndex === this.steps.length - 1;
   }
 
   async next() {
-    // the step knows whether or not to go to the next step
-    // if next() returns true, then go to the next step
-    if (await this.currentStep.next()) {
+    await this.currentStep.next();
+
+    if (this.currentStep.hasFinished) {
       this.currentStepIndex ++;
     }
   }
 
+  close() {
+    if (this.hasFinished) {
+      let projectPath = this.fs.join(this.state.path, this.state.name);
+      this.projectManager.addProjectByPath(projectPath);
+      this.dialog.close(true, projectPath);
+    } else {
+      this.dialog.cancel();
+    }
+  }
+
   canDeactivate() {
-    if (!this.isLast) {
+    if (!this.hasFinished) {
       return confirm('Are you sure?');
     }
 
