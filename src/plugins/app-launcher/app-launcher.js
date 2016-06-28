@@ -5,7 +5,7 @@ export class AppLauncher {
   // user should be able to modify this
   img = 'http://icons.iconarchive.com/icons/dakirby309/simply-styled/128/File-Explorer-icon.png';
   path = 'explorer'
-  title = 'explorer';
+  title = 'File explorer';
 
   activate(model) {
     this.project = model.project;

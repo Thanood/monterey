@@ -22,13 +22,28 @@
   }
 }
 
+
 .main {
-  height: 100%;
   .left {
-    height: 100%;
     background-color: #ECECED;
+
+    h1 {
+      margin-top: 0;
+      padding-top: 20px;
+    }
   }
 }
+
+@media all and (min-width: 770px) {
+  .main {
+    height: 100%;
+    .left {
+      height: 100%;
+      background-color: #ECECED;
+    }
+  }
+}
+
 
 project-list {
   display: block;

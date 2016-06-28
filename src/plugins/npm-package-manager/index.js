@@ -4,7 +4,8 @@ export function configure(aurelia) {
   let pluginManager = aurelia.container.get(PluginManager);
 
   pluginManager.registerPlugin({
-    name: 'App launcher',
-    viewModel: 'plugins/app-launcher/app-launcher'
+    name: 'NPM package manager',
+    viewModel: 'plugins/npm-package-manager/npm-package-manager',
+    view: 'plugins/default-view.html'
   });
 }
