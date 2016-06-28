@@ -4,8 +4,8 @@ export class BasePlugin {
   // and allows plugin to provide information about a project
   // for example, the JSPM plugin can look for a config.js and let monterey
   // know that the project is a JSPM project
-  evaluateProject(project) {
-    console.log('evaluateProject', project);
+  async evaluateProject(project) {
+    return project;
   }
 
 

@@ -5,11 +5,11 @@ import {Main}            from '../../main/main';
 @useView('plugins/default-tile.html')
 export class Tile {
   constructor(main) {
-    this.title = 'NPM Package Manager';
+    this.title = 'NPM';
     this.main = main;
   }
 
   onClick() {
-    this.main.activateScreen('plugins/npm-package-manager/screen');
+    this.main.activateScreen('plugins/npm/screen');
   }
 }

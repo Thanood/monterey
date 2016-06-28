@@ -24,6 +24,8 @@ export function configure(aurelia) {
 
   let projectManager = aurelia.container.get(ProjectManager);
 
+  // first load the application state from session, then start aurelia
+  // so that at startup we can determine whether to load the main screen or landing screen
   projectManager._loadStateFromSession()
   .then(() => aurelia.start())
   .then(() => aurelia.setRoot());

@@ -13,8 +13,11 @@ export class PluginManager {
   * Whenever a project gets added to monterey, plugins have the opportunity
   * to evaluate the project and provide information of it to the monterey system
   */
-  evaluateProject(project) {
-    this.plugins.forEach(plugin => plugin.evaluateProject(project));
+  async evaluateProject(project) {
+    for (let i = 0; i < this.plugins.length; i++) {
+      await this.plugins[i].evaluateProject(project);
+    }
+    return project;
   }
 
   /**
