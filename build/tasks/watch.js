@@ -17,5 +17,5 @@ gulp.task('watch', ['build'], function() {
   gulp.watch('index.js').on('change', reportChange);
   gulp.watch('index.html').on('change', reportChange);
   gulp.watch(paths.html, ['build-html']).on('change', reportChange);
-  gulp.watch(paths.less, ['build-less']).on('change', reportChange);
+  gulp.watch('styles/**/*.less', ['build-less']).on('change', reportChange);
 });

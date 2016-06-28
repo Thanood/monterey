@@ -15,7 +15,8 @@ export function configure(aurelia) {
     .plugin('aurelia-validatejs')
     .feature('landing')
     .feature('main')
-    .feature('scaffolding');
+    .feature('scaffolding')
+    .feature('plugins');
 
   // register the bootstrap validation error renderer under the bootstrap-form key
   // so that aurelia-validation uses this renderer when validation-renderer="bootstrap-form" is put on a form

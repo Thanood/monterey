@@ -1,13 +1,10 @@
 <template>
   <div if.bind="!finished">
-    <h1>Creating and installing the project....</h1>
-    <p>
-      This may take a while. The project is being created and node_modules are being installed,
-    </p>
+    <h1>Creating project files....</h1>
     <i class="fa fa-spinner fa-spin"></i>
   </div>
   <div if.bind="finished">
-    <h1>Finished installing</h1>
+    <h1>The project has been created</h1>
   </div>
   <div if.bind="failed">
     <h1>An error has occurred while scaffolding the application</h1>

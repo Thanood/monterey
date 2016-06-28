@@ -8,4 +8,8 @@ export class ProjectList {
   constructor(projectManager) {
     this.state = projectManager.state;
   }
+
+  attached() {
+    this.selectedProject = this.state.projects[0];
+  }
 }

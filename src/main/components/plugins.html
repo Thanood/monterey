@@ -1,0 +1,8 @@
+<template>
+  <compose repeat.for="plugin of plugins"
+           view="${plugin.view}"
+           view-model="${plugin.viewModel}"
+           model.bind="{ project: selectedProject, plugin: plugin }"
+           class="plugin">
+  </compose>
+</template>
