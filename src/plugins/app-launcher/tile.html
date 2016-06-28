@@ -1,11 +1,9 @@
 <template>
   <div class="app-launcher"
-       click.delegate="launch()">
-
+       click.delegate="onClick()">
     <p>
       ${title}
     </p>
-
     <img src.bind="img" alt="Error loading image" />
   </div>
 </template>

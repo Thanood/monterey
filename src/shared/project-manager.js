@@ -1,12 +1,14 @@
-import {inject}  from 'aurelia-framework';
-import {Session} from './abstractions/session';
-import {Fs}      from './abstractions/fs';
+import {inject}        from 'aurelia-framework';
+import {PluginManager} from './plugin-manager';
+import {Session}       from './abstractions/session';
+import {Fs}            from './abstractions/fs';
 
-@inject(Session, Fs)
+@inject(Session, Fs, PluginManager)
 export class ProjectManager {
-  constructor(session, fs) {
+  constructor(session, fs, pluginManager) {
     this.session = session;
     this.fs = fs;
+    this.pluginManager = pluginManager;
   }
 
   async addProjectByPath(path) {
@@ -28,6 +30,9 @@ export class ProjectManager {
   }
 
   async addProject(projectObj) {
+    // have all plugins evaluate the project
+    this.pluginManager.evaluateProject(projectObj);
+
     this.state.projects.push(projectObj);
 
     await this.save();
@@ -51,6 +56,6 @@ export class ProjectManager {
       };
     }
 
-    console.log(this.state);
+    console.log('Loaded state: ', this.state);
   }
 }

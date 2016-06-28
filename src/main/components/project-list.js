@@ -10,6 +10,7 @@ export class ProjectList {
   }
 
   attached() {
+    // automatically select the first project
     this.selectedProject = this.state.projects[0];
   }
 }

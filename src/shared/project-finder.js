@@ -10,6 +10,9 @@ export class ProjectFinder {
     this.fs = fs;
   }
 
+  /**
+  * Opens a folder dialog and adds the selected folder as a project
+  */
   async openDialog() {
     let projectFolder = await this.fs.showOpenDialog({
       title: 'Select a project folder',

@@ -1,6 +1,6 @@
 <template>
   <require from="./components/project-list"></require>
-  <require from="./components/plugins"></require>
+  <require from="./components/tiles"></require>
 
   <div class="main">
     <div class="col-sm-4 left">
@@ -14,8 +14,10 @@
     </div>
 
     <div class="col-sm-8 right">
-      <plugins show.bind="!_activePluginScreen" selected-project.bind="selectedProject"></plugins>
+      <!-- list of tiles -->
+      <tiles show.bind="!_activePluginScreen" selected-project.bind="selectedProject"></tiles>
 
+      <!-- Plugins can tell compose to render a screen -->
       <button show.bind="_activePluginScreen" click.delegate="returnToPluginList()">Return</button>
       <compose show.bind="_activePluginScreen" view-model.bind="_activePluginScreen"></compose>
     </div>

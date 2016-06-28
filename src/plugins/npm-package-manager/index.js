@@ -1,14 +1,16 @@
-import {PluginManager} from '../../shared/plugin-manager';
-import {Main}          from '../../main/main';
+import {PluginManager}           from '../../shared/plugin-manager';
+import {BasePlugin}              from '../base-plugin';
 
 export function configure(aurelia) {
   let pluginManager = aurelia.container.get(PluginManager);
-  let main = aurelia.container.get(Main);
 
-  pluginManager.registerPlugin({
-    name: 'NPM package manager',
-    onClick: (e) => {
-      main.activateScreen('plugins/npm-package-manager/screen');
-    }
-  });
+  pluginManager.registerPlugin(aurelia.container.get(Plugin));
+}
+
+class Plugin extends BasePlugin {
+  getTiles(project) {
+    return [{
+      viewModel: 'plugins/npm-package-manager/tile'
+    }];
+  }
 }

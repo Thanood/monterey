@@ -2,19 +2,32 @@ export class PluginManager {
 
   plugins = [];
 
+  /**
+  * At application startup all plugins must register themselves with the PluginManager
+  */
   registerPlugin(plugin) {
-    if (!plugin.name) {
-      throw new Error('Plugin must have a name');
-    }
-
-    if (!plugin.viewModel) {
-      plugin.viewModel = 'plugins/default-tile';
-    }
-
     this.plugins.push(plugin);
   }
 
-  getPluginForProject(project) {
-    return this.plugins;
+  /**
+  * Whenever a project gets added to monterey, plugins have the opportunity
+  * to evaluate the project and provide information of it to the monterey system
+  */
+  evaluateProject(project) {
+    this.plugins.forEach(plugin => plugin.evaluateProject(project));
+  }
+
+  /**
+  * Collects an array of tiles by calling the getTiles function of every plugin
+  */
+  getTilesForPlugin(project) {
+    let tiles = [];
+
+    this.plugins.forEach(plugin => {
+      plugin.getTiles(project)
+      .forEach(tile => tiles.push(tile));
+    });
+
+    return tiles;
   }
 }

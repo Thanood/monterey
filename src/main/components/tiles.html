@@ -1,0 +1,9 @@
+<template>
+  <h3 if.bind="selectedProject.name">${selectedProject.name}</h3>
+
+  <compose repeat.for="tile of tiles"
+           view-model="${tile.viewModel}"
+           model.bind="{ project: selectedProject, model: tile.model }"
+           class="tile">
+  </compose>
+</template>
