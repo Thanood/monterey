@@ -13,7 +13,7 @@ export class ProjectDetail {
   activate(model) {
     this.state = model.state;
     this.step = model.step;
-    this.step.next = () => this.next();
+    this.step.execute = () => this.execute();
   }
 
   attached() {
@@ -22,13 +22,16 @@ export class ProjectDetail {
     .on(this.state);
   }
 
-  async next() {
+  async execute() {
+    let canContinue = false;
+
     if (this.validation.validate().length === 0) {
-      this.step.hasFinished = true;
-      return;
+      canContinue = true;
     }
 
-    this.step.hasFinished = false;
+    return {
+      goToNextStep: canContinue
+    };
   }
 
   async directoryBrowser() {

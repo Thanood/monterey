@@ -14,11 +14,28 @@ export class Run {
     this.model = model;
     this.state = model.state;
     this.step = model.step;
-    this.step.next = () => this.next();
+    this.step.execute = () => this.execute();
   }
 
-  async attached() {
-    this.finished = false;
+  // async attached() {
+  //   this.promise = new Promise(async (resolve) => {
+  //     this.finished = false;
+  //     try {
+  //       await this.aureliaCLI.create(this.state);
+  //       this.finished = true;
+  //       resolve();
+  //     } catch (e) {
+  //       alert('Error while scaffolding the application: ' + e.message);
+  //       console.log(e);
+  //       this.failed = true;
+  //       resolve();
+  //     }
+  //   });
+  // }
+
+  async execute() {
+    // await this.promise;
+
     try {
       await this.aureliaCLI.create(this.state);
       this.finished = true;
@@ -27,9 +44,9 @@ export class Run {
       console.log(e);
       this.failed = true;
     }
-  }
 
-  async next() {
-    this.step.hasFinished = this.finished || this.failed;
+    return {
+      goToNextStep: this.finished
+    };
   }
 }

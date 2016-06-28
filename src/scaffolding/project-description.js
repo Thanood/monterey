@@ -2,10 +2,12 @@ export class ProjectDescription {
   async activate(model) {
     this.state = model.state;
     this.step = model.step;
-    this.step.next = () => this.next();
+    this.step.execute = () => this.execute();
   }
 
-  async next() {
-    this.step.hasFinished = true;
+  async execute() {
+    return {
+      goToNextStep: true
+    };
   }
 }

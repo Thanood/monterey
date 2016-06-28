@@ -13,7 +13,8 @@ export class ScaffoldProject {
   }, {
     viewModel: './project-description'
   }, {
-    viewModel: './run'
+    viewModel: './run',
+    autoRun: true
   }];
   currentStepIndex = 0;
 
@@ -28,20 +29,27 @@ export class ScaffoldProject {
     return this.steps[this.currentStepIndex];
   }
 
-  get hasFinished() {
+  get isLast() {
     return this.currentStepIndex === this.steps.length - 1;
   }
 
   async next() {
-    await this.currentStep.next();
+    let result = await this.currentStep.execute();
 
-    if (this.currentStep.hasFinished) {
+    if (result.goToNextStep && !this.isLast) {
       this.currentStepIndex ++;
+
+      if (this.currentStep.autoRun) {
+        // wait for <compose> to finish so we can execute the next step automatically
+        await new Promise(resolve => setTimeout(() => resolve(), 500));
+
+        await this.next();
+      }
     }
   }
 
   close() {
-    if (this.hasFinished) {
+    if (this.isLast) {
       let projectPath = this.fs.join(this.state.path, this.state.name);
       this.projectManager.addProjectByPath(projectPath);
       this.dialog.close(true, projectPath);
@@ -51,7 +59,7 @@ export class ScaffoldProject {
   }
 
   canDeactivate() {
-    if (!this.hasFinished) {
+    if (!this.isLast) {
       return confirm('Are you sure?');
     }
 
