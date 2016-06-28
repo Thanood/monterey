@@ -1,8 +1,11 @@
 <template>
+  <h3 class="pluginTitle" if.bind="selectedProject.name">${selectedProject.name}</h3>
+
   <compose repeat.for="plugin of plugins"
            view="${plugin.view}"
            view-model="${plugin.viewModel}"
            model.bind="{ project: selectedProject, plugin: plugin }"
+           click.delegate="notifyPluginOfClick(plugin, $event)"
            class="plugin">
   </compose>
 </template>

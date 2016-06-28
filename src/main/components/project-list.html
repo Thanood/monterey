@@ -1,5 +1,6 @@
 <template>
   <require from="./project"></require>
+  <div class="project-list-header">Projects</div>
   <ul>
     <li repeat.for="project of state.projects" class="project-list-item">
       <project project.bind="project"

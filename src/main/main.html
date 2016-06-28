@@ -4,19 +4,22 @@
 
   <div class="main">
     <div class="col-sm-4 left">
-      <h1>Monterey</h1>
+      <div class="top">
+        <h1>Monterey</h1>
 
-      <button class="open btn btn-primary" click.delegate="addProject()" tabindex="-1">Add project</button>
-      <button class="create btn btn-primary" click.delegate="createProject()" tabindex="-1">Create project</button>
-
-      <div class="project-list-header">Projects</div>
+        <button class="open btn btn-primary" click.delegate="addProject()" tabindex="-1">Add project</button>
+        <button class="create btn btn-primary" click.delegate="createProject()" tabindex="-1">Create project</button>
+      </div>
       <project-list selected-project.two-way="selectedProject"></project-list>
     </div>
 
     <div class="col-sm-8 right">
-      <h3 class="pluginTitle" if.bind="selectedProject.name">Plugins for ${selectedProject.name}</h3>
+      <plugins show.bind="!_activePluginScreen" selected-project.bind="selectedProject"></plugins>
 
-      <plugins selected-project.bind="selectedProject"></plugins>
+      <button show.bind="_activePluginScreen" click.delegate="returnToPluginList()">Return</button>
+      <compose show.bind="_activePluginScreen" view-model.bind="_activePluginScreen"></compose>
+    </div>
+
     </div>
   </div>
 </template>

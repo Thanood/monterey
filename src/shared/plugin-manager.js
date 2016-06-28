@@ -8,7 +8,7 @@ export class PluginManager {
     }
 
     if (!plugin.viewModel) {
-      throw new Error('Plugin must have either a view or a viewModel');
+      plugin.viewModel = 'plugins/default-tile';
     }
 
     this.plugins.push(plugin);

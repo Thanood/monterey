@@ -22,4 +22,10 @@ export class Plugins {
     this.pluginManager.getPluginForProject(this.selectedProject)
     .forEach(plugin => this.plugins.push(plugin));
   }
+
+  notifyPluginOfClick(plugin, e) {
+    if (plugin.onClick) {
+      plugin.onClick(e);
+    }
+  }
 }
