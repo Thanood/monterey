@@ -7,10 +7,15 @@
     </div>
 
     <div class="form-group" if.bind="step.type === 'input-select'">
-      <label class="control-label" for="control${step.id}">${step.question}</label>
-      <select value.bind="step.answer & validate" class="form-control" style="display: block" tabindex="4">
-        <option model.bind="option.value" title.bind="option.description" repeat.for="option of step.options">${option.displayName}</option>
-      </select>
+      <ul class="dialog-input-select">
+        <li repeat.for="option of step.options">
+          <label class="control-label">
+            <input type="radio" model.bind="option.value" checked.bind="step.answer & validate" name="radio" />
+            ${option.displayName}
+          </label>
+          <p>${option.description}</p>
+        </li>
+      </ul>
     </div>
   </form>
 </template>

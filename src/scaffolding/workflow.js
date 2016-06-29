@@ -61,6 +61,11 @@ export class Workflow {
   // from the value of a property on the state
   branchSwitch() {
     let val = this.state[this.currentStep.stateProperty];
+    if (!val) {
+      throw new Error('previous answer was not saved, which is necessary for a branch switch', this.currentStep);
+    }
+    // get the id property if there is one
+    val = val.id ? val.id : val;
     let nextActivity;
     this.currentStep.branches.forEach(branch => {
       if (val === branch.case) {
