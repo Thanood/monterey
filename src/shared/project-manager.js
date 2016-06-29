@@ -12,7 +12,7 @@ export class ProjectManager {
   }
 
   async addProjectByPath(path) {
-    await this.addProject({
+    return await this.addProject({
       path: path
     });
   }
@@ -23,9 +23,17 @@ export class ProjectManager {
   async addProject(projectObj) {
     // have all plugins evaluate the project
     projectObj = await this.pluginManager.evaluateProject(projectObj);
+
+    if (!projectObj.name) {
+      alert('project name was not found, the project will not be added to Monterey');
+      return false;
+    }
+
     this.state.projects.push(projectObj);
 
     await this.save();
+
+    return true;
   }
 
   /**
@@ -39,7 +47,6 @@ export class ProjectManager {
   * Persists the state to session
   */
   async save() {
-    // console.log('SAVE', this.normalize(this.state), this.state);
     let str = JSON.stringify(this.normalize(this.state));
     this.session.set('state', str);
   }

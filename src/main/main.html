@@ -1,14 +1,15 @@
 <template>
   <require from="./components/project-list"></require>
   <require from="./components/tiles"></require>
+  <require from="./components/task-bar"></require>
 
   <div class="main">
     <div class="col-sm-4 left">
       <div class="top">
         <h1>Monterey</h1>
 
-        <button class="open btn btn-primary" click.delegate="addProject()" tabindex="-1">Add project</button>
-        <button class="create btn btn-primary" click.delegate="createProject()" tabindex="-1">Create project</button>
+        <button class="open btn btn-primary" click.delegate="addProject()">Add project</button>
+        <button class="create btn btn-primary" click.delegate="createProject()">Create project</button>
       </div>
       <project-list selected-project.two-way="selectedProject"></project-list>
     </div>
@@ -17,11 +18,13 @@
       <!-- list of tiles -->
       <tiles show.bind="!_activePluginScreen" selected-project.bind="selectedProject"></tiles>
 
+      <button click.delegate="addTask()">Add task (test purpose only)</button>
+
       <!-- Plugins can tell compose to render a screen -->
       <button show.bind="_activePluginScreen" click.delegate="returnToPluginList()">Return</button>
       <compose show.bind="_activePluginScreen" view-model.bind="_activePluginScreen"></compose>
     </div>
-
-    </div>
   </div>
+
+  <task-bar></task-bar>
 </template>

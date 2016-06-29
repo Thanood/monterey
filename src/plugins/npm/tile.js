@@ -9,6 +9,10 @@ export class Tile {
     this.main = main;
   }
 
+  activate(model) {
+    this.project = model.project;
+  }
+
   onClick() {
     this.main.activateScreen('plugins/npm/screen');
   }

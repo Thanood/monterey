@@ -20,8 +20,7 @@ export class ProjectFinder {
     });
 
     if (projectFolder && projectFolder.length > 0) {
-      this.projectManager.addProjectByPath(projectFolder[0]);
-      return true;
+      return this.projectManager.addProjectByPath(projectFolder[0]);
     }
 
     return false;

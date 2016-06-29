@@ -1,13 +1,15 @@
-import {inject, singleton}          from 'aurelia-framework';
-import {withModal}       from '../shared/decorators';
-import {ProjectFinder}   from '../shared/project-finder';
-import {ScaffoldProject} from '../scaffolding/scaffold-project';
+import {inject, singleton} from 'aurelia-framework';
+import {withModal}         from '../shared/decorators';
+import {ProjectFinder}     from '../shared/project-finder';
+import {TaskManager}       from '../shared/task-manager';
+import {ScaffoldProject}   from '../scaffolding/scaffold-project';
 
-@inject(ProjectFinder)
+@inject(ProjectFinder, TaskManager)
 @singleton()
 export class Main {
-  constructor(projectFinder) {
+  constructor(projectFinder, taskManager) {
     this.projectFinder = projectFinder;
+    this.taskManager = taskManager;
   }
 
   async addProject() {
@@ -16,6 +18,12 @@ export class Main {
 
   @withModal(ScaffoldProject)
   createProject() {}
+
+  addTask() {
+    this.taskManager.addTask(new Promise(resolve => {
+      setTimeout(() => resolve(), 3000);
+    }));
+  }
 
   activateScreen(viewModelPath) {
     this._activePluginScreen = viewModelPath;

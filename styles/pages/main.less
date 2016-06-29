@@ -67,6 +67,24 @@ project-list {
   }
 }
 
+task-bar {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  background-color: grey;
+  height: 30px;
+
+  .runningTasks {
+    position: absolute;
+    right: 0;
+    p {
+      color: white;
+      padding: 0;
+      margin: 0;
+      line-height: 30px;
+    }
+  }
+}
 
 
 .project-list-header {
@@ -78,5 +96,4 @@ project-list {
   min-height: 36px;
   text-align: center;
   font-weight: 400;
-  margin-top: 5px;
 }
