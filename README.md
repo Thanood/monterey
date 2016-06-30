@@ -1,6 +1,7 @@
 # Monterey shell
 
 [![Join the chat at https://gitter.im/monterey-framework/shell](https://badges.gitter.im/monterey-framework/shell.svg)](https://gitter.im/monterey-framework/shell?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+
 The shell brings together all the required core Monterey libraries into a ready-to-go application Monterey application
 
 [Global overview](https://github.com/monterey-framework/framework/blob/master/README.md)
