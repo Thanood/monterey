@@ -1,0 +1,50 @@
+<template>
+  <require from="../../shared/converters/moment"></require>
+
+  <ai-dialog class="task-manager-modal">
+    <ai-dialog-body>
+      <h2>Tasks</h2>
+
+      <p>
+        Monterey is busy with ${taskManager.runningTasks.length} tasks.
+      </p>
+
+      <hr />
+      <div class="row">
+        <div class="task-list">
+          <ul class="list-group">
+            <li class="list-group-item ${task.id == selectedTask.id ? 'selected': ''} ${task.end ? 'finished': 'in-progress'}"
+                repeat.for="task of taskManager.allTasks"
+                click.delegate="selectedTask = task">
+              ${task.title}
+            </li>
+          </ul>
+        </div>
+
+        <div class="task-detail">
+          <div if.bind="selectedTask">
+            <p style="font-weight: bold">${selectedTask.title}</p>
+            <p>- ${selectedTask.end ? 'took ' + selectedTask.elapsed : 'is taking ' + selectedTask.elapsed}</p>
+
+            <ol style="list-style-type: none">
+              <li repeat.for="log of task.logs">
+                ${log}
+              </li>
+            </ol>
+          </div>
+          <div if.bind="!selectedTask">
+            <p>
+              No task selected
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <div style="clear: both"></div>
+    </ai-dialog-body>
+
+    <ai-dialog-footer>
+      <button click.trigger="dialogController.close()">Close</button>
+    </ai-dialog-footer>
+  </ai-dialog>
+</template>

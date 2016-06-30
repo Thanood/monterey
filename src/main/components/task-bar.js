@@ -1,5 +1,7 @@
-import {inject}      from 'aurelia-framework';
-import {TaskManager} from '../../shared/task-manager';
+import {inject}           from 'aurelia-framework';
+import {TaskManager}      from '../../shared/task-manager';
+import {withModal}        from '../../shared/decorators';
+import {TaskManagerModal} from './task-manager-modal';
 
 @inject(TaskManager)
 export class TaskBar {
@@ -10,4 +12,7 @@ export class TaskBar {
   constructor(taskManager) {
     this.taskManager = taskManager;
   }
+
+  @withModal(TaskManagerModal)
+  showTasks() {}
 }

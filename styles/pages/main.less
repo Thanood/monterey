@@ -97,3 +97,39 @@ task-bar {
   text-align: center;
   font-weight: 400;
 }
+
+.task-manager-modal {
+  width: 700px;
+  height: 500px;
+
+  ai-dialog-body {
+    height: 445px;
+  }
+
+  .task-detail {
+    float: left;
+    width: 250px;
+    margin-left: 20px;
+    padding-left: 10px;
+    height: 300px
+  }
+
+  .task-list {
+    float: left;
+    width: 250px;
+
+    .list-group {
+      max-height: 300px;
+      overflow: auto;
+    }
+  }
+
+  .list-group-item {
+    &.selected {
+      background-color: #f1f1f1;
+    }
+    &.finished {
+      background-color: #dbfdda;
+    }
+  }
+}

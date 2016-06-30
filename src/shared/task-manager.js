@@ -1,25 +1,30 @@
 export class TaskManager {
   runningTasks = [];
+  allTasks = [];
 
-  addTask(promise) {
-    let task = {
-      id: this.createId(),
-      promise: promise
-    };
+  addTask(task) {
+    if (!task.promise || !task.title) {
+      throw new Error('task promise and title are required');
+    }
+
+    task.id = this.createId();
+    task.start = new Date();
+    task.logs = [];
 
     this.runningTasks.push(task);
-        console.log(this);
+    this.allTasks.push(task);
 
-    return promise.then((result) => {
-      this.removeTask(task);
+    return task.promise.then((result) => {
+      this.finishTask(task);
       return result;
     });
   }
 
-  removeTask(task) {
-      console.log('remove task');
+  finishTask(task) {
     let index = this.runningTasks.indexOf(task);
     this.runningTasks.splice(index, 1);
+
+    task.end = new Date();
   }
 
   createId() {
