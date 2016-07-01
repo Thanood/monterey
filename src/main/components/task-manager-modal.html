@@ -23,11 +23,10 @@
 
         <div class="task-detail">
           <div if.bind="selectedTask">
-            <p style="font-weight: bold">${selectedTask.title}</p>
-            <p>- ${selectedTask.end ? 'took ' + selectedTask.elapsed : 'is taking ' + selectedTask.elapsed}</p>
+            <p style="font-weight: bold">${selectedTask.title} (${selectedTask.end ? 'took ' + selectedTask.elapsed : 'is taking ' + selectedTask.elapsed})</p>
 
-            <ol style="list-style-type: none">
-              <li repeat.for="log of task.logs">
+            <ol class="log-list">
+              <li repeat.for="log of selectedTask.logs">
                 ${log}
               </li>
             </ol>

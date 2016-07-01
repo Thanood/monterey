@@ -19,41 +19,6 @@ export class Main {
   @withModal(ScaffoldProject)
   createProject() {}
 
-  addTask() {
-    let task = {
-      promise: new Promise(resolve => {
-        setTimeout(() => resolve(), 5000000);
-      }),
-      logs: [],
-      title: 'test'
-    };
-    this.taskManager.addTask(task);
-    // setInterval(() => task.logs.push('logged something'), 1000);
-
-    this.taskManager.addTask({
-      promise: new Promise(resolve => {
-        setTimeout(() => resolve(), 10000);
-      }),
-      title: 'baz'
-    });
-
-
-    this.taskManager.addTask({
-      promise: new Promise(resolve => {
-        setTimeout(() => resolve(), 5000);
-      }),
-      title: 'bar'
-    });
-
-
-    this.taskManager.addTask({
-      promise: new Promise(resolve => {
-        setTimeout(() => resolve(), 3000);
-      }),
-      title: 'Foo'
-    });
-  }
-
   activateScreen(viewModelPath) {
     this._activePluginScreen = viewModelPath;
   }

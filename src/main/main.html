@@ -18,8 +18,6 @@
       <!-- list of tiles -->
       <tiles show.bind="!_activePluginScreen" selected-project.bind="selectedProject"></tiles>
 
-      <button click.delegate="addTask()">Add task (test purpose only)</button>
-
       <!-- Plugins can tell compose to render a screen -->
       <button show.bind="_activePluginScreen" click.delegate="returnToPluginList()">Return</button>
       <compose show.bind="_activePluginScreen" view-model.bind="_activePluginScreen"></compose>

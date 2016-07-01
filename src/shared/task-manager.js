@@ -1,3 +1,19 @@
+import moment from 'moment';
+
+/* Usage:
+let task = {
+  // some promise that eventually resolves
+  promise: new Promise(resolve => {
+    setTimeout(() => resolve(), 10000);
+  }),
+  // a description of what is happening
+  title: 'baz'
+};
+this.taskManager.addTask(task);
+
+// at some point, log a message specifically for this task
+this.taskManager.addTaskLog(task, 'something happened');
+*/
 export class TaskManager {
   runningTasks = [];
   allTasks = [];
@@ -11,13 +27,17 @@ export class TaskManager {
     task.start = new Date();
     task.logs = [];
 
-    this.runningTasks.push(task);
-    this.allTasks.push(task);
+    this.runningTasks.unshift(task);
+    this.allTasks.unshift(task);
 
     return task.promise.then((result) => {
       this.finishTask(task);
       return result;
     });
+  }
+
+  addTaskLog(task, text) {
+    task.logs.unshift(`[${moment().format('LTS')}] ${text}`);
   }
 
   finishTask(task) {
