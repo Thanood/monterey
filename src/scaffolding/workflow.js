@@ -3,13 +3,15 @@ export class Workflow {
   // the state contains the project configuration and is modified per step
   state = {};
   // some activity types can be run 'automatically' without the user having to press next
-  flowSteps = ['state-assign', 'branch-switch'];
+  flowSteps = ['state-assign', 'branch-switch', 'project-create', 'project-install'];
+  _isLast = false;
 
   constructor(definition, state) {
     this.definition = definition;
     this.state = state;
     this.name = definition.name;
 
+    this.defaultViewModels();
     this.next();
   }
 
@@ -20,7 +22,7 @@ export class Workflow {
   async next() {
     let nextActivity = this.currentStep.nextActivity;
 
-    if (!this.isFlowStep()) {
+    if (!this.isFlowStep(this.currentStep)) {
       this.saveAnswer(this.currentStep);
     } else {
       switch (this.currentStep.type) {
@@ -36,25 +38,27 @@ export class Workflow {
     }
 
     let nextStep = this.getStep(nextActivity);
-    if (this.isLastStep(nextStep)) {
-      return false;
-    }
 
     this.currentStep = nextStep;
 
-    if (this.isFlowStep()) {
+    if (this.currentStep.type !== 'branch-switch' && !this.currentStep.nextActivity) {
+      this._isLast = true;
+      return false;
+    }
+
+    if (this.isFlowStep(this.currentStep)) {
       return await this.next();
     }
 
     return true;
   }
 
-  isFlowStep() {
-    return this.flowSteps.find(i => i === this.currentStep.type);
+  isFlowStep(step) {
+    return !!this.flowSteps.find(i => i === step.type);
   }
 
-  isLastStep(nextStep) {
-    return nextStep.type === 'project-create';
+  get isLast() {
+    return this._isLast;
   }
 
   // a branch switch indicates that the nextStep must be determined
@@ -62,7 +66,7 @@ export class Workflow {
   branchSwitch() {
     let val = this.state[this.currentStep.stateProperty];
     if (!val) {
-      throw new Error('previous answer was not saved, which is necessary for a branch switch', this.currentStep);
+      throw new Error(`property '${this.currentStep.stateProperty}' does not exist on state`, this.state);
     }
     // get the id property if there is one
     val = val.id ? val.id : val;
@@ -72,6 +76,10 @@ export class Workflow {
         nextActivity = branch.nextActivity;
       }
     });
+
+    if (!nextActivity) {
+      throw new Error(`branch switch failed. Activity ${this.currentStep.id} did not have a branch that matched the value '${val}'`);
+    }
 
     return nextActivity;
   }
@@ -84,5 +92,13 @@ export class Workflow {
     if (step.stateProperty) {
       this.state[step.stateProperty] = step.answer;
     }
+  }
+
+  defaultViewModels() {
+    this.definition.activities.forEach(activity => {
+      if (!this.isFlowStep(activity) && !activity.viewModel) {
+        activity.viewModel = './question';
+      }
+    });
   }
 }

@@ -1,6 +1,6 @@
 import {inject}     from 'aurelia-framework';
-import {Workflow}   from './workflow';
-import {Fs}         from '../shared/abstractions/fs';
+import {Workflow}   from '../workflow';
+import {Fs}         from '../../shared/abstractions/fs';
 
 @inject(Fs)
 export class Activities {

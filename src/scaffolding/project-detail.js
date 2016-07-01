@@ -6,8 +6,16 @@ import {Fs}                   from '../shared/abstractions/fs';
 
 @inject(NewInstance.of(ValidationController), Fs)
 export class ProjectDetail {
-  @observable cliOrGithub = 'cli';
-  @observable skeletonOrCustom = 'skeleton';
+  @observable source = 'cli';
+
+  skeletons = [
+    'skeleton-esnext-aspnetcore',
+    'skeleton-esnext-webpack',
+    'skeleton-esnext',
+    'skeleton-typescript-aspnetcore',
+    'skeleton-typescript-webpack',
+    'skeleton-typescript'
+  ];
 
   constructor(validation, fs) {
     this.validation = validation;
@@ -20,7 +28,7 @@ export class ProjectDetail {
     this.step.execute = () => this.execute();
   }
 
-  skeletonOrCustomChanged() {
+  sourceChanged() {
     this.updateValidationRules();
     this.validation.validate();
   }
@@ -33,8 +41,8 @@ export class ProjectDetail {
     let r = ValidationRules
     .ensure('path').required();
 
-    if (this.skeletonOrCustom === 'custom') {
-      r = r.ensure('githubURL').required();
+    if (this.source === 'zip') {
+      r = r.ensure('zipUrl').required();
     }
 
     r.on(this.state);
@@ -45,6 +53,8 @@ export class ProjectDetail {
 
     if (this.validation.validate().length === 0) {
       canContinue = true;
+
+      this.state.source = this.source;
     }
 
     return {

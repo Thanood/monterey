@@ -6,38 +6,38 @@
       <ul>
         <li>
           <label>
-            <input type="radio" name="cliOrGithub" value="cli" checked.bind="cliOrGithub"/>
+            <input type="radio" name="source" checked.bind="source" value="cli"/>
             Aurelia-CLI (RequireJS projects only)
           </label>
         </li>
         <li>
           <label>
-            <input type="radio" name="cliOrGithub" value="github" checked.bind="cliOrGithub"/>
-            From a GitHub template
+            <input type="radio" name="source" checked.bind="source" value="skeleton"/>
+            aurelia-skeleton-navigation
           </label>
-          <ul>
-            <li>
-              <label><input type="radio" name="skeletonOrCustom" checked.bind="skeletonOrCustom" value="skeleton" disabled.bind="cliOrGithub === 'cli'"/> aurelia-skeleton-navigation</label>
-              <select class="form-control" disabled.bind="skeletonOrCustom === 'custom'">
-                <option>skeleton-esnext-webpack</option>
-                <option>skeleton-typescript-aspnetcore</option>
-              </select>
-            </li>
-            <li>
-              <div class="form-group">
-              <label>
-                <input type="radio" name="skeletonOrCustom"
-                       checked.bind="skeletonOrCustom" value="custom"
-                       disabled.bind="cliOrGithub === 'cli'"/>
-                  Github URL
-                </label>
-                <input type="textbox"
-                       class="form-control"
-                       value.bind="state.githubURL & validate"
-                       disabled.bind="skeletonOrCustom === 'skeleton'"/>
-              </div>
-            </li>
-          </ul>
+          <select class="form-control" value.bind="state.skeleton" disabled.bind="source !== 'skeleton'">
+            <option repeat.for="skeleton of skeletons" model.bind="skeleton">${skeleton}</option>
+          </select>
+        </li>
+        <li>
+          <label>
+            <input type="radio" name="source" checked.bind="source" value="zip"/>
+            From a ZIP
+          </label>
+          <div class="form-group">
+            ZIP Url:
+            <input type="textbox"
+                   class="form-control"
+                   value.bind="state.zipUrl & validate"
+                   disabled.bind="source !== 'zip'"/>
+          </div>
+          <div class="form-group">
+            Subfolder (optional):
+            <input type="textbox"
+                   class="form-control"
+                   value.bind="state.zipSubfolder & validate"
+                   disabled.bind="source !== 'zip'"/>
+          </div>
         </li>
       </ul>
     </div>

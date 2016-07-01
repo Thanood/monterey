@@ -1,0 +1,76 @@
+{
+  "name": "New Aurelia Application",
+  "activities": [{
+    "id": 1,
+    "type": "state-assign",
+    "nextActivity": 2,
+    "state": {
+      "source": "cli"
+    }
+  }, {
+    "id": 2,
+    "type": "screen",
+    "viewModel": "./project-detail",
+    "nextActivity": 3
+  }, {
+    "id": 3,
+    "type": "branch-switch",
+    "stateProperty": "source",
+    "branches": [
+      {
+        "case": "cli",
+        "nextActivity": 4
+      },
+      {
+        "case": "skeleton",
+        "nextActivity": 5
+      },
+      {
+        "case": "zip",
+        "nextActivity": 5
+      }
+    ]
+  }, {
+    "id": 4,
+    "type": "screen",
+    "viewModel": "./aurelia-cli/activities",
+    "nextActivity": 6
+  }, {
+    "id": 5,
+    "type": "input-text",
+    "nextActivity": 6,
+    "question": "What would you like to name your new project?",
+    "stateProperty": "name"
+  }, {
+    "id": 6,
+    "type": "screen",
+    "viewModel": "./project-description",
+    "nextActivity": 7
+  }, {
+    "id": 7,
+    "type": "branch-switch",
+    "stateProperty": "source",
+    "branches": [
+      {
+        "case": "cli",
+        "nextActivity": 8
+      },
+      {
+        "case": "skeleton",
+        "nextActivity": 9
+      },
+      {
+        "case": "zip",
+        "nextActivity": 9
+      }
+    ]
+  }, {
+    "id": 8,
+    "type": "screen",
+    "viewModel": "./aurelia-cli/run"
+  }, {
+    "id": 9,
+    "type": "screen",
+    "viewModel": "./zip/run"
+  }]
+}

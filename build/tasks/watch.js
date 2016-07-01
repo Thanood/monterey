@@ -14,6 +14,7 @@ gulp.task('watch', ['build'], function() {
   electron.start();
 
   gulp.watch(paths.source, ['build-system']).on('change', reportChange);
+  gulp.watch(paths.json, ['build-json']).on('change', reportChange);
   gulp.watch('index.js').on('change', reportChange);
   gulp.watch('index.html').on('change', reportChange);
   gulp.watch(paths.html, ['build-html']).on('change', reportChange);

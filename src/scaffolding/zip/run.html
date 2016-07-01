@@ -1,0 +1,12 @@
+<template>
+  <div if.bind="!finished">
+    <h1>Creating project files....</h1>
+    <i class="fa fa-spinner fa-spin"></i>
+  </div>
+  <div if.bind="finished">
+    <h1>The project has been created</h1>
+  </div>
+  <div if.bind="failed">
+    <h1>An error has occurred while scaffolding the application</h1>
+  </div>
+</template>

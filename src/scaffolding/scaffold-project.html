@@ -3,12 +3,12 @@
     <ai-dialog-body>
       <h2>${workflow.name}</h2>
 
-      <compose view-model.bind="currentStep.viewModel" model.bind="{ state: state, step: currentStep }"></compose>
+      <compose view-model.bind="workflow.currentStep.viewModel" model.bind="{ state: state, step: workflow.currentStep }"></compose>
     </ai-dialog-body>
 
     <ai-dialog-footer>
       <button click.trigger="close()" tabindex="2">Close</button>
-      <button click.delegate="next()" tabindex="1" if.bind="!isLast">Next</button>
+      <button click.delegate="next()" tabindex="1" if.bind="!workflow.isLast">Next</button>
     </ai-dialog-footer>
   </ai-dialog>
 </template>

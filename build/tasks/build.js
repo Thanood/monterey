@@ -18,9 +18,9 @@ gulp.task('build-system', function() {
   return gulp.src(paths.source)
     .pipe(plumber({errorHandler: notify.onError('Error: <%= error.message %>')}))
     .pipe(changed(paths.output, {extension: '.js'}))
-    .pipe(sourcemaps.init({loadMaps: true}))
+    // .pipe(sourcemaps.init({loadMaps: true}))
     .pipe(to5(assign({}, compilerOptions.system())))
-    .pipe(sourcemaps.write('.', {includeContent: false, sourceRoot: '/src'}))
+    // .pipe(sourcemaps.write('.', {includeContent: true, sourceRoot: '/src'}))
     .pipe(gulp.dest(paths.output));
 });
 
@@ -37,6 +37,13 @@ gulp.task('build-less', function() {
     .pipe(gulp.dest(paths.styles));
 });
 
+gulp.task('build-json', function() {
+  return gulp.src(paths.json)
+    .pipe(changed(paths.output, {extension: '.json'}))
+    .pipe(gulp.dest(paths.output));
+});
+
+
 // this task calls the clean task (located
 // in ./clean.js), then runs the build-system
 // and build-html tasks in parallel
@@ -44,7 +51,7 @@ gulp.task('build-less', function() {
 gulp.task('build', function(callback) {
   return runSequence(
     'clean',
-    ['build-system', 'build-html', 'build-less'],
+    ['build-system', 'build-html', 'build-less', 'build-json'],
     callback
   );
 });
