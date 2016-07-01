@@ -1,10 +1,14 @@
-import {inject, NewInstance}  from 'aurelia-framework';
+import {inject, observable,
+  NewInstance}                from 'aurelia-framework';
 import {ValidationRules}      from 'aurelia-validatejs';
 import {ValidationController} from 'aurelia-validation';
 import {Fs}                   from '../shared/abstractions/fs';
 
 @inject(NewInstance.of(ValidationController), Fs)
 export class ProjectDetail {
+  @observable cliOrGithub = 'cli';
+  @observable skeletonOrCustom = 'skeleton';
+
   constructor(validation, fs) {
     this.validation = validation;
     this.fs = fs;
@@ -16,10 +20,24 @@ export class ProjectDetail {
     this.step.execute = () => this.execute();
   }
 
+  skeletonOrCustomChanged() {
+    this.updateValidationRules();
+    this.validation.validate();
+  }
+
   attached() {
-    ValidationRules
-    .ensure('path').required()
-    .on(this.state);
+    this.updateValidationRules();
+  }
+
+  updateValidationRules() {
+    let r = ValidationRules
+    .ensure('path').required();
+
+    if (this.skeletonOrCustom === 'custom') {
+      r = r.ensure('githubURL').required();
+    }
+
+    r.on(this.state);
   }
 
   async execute() {

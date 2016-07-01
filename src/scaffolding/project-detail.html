@@ -1,8 +1,52 @@
 <template>
-  <form validation-renderer="bootstrap-form">
+  <form validation-renderer="bootstrap-form" class="scaffolding-project-detail">
     <div class="form-group">
-      <label class="control-label" for="path">Where should the project folder be created?</label>
-      <input type="text" class="form-control" id="path" disabled.bind="true"
+      <label class="control-label" for="path">What project template would you like to use?</label>
+
+      <ul>
+        <li>
+          <label>
+            <input type="radio" name="cliOrGithub" value="cli" checked.bind="cliOrGithub"/>
+            Aurelia-CLI (RequireJS projects only)
+          </label>
+        </li>
+        <li>
+          <label>
+            <input type="radio" name="cliOrGithub" value="github" checked.bind="cliOrGithub"/>
+            From a GitHub template
+          </label>
+          <ul>
+            <li>
+              <label><input type="radio" name="skeletonOrCustom" checked.bind="skeletonOrCustom" value="skeleton" disabled.bind="cliOrGithub === 'cli'"/> aurelia-skeleton-navigation</label>
+              <select class="form-control" disabled.bind="skeletonOrCustom === 'custom'">
+                <option>skeleton-esnext-webpack</option>
+                <option>skeleton-typescript-aspnetcore</option>
+              </select>
+            </li>
+            <li>
+              <div class="form-group">
+              <label>
+                <input type="radio" name="skeletonOrCustom"
+                       checked.bind="skeletonOrCustom" value="custom"
+                       disabled.bind="cliOrGithub === 'cli'"/>
+                  Github URL
+                </label>
+                <input type="textbox"
+                       class="form-control"
+                       value.bind="state.githubURL & validate"
+                       disabled.bind="skeletonOrCustom === 'skeleton'"/>
+              </div>
+            </li>
+          </ul>
+        </li>
+      </ul>
+    </div>
+    <div class="form-group">
+      <label class="control-label">Where should the project folder be created?</label>
+      <input type="text"
+             style="display: inline; width: 445px;"
+             class="form-control"
+             disabled.bind="true"
              value.bind="state.path & validate">
       <button click.delegate="directoryBrowser()" class="btn btn-primary">Choose folder</button>
     </div>
