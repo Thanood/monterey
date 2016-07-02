@@ -4,7 +4,7 @@
   <require from="./components/task-bar"></require>
 
   <div class="main">
-    <div class="col-sm-4 left">
+    <div class="left">
       <div class="top">
         <h1>Monterey</h1>
 
@@ -15,13 +15,16 @@
       <project-list selected-project.two-way="selectedProject"></project-list>
     </div>
 
-    <div class="col-sm-8 right">
+    <div class="right">
       <!-- list of tiles -->
       <tiles show.bind="!_activePluginScreen" selected-project.bind="selectedProject"></tiles>
 
       <!-- Plugins can tell compose to render a screen -->
       <button show.bind="_activePluginScreen" click.delegate="returnToPluginList()">Return</button>
       <compose show.bind="_activePluginScreen" model.bind="_activePluginScreenModel" view-model.bind="_activePluginScreen"></compose>
+
+
+      <div style="clear: both"></div>
     </div>
   </div>
 

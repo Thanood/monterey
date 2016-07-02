@@ -24,13 +24,17 @@
 
 
 .main {
-  height: 100%;
   .left {
     background-color: #ECECED;
     padding-left: 0;
     padding-right: 0;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    width: 384px;
     height: 100%;
-    background-color: #ECECED;
+    overflow: hidden;
 
     h1 {
       margin-top: 0;
@@ -42,19 +46,14 @@
       padding-right: 15px;
     }
   }
-}
 
-@media all and (max-width: 768px) {
-  project-list {
-    ul {
-      overflow: auto;
-      max-height: 250px;
-    }
-  }
-  .main {
-    .left {
-      height: initial !important;
-    }
+  .right {
+    position: fixed;
+    top: 0;
+    left: 384px;
+    right: 0;
+    bottom: 0;
+    overflow: auto;
   }
 }
 
