@@ -24,7 +24,9 @@
         <div class="task-detail">
           <div if.bind="selectedTask">
             <p style="font-weight: bold">${selectedTask.title} (${selectedTask.end ? 'took ' + selectedTask.elapsed : 'is taking ' + selectedTask.elapsed})</p>
-
+            <p if.bind="selectedTask.estimation">
+              ${selectedTask.estimation}
+            </p>
             <ol class="log-list">
               <li repeat.for="log of selectedTask.logs">
                 ${log}

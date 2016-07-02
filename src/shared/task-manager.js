@@ -25,7 +25,9 @@ export class TaskManager {
 
     task.id = this.createId();
     task.start = new Date();
-    task.logs = [];
+    if (!task.logs) {
+      task.logs = [];
+    }
 
     this.runningTasks.unshift(task);
     this.allTasks.unshift(task);

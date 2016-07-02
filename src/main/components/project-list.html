@@ -5,7 +5,7 @@
     <li repeat.for="project of state.projects" class="project-list-item">
       <project project.bind="project"
                class="${project === selectedProject ? 'selected': ''}"
-               click.delegate="selectedProject = project">
+               click.delegate="selectProject(project)">
       </project>
     </li>
   </ul>

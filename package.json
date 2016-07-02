@@ -93,7 +93,7 @@
       "jquery": "npm:jquery@^2.2.4",
       "json": "github:systemjs/plugin-json@^0.1.2",
       "moment": "npm:moment@^2.13.0",
-      "monterey-pal": "github:monterey-framework/monterey-pal@0.1.1",
+      "monterey-pal": "github:monterey-framework/monterey-pal@0.1.2",
       "monterey-pal-electron": "github:monterey-framework/monterey-pal-electron@0.1.1",
       "text": "github:systemjs/plugin-text@^0.0.3"
     },
@@ -105,6 +105,7 @@
     "aurelia-cli": "^0.13.6",
     "mv": "^2.1.1",
     "npm": "^3.8.6",
+    "npmlog": "^3.1.2",
     "temp": "^0.8.3",
     "unzip": "^0.1.11",
     "yauzl": "^2.6.0"

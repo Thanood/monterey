@@ -12,7 +12,7 @@
         <button class="create btn btn-primary" click.delegate="createProject()">Create project</button>
         <button class="create btn btn-primary" click.delegate="removeProject()">Remove project</button>
       </div>
-      <project-list selected-project.two-way="selectedProject"></project-list>
+      <project-list selected-project.two-way="selectedProject" disabled.bind="_activePluginScreen"></project-list>
     </div>
 
     <div class="right">
