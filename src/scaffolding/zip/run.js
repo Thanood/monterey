@@ -1,6 +1,8 @@
-import {inject}    from 'aurelia-framework';
-import {FS}        from 'monterey-pal';
-import {GithubAPI} from '../../shared/github-api';
+import {inject, LogManager} from 'aurelia-framework';
+import {FS}                 from 'monterey-pal';
+import {GithubAPI}          from '../../shared/github-api';
+
+const logger = LogManager.getLogger('zip-scaffolder');
 
 @inject(GithubAPI)
 export class Run {
@@ -42,7 +44,7 @@ export class Run {
         resolve();
       } catch (e) {
         alert('Error while scaffolding the application: ' + e.message);
-        console.log(e);
+        logger.error(e);
         this.failed = true;
         reject();
       }
@@ -73,7 +75,7 @@ export class Run {
       FS.cleanupTemp();
       this.logs.push('Cleaned up temp files and folders');
     } catch (e) {
-      console.log('Did not finish cleanup of temp folder: ', e);
+      logger.info('Did not finish cleanup of temp folder: ', e);
     }
   }
 

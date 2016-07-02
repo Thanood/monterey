@@ -1,6 +1,8 @@
-import {inject}        from 'aurelia-framework';
-import {PluginManager} from './plugin-manager';
-import {SESSION}       from 'monterey-pal';
+import {inject, LogManager} from 'aurelia-framework';
+import {PluginManager}      from './plugin-manager';
+import {SESSION}            from 'monterey-pal';
+
+const logger = LogManager.getLogger('project-manager');
 
 @inject(PluginManager)
 export class ProjectManager {
@@ -64,13 +66,13 @@ export class ProjectManager {
     for (let i = 0; i < keys.length; i++) {
       let key = keys[i];
       let val = obj[key];
-      if (val === Object(val)) {
-        normalized[key] = this.normalize(val);
-      } else if (Object.prototype.toString.call(val) === '[object Array]') {
+      if (Object.prototype.toString.call(val) === '[object Array]') {
         normalized[key] = [];
         for (let x = 0; x < val.length; x++) {
           normalized[key].push(this.normalize(val[x]));
         }
+      } else if (val === Object(val)) {
+        normalized[key] = this.normalize(val);
       } else {
         normalized[key] = obj[key];
       }
@@ -92,6 +94,6 @@ export class ProjectManager {
       };
     }
 
-    console.log('Loaded state: ', this.state);
+    logger.debug('Loaded state: ', this.state);
   }
 }

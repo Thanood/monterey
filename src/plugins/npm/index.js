@@ -54,11 +54,9 @@ class Plugin extends BasePlugin {
     });
 
     if (paths && paths.length > 0) {
-      console.log('manuallyLocatePackageJSON: true')
       return await this.tryLocatePackageJSON(project, paths[0]);
     }
 
-    console.log('manuallyLocatePackageJSON: false')
     return false;
   }
 
@@ -68,11 +66,9 @@ class Plugin extends BasePlugin {
 
       let packageJSON = JSON.parse(await FS.readFile(project.packageJSONPath));
       project.name = packageJSON.name;
-      console.log('tryLocatePackageJSON: true')
       return true;
     }
 
-    console.log('tryLocatePackageJSON: false')
     return false;
   }
 }
