@@ -42,8 +42,8 @@ System.config({
     "jquery": "npm:jquery@2.2.4",
     "json": "github:systemjs/plugin-json@0.1.2",
     "moment": "npm:moment@2.13.0",
-    "monterey-pal": "github:monterey-pal@0.1.0",
-    "monterey-pal-electron": "github:monterey-pal-electron@0.1.0",
+    "monterey-pal": "github:monterey-framework/monterey-pal@0.1.0",
+    "monterey-pal-electron": "github:monterey-framework/monterey-pal-electron@0.1.0",
     "text": "github:systemjs/plugin-text@0.0.3",
     "github:jspm/nodelibs-assert@0.1.0": {
       "assert": "npm:assert@1.4.1"
