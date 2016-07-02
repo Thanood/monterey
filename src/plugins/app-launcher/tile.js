@@ -1,5 +1,4 @@
-// need to abstract this out
-// const exec = require('child_process').exec;
+import {PROCESSES} from 'monterey-pal';
 
 export class AppLauncher {
 
@@ -9,6 +8,6 @@ export class AppLauncher {
   }
 
   onClick() {
-    exec(this.cmd);
+    PROCESSES.execChildProcess(this.cmd);
   }
 }

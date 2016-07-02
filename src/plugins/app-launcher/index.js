@@ -1,5 +1,5 @@
-import {PluginManager}     from '../../shared/plugin-manager';
-import {BasePlugin}              from '../base-plugin';
+import {PluginManager} from '../../shared/plugin-manager';
+import {BasePlugin}    from '../base-plugin';
 
 export function configure(aurelia) {
   let pluginManager = aurelia.container.get(PluginManager);
