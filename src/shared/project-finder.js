@@ -1,20 +1,19 @@
 import {inject}          from 'aurelia-framework';
-import {Fs}              from '../shared/abstractions/fs';
+import {FS}              from 'monterey-pal';
 import {ProjectManager}  from '../shared/project-manager';
 
-@inject(ProjectManager, Fs)
+@inject(ProjectManager)
 export class ProjectFinder {
 
-  constructor(projectManager, fs) {
+  constructor(projectManager) {
     this.projectManager = projectManager;
-    this.fs = fs;
   }
 
   /**
   * Opens a folder dialog and adds the selected folder as a project
   */
   async openDialog() {
-    let projectFolder = await this.fs.showOpenDialog({
+    let projectFolder = await FS.showOpenDialog({
       title: 'Select a project folder',
       properties: ['openDirectory']
     });

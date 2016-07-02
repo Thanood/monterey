@@ -2,13 +2,15 @@
 
 module.exports = function(wallaby) {
   return {
+    env: {
+      kind: 'electron'
+    },
     files: [
 
-      {pattern: 'jspm_packages/system.js', instrument: false},
+      {pattern: 'jspm_packages/system.src.js', instrument: false},
       {pattern: 'config.js', instrument: false},
-
-      {pattern: 'src/**/*.js', load: false},
-      {pattern: 'test/unit/setup.js', load: false}
+      {pattern: 'jspm_packages/npm/babel-core@5.8.38/browser.min.js', load: true, instrument: false},
+      {pattern: 'src/**/*.js', load: false}
 
     ],
 
@@ -21,6 +23,7 @@ module.exports = function(wallaby) {
         presets: [ 'es2015-loose', 'stage-1'],
         plugins: [
           'syntax-flow',
+          'transform-runtime',
           'transform-decorators-legacy',
           'transform-flow-strip-types'
         ]
@@ -43,19 +46,19 @@ module.exports = function(wallaby) {
           '*': '*.js'
         }
       });
+
       for (; i < len; i++) {
         promises.push(System['import'](wallaby.tests[i].replace(/\.js$/, '')));
       }
-
-      System.import('test/unit/setup')
-        .then(function () {
-          return Promise.all(promises);
-        })
-        .then(function() {
-          wallaby.start();
-        }).catch(function (e) { setTimeout(function (){ throw e; }, 0); });
+      System['import']('core-js')
+      .then(function() {
+        return Promise.all(promises);
+      })
+      .then(function() {
+        wallaby.start();
+      }).catch(function(e) { setTimeout(function() { throw e; }, 0); });
     },
 
-    debug: false
+    debug: true
   };
 };

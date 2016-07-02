@@ -1,15 +1,14 @@
 import {inject}    from 'aurelia-framework';
-import {Fs}        from '../../shared/abstractions/fs';
+import {FS}        from 'monterey-pal';
 import {GithubAPI} from '../../shared/github-api';
 
-@inject(Fs, GithubAPI)
+@inject(GithubAPI)
 export class Run {
   failed = false;
   finished = false;
   logs = [];
 
-  constructor(fs, githubAPI) {
-    this.fs = fs;
+  constructor(githubAPI) {
     this.githubAPI = githubAPI;
   }
 
@@ -25,7 +24,7 @@ export class Run {
       try {
         let url;
         let subDir;
-        let projectDir = this.fs.join(this.state.path, this.state.name);
+        let projectDir = FS.join(this.state.path, this.state.name);
 
         if (this.state.source === 'skeleton') {
           let releaseInfo = await this.githubAPI.getLatestRelease('aurelia', 'skeleton-navigation');
@@ -51,27 +50,27 @@ export class Run {
   }
 
   async downloadAndExtractZIP(url, projectDir, subDir) {
-    let zipPath = await this.fs.getTempFile();
+    let zipPath = await FS.getTempFile();
     this.logs.push(`Temp file created: ${zipPath}....`);
-    await this.fs.downloadFile(url, zipPath);
+    await FS.downloadFile(url, zipPath);
     this.logs.push('Downloaded zip....');
 
 
-    let unzipPath = await this.fs.getTempFolder();
+    let unzipPath = await FS.getTempFolder();
     this.logs.push(`Temp folder created: ${unzipPath}....`);
 
-    await this.fs.unzip(zipPath, unzipPath);
+    await FS.unzip(zipPath, unzipPath);
     this.logs.push('Unzipped files....');
 
     // unfortunately, github wraps the repository files in a folder in the zip
     // so we get the first directory name and extract that automatically
-    let firstDir = (await this.fs.getDirectories(unzipPath))[0];
+    let firstDir = (await FS.getDirectories(unzipPath))[0];
 
-    await this.fs.move(`${unzipPath}/${firstDir}/${subDir}`, projectDir);
+    await FS.move(`${unzipPath}/${firstDir}/${subDir}`, projectDir);
     this.logs.push(`Moved directory to ${projectDir}....`);
 
     try {
-      this.fs.cleanupTemp();
+      FS.cleanupTemp();
       this.logs.push('Cleaned up temp files and folders');
     } catch (e) {
       console.log('Did not finish cleanup of temp folder: ', e);

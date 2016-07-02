@@ -1,13 +1,10 @@
 import {inject}        from 'aurelia-framework';
 import {PluginManager} from './plugin-manager';
-import {Session}       from './abstractions/session';
-import {Fs}            from './abstractions/fs';
+import {SESSION}       from 'monterey-pal';
 
-@inject(Session, Fs, PluginManager)
+@inject(PluginManager)
 export class ProjectManager {
-  constructor(session, fs, pluginManager) {
-    this.session = session;
-    this.fs = fs;
+  constructor(pluginManager) {
     this.pluginManager = pluginManager;
   }
 
@@ -56,19 +53,28 @@ export class ProjectManager {
   */
   async save() {
     let str = JSON.stringify(this.normalize(this.state));
-    this.session.set('state', str);
+    SESSION.set('state', str);
   }
 
   // JSON.stringify does not take getter properties into account
   // which sometimes lead to properties not being persisted into the session
-  normalize(state) {
-    let normalized = { projects: [] };
-    state.projects.forEach(proj => {
-      normalized.projects.push({
-        name: proj.name,
-        path: proj.path
-      });
-    });
+  normalize(obj) {
+    let normalized = {};
+    let keys = Object.keys(obj);
+    for (let i = 0; i < keys.length; i++) {
+      let key = keys[i];
+      let val = obj[key];
+      if (val === Object(val)) {
+        normalized[key] = this.normalize(val);
+      } else if (Object.prototype.toString.call(val) === '[object Array]') {
+        normalized[key] = [];
+        for (let x = 0; x < val.length; x++) {
+          normalized[key].push(this.normalize(val[x]));
+        }
+      } else {
+        normalized[key] = obj[key];
+      }
+    }
     return normalized;
   }
 
@@ -77,7 +83,7 @@ export class ProjectManager {
   * restores the application state from session
   */
   async _loadStateFromSession() {
-    let state = await this.session.get('state');
+    let state = await SESSION.get('state');
     if (state) {
       this.state = JSON.parse(state);
     } else {

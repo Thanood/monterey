@@ -1,17 +1,16 @@
 import {inject}               from 'aurelia-framework';
 import {DialogController}     from 'aurelia-dialog';
-import {Fs}                   from '../shared/abstractions/fs';
+import {FS}                   from 'monterey-pal';
 import {ProjectManager}       from '../shared/project-manager';
 import {Workflow}             from './workflow';
 import activities             from './activities.json!';
 
-@inject(DialogController, ProjectManager, Fs)
+@inject(DialogController, ProjectManager)
 export class ScaffoldProject {
   state = {};
 
-  constructor(dialog, projectManager, fs) {
+  constructor(dialog, projectManager) {
     this.dialog = dialog;
-    this.fs = fs;
     this.projectManager = projectManager;
 
     // copy activities JSON so multiple sessions can be started
@@ -29,7 +28,7 @@ export class ScaffoldProject {
 
   close() {
     if (this.workflow.isLast) {
-      let projectPath = this.fs.join(this.state.path, this.state.name);
+      let projectPath = FS.join(this.state.path, this.state.name);
       this.projectManager.addProjectByPath(projectPath);
       this.dialog.close(true, projectPath);
     } else {

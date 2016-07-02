@@ -2,9 +2,9 @@ import {inject, observable,
   NewInstance}                from 'aurelia-framework';
 import {ValidationRules}      from 'aurelia-validatejs';
 import {ValidationController} from 'aurelia-validation';
-import {Fs}                   from '../shared/abstractions/fs';
+import {FS}                   from 'monterey-pal';
 
-@inject(NewInstance.of(ValidationController), Fs)
+@inject(NewInstance.of(ValidationController))
 export class ProjectDetail {
   @observable source = 'cli';
 
@@ -17,9 +17,8 @@ export class ProjectDetail {
     'skeleton-typescript'
   ];
 
-  constructor(validation, fs) {
+  constructor(validation) {
     this.validation = validation;
-    this.fs = fs;
   }
 
   activate(model) {
@@ -63,7 +62,7 @@ export class ProjectDetail {
   }
 
   async directoryBrowser() {
-    let path = await this.fs.showOpenDialog({
+    let path = await FS.showOpenDialog({
       title: 'Select folder where the Aurelia project will be created in',
       properties: ['openDirectory']
     });

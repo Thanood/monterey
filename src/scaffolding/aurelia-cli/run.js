@@ -1,14 +1,8 @@
-import {inject}     from 'aurelia-framework';
-import {AureliaCLI} from '../../shared/abstractions/aurelia-cli';
+import {AURELIACLI} from 'monterey-pal';
 
-@inject(AureliaCLI)
 export class Run {
   failed = false;
   finished = false;
-
-  constructor(aureliaCLI) {
-    this.aureliaCLI = aureliaCLI;
-  }
 
   async activate(model) {
     this.model = model;
@@ -21,7 +15,7 @@ export class Run {
     this.promise = new Promise(async (resolve, reject) => {
       this.finished = false;
       try {
-        await this.aureliaCLI.create(this.state);
+        await AURELIACLI.create(this.state);
         this.finished = true;
         resolve();
       } catch (e) {

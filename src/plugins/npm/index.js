@@ -1,6 +1,5 @@
 import {PluginManager} from '../../shared/plugin-manager';
-import {inject}        from 'aurelia-framework';
-import {Fs}            from '../../shared/abstractions/fs';
+import {FS}            from 'monterey-pal';
 import {BasePlugin}    from '../base-plugin';
 
 export function configure(aurelia) {
@@ -9,13 +8,7 @@ export function configure(aurelia) {
   pluginManager.registerPlugin(aurelia.container.get(Plugin));
 }
 
-@inject(Fs)
 class Plugin extends BasePlugin {
-  constructor(fs) {
-    super();
-    this.fs = fs;
-  }
-
   getTiles(project) {
     return [{
       viewModel: 'plugins/npm/tile'
@@ -43,7 +36,7 @@ class Plugin extends BasePlugin {
     }
 
     if (!found) {
-      project.name = this.fs.getDirName(project.path);
+      project.name = FS.getDirName(project.path);
     }
 
     return project;
@@ -51,7 +44,7 @@ class Plugin extends BasePlugin {
 
   async manuallyLocatePackageJSON(project) {
     alert('Unable to find package.json, please point Monterey to package.json');
-    let paths = await this.fs.showOpenDialog({
+    let paths = await FS.showOpenDialog({
       title: 'Please select your package.JSON file',
       properties: ['openFile'],
       defaultPath: project.path,
@@ -70,10 +63,10 @@ class Plugin extends BasePlugin {
   }
 
   async tryLocatePackageJSON(project, p) {
-    if (await this.fs.fileExists(p)) {
+    if (await FS.fileExists(p)) {
       project.packageJSONPath = p;
 
-      let packageJSON = JSON.parse(await this.fs.readFile(project.packageJSONPath));
+      let packageJSON = JSON.parse(await FS.readFile(project.packageJSONPath));
       project.name = packageJSON.name;
       console.log('tryLocatePackageJSON: true')
       return true;
