@@ -36,6 +36,14 @@ export class ProjectManager {
     return true;
   }
 
+
+  async removeProject(project) {
+    let index = this.state.projects.indexOf(project);
+    this.state.projects.splice(index, 1);
+
+    await this.save();
+  }
+
   /**
   * Returns whether or not projects have been added to monterey before
   */

@@ -20,10 +20,33 @@ export class Fs {
     });
   }
 
+  async fileExists(p) {
+    return new Promise(resolve => {
+      fs.stat(p, function(err, stat) {
+        if (err === null) {
+          resolve(true);
+        } else if (err.code === 'ENOENT') {
+          resolve(false);
+        } else {
+          reject(err);
+        }
+      });
+    });
+  }
+
   async showOpenDialog(config) {
     return new Promise(resolve => {
       dialog.showOpenDialog(config, c => resolve(c));
     });
+  }
+
+  getDirName(p) {
+    let split = p.split(path.sep);
+    if (p.endsWith(path.sep)) {
+      return split[split.length - 2];
+    }
+
+    return split[split.length - 1];
   }
 
   join(firstSegment, secondSegment) {

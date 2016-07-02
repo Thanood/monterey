@@ -1,14 +1,16 @@
 import {inject, singleton} from 'aurelia-framework';
 import {withModal}         from '../shared/decorators';
 import {ProjectFinder}     from '../shared/project-finder';
+import {ProjectManager}    from '../shared/project-manager';
 import {TaskManager}       from '../shared/task-manager';
 import {ScaffoldProject}   from '../scaffolding/scaffold-project';
 
-@inject(ProjectFinder, TaskManager)
+@inject(ProjectFinder, ProjectManager, TaskManager)
 @singleton()
 export class Main {
-  constructor(projectFinder, taskManager) {
+  constructor(projectFinder, projectManager, taskManager) {
     this.projectFinder = projectFinder;
+    this.projectManager = projectManager;
     this.taskManager = taskManager;
   }
 
@@ -16,10 +18,25 @@ export class Main {
     await this.projectFinder.openDialog();
   }
 
+  async removeProject() {
+    if (!confirm('Are you sure? We will not remove the actual project')) {
+      return;
+    }
+
+    await this.projectManager.removeProject(this.selectedProject);
+  }
+
   @withModal(ScaffoldProject)
   createProject() {}
 
-  activateScreen(viewModelPath) {
+  activateScreen(viewModelPath, model) {
+    if (!model) {
+      model = {
+        selectedProject: this.selectedProject
+      };
+    }
+
+    this._activePluginScreenModel = model;
     this._activePluginScreen = viewModelPath;
   }
 
