@@ -19,11 +19,21 @@ export class Main {
   }
 
   async removeProject() {
+    if (!this.selectedProject) {
+      return;
+    }
+
     if (!confirm('Are you sure? We will not remove the actual project')) {
       return;
     }
 
     await this.projectManager.removeProject(this.selectedProject);
+
+    if (this.projectManager.state.projects.length > 0) {
+      this.selectedProject = this.projectManager.state.projects[0];
+    } else {
+      this.selectedProject = null;
+    }
   }
 
   @withModal(ScaffoldProject)
