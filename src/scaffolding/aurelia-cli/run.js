@@ -21,7 +21,6 @@ export class Run {
     this.promise = new Promise(async (resolve, reject) => {
       this.finished = false;
       try {
-        debugger;
         await this.aureliaCLI.create(this.state);
         this.finished = true;
         resolve();

@@ -1,11 +1,12 @@
 const fs       = require('fs');
 const dialog   = require('electron').remote.dialog;
 const path     = require('path');
-const http     = require('https');
+const https    = require('https');
 const temp     = require('temp').track();
 const yauzl    = require('yauzl');
 const mkdirp   = require('mkdirp');
 const mv       = require('mv');
+const nodeUrl  = require('url');
 
 export class Fs {
   async readFile(filePath) {
@@ -120,29 +121,43 @@ export class Fs {
     temp.cleanupSync();
   }
 
-  async downloadFile(url, targetPath) {
-    return new Promise(resolve => {
+  downloadFile(url, targetPath) {
+    return new Promise(async (resolve, reject) => {
       let file = fs.createWriteStream(targetPath);
-      http.get(url, function(response) {
-        // in case of redirect use the location url that's in the response headers
-        if (response.statusCode === 302 && response.headers.location) {
-          http.get(response.headers.location, function(r) {
-            r.on('data', function(data) {
-              file.write(data);
-            }).on('end', function() {
-              file.end();
-              resolve();
-            });
-          });
-        } else if (response.statusCode === 200) {
+      try {
+        await this._downloadFile(file, url, targetPath);
+        resolve();
+      } catch (e) {
+        reject(e);
+      }
+    });
+  }
+
+  _downloadFile(stream, url, targetPath) {
+    let promise = new Promise((resolve, reject) => {
+      let opts = nodeUrl.parse(url);
+      opts.headers = {
+        'User-Agent': 'electron'
+      };
+      https.get(opts, (response) => {
+        if (response.statusCode === 200) {
           response.on('data', function(data) {
-            file.write(data);
+            stream.write(data);
           }).on('end', function() {
-            file.end();
+            stream.end();
             resolve();
           });
+        } else if (response.statusCode === 302 && response.headers.location) {
+          // in case of redirect, try again with the redirected location
+          this._downloadFile(stream, response.headers.location, targetPath)
+          .then(() => resolve())
+          .catch(e => reject(e));
+        } else {
+          reject(`ERROR: Status code ${response.statusCode} is not 200 or 302 (redirect)`);
         }
       });
     });
+
+    return promise;
   }
 }

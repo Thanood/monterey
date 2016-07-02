@@ -14,7 +14,9 @@ export class ScaffoldProject {
     this.fs = fs;
     this.projectManager = projectManager;
 
-    this.workflow = new Workflow(activities, this.state);
+    // copy activities JSON so multiple sessions can be started
+    let dupl = JSON.parse(JSON.stringify(activities));
+    this.workflow = new Workflow(dupl, this.state);
   }
 
   async next() {

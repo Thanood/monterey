@@ -1,13 +1,16 @@
-import {inject} from 'aurelia-framework';
-import {Fs}     from '../../shared/abstractions/fs';
+import {inject}    from 'aurelia-framework';
+import {Fs}        from '../../shared/abstractions/fs';
+import {GithubAPI} from '../../shared/github-api';
 
-@inject(Fs)
+@inject(Fs, GithubAPI)
 export class Run {
   failed = false;
   finished = false;
+  logs = [];
 
-  constructor(fs) {
+  constructor(fs, githubAPI) {
     this.fs = fs;
+    this.githubAPI = githubAPI;
   }
 
   async activate(model) {
@@ -20,30 +23,21 @@ export class Run {
   attached() {
     this.promise = new Promise(async (resolve, reject) => {
       try {
-        // need to get the latest release zip from github api
-        let url = 'https://github.com/aurelia/skeleton-navigation/archive/1.0.0-beta.2.0.0.zip';
+        let url;
+        let subDir;
         let projectDir = this.fs.join(this.state.path, this.state.name);
-        let subDir = this.state.skeleton;
 
-        let zipPath = await this.fs.getTempFile();
-        await this.fs.downloadFile(url, zipPath);
-
-
-        let unzipPath = await this.fs.getTempFolder();
-
-        await this.fs.unzip(zipPath, unzipPath);
-
-        // unfortunately, github wraps the repository files in a folder in the zip
-        // so we get the first directory name and extract that automatically
-        let firstDir = (await this.fs.getDirectories(unzipPath))[0];
-
-        await this.fs.move(`${unzipPath}/${firstDir}/${subDir}`, projectDir);
-
-        try {
-          this.fs.cleanupTemp();
-        } catch (e) {
-          console.log('Did not finish cleanup of temp folder: ', e);
+        if (this.state.source === 'skeleton') {
+          let releaseInfo = await this.githubAPI.getLatestRelease('aurelia', 'skeleton-navigation');
+          url = releaseInfo.zipball_url;
+          subDir = this.state.skeleton;
+          this.logs.push(`Downloading version ${releaseInfo.tag_name}`);
+        } else {
+          url = this.state.zipUrl;
+          subDir = this.state.zipSubfolder;
         }
+
+        await this.downloadAndExtractZIP(url, projectDir, subDir);
 
         this.finished = true;
         resolve();
@@ -54,6 +48,34 @@ export class Run {
         reject();
       }
     });
+  }
+
+  async downloadAndExtractZIP(url, projectDir, subDir) {
+    let zipPath = await this.fs.getTempFile();
+    this.logs.push(`Temp file created: ${zipPath}....`);
+    await this.fs.downloadFile(url, zipPath);
+    this.logs.push('Downloaded zip....');
+
+
+    let unzipPath = await this.fs.getTempFolder();
+    this.logs.push(`Temp folder created: ${unzipPath}....`);
+
+    await this.fs.unzip(zipPath, unzipPath);
+    this.logs.push('Unzipped files....');
+
+    // unfortunately, github wraps the repository files in a folder in the zip
+    // so we get the first directory name and extract that automatically
+    let firstDir = (await this.fs.getDirectories(unzipPath))[0];
+
+    await this.fs.move(`${unzipPath}/${firstDir}/${subDir}`, projectDir);
+    this.logs.push(`Moved directory to ${projectDir}....`);
+
+    try {
+      this.fs.cleanupTemp();
+      this.logs.push('Cleaned up temp files and folders');
+    } catch (e) {
+      console.log('Did not finish cleanup of temp folder: ', e);
+    }
   }
 
   async execute() {
