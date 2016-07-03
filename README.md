@@ -9,6 +9,12 @@ Monterey is an extensible application that provides a graphical user interface f
 ### What does Monterey look like
 ![](http://i.imgur.com/XfG3lvP.png)
 
+### Initial feature set
+1. Maintain a list of Aurelia projects in a single application
+2. Create new Aurelia project (via [aurelia-cli](https://github.com/aurelia/cli) or skeleton-navigation) through a GUI
+3. A GUI that shows JSPM dependencies (current versions and latest versions), update functionality and warning of forks
+4. NPM install functionality
+5. Configurable app launchers for things like explorer.exe and cmd.exe or custom ones
 
 ### How to install and use Monterey
 To be determined (https://github.com/monterey-framework/monterey/issues/17)
