@@ -94,7 +94,7 @@
       "json": "github:systemjs/plugin-json@^0.1.2",
       "moment": "npm:moment@^2.13.0",
       "monterey-pal": "github:monterey-framework/monterey-pal@0.1.2",
-      "monterey-pal-electron": "github:monterey-framework/monterey-pal-electron@0.1.1",
+      "monterey-pal-electron": "github:monterey-framework/monterey-pal-electron@0.1.2",
       "text": "github:systemjs/plugin-text@^0.0.3"
     },
     "devDependencies": {
