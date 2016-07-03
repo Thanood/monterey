@@ -15,4 +15,13 @@
     <b>Package.json path:</b>
     ${project.packageJSONPath}
   </p>
+
+  <p if.bind="project.isUsingJSPM">
+    <b>Project is using JSPM:</b>
+    ${project.isUsingJSPM}
+  </p>
+  <p if.bind="project.isUsingJSPM">
+    <b>config.js path:</b>
+    ${project.configJsPath}
+  </p>
 </template>
