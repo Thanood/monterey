@@ -1,7 +1,7 @@
 {
-  "name": "monterey-shell",
+  "name": "monterey",
   "version": "0.1.0",
-  "description": "The shell brings together all the required core monterey libraries into a ready-to-go application monterey application",
+  "description": "Monterey is an extensible application that provides a graphical user interface for a collection of tools to simplify the creation, configuration and maintenance of Aurelia applications.",
   "keywords": [
     "monterey",
     "aurelia",
@@ -9,13 +9,13 @@
   ],
   "homepage": "http://aurelia.io",
   "bugs": {
-    "url": "https://github.com/monterey-framework/shell/issues"
+    "url": "https://github.com/monterey-framework/monterey/issues"
   },
   "license": "CC0-1.0",
   "author": "Aurelia-tools",
   "repository": {
     "type": "git",
-    "url": "https://github.com/monterey-framework/shell"
+    "url": "https://github.com/monterey-framework/monterey"
   },
   "scripts": {
     "test": "gulp test",
