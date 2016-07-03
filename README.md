@@ -1,19 +1,24 @@
-# Monterey shell
+# Monterey
 
 [![Join the chat at https://gitter.im/monterey-framework/shell](https://badges.gitter.im/monterey-framework/shell.svg)](https://gitter.im/monterey-framework/shell?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
-The shell brings together all the required core Monterey libraries into a ready-to-go application Monterey application
+Monterey is an extensible application that provides a graphical user interface for a collection of tools to simplify the creation, configuration and maintenance of Aurelia applications.
 
-[Global overview](https://github.com/monterey-framework/framework/blob/master/README.md)
+### What does Monterey look like
+![](http://i.imgur.com/XfG3lvP.png)
 
-### How to run
+
+### How to install and use Monterey
+To be determined (https://github.com/monterey-framework/monterey/issues/17)
+
+### How to develop Monterey
 Suggested folder structure:
 - monterey
-   - shell
+   - monterey
    - monterey-pal
    - monterey-pal-electron
 
-From inside the shell folder:
+From inside the monterey folder:
 
 1. npm install
 2. jspm install
@@ -21,7 +26,7 @@ From inside the shell folder:
 
 
 ### Working on the pal
-From inside the shell folder:
+From inside the monterey folder:
 
 ```
 cd ../monterey-pal
@@ -30,7 +35,7 @@ jspm link -y
 cd ../monterey-pal-electron
 gulp build
 jspm link -y
-cd ../shell
+cd ../monterey
 jspm install monterey-pal=github:monterey-pal@0.1.1 --link -y
 jspm install monterey-pal-electron=github:monterey-pal-electron@0.1.1 --link -y
 ```
