@@ -17,13 +17,9 @@ class Plugin extends BasePlugin {
   }
 
   getTiles(project, showIrrelevant) {
-    let tiles = [];
-    if (showIrrelevant) {
-      tiles.push({
-        viewModel: 'plugins/app-launcher/editor-tile',
-        model: { relevant: false }
-      });
-    }
+    let tiles = [{
+      viewModel: 'plugins/app-launcher/editor-tile'
+    }];
 
     this.state.appLaunchers.forEach(launcher => {
       tiles.push({
