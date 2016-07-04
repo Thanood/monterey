@@ -7,6 +7,7 @@ export class Tile {
   constructor(main) {
     this.title = 'JSPM';
     this.main = main;
+    this.img = 'images/jspm.png';
   }
 
   activate(model) {
