@@ -34,24 +34,33 @@ class Plugin extends BasePlugin {
       let minor = parseInt(project.jspmVersion.split('.')[1], 10);
       if (major === 0) {
         if (minor < 17) {
-          // old config.js - use what we have below
+          let config = this.readJspm016(project, packageJSON);
+          project.configJsPath = config;
         } else {
-          // TODO: new config - read from package.json
+          let config = this.readJspm017(project, packageJSON);
+          project.configJsPath = config;
         }
       }
-
-      let baseURL = '';
-      if (packageJSON.jspm.directories && packageJSON.jspm.directories.baseURL) {
-        baseURL = packageJSON.jspm.directories.baseURL;
-      }
-      configJs = project.path + '/' + baseURL + '/config.js';
-      console.log('cfg', configJs);
     }
 
-    if (configJs) {
-      project.configJsPath = configJs;
-    }
     project.isUsingJSPM = isUsingJSPM;
+  }
+
+  readJspm016(project, packageJSON) {
+    let baseURL = '.';
+    if (packageJSON.jspm.directories && packageJSON.jspm.directories.baseURL) {
+      baseURL = packageJSON.jspm.directories.baseURL;
+    }
+    return `${project.path}/${baseURL}/config.js`;
+  }
+
+  readJspm017(project, packageJSON) {
+    // TODO: implement reading JSPM 0.17.x configuration
+    let baseURL = '';
+    if (packageJSON.jspm.directories && packageJSON.jspm.directories.baseURL) {
+      baseURL = packageJSON.jspm.directories.baseURL;
+    }
+    return `${project.path}/${baseURL}/jspm.config.js`;
   }
 
   async findJspmVersion(project, packageJSON) {
