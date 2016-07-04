@@ -8,7 +8,7 @@ export class Tile {
   constructor(main) {
     this.title = 'App launcher';
     this.main = main;
-    this.img = 'http://icons.iconarchive.com/icons/bokehlicia/captiva/256/rocket-icon.png';
+    this.img = 'images/rocket-icon.png';
   }
 
   activate(model) {

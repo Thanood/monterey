@@ -19,12 +19,12 @@ export class ApplicationState {
         projects: [],
         appLaunchers: [{
           id: 1,
-          img: 'http://icons.iconarchive.com/icons/dakirby309/simply-styled/128/File-Explorer-icon.png',
+          img: 'images/File-Explorer-icon.png',
           cmd: 'explorer %path%',
           title: 'File explorer'
         }, {
           id: 2,
-          img: 'https://upload.wikimedia.org/wikipedia/en/e/ef/Command_prompt_icon_(windows).png',
+          img: 'images/Command_prompt_icon_(windows).png',
           cmd: 'start cmd.exe /k "cd /d %path%"',
           title: 'cmd'
         }]

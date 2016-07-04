@@ -7,6 +7,7 @@ export class Tile {
   constructor(main) {
     this.title = 'Project info';
     this.main = main;
+    this.img = 'images/list-icon-7901.png';
   }
 
   activate(model) {
