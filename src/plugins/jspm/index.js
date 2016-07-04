@@ -30,8 +30,8 @@ class Plugin extends BasePlugin {
       isUsingJSPM = true;
 
       await this.findJspmVersion(project, packageJSON);
-      let major = parseInt(jspmVersion.split('.')[0], 10);
-      let minor = parseInt(jspmVersion.split('.')[1], 10);
+      let major = parseInt(project.jspmVersion.split('.')[0], 10);
+      let minor = parseInt(project.jspmVersion.split('.')[1], 10);
       if (major === 0) {
         if (minor < 17) {
           // old config.js - use what we have below
@@ -60,9 +60,11 @@ class Plugin extends BasePlugin {
     if (jspmDefinition) {
       jspmVersion = jspmDefinition;
       if (jspmVersion[0] === '^' || jspmVersion[0] === '~') {
+        // TODO: find version actually used
         jspmVersion = jspmVersion.substring(1);
       }
-      project.jspmVersion = jspmDefinition;
+      project.jspmDefinition = jspmDefinition;
+      project.jspmVersion = jspmVersion;
     } else {
       // TODO: JSPM not found in package.json dependencies - throw error?
     }
