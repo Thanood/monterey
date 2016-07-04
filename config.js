@@ -34,7 +34,7 @@ System.config({
     "aurelia-validation": "npm:aurelia-validation@0.10.0",
     "babel": "npm:babel-core@5.8.38",
     "babel-polyfill": "npm:babel-polyfill@6.9.1",
-    "babel-runtime": "npm:babel-runtime@5.8.38",
+    "babel-runtime": "npm:babel-runtime@6.9.2",
     "bootstrap": "github:twbs/bootstrap@3.3.6",
     "core-js": "npm:core-js@2.4.0",
     "fetch": "github:github/fetch@1.0.0",
@@ -43,7 +43,7 @@ System.config({
     "json": "github:systemjs/plugin-json@0.1.2",
     "moment": "npm:moment@2.13.0",
     "monterey-pal": "github:monterey-framework/monterey-pal@0.1.2",
-    "monterey-pal-electron": "github:monterey-pal-electron@0.1.2",
+    "monterey-pal-electron": "github:monterey-framework/monterey-pal-electron@0.1.2",
     "text": "github:systemjs/plugin-text@0.0.3",
     "github:jspm/nodelibs-assert@0.1.0": {
       "assert": "npm:assert@1.4.1"
