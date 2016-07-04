@@ -1,4 +1,6 @@
 <template>
-  <require from="./activity"></require>
-  <activity step.bind="workflow.currentStep" view-model.ref="activity"></activity>
+  <!-- <require from="./question"></require> -->
+  <!-- <question step.bind="workflow.currentStep" view-model.ref="question"></activity> -->
+
+  <compose view-model.bind="workflow.currentStep.viewModel" model.bind="{ state: state, step: workflow.currentStep }"></compose>
 </template>

@@ -6,22 +6,22 @@
       <ul>
         <li>
           <label>
-            <input type="radio" name="source" checked.bind="source" value="cli"/>
+            <input type="radio" name="source" checked.bind="state.source" value="cli"/>
             Aurelia-CLI (RequireJS projects only)
           </label>
         </li>
         <li>
           <label>
-            <input type="radio" name="source" checked.bind="source" value="skeleton"/>
+            <input type="radio" name="source" checked.bind="state.source" value="skeleton"/>
             aurelia-skeleton-navigation
           </label>
-          <select class="form-control" value.bind="state.skeleton" disabled.bind="source !== 'skeleton'">
+          <select class="form-control" value.bind="state.skeleton" disabled.bind="state.source !== 'skeleton'">
             <option repeat.for="skeleton of skeletons" model.bind="skeleton">${skeleton}</option>
           </select>
         </li>
         <li>
           <label>
-            <input type="radio" name="source" checked.bind="source" value="zip"/>
+            <input type="radio" name="source" checked.bind="state.source" value="zip"/>
             From a ZIP
           </label>
           <div class="form-group">
@@ -29,14 +29,14 @@
             <input type="textbox"
                    class="form-control"
                    value.bind="state.zipUrl & validate"
-                   disabled.bind="source !== 'zip'"/>
+                   disabled.bind="state.source !== 'zip'"/>
           </div>
           <div class="form-group">
             Subfolder (optional):
             <input type="textbox"
                    class="form-control"
                    value.bind="state.zipSubfolder & validate"
-                   disabled.bind="source !== 'zip'"/>
+                   disabled.bind="state.source !== 'zip'"/>
           </div>
         </li>
       </ul>
