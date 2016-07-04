@@ -31,10 +31,13 @@ class Plugin extends BasePlugin {
 
       await this.findJspmVersion(project, packageJSON);
       let major = parseInt(jspmVersion.split('.')[0], 10);
-      if (major < 17) {
-        // old config.js - use what we have below
-      } else {
-        // TODO: new config - read from package.json
+      let minor = parseInt(jspmVersion.split('.')[1], 10);
+      if (major === 0) {
+        if (minor < 17) {
+          // old config.js - use what we have below
+        } else {
+          // TODO: new config - read from package.json
+        }
       }
 
       let baseURL = '';
