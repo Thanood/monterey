@@ -29,22 +29,12 @@ class Plugin extends BasePlugin {
     if (packageJSON.jspm) {
       isUsingJSPM = true;
 
-      let jspmDefinition = (packageJSON.dependencies && packageJSON.dependencies.jspm) || (packageJSON.devDependencies.jspm && packageJSON.devDependencies.jspm);
-      let jspmVersion = null;
-      if (jspmDefinition) {
-        jspmVersion = jspmDefinition;
-        if (jspmVersion[0] === '^' || jspmVersion[0] === '~') {
-          jspmVersion = jspmVersion.substring(1);
-        }
-        let major = parseInt(jspmVersion.split('.')[0], 10);
-        if (major < 17) {
-          // old config.js - use what we have below
-        } else {
-          // TODO: new config - read from package.json
-        }
-        project.jspmVersion = jspmDefinition;
+      await this.findJspmVersion(project, packageJSON);
+      let major = parseInt(jspmVersion.split('.')[0], 10);
+      if (major < 17) {
+        // old config.js - use what we have below
       } else {
-        // TODO: JSPM not found in package.json dependencies - throw error?
+        // TODO: new config - read from package.json
       }
 
       let baseURL = '';
@@ -52,11 +42,26 @@ class Plugin extends BasePlugin {
         baseURL = packageJSON.jspm.directories.baseURL;
       }
       configJs = project.path + '/' + baseURL + '/config.js';
+      console.log('cfg', configJs);
     }
 
     if (configJs) {
       project.configJsPath = configJs;
     }
     project.isUsingJSPM = isUsingJSPM;
+  }
+
+  async findJspmVersion(project, packageJSON) {
+    let jspmDefinition = (packageJSON.dependencies && packageJSON.dependencies.jspm) || (packageJSON.devDependencies.jspm && packageJSON.devDependencies.jspm);
+    let jspmVersion = null;
+    if (jspmDefinition) {
+      jspmVersion = jspmDefinition;
+      if (jspmVersion[0] === '^' || jspmVersion[0] === '~') {
+        jspmVersion = jspmVersion.substring(1);
+      }
+      project.jspmVersion = jspmDefinition;
+    } else {
+      // TODO: JSPM not found in package.json dependencies - throw error?
+    }
   }
 }
