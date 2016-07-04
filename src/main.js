@@ -2,7 +2,7 @@ import 'bootstrap';
 import {LogManager}                      from 'aurelia-framework';
 import {ConsoleAppender}                 from 'aurelia-logging-console';
 import {BootstrapFormValidationRenderer} from './shared/bootstrap-validation-renderer';
-import {ProjectManager}                  from './shared/project-manager';
+import {ApplicationState}                from './shared/application-state';
 
 LogManager.addAppender(new ConsoleAppender());
 LogManager.setLevel(LogManager.logLevel.debug);
@@ -27,11 +27,11 @@ export function configure(aurelia) {
   // so that aurelia-validation uses this renderer when validation-renderer="bootstrap-form" is put on a form
   aurelia.container.registerHandler('bootstrap-form', container => container.get(BootstrapFormValidationRenderer));
 
-  let projectManager = aurelia.container.get(ProjectManager);
+  let state = aurelia.container.get(ApplicationState);
 
   // first load the application state from session, then start aurelia
   // so that at startup we can determine whether to load the main screen or landing screen
-  projectManager._loadStateFromSession()
+  state._loadStateFromSession()
   .then(() => aurelia.start())
   .then(() => aurelia.setRoot());
 }
