@@ -1,11 +1,12 @@
 import {inject}      from 'aurelia-framework';
-import {NPM, FS}     from 'monterey-pal';
+import {JSPM, FS}     from 'monterey-pal';
 import {TaskManager} from '../../shared/task-manager';
 
 @inject(TaskManager)
 export class Screen {
 
   _installing = false;
+  lock = false;
 
   constructor(taskManager) {
     this.taskManager = taskManager;
@@ -14,7 +15,6 @@ export class Screen {
   activate(model) {
     this.model = model;
     this.project = model.selectedProject;
-    console.log(this.project.packageJSONPath);
   }
 
   install() {
@@ -26,14 +26,15 @@ export class Screen {
     this._installing = true;
 
     let task = {
-      title: `npm install of '${this.project.name}'`,
+      title: `jspm install of '${this.project.name}'`,
       estimation: 'This could take minutes to complete',
       logs: []
     };
 
-    let promise = NPM.install([], {
-      npmOptions: {
-        workingDirectory: FS.getFolderPath(this.project.packageJSONPath)
+    let promise = JSPM.install([], {
+      jspmOptions: {
+        workingDirectory: FS.getFolderPath(this.project.packageJSONPath),
+        lock: this.lock
       },
       logCallback: (message) => {
         if (message.level === 'custom' || message.level === 'warning' || message.level === 'error') {
