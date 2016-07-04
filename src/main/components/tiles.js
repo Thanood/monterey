@@ -11,6 +11,10 @@ export class Tiles {
   }
 
   selectedProjectChanged() {
+    this.refreshTiles();
+  }
+
+  refreshTiles() {
     // remove all tiles from the screen
     for (let i = this.tiles.length - 1; i >= 0; i--) {
       this.tiles.splice(i, 1);

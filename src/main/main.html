@@ -17,7 +17,7 @@
 
     <div class="right">
       <!-- list of tiles -->
-      <tiles show.bind="!_activePluginScreen" selected-project.bind="selectedProject"></tiles>
+      <tiles show.bind="!_activePluginScreen" view-model.ref="tilesVM" selected-project.bind="selectedProject"></tiles>
 
       <!-- Plugins can tell compose to render a screen -->
       <button show.bind="_activePluginScreen" click.delegate="returnToPluginList()">Return</button>

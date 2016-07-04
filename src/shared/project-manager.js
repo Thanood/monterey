@@ -29,7 +29,7 @@ export class ProjectManager {
 
     this.state.projects.push(projectObj);
 
-    await this.save();
+    await this.state.save();
 
     return true;
   }
@@ -39,7 +39,7 @@ export class ProjectManager {
     let index = this.state.projects.indexOf(project);
     this.state.projects.splice(index, 1);
 
-    await this.save();
+    await this.state.save();
   }
 
   /**

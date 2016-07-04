@@ -12,19 +12,33 @@ export class ApplicationState {
     if (state) {
       Object.assign(this, JSON.parse(state));
     } else {
+      // this is the state of monterey when monterey is started for the first time
+      // we will probably want to notify all plugins and let them add defaults to the state
+      // for example, the app-launcher plugin will want to add default app launchers
       Object.assign(this, {
-        projects: []
+        projects: [],
+        appLaunchers: [{
+          id: 1,
+          img: 'http://icons.iconarchive.com/icons/dakirby309/simply-styled/128/File-Explorer-icon.png',
+          cmd: 'explorer %path%',
+          title: 'File explorer'
+        }, {
+          id: 2,
+          img: 'https://upload.wikimedia.org/wikipedia/en/e/ef/Command_prompt_icon_(windows).png',
+          cmd: 'start cmd.exe /k "cd /d %path%"',
+          title: 'cmd'
+        }]
       });
     }
 
-    logger.debug('Loaded state: ', this.state);
+    logger.debug('Loaded state: ', this);
   }
 
   /**
   * Persists the state to session
   */
   async save() {
-    let str = JSON.stringify(this.normalize(this.state));
+    let str = JSON.stringify(this.normalize(this));
     SESSION.set('state', str);
   }
 

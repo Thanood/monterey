@@ -215,9 +215,6 @@ System.config({
       "process": "github:jspm/nodelibs-process@0.1.2",
       "regenerator-runtime": "npm:regenerator-runtime@0.9.5"
     },
-    "npm:babel-runtime@5.8.38": {
-      "process": "github:jspm/nodelibs-process@0.1.2"
-    },
     "npm:babel-runtime@6.9.2": {
       "core-js": "npm:core-js@2.4.0",
       "regenerator-runtime": "npm:regenerator-runtime@0.9.5"
