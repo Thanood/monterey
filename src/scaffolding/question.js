@@ -3,7 +3,7 @@ import {ValidationRules}               from 'aurelia-validatejs';
 import {ValidationController}          from 'aurelia-validation';
 
 @inject(NewInstance.of(ValidationController), Element)
-export class Activity {
+export class Question {
   @bindable step;
 
   constructor(validation, element) {
@@ -15,6 +15,7 @@ export class Activity {
     this.state = model.state;
     this.step = model.step;
     this.step.execute = () => this.execute();
+    this.step.previous = () => this.previous();
     this.stepChanged();
   }
 
@@ -33,6 +34,12 @@ export class Activity {
   async execute() {
     return {
       goToNextStep: this.validation.validate().length === 0
+    };
+  }
+
+  async previous() {
+    return {
+      goToPreviousStep: true
     };
   }
 

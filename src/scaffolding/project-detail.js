@@ -1,13 +1,10 @@
-import {inject, observable,
-  NewInstance}                from 'aurelia-framework';
+import {inject, observable, BindingEngine,  NewInstance} from 'aurelia-framework';
 import {ValidationRules}      from 'aurelia-validatejs';
 import {ValidationController} from 'aurelia-validation';
 import {FS}                   from 'monterey-pal';
 
-@inject(NewInstance.of(ValidationController))
+@inject(NewInstance.of(ValidationController), BindingEngine)
 export class ProjectDetail {
-  @observable source = 'cli';
-
   skeletons = [
     'skeleton-esnext-aspnetcore',
     'skeleton-esnext-webpack',
@@ -17,14 +14,19 @@ export class ProjectDetail {
     'skeleton-typescript'
   ];
 
-  constructor(validation) {
+  constructor(validation, bindingEngine) {
     this.validation = validation;
+    this.bindingEngine = bindingEngine;
   }
 
   activate(model) {
     this.state = model.state;
     this.step = model.step;
     this.step.execute = () => this.execute();
+    this.step.previous = () => this.previous();
+
+    let observer = this.bindingEngine.propertyObserver(this.state, 'source');
+    this.subscription = observer.subscribe(() => this.sourceChanged());
   }
 
   sourceChanged() {
@@ -36,11 +38,17 @@ export class ProjectDetail {
     this.updateValidationRules();
   }
 
+  async previous() {
+    return {
+      goToPreviousStep: false
+    };
+  }
+
   updateValidationRules() {
     let r = ValidationRules
     .ensure('path').required();
 
-    if (this.source === 'zip') {
+    if (this.state.source === 'zip') {
       r = r.ensure('zipUrl').required();
     }
 
@@ -51,9 +59,8 @@ export class ProjectDetail {
     let canContinue = false;
 
     if (this.validation.validate().length === 0) {
+      this.subscription.dispose();
       canContinue = true;
-
-      this.state.source = this.source;
     }
 
     return {

@@ -1,13 +1,12 @@
-import {inject, LogManager} from 'aurelia-framework';
+import {inject}             from 'aurelia-framework';
 import {PluginManager}      from './plugin-manager';
-import {SESSION}            from 'monterey-pal';
+import {ApplicationState}   from './application-state';
 
-const logger = LogManager.getLogger('project-manager');
-
-@inject(PluginManager)
+@inject(PluginManager, ApplicationState)
 export class ProjectManager {
-  constructor(pluginManager) {
+  constructor(pluginManager, state) {
     this.pluginManager = pluginManager;
+    this.state = state;
   }
 
   async addProjectByPath(path) {
@@ -30,7 +29,7 @@ export class ProjectManager {
 
     this.state.projects.push(projectObj);
 
-    await this.save();
+    await this.state.save();
 
     return true;
   }
@@ -40,7 +39,7 @@ export class ProjectManager {
     let index = this.state.projects.indexOf(project);
     this.state.projects.splice(index, 1);
 
-    await this.save();
+    await this.state.save();
   }
 
   /**
@@ -48,52 +47,5 @@ export class ProjectManager {
   */
   hasProjects() {
     return this.state.projects.length > 0;
-  }
-
-  /**
-  * Persists the state to session
-  */
-  async save() {
-    let str = JSON.stringify(this.normalize(this.state));
-    SESSION.set('state', str);
-  }
-
-  // JSON.stringify does not take getter properties into account
-  // which sometimes lead to properties not being persisted into the session
-  normalize(obj) {
-    let normalized = {};
-    let keys = Object.keys(obj);
-    for (let i = 0; i < keys.length; i++) {
-      let key = keys[i];
-      let val = obj[key];
-      if (Object.prototype.toString.call(val) === '[object Array]') {
-        normalized[key] = [];
-        for (let x = 0; x < val.length; x++) {
-          normalized[key].push(this.normalize(val[x]));
-        }
-      } else if (val === Object(val)) {
-        normalized[key] = this.normalize(val);
-      } else {
-        normalized[key] = obj[key];
-      }
-    }
-    return normalized;
-  }
-
-
-  /**
-  * restores the application state from session
-  */
-  async _loadStateFromSession() {
-    let state = await SESSION.get('state');
-    if (state) {
-      this.state = JSON.parse(state);
-    } else {
-      this.state = {
-        projects: []
-      };
-    }
-
-    logger.debug('Loaded state: ', this.state);
   }
 }

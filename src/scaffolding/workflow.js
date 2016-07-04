@@ -1,10 +1,11 @@
 export class Workflow {
-  currentStep = { id: 0, nextActivity: 1 };
+  currentStep = { id: 0, nextActivity: 1, type: 'start' };
   // the state contains the project configuration and is modified per step
   state = {};
   // some activity types can be run 'automatically' without the user having to press next
-  flowSteps = ['state-assign', 'branch-switch', 'project-create', 'project-install'];
+  flowSteps = ['state-assign', 'branch-switch', 'project-create', 'project-install', 'start'];
   _isLast = false;
+  takenPath = [];
 
   constructor(definition, state) {
     this.definition = definition;
@@ -19,10 +20,43 @@ export class Workflow {
     return this.definition.activities.find(i => i.id === id);
   }
 
+  async previous() {
+    if (!this.isFlowStep(this.currentStep)) {
+      let result = await this.currentStep.previous();
+
+      if (!result.goToPreviousStep) {
+        return;
+      }
+    }
+
+    let index = this.takenPath.indexOf(this.currentStep);
+    if (index > 0) {
+      this._isLast = false;
+
+      this.currentStep = this.getStep(this.takenPath[index - 1].id);
+
+      this.takenPath.splice(index, 1);
+
+      if (this.currentStep && this.isFlowStep(this.currentStep)) {
+        return this.previous();
+      }
+    }
+  }
+
   async next() {
     let nextActivity = this.currentStep.nextActivity;
 
     if (!this.isFlowStep(this.currentStep)) {
+      if (!this.firstStep) {
+        this.firstStep = this.currentStep;
+      }
+
+      let result = await this.currentStep.execute();
+
+      if (!result.goToNextStep) {
+        return;
+      }
+
       this.saveAnswer(this.currentStep);
     } else {
       switch (this.currentStep.type) {
@@ -40,6 +74,8 @@ export class Workflow {
     let nextStep = this.getStep(nextActivity);
 
     this.currentStep = nextStep;
+
+    this.takenPath.push(this.currentStep);
 
     if (this.currentStep.type !== 'branch-switch' && !this.currentStep.nextActivity) {
       this._isLast = true;
@@ -97,7 +133,7 @@ export class Workflow {
   defaultViewModels() {
     this.definition.activities.forEach(activity => {
       if (!this.isFlowStep(activity) && !activity.viewModel) {
-        activity.viewModel = './question';
+        activity.viewModel = 'scaffolding/question';
       }
     });
   }

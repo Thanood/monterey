@@ -51,6 +51,15 @@ export class Main {
   }
 
   returnToPluginList() {
+    if (this._activePluginScreenModel.beforeReturn) {
+      if (this._activePluginScreenModel.beforeReturn() === false) {
+        return;
+      }
+    }
     this._activePluginScreen = '';
+  }
+
+  refreshTiles() {
+    this.tilesVM.refreshTiles();
   }
 }

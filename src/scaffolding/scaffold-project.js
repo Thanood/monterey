@@ -19,11 +19,7 @@ export class ScaffoldProject {
   }
 
   async next() {
-    let result = await this.workflow.currentStep.execute();
-
-    if (result.goToNextStep) {
-      await this.workflow.next();
-    }
+    await this.workflow.next();
   }
 
   close() {

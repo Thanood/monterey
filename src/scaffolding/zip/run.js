@@ -19,6 +19,14 @@ export class Run {
     this.state = model.state;
     this.step = model.step;
     this.step.execute = () => this.execute();
+    this.step.previous = () => this.previous();
+  }
+
+  async previous() {
+    alert('This is not possible at this point');
+    return {
+      goToPreviousStep: false
+    };
   }
 
   attached() {

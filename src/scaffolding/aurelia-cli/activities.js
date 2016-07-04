@@ -6,23 +6,45 @@ export class Activities {
     this.state = model.state;
     this.step = model.step;
     this.step.execute = () => this.execute();
+    this.step.previous = () => this.previous();
 
-    let definition = JSON.parse(await FS.readFile('node_modules/aurelia-cli/lib/commands/new/new-application.json'));
-    this.workflow = new Workflow(definition, model.state);
+    if (!this.state.workflow) {
+      let definition = JSON.parse(await FS.readFile('node_modules/aurelia-cli/lib/commands/new/new-application.json'));
+      this.state.workflow = new Workflow(definition, this.state);
+    }
+
+    this.workflow = this.state.workflow;
+
+    if (this.workflow.isLast) {
+      this.workflow.previous();
+    }
   }
 
   async execute() {
-    if (this.activity.validation.validate().length === 0) {
-      // if next() returns false then the wizard has finished
-      if (await this.workflow.next() === false) {
-        return {
-          goToNextStep: true
-        };
-      }
+    if (await this.workflow.next() === false) {
+      return {
+        goToNextStep: true
+      };
     }
 
     return {
       goToNextStep: false
+    };
+  }
+
+  async previous() {
+    let firstStep = this.workflow.currentStep.id === this.workflow.firstStep.id;
+
+    if (firstStep) {
+      return {
+        goToPreviousStep: true
+      };
+    }
+
+    await this.workflow.previous();
+
+    return {
+      goToPreviousStep: false
     };
   }
 }

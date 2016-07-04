@@ -1,7 +1,20 @@
 <template>
-  <div class="default-tile" click.delegate="onClick()">
-    <span>
-      ${title}
-    </span>
+  <require from="../shared/converters/limit-text-size"></require>
+
+  <div class="default-tile with-icon"
+       if.bind="img"
+       click.delegate="onClick()">
+    <p title.bind="title">
+      ${title | limitTextSize: 15}
+    </p>
+    <img src.bind="img" alt="Error loading image" />
+  </div>
+
+  <div class="default-tile without-icon"
+       if.bind="!img"
+       click.delegate="onClick()">
+    <p title.bind="title">
+      ${title | limitTextSize: 15}
+    </p>
   </div>
 </template>
