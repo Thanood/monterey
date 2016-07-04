@@ -1,7 +1,7 @@
 <template>
   <require from="../shared/converters/limit-text-size"></require>
 
-  <div class="default-tile with-icon"
+  <div class="default-tile with-icon ${relevant=== false ? 'irrelevant' : 'relevant'}"
        if.bind="img"
        click.delegate="onClick()">
     <p title.bind="title">
@@ -10,7 +10,7 @@
     <img src.bind="img" alt="Error loading image" />
   </div>
 
-  <div class="default-tile without-icon"
+  <div class="default-tile without-icon ${relevant=== false ? 'irrelevant' : 'relevant'}"
        if.bind="!img"
        click.delegate="onClick()">
     <p title.bind="title">

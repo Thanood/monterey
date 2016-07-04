@@ -5,12 +5,17 @@ import {PluginManager} from '../../shared/plugin-manager';
 export class Tiles {
   @bindable selectedProject;
   tiles = [];
+  @bindable showIrrelevant = false;
 
   constructor(pluginManager) {
     this.pluginManager = pluginManager;
   }
 
   selectedProjectChanged() {
+    this.refreshTiles();
+  }
+
+  showIrrelevantChanged() {
     this.refreshTiles();
   }
 
@@ -26,7 +31,7 @@ export class Tiles {
     }
 
     // get a list of tiles to show from every plugin
-    this.pluginManager.getTilesForPlugin(this.selectedProject)
+    this.pluginManager.getTilesForPlugin(this.selectedProject, this.showIrrelevant)
     .forEach(plugin => this.tiles.push(plugin));
   }
 }

@@ -16,7 +16,7 @@ class Plugin extends BasePlugin {
     this.state = state;
   }
 
-  getTiles(project) {
+  getTiles(project, showIrrelevant) {
     let tiles = [{
       viewModel: 'plugins/app-launcher/editor-tile'
     }];

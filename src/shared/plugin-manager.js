@@ -23,11 +23,11 @@ export class PluginManager {
   /**
   * Collects an array of tiles by calling the getTiles function of every plugin
   */
-  getTilesForPlugin(project) {
+  getTilesForPlugin(project, showIrrelevant) {
     let tiles = [];
 
     this.plugins.forEach(plugin => {
-      plugin.getTiles(project)
+      plugin.getTiles(project, showIrrelevant)
       .forEach(tile => tiles.push(tile));
     });
 

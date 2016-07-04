@@ -1,9 +1,13 @@
 <template>
   <h3 class="project-title" if.bind="selectedProject.name">${selectedProject.name}</h3>
 
-  <compose repeat.for="tile of tiles"
-           view-model="${tile.viewModel}"
-           model.bind="{ project: selectedProject, model: tile.model }"
-           class="tile">
-  </compose>
+  <div class="row">
+    <compose repeat.for="tile of tiles"
+             view-model="${tile.viewModel}"
+             model.bind="{ project: selectedProject, model: tile.model }"
+             class="tile">
+    </compose>
+  </div>
+
+  <label class="relevant-checkbox"><input type="checkbox" checked.bind="showIrrelevant" /> Show irrelevant tiles</label>
 </template>
