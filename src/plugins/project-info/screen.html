@@ -20,6 +20,10 @@
     <b>Project is using JSPM:</b>
     ${project.isUsingJSPM}
   </p>
+  <p if.bind="project.jspmVersion">
+    <b>configured JSPM version:</b>
+    ${project.jspmVersion}
+  </p>
   <p if.bind="project.isUsingJSPM">
     <b>config.js path:</b>
     ${project.configJsPath}
