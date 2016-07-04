@@ -55,7 +55,7 @@ class Plugin extends BasePlugin {
   }
 
   async findJspmVersion(project, packageJSON) {
-    let jspmDefinition = (packageJSON.dependencies && packageJSON.dependencies.jspm) || (packageJSON.devDependencies.jspm && packageJSON.devDependencies.jspm);
+    let jspmDefinition = (packageJSON.dependencies && packageJSON.dependencies.jspm) || (packageJSON.devDependencies && packageJSON.devDependencies.jspm);
     let jspmVersion = null;
     if (jspmDefinition) {
       jspmVersion = jspmDefinition;
