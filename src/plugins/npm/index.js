@@ -9,7 +9,7 @@ export function configure(aurelia) {
 }
 
 class Plugin extends BasePlugin {
-  getTiles(project) {
+  getTiles(project, relevant) {
     return [{
       viewModel: 'plugins/npm/tile'
     }];

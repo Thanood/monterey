@@ -11,8 +11,9 @@ export class Tile {
     this.img = 'images/rocket-icon.png';
   }
 
-  activate(model) {
+  activate(model, relevant) {
     this.project = model.project;
+    Object.assign(this, model.model);
   }
 
   onClick() {

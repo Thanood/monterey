@@ -16,10 +16,14 @@ class Plugin extends BasePlugin {
     this.state = state;
   }
 
-  getTiles(project) {
-    let tiles = [{
-      viewModel: 'plugins/app-launcher/editor-tile'
-    }];
+  getTiles(project, showIrrelevant) {
+    let tiles = [];
+    if (showIrrelevant) {
+      tiles.push({
+        viewModel: 'plugins/app-launcher/editor-tile',
+        model: { relevant: false }
+      });
+    }
 
     this.state.appLaunchers.forEach(launcher => {
       tiles.push({
