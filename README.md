@@ -39,13 +39,13 @@ From inside the monterey folder:
 ```
 cd ../monterey-pal
 gulp build
-jspm link -y
+jspm link github:monterey-framework/monterey-pal -y
 cd ../monterey-pal-electron
 gulp build
-jspm link -y
+jspm link github:monterey-framework/monterey-pal-electron -y
 cd ../monterey
-jspm install monterey-pal=github:monterey-pal@0.1.1 --link -y
-jspm install monterey-pal-electron=github:monterey-pal-electron@0.1.1 --link -y
+jspm install monterey-pal=github:monterey-framework/monterey-pal --link -y
+jspm install monterey-pal-electron=github:monterey-framework/monterey-pal-electron --link -y
 ```
 
 Note, these commands should be executed after every change in monterey-pal or monterey-pal-electron
