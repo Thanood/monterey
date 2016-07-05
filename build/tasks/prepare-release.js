@@ -9,7 +9,7 @@ var args = require('../args');
 // utilizes the bump plugin to bump the
 // semver for the repo
 gulp.task('bump-version', function() {
-  return gulp.src(['./package.json'])
+  return gulp.src(['./app/package.json'])
     .pipe(bump({type: args.bump})) //major|minor|patch|prerelease
     .pipe(gulp.dest('./'));
 });
@@ -17,7 +17,7 @@ gulp.task('bump-version', function() {
 // generates the CHANGELOG.md file based on commit
 // from git commit messages
 gulp.task('changelog', function(callback) {
-  var pkg = JSON.parse(fs.readFileSync('./package.json', 'utf-8'));
+  var pkg = JSON.parse(fs.readFileSync('./app/package.json', 'utf-8'));
 
   return changelog({
     repository: pkg.repository.url,

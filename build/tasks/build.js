@@ -2,7 +2,7 @@ var gulp = require('gulp');
 var runSequence = require('run-sequence');
 var changed = require('gulp-changed');
 var plumber = require('gulp-plumber');
-var to5 = require('gulp-babel');
+var typescript = require('gulp-typescript');
 var sourcemaps = require('gulp-sourcemaps');
 var paths = require('../paths');
 var compilerOptions = require('../babel-options');
@@ -10,17 +10,21 @@ var assign = Object.assign || require('object.assign');
 var notify = require('gulp-notify');
 var less = require('gulp-less');
 
-// transpiles changed es6 files to SystemJS format
-// the plumber() call prevents 'pipe breaking' caused
-// by errors from other gulp plugins
-// https://www.npmjs.com/package/gulp-plumber
+
+var typescriptCompiler = typescriptCompiler || null;
 gulp.task('build-system', function() {
-  return gulp.src(paths.source)
-    .pipe(plumber({errorHandler: notify.onError('Error: <%= error.message %>')}))
-    .pipe(changed(paths.output, {extension: '.js'}))
-    // .pipe(sourcemaps.init({loadMaps: true}))
-    .pipe(to5(assign({}, compilerOptions.system())))
-    // .pipe(sourcemaps.write('.', {includeContent: true, sourceRoot: '/src'}))
+  if(!typescriptCompiler) {
+    typescriptCompiler = typescript.createProject('tsconfig.json', {
+      "typescript": require('typescript')
+    });
+  }
+  console.log("The error for './activities.json!' can be ignored: https://github.com/systemjs/plugin-json/issues/9#issuecomment-222405001")
+  return gulp.src(paths.dtsSrc.concat(paths.source))
+    // .pipe(plumber({errorHandler: notify.onError('Error: <%= error.message %>')}))
+    .pipe(changed(paths.output, {extension: '.ts'}))
+    .pipe(sourcemaps.init({loadMaps: true}))
+    .pipe(typescript(typescriptCompiler))
+    .pipe(sourcemaps.write('.', {includeContent: false, sourceRoot: '/app/src'}))
     .pipe(gulp.dest(paths.output));
 });
 
