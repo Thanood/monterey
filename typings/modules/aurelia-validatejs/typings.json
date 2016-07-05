@@ -1,0 +1,11 @@
+{
+  "resolution": "main",
+  "tree": {
+    "src": "https://raw.githubusercontent.com/aurelia/validatejs/master/typings.json",
+    "raw": "github:aurelia/validatejs",
+    "main": "dist/aurelia-validatejs.d.ts",
+    "global": false,
+    "name": "aurelia-validatejs",
+    "type": "typings"
+  }
+}

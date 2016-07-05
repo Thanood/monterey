@@ -4,7 +4,7 @@ var exportSrvRoot = 'export/';
 
 module.exports = {
   root: appRoot,
-  source: appRoot + '**/*.js',
+  source: appRoot + '**/*.ts',
   html: appRoot + '**/*.html',
   styles: appRoot + 'styles/',
   css: appRoot + 'styles/**/*.css',
@@ -12,5 +12,9 @@ module.exports = {
   output: outputRoot,
   exportSrv: exportSrvRoot,
   doc: appRoot + 'doc',
-  json: appRoot + '**/*.json'
+  json: appRoot + '**/*.json',
+  dtsSrc: [
+    './typings/**/*.d.ts',
+    './custom_typings/**/*.d.ts'
+  ]
 };
