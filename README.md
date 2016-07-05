@@ -56,6 +56,6 @@ Note, these commands should be executed after every change in monterey-pal or mo
 In order to unlink both monterey-pal and monterey-pal-electron the following commands can be used:
 
 ```
-jspm install monterey-pal=github:monterey-framework/monterey-pal@0.1.1 --unlink
-jspm install monterey-pal-electron=github:monterey-framework/monterey-pal-electron@0.1.1 --unlink
+jspm install monterey-pal=github:monterey-framework/monterey-pal --unlink
+jspm install monterey-pal-electron=github:monterey-framework/monterey-pal-electron --unlink
 ```
