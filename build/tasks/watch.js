@@ -1,7 +1,7 @@
 var gulp = require('gulp');
 var paths = require('../paths');
+console.log(__dirname + '/../../app/package.json');
 var electron = require('electron-connect').server.create();
-
 // outputs changes to files to the console
 function reportChange(event) {
   console.log('File ' + event.path + ' was ' + event.type + ', running tasks...');
@@ -15,8 +15,8 @@ gulp.task('watch', ['build'], function() {
 
   gulp.watch(paths.source, ['build-system']).on('change', reportChange);
   gulp.watch(paths.json, ['build-json']).on('change', reportChange);
-  gulp.watch('index.js').on('change', reportChange);
-  gulp.watch('index.html').on('change', reportChange);
+  gulp.watch('app/index.js').on('change', reportChange);
+  gulp.watch('app/index.html').on('change', reportChange);
   gulp.watch(paths.html, ['build-html']).on('change', reportChange);
-  gulp.watch('styles/**/*.less', ['build-less']).on('change', reportChange);
+  gulp.watch('app/styles/**/*.less', ['build-less']).on('change', reportChange);
 });

@@ -1,22 +1,22 @@
+'use strict';
+
 var packager = require('electron-packager');
 var gulp = require('gulp');
 var fs = require('fs');
-var packageJSON = require('../../package.json');
+var zip = require('gulp-zip');
 var runSequence = require('run-sequence');
-
-var deps = [];
-var allowed = [];
+var zipDir;
+var appVersion = require('../../app/package.json').version;
 
 gulp.task('package', function(callback) {
   var options = {
-    dir: './',
-    name: 'Monterey',
-    platform: 'win32',
-    arch: 'x64',
-    ignore: getNodeModulesIgnoreGlob(),
-    out: '_packages',
+    dir: './app',
+    name: 'monterey',
+    platform: 'all',
+    arch: 'all',
+    out: 'release',
     overwrite: true,
-    'app-version': '0.1.0'
+    'app-version': appVersion
   };
 
   packager(options, function done(err, appPath) {
@@ -34,76 +34,45 @@ gulp.task('deploy', function(callback) {
   );
 });
 
-gulp.task('pre-package', function(cb) {
-  fs.renameSync('./index.html', 'index.dev.html');
-  fs.renameSync('./index.prod.html', 'index.html');
+gulp.task('pre-package', ['clean-release'], function(cb) {
+  fs.renameSync('./app/index.html', 'app/index.dev.html');
+  fs.renameSync('./app/index.prod.html', 'app/index.html');
   cb();
 });
 
 gulp.task('post-package', function(cb) {
-  fs.renameSync('./index.html', 'index.prod.html');
-  fs.renameSync('./index.dev.html', 'index.html');
+  runSequence(
+    'rename-prod-dev',
+    'zip-release',
+    cb
+  );
+});
+
+gulp.task('rename-prod-dev', function(cb) {
+  fs.renameSync('./app/index.html', 'app/index.prod.html');
+  fs.renameSync('./app/index.dev.html', 'app/index.html');
   cb();
 });
 
-function getNodeModulesIgnoreGlob() {
-  var dirs = fs.readdirSync('./node_modules');
-  var ignore = [];
-  var i = 0;
-  var dir;
-  allowed = [];
+gulp.task('zip-release', (callback) => {
+  var releases = fs.readdirSync('./release/');
+  var i = -1;
+  var next = () => {
+    i ++;
+    zipDir = releases[i];
 
-  for (i = 0; i < Object.keys(packageJSON.dependencies).length; i++) {
-    getDeps(Object.keys(packageJSON.dependencies)[i]);
-  }
-
-  for (i = 0; i < dirs.length; i++) {
-    dir = dirs[i];
-
-    if (allowed.indexOf(dir) === -1) {
-      ignore.push('/node_modules/' + dir + '($|/)');
+    if (zipDir) {
+      runSequence('zip', next);
+    } else {
+      callback();
     }
-  }
+  };
 
-
-  return ignore;
-}
-
-gulp.task('get_ignored_node_modules', function(cb) {
-  // console.log(getNodeModulesIgnoreGlob());
-  getNodeModulesIgnoreGlob();
-  cb();
+  next();
 });
 
-function getDeps(module) {
-  var _packageJSON;
-  var i = 0;
-  var _deps;
-
-  try {
-    _packageJSON = require('../../node_modules/' + module + '/package.json');
-    _deps = Object.keys(_packageJSON.dependencies);
-
-    if (_deps) {
-      for (i = 0; i < _deps.length; i++) {
-        if (_deps[i] === "uglify-js") {
-          console.log(module);
-        }
-        if (allowed.indexOf(_deps[i]) === -1) {
-          allowed.push(_deps[i]);
-          getDeps(_deps[i]);
-        }
-      }
-    }
-  } catch (e) {
-    if (e.code !== 'MODULE_NOT_FOUND') {
-      console.log(e);
-    }
-  }
-
-  if (allowed.indexOf(module) === -1) {
-    allowed.push(module);
-  }
-
-  return deps;
-}
+gulp.task('zip', () => {
+  return gulp.src('./release/' + zipDir + '/**/*')
+  	.pipe(zip(`${zipDir}-${appVersion}.zip`))
+  	.pipe(gulp.dest('./release/'));
+});
