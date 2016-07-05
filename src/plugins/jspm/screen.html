@@ -1,0 +1,6 @@
+<template>
+  <h1>JSPM Package Manager</h1>
+
+  <button click.delegate="install()" class="btn btn-primary ${_installing ? 'disabled' : ''}">Install dependencies</button>
+  <label><input type="checkbox" value.bind="lock" /> lock dependencies</label>
+</template>
