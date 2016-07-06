@@ -1,12 +1,14 @@
 <template>
-  <require from="./project"></require>
-  <div class="project-list-header">Projects</div>
-  <ul>
-    <li repeat.for="project of state.projects" class="project-list-item">
-      <project project.bind="project"
-               class="${project === selectedProject ? 'selected': ''}"
-               click.delegate="selectProject(project)">
-      </project>
-    </li>
-  </ul>
+  <v-grid
+    style="position:absolute;bottom:10px;top:100px;bottom:5px;left:5px;right:5px"
+    v-row-height="25"
+    v-header-height="50"
+    v-multi-select="false"
+    v-loading-threshold="1000"
+    v-collection.bind=state.projects
+    v-grid-context.bind="projectGrid"
+    v-row-onclick.delegate="selectProject($event.detail)">
+    <v-grid-col col-width="374" col-header-name="Projects" col-field="name" col-sort="name" col-filter="name|*|onKeyDown">
+    </v-grid-col>
+  </v-grid>
 </template>

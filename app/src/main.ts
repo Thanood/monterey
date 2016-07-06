@@ -16,6 +16,7 @@ export function configure(aurelia) {
       config.settings.lock = true;
       config.settings.centerHorizontalOnly = false;
     })
+    .plugin('aurelia-v-grid')
     .plugin('aurelia-validation')
     .plugin('aurelia-validatejs')
     .feature('landing')
