@@ -7,17 +7,10 @@
     <div class="left">
       <div class="top" style="width:100%">
         <h1 style="text-align:center">Monterey</h1>
-        <div class="btn-group btn-group-justified" role="group">
-          <div class="btn-group" role="group">
-            <button class="btn btn-default btn-xs" click.delegate="addProject()">Add project</button>
-          </div>
-          <div class="btn-group" role="group">
-            <button class="btn btn-default btn-xs" click.delegate="createProject()">Create project</button>
-          </div>
-          <div class="btn-group" role="group">
-            <button class="btn btn-default btn-xs" click.delegate="removeProject()">Remove project</button>
-          </div>
-
+        <div>
+            <button class="open btn btn-primary" click.delegate="addProject()">Add project</button>
+            <button class="create btn btn-primary" click.delegate="createProject()">Create project</button>
+            <button class="create btn btn-primary" click.delegate="removeProject()">Remove project</button>
         </div>
       </div>
       <project-list selected-project.two-way="selectedProject" disabled.bind="_activePluginScreen"></project-list>

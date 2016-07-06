@@ -302,3 +302,38 @@ task-bar .runningTasks p {
 .scaffolding-project-detail ul {
   list-style-type: none;
 }
+
+
+/*override grid internal styles*/
+
+.projectList .vGrid{
+  background-color: transparent !important;
+  border: 0!important;
+}
+
+/*we dont need numbering when only 1 column*/
+.projectList .vGrid-glyphicon[data-vgridsort]:after {
+  content: '';
+}
+
+/*so header dont show scrollbar*/
+.projectList .vGrid .vGrid-header{
+   overflow-y:hidden !important;
+ }
+
+
+.projectList .vGrid-row {
+  color: #777;
+  font-family: 'Source Sans Pro',sans-serif;
+  font-size: 18px;
+  letter-spacing: .4px;
+  background-color: #ECECED !important;
+}
+
+.projectList .vGrid-row-selected {
+  color: #EC2685;
+  background-color: #f1f1f1 !important;
+}
+
+
+

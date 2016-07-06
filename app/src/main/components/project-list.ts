@@ -7,7 +7,9 @@ export class ProjectList {
   @bindable disabled = false;
   state;
 
+  //grid context
   projectGrid = {};
+  //last selected, so we can change back if we need to
   lastSelectedRow = 0;
 
   constructor(projectManager) {
