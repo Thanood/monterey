@@ -12,9 +12,8 @@ export class ApplicationState {
   * restores the application state from session
   */
   async _loadStateFromSession() {
-    let state = await SESSION.get('state');
-    if (state) {
-      Object.assign(this, JSON.parse(state));
+    if (await SESSION.has('state')) {
+      Object.assign(this, await SESSION.get('state'));
     } else {
       // this is the state of monterey when monterey is started for the first time
       // we will probably want to notify all plugins and let them add defaults to the state
@@ -42,8 +41,7 @@ export class ApplicationState {
   * Persists the state to session
   */
   async save() {
-    let str = JSON.stringify(this.normalize(this));
-    SESSION.set('state', str);
+    await SESSION.set('state', this.normalize(this));
   }
 
   // JSON.stringify does not take getter properties into account
