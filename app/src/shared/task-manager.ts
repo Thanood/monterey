@@ -1,4 +1,4 @@
-import 'moment';
+import * as moment from  'moment';
 
 /* Usage:
 let task = {

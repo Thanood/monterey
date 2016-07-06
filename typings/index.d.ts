@@ -4,6 +4,7 @@
 /// <reference path="globals/moment-timezone/index.d.ts" />
 /// <reference path="globals/moment/index.d.ts" />
 /// <reference path="globals/selenium-webdriver/index.d.ts" />
+/// <reference path="globals/showdown/index.d.ts" />
 /// <reference path="modules/aurelia-binding/index.d.ts" />
 /// <reference path="modules/aurelia-bootstrapper/index.d.ts" />
 /// <reference path="modules/aurelia-dependency-injection/index.d.ts" />

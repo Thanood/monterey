@@ -1,4 +1,4 @@
-import 'moment';
+import * as moment from  'moment';
 
 export class MomentValueConverter {
   toView(date: Date, format: string) {
