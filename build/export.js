@@ -8,10 +8,13 @@ module.exports = {
     'app/index.js',
     'app/favicon.ico',
     'app/package.json',
+    'app/images/**/*',
     'app/LICENSE',
     'app/jspm_packages/system.js',
     'app/jspm_packages/system-polyfills.js',
     'app/jspm_packages/system-csp-production.js',
+    'app/jspm_packages/npm/jquery@*.js',
+    'app/jspm_packages/npm/jquery@*/dist/jquery.js',
     'app/styles/styles.css',
     'app/doc/CHANGELOG.md',
     'app/node_modules/**/*.js',
@@ -35,6 +38,10 @@ module.exports = {
       'bootstrap', [
         '/fonts/*',
         '/css/*.css'
+      ]
+    ], [
+      'jquery', [
+        'dist/jquery.js'
       ]
     ]
   ]

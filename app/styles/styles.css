@@ -12,6 +12,22 @@ ai-dialog-overlay.active {
   background-color: black;
   opacity: 0.5 !important;
 }
+.dialog-button {
+  color: #333;
+  background-color: #fff;
+  padding: 6px 12px;
+  font-size: 14px;
+  text-align: center;
+  white-space: nowrap;
+  vertical-align: middle;
+  -ms-touch-action: manipulation;
+  touch-action: manipulation;
+  cursor: pointer;
+  background-image: none;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  margin: 5px 0 5px 5px;
+}
 p {
   font-weight: 400;
   font-size: 1.1em;

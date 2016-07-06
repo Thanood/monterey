@@ -1,6 +1,10 @@
 var gulp = require('gulp');
 var paths = require('../paths');
-var electron = require('electron-connect').server.create();
+var electron = require('electron-connect').server.create({ path: './app' });
+
+electron.on('closed', function(){
+    process.exit();
+});
 
 // outputs changes to files to the console
 function reportChange(event) {
@@ -18,5 +22,5 @@ gulp.task('watch-r', ['build'], function() {
   gulp.watch('app/index.js', electron.restart).on('change', reportChange);
   gulp.watch('app/index.html', electron.restart).on('change', reportChange);
   gulp.watch(paths.html, ['build-html', electron.reload]).on('change', reportChange);
-  gulp.watch(paths.less, ['build-less', electron.reload]).on('change', reportChange);
+  gulp.watch('app/styles/**/*.less', ['build-less']).on('change', reportChange);
 });

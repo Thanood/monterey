@@ -5,6 +5,7 @@
 'use strict';
 
 const electron = require('electron');
+const electronConnect = require('electron-connect');
 const app = electron.app;
 const Menu = electron.Menu;
 const BrowserWindow = electron.BrowserWindow;
@@ -18,6 +19,7 @@ app.on('window-all-closed', () => {
   }
 });
 
+
 app.on('ready', () => {
   setApplicationMenu();
 
@@ -30,12 +32,21 @@ app.on('ready', () => {
 
   mainWindow.loadURL(`file://${__dirname}/index.html`);
 
+  var client = electronConnect.client.create(mainWindow);
+
   mainWindow.webContents.on('did-finish-load', () => {
     mainWindow.setTitle('Monterey');
   });
 
+  mainWindow.webContents.on('new-window', function(e, url) {
+    e.preventDefault();
+    var open = require('open'); 
+    open(url);
+  });
+
   mainWindow.on('closed', () => {
     mainWindow = null;
+    client.sendMessage('closed');
   });
 });
 
@@ -82,3 +93,4 @@ let devMenuTemplate = [{
     }
   }]
 }];
+
