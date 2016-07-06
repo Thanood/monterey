@@ -10,11 +10,11 @@ Monterey is an extensible application that provides a graphical user interface f
 ![](http://i.imgur.com/XfG3lvP.png)
 
 ### Initial feature set
-1. Maintain a list of Aurelia projects in a single application
-2. Create new Aurelia project (via [aurelia-cli](https://github.com/aurelia/cli) or skeleton-navigation) through a GUI
+1. ~~Maintain a list of Aurelia projects in a single application~~
+2. ~~Create new Aurelia project (via [aurelia-cli](https://github.com/aurelia/cli) or skeleton-navigation) through a GUI~~
 3. A GUI that shows JSPM dependencies (current versions and latest versions), update functionality and warning of forks
 4. NPM install functionality
-5. Configurable app launchers for things like explorer.exe and cmd.exe or custom ones
+5. ~~Configurable app launchers for things like explorer.exe and cmd.exe or custom ones~~
 
 ### How to install and use Monterey
 To be determined (https://github.com/monterey-framework/monterey/issues/17)
@@ -29,21 +29,23 @@ Suggested folder structure:
 From inside the monterey folder:
 
 1. npm install
-2. jspm install
-3. gulp watch (manually reloading electron with ctrl+R is required) or gulp watch-r to automatically reload electron
+2. cd app
+3. npm install
+4. jspm install
+5. gulp watch (manually reloading electron with ctrl+R is required) or gulp watch-r to automatically reload electron
 
 
 ### Working on the pal
-From inside the monterey folder:
+From inside monterey's `app` folder:
 
 ```
-cd ../monterey-pal
+cd ../../monterey-pal
 gulp build
 jspm link github:monterey-framework/monterey-pal -y
 cd ../monterey-pal-electron
 gulp build
 jspm link github:monterey-framework/monterey-pal-electron -y
-cd ../monterey
+cd ../monterey/app
 jspm install monterey-pal=github:monterey-framework/monterey-pal --link -y
 jspm install monterey-pal-electron=github:monterey-framework/monterey-pal-electron --link -y
 ```
