@@ -43,8 +43,8 @@
       "jquery": "npm:jquery@^2.2.4",
       "json": "github:systemjs/plugin-json@^0.1.2",
       "moment": "npm:moment@^2.13.0",
-      "monterey-pal": "github:monterey-framework/monterey-pal@^0.1.4",
-      "monterey-pal-electron": "github:monterey-framework/monterey-pal-electron@^0.1.4",
+      "monterey-pal": "github:monterey-framework/monterey-pal@^0.1.5",
+      "monterey-pal-electron": "github:monterey-framework/monterey-pal-electron@^0.1.5",
       "semver-compare": "npm:semver-compare@^1.0.0",
       "showdown": "github:showdownjs/showdown@^1.4.2",
       "text": "github:systemjs/plugin-text@^0.0.3"
@@ -61,10 +61,10 @@
     "npmlog": "^3.1.2",
     "temp": "^0.8.3",
     "unzip": "^0.1.11",
-    "yauzl": "^2.6.0"
+    "yauzl": "^2.6.0",
+    "open": "0.0.5"
   },
   "devDependencies": {
-    "jspm": "^0.16.15",
-    "open": "0.0.5"
+    "jspm": "^0.16.15"
   }
 }

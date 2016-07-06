@@ -14,7 +14,7 @@ export class Activities {
     this.step.previous = () => this.previous();
 
     if (!this.state.workflow) {
-      let definition = JSON.parse(await FS.readFile('node_modules/aurelia-cli/lib/commands/new/new-application.json'));
+      let definition = JSON.parse(await FS.readFile(FS.join(FS.getRootDir(), 'node_modules/aurelia-cli/lib/commands/new/new-application.json')));
       this.state.workflow = new Workflow(definition, this.state);
     }
 

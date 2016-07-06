@@ -19,7 +19,6 @@ app.on('window-all-closed', () => {
   }
 });
 
-
 app.on('ready', () => {
   setApplicationMenu();
 
@@ -29,6 +28,7 @@ app.on('ready', () => {
   });
 
   global.mainWindow = mainWindow;
+  global.rootDir = __dirname;
 
   mainWindow.loadURL(`file://${__dirname}/index.html`);
 

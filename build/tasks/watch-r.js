@@ -1,6 +1,6 @@
 var gulp = require('gulp');
 var paths = require('../paths');
-var electron = require('electron-connect').server.create({ path: './app' });
+var electron = require('electron-connect').server.create();
 
 electron.on('closed', function(){
     process.exit();

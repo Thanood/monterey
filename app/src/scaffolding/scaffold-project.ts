@@ -22,7 +22,7 @@ export class ScaffoldProject {
   }
 
   close() {
-    if (this.workflow.isLast) {
+    if (this.workflow.isLast && this.state.successful) {
       let projectPath = FS.join(this.state.path, this.state.name);
       this.projectManager.addProjectByPath(projectPath);
       this.dialog.close(true, projectPath);

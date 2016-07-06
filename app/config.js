@@ -7,6 +7,7 @@ System.config({
     "npm:*": "jspm_packages/npm/*",
     "root/*": "*"
   },
+
   meta: {
     "bootstrap": {
       "deps": [
@@ -14,6 +15,7 @@ System.config({
       ]
     }
   },
+
   map: {
     "aurelia-animator-css": "npm:aurelia-animator-css@1.0.0-rc.1.0.0",
     "aurelia-bootstrapper": "npm:aurelia-bootstrapper@1.0.0-rc.1.0.0",
@@ -41,8 +43,8 @@ System.config({
     "jquery": "npm:jquery@2.2.4",
     "json": "github:systemjs/plugin-json@0.1.2",
     "moment": "npm:moment@2.13.0",
-    "monterey-pal": "github:monterey-framework/monterey-pal@0.1.4",
-    "monterey-pal-electron": "github:monterey-framework/monterey-pal-electron@0.1.4",
+    "monterey-pal": "github:monterey-framework/monterey-pal@0.1.5",
+    "monterey-pal-electron": "github:monterey-framework/monterey-pal-electron@0.1.5",
     "semver-compare": "npm:semver-compare@1.0.0",
     "showdown": "github:showdownjs/showdown@1.4.2",
     "text": "github:systemjs/plugin-text@0.0.3",

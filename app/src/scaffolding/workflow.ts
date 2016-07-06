@@ -60,7 +60,14 @@ export class Workflow {
         this.firstStep = this.currentStep;
       }
 
-      let result = await this.currentStep.execute();
+      let result;
+
+      try {
+        result = await this.currentStep.execute();
+      } catch(e) {
+        alert(`Error occurred: ${e.message}`);
+        return;
+      }
 
       if (!result.goToNextStep) {
         return;

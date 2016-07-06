@@ -53,11 +53,13 @@ export class Run {
         await this.downloadAndExtractZIP(url, projectDir, subDir);
 
         this.finished = true;
+        this.state.successful = true;
         resolve();
       } catch (e) {
         alert('Error while scaffolding the application: ' + e.message);
         logger.error(e);
         this.failed = true;
+        this.state.successful = false;
         reject();
       }
     });
