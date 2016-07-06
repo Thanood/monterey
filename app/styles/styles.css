@@ -245,7 +245,7 @@ task-bar .runningTasks p {
   color: #70509D;
   max-height: 36px;
   font-size: 18px;
-  line-height: 36px;
+  line-height:100%;
   min-height: 36px;
   text-align: center;
   font-weight: 400;
