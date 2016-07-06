@@ -12,7 +12,7 @@ const resources = require('../export.js');
 function getBundles() {
   let bl = [];
   for (let b in bundles.bundles) {
-    bl.push(b + '*.js');
+    bl.push('./app/' + b + '*.js');
   }
   return bl;
 }
@@ -24,13 +24,15 @@ function getExportList() {
 function normalizeExportPaths() {
   const pathsToNormalize = resources.normalize;
 
+  jspm.setPackagePath('./app/');
+
   let promises =  pathsToNormalize.map(pathSet => {
     const packageName = pathSet[ 0 ];
     const fileList = pathSet[ 1 ];
 
     return jspm.normalize(packageName).then((normalized) => {
       const packagePath = normalized.substring(normalized.indexOf('jspm_packages'), normalized.lastIndexOf('.js'));
-      return fileList.map(file => packagePath + file);
+      return fileList.map(file => 'app/' + packagePath + file);
     });
   });
 
@@ -47,13 +49,13 @@ gulp.task('clean-export', function() {
 });
 
 gulp.task('export-copy', function() {
-  return gulp.src(getExportList(), { base: '.' })
+  return gulp.src(getExportList(), { base: './app' })
     .pipe(gulp.dest(paths.exportSrv));
 });
 
 gulp.task('export-normalized-resources', function() {
   return normalizeExportPaths().then(normalizedPaths => {
-    return gulp.src(normalizedPaths, { base: '.' })
+    return gulp.src(normalizedPaths, { base: './app' })
       .pipe(gulp.dest(paths.exportSrv));
   });
 });
@@ -61,10 +63,13 @@ gulp.task('export-normalized-resources', function() {
 // use after prepare-release
 gulp.task('export', function(callback) {
   return runSequence(
+    'unbundle',
     'bundle',
     'clean-export',
+    'rename-index',
     'export-normalized-resources',
     'export-copy',
+    'rename-index-back',
     callback
   );
 });

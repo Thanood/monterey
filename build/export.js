@@ -3,14 +3,20 @@
 // for production.
 module.exports = {
   'list': [
-    'index.html',
-    'config.js',
-    'favicon.ico',
-    'LICENSE',
-    'jspm_packages/system.js',
-    'jspm_packages/system-polyfills.js',
-    'jspm_packages/system-csp-production.js',
-    'styles/styles.css'
+    'app/index.html',
+    'app/config.js',
+    'app/index.js',
+    'app/favicon.ico',
+    'app/package.json',
+    'app/LICENSE',
+    'app/jspm_packages/system.js',
+    'app/jspm_packages/system-polyfills.js',
+    'app/jspm_packages/system-csp-production.js',
+    'app/styles/styles.css',
+    'app/doc/CHANGELOG.md',
+    'app/node_modules/**/*.js',
+    'app/node_modules/**/package.json',
+    'app/scripts/babel-polyfill.min.js'
   ],
   // this section lists any jspm packages that have
   // unbundled resources that need to be exported.
@@ -27,7 +33,8 @@ module.exports = {
     ], [
       // include bootstrap's font files
       'bootstrap', [
-        '/fonts/*'
+        '/fonts/*',
+        '/css/*.css'
       ]
     ]
   ]

@@ -1,6 +1,6 @@
 var appRoot = 'app/src/';
 var outputRoot = 'app/dist/';
-var exportSrvRoot = 'export/';
+var exportSrvRoot = 'app/export/';
 
 module.exports = {
   root: appRoot,

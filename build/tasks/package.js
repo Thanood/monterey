@@ -10,10 +10,12 @@ var appVersion = require('../../app/package.json').version;
 
 gulp.task('package', function(callback) {
   var options = {
-    dir: './app',
+    dir: './app/export',
     name: 'monterey',
-    platform: 'all',
-    arch: 'all',
+    // platform: 'all',
+    // arch: 'all',
+    platform: 'win32',
+    arch: 'x64',
     out: 'release',
     overwrite: true,
     'app-version': appVersion
@@ -27,14 +29,16 @@ gulp.task('package', function(callback) {
 
 gulp.task('deploy', function(callback) {
   runSequence(
-    'pre-package',
+    'clean-release',
+    'export',
     'package',
     'post-package',
+    'clean-export',
     callback
   );
 });
 
-gulp.task('pre-package', ['clean-release'], function(cb) {
+gulp.task('rename-index', function(cb) {
   fs.renameSync('./app/index.html', 'app/index.dev.html');
   fs.renameSync('./app/index.prod.html', 'app/index.html');
   cb();
@@ -42,13 +46,12 @@ gulp.task('pre-package', ['clean-release'], function(cb) {
 
 gulp.task('post-package', function(cb) {
   runSequence(
-    'rename-prod-dev',
     'zip-release',
     cb
   );
 });
 
-gulp.task('rename-prod-dev', function(cb) {
+gulp.task('rename-index-back', function(cb) {
   fs.renameSync('./app/index.html', 'app/index.prod.html');
   fs.renameSync('./app/index.dev.html', 'app/index.html');
   cb();

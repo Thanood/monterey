@@ -14,12 +14,12 @@
       <i class="fa fa-spinner fa-spin"></i>
     </div>
 
+    <script src="scripts/babel-polyfill.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.0.0/jquery.min.js"></script>
-    <script src="jspm_packages/system.src.js"></script>
+    <script src="jspm_packages/system.js"></script>
     <script src="config.js"></script>
     <script>
-      System.import('babel-polyfill')
-      .then(() => System.import('monterey-pal'))
+      System.import('monterey-pal')
       .then(() => System.import('monterey-pal-electron').then(pal => pal.initialize()))
       .then(() => System.import('aurelia-bootstrapper'));
     </script>

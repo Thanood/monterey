@@ -5,7 +5,7 @@
     "outDir": "app/dist",
     "sourceMap": true,
     "target": "es6",
-    "module": "amd",
+    "module": "commonjs",
     "declaration": false,
     "noImplicitAny": false,
     "removeComments": true,

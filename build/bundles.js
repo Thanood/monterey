@@ -3,14 +3,15 @@ module.exports = {
     "dist/app-build": {
       "includes": [
         "[**/*.js]",
+        "**/*.json!json",
         "**/*.html!text",
         "**/*.css!text"
       ],
       "options": {
         "inject": true,
         "minify": true,
-        "depCache": true,
-        "rev": false
+        // "depCache": true,
+        "rev": true
       }
     },
     "dist/aurelia": {
@@ -26,17 +27,27 @@ module.exports = {
         "aurelia-templating-router",
         "aurelia-loader-default",
         "aurelia-history-browser",
+        "aurelia-validatejs",
+        "aurelia-dialog",
+        "aurelia-dialog/*.js",
         "aurelia-logging-console",
         "bootstrap",
         "bootstrap/css/bootstrap.css!text",
         "fetch",
-        "jquery"
+        "jquery",
+        "monterey-pal",
+        "monterey-pal-electron",
+        "monterey-pal/*.js",
+        "monterey-pal-electron/*.js",
+        "moment",
+        "json",
+        "text"
       ],
       "options": {
         "inject": true,
         "minify": true,
-        "depCache": false,
-        "rev": false
+        // "depCache": false,
+        "rev": true
       }
     }
   }

@@ -4,12 +4,12 @@ var bundles = require('../bundles.js');
 
 var config = {
   force: true,
-  baseURL: '.',
-  configPath: './config.js',
+  baseURL: './app',
+  configPath: './app/config.js',
   bundles: bundles.bundles
 };
 
-gulp.task('bundle', ['build'], function() {
+gulp.task('bundle', ['unbundle', 'build-release'], function() {
   return bundler.bundle(config);
 });
 
