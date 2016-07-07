@@ -27,11 +27,5 @@ export function configure(aurelia) {
   // so that aurelia-validation uses this renderer when validation-renderer="bootstrap-form" is put on a form
   aurelia.container.registerHandler('bootstrap-form', container => container.get(BootstrapFormValidationRenderer));
 
-  let state = aurelia.container.get(ApplicationState);
-
-  // first load the application state from session, then start aurelia
-  // so that at startup we can determine whether to load the main screen or landing screen
-  state._loadStateFromSession()
-  .then(() => aurelia.start())
-  .then(() => aurelia.setRoot());
+  aurelia.start().then(() => aurelia.setRoot());
 }

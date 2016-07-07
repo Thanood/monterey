@@ -35,4 +35,20 @@ class Plugin extends BasePlugin {
   createId() {
     return Math.floor((Math.random() * 999999999) + 111111111);
   }
+
+  async onNewSession(state) {
+     Object.assign(state, {
+      appLaunchers: [{
+        id: 1,
+        img: 'images/File-Explorer-icon.png',
+        cmd: 'explorer %path%',
+        title: 'File explorer'
+      }, {
+        id: 2,
+        img: 'images/Command_prompt_icon_(windows).png',
+        cmd: 'start cmd.exe /k "cd /d %path%"',
+        title: 'cmd'
+      }]
+    });
+  }
 }

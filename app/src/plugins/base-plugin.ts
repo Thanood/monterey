@@ -15,4 +15,8 @@ export class BasePlugin {
   getTiles(project, showIrrelevant = false): Array<any> {
     throw new Error('getTiles not set in plugin');
   }
+
+  async onNewSession(state) {
+    return state;
+  }
 }

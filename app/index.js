@@ -5,6 +5,7 @@
 'use strict';
 
 const electron = require('electron');
+const storage = require('electron-json-storage');
 const electronConnect = require('electron-connect');
 const app = electron.app;
 const Menu = electron.Menu;
@@ -89,7 +90,8 @@ let devMenuTemplate = [{
   submenu: [{
     label: 'Clear',
     click: function() {
-      BrowserWindow.getFocusedWindow().webContents.session.cookies.remove('http://aureliatools.com', 'state', () => {});
+      storage.clear(function (err){});
+      BrowserWindow.getFocusedWindow().loadURL(`file://${__dirname}/index.html`);;
     }
   }]
 }];

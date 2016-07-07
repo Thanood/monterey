@@ -20,6 +20,13 @@ export class PluginManager {
     return project;
   }
 
+  async notifyOfNewSession(state) {
+    for (let i = 0; i < this.plugins.length; i++) {
+      await this.plugins[i].onNewSession(state);
+    }
+    return state;
+  }
+
   /**
   * Collects an array of tiles by calling the getTiles function of every plugin
   */

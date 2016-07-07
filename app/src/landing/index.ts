@@ -6,8 +6,4 @@ export function configure(aurelia) {
   let projectManager = <ProjectManager>aurelia.container.get(ProjectManager);
 
   router.addRoute({ route: 'landing', name: 'landing', moduleId: './landing/landing' });
-
-  if (!projectManager.hasProjects()) {
-    router.addRoute({ route: '', redirect: 'landing' });
-  }
 }

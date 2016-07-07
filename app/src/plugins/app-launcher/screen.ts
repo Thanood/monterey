@@ -41,7 +41,7 @@ export class Screen {
 
     this.selectFirst();
 
-    this.state.save();
+    this.state._save();
   }
 
   remove() {
@@ -72,7 +72,7 @@ export class Screen {
   }
 
   async save() {
-    await this.state.save();
+    await this.state._save();
     alert('Changes saved');
   }
 
