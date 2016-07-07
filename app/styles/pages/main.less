@@ -34,16 +34,36 @@
     left: 0;
     width: 384px;
     overflow: hidden;
-
-    .vGrid-header {
-      overflow-y: hidden !important;
-    }
-
     .projectList {
+      .vGrid {
+        .vGrid-header {
+          .vgrid-header-input-search-icon{
+            position:absolute;
+            top:49px;
+            left:5px;
+          }
+          .vgrid-header-input-bottom{
+            padding: 15px 28px;
+            outline: 0 !important;
+          }
+          overflow-y: hidden !important;
+        }
+        .vGrid-row {
+          color: #777;
+          font-size: 18px;
+          letter-spacing: .4px;
+          background-color: #ECECED !important;
+        }
+        .vGrid-row-selected {
+          color: #EC2685;
+          background-color: #f1f1f1 !important;
+        }
+        background-color: transparent !important;
+        border: 0 !important;
+      }
       position:absolute;
-      bottom:5px;
-      top:5px;
-      bottom:5px;
+      bottom:0;
+      top:0;
       left:0;
       right:0
     }
@@ -93,11 +113,11 @@
 
 project-list {
   position:absolute;
-  bottom: 10px;
+  bottom: 0;
   top: 110px;
-  bottom: 5px;
-  left: 5px;
-  right: 5px;
+  bottom: 0;
+  left: 0;
+  right: 0;
 }
 
 task-bar {
