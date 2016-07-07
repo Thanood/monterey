@@ -7,6 +7,7 @@
 
   <button class="btn btn-primary" click.delegate="addNew()">Add app launcher</button>
   <button class="btn btn-primary" click.delegate="remove()">Remove app launcher</button>
+  <button click.delegate="save()" class="btn btn-primary">Save</button>
 
   <div class="row">
     <div class="col-md-4" if.bind="selectedLauncher">
@@ -25,6 +26,7 @@
 
     <div class="col-md-8">
       <h3>${selectedLauncher.title}</h3>
+      <p if.bind="selectedLauncher.description">${selectedLauncher.description}</p>
       <form validation-renderer="bootstrap-form" if.bind="selectedLauncher">
         <div class="form-group">
           <label class="control-label" for="enabled">Enabled</label>
@@ -50,6 +52,4 @@
       </form>
     </div>
   </div>
-
-  <button click.delegate="save()" class="btn btn-primary">Save</button>
 </template>

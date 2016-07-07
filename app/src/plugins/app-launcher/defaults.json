@@ -16,7 +16,8 @@
   }, {
     "id": 3,
     "img": "images/Cmder.png",
-    "cmd": "",
+    "cmd": "%cmder%/Cmder.exe",
+    "description": "In order to use Cmder either the %cmder% environment variable must point to the Cmder folder or the path can be changed in the cmd",
     "title": "Cmder",
     "default": false,
     "platforms": ["win32"]
