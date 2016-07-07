@@ -21,7 +21,7 @@ System.config({
     "aurelia-bootstrapper": "npm:aurelia-bootstrapper@1.0.0-rc.1.0.0",
     "aurelia-dialog": "npm:aurelia-dialog@1.0.0-beta.1.1.0",
     "aurelia-fetch-client": "npm:aurelia-fetch-client@1.0.0-rc.1.0.0",
-    "aurelia-framework": "npm:aurelia-framework@1.0.0-rc.1.0.0",
+    "aurelia-framework": "npm:aurelia-framework@1.0.0-rc.1.0.1",
     "aurelia-history-browser": "npm:aurelia-history-browser@1.0.0-rc.1.0.0",
     "aurelia-loader-default": "npm:aurelia-loader-default@1.0.0-rc.1.0.0",
     "aurelia-logging-console": "npm:aurelia-logging-console@1.0.0-rc.1.0.0",
@@ -31,6 +31,7 @@ System.config({
     "aurelia-templating-binding": "npm:aurelia-templating-binding@1.0.0-rc.1.0.0",
     "aurelia-templating-resources": "npm:aurelia-templating-resources@1.0.0-rc.1.0.0",
     "aurelia-templating-router": "npm:aurelia-templating-router@1.0.0-rc.1.0.0",
+    "aurelia-v-grid": "github:aurelia-ui-toolkits/aurelia-v-grid@0.1.0",
     "aurelia-validatejs": "npm:aurelia-validatejs@0.6.0",
     "aurelia-validation": "npm:aurelia-validation@0.10.0",
     "babel": "npm:babel-core@5.8.38",
@@ -48,6 +49,9 @@ System.config({
     "semver-compare": "npm:semver-compare@1.0.0",
     "showdown": "github:showdownjs/showdown@1.4.2",
     "text": "github:systemjs/plugin-text@0.0.3",
+    "github:aurelia-ui-toolkits/aurelia-v-grid@0.1.0": {
+      "aurelia-framework": "npm:aurelia-framework@1.0.0-rc.1.0.1"
+    },
     "github:jspm/nodelibs-assert@0.1.0": {
       "assert": "npm:assert@1.4.1"
     },
@@ -88,7 +92,7 @@ System.config({
     },
     "npm:aurelia-bootstrapper@1.0.0-rc.1.0.0": {
       "aurelia-event-aggregator": "npm:aurelia-event-aggregator@1.0.0-rc.1.0.0",
-      "aurelia-framework": "npm:aurelia-framework@1.0.0-rc.1.0.0",
+      "aurelia-framework": "npm:aurelia-framework@1.0.0-rc.1.0.1",
       "aurelia-history": "npm:aurelia-history@1.0.0-rc.1.0.0",
       "aurelia-history-browser": "npm:aurelia-history-browser@1.0.0-rc.1.0.0",
       "aurelia-loader-default": "npm:aurelia-loader-default@1.0.0-rc.1.0.0",
@@ -115,7 +119,7 @@ System.config({
     "npm:aurelia-event-aggregator@1.0.0-rc.1.0.0": {
       "aurelia-logging": "npm:aurelia-logging@1.0.0-rc.1.0.0"
     },
-    "npm:aurelia-framework@1.0.0-rc.1.0.0": {
+    "npm:aurelia-framework@1.0.0-rc.1.0.1": {
       "aurelia-binding": "npm:aurelia-binding@1.0.0-rc.1.0.2",
       "aurelia-dependency-injection": "npm:aurelia-dependency-injection@1.0.0-rc.1.0.0",
       "aurelia-loader": "npm:aurelia-loader@1.0.0-rc.1.0.0",
