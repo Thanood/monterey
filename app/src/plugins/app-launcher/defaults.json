@@ -1,0 +1,24 @@
+{
+  "launchers": [{
+    "id": 1,
+    "img": "images/File-Explorer-icon.png",
+    "cmd": "explorer %path%",
+    "title": "File explorer",
+    "default": true,
+    "platforms": ["win32"]
+  }, {
+    "id": 2,
+    "img": "images/Command_prompt_icon_(windows).png",
+    "cmd": "start cmd.exe /k \"cd /d %path%\"",
+    "title": "cmd",
+    "default": true,
+    "platforms": ["win32"]
+  }, {
+    "id": 3,
+    "img": "images/Cmder.png",
+    "cmd": "",
+    "title": "Cmder",
+    "default": false,
+    "platforms": ["win32"]
+  }]
+}

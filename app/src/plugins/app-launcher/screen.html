@@ -15,6 +15,7 @@
         <li class="list-group-item ${launcher.id == selectedLauncher.id ? 'selected': ''}"
             repeat.for="launcher of state.appLaunchers"
             click.delegate="selectLauncher(launcher)">
+          <input type="checkbox" checked.bind="launcher.enabled"/>
           <span title.bind="launcher.title">
             ${launcher.title}
           </span>
@@ -25,6 +26,11 @@
     <div class="col-md-8">
       <h3>${selectedLauncher.title}</h3>
       <form validation-renderer="bootstrap-form" if.bind="selectedLauncher">
+        <div class="form-group">
+          <label class="control-label" for="enabled">Enabled</label>
+          <input type="checkbox" id="enabled"
+                 checked.bind="selectedLauncher.enabled">
+        </div>
         <div class="form-group">
           <label class="control-label" for="title">Title</label>
           <input type="text" class="form-control" id="title"

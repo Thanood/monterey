@@ -69,9 +69,16 @@ export class Screen {
     } catch (e) { // eslint-disable-line empty-block
       // aurelia-validatejs throws an error when the selectedLauncher gets set to null
     }
+
+    return true;
   }
 
   async save() {
+    if (this.validation.validate().length > 0) {
+      alert('There are validation errors');
+      return;
+    }
+
     await this.state._save();
     alert('Changes saved');
   }

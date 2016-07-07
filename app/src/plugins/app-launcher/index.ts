@@ -1,7 +1,9 @@
-import {autoinject}       from 'aurelia-framework';
-import {PluginManager}    from '../../shared/plugin-manager';
-import {ApplicationState} from '../../shared/application-state';
-import {BasePlugin}       from '../base-plugin';
+import {autoinject}          from 'aurelia-framework';
+import {PluginManager}       from '../../shared/plugin-manager';
+import {ApplicationState}    from '../../shared/application-state';
+import {BasePlugin}          from '../base-plugin';
+import * as defaults         from './defaults.json!';
+import {OS}                  from 'monterey-pal';
 
 export function configure(aurelia) {
   let pluginManager = aurelia.container.get(PluginManager);
@@ -23,10 +25,12 @@ class Plugin extends BasePlugin {
     }];
 
     this.state.appLaunchers.forEach(launcher => {
-      tiles.push({
-        viewModel: 'plugins/app-launcher/tile',
-        model: launcher
-      });
+      if (launcher.enabled) {
+        tiles.push({
+          viewModel: 'plugins/app-launcher/tile',
+          model: launcher
+        });
+      }
     });
 
     return tiles;
@@ -37,18 +41,27 @@ class Plugin extends BasePlugin {
   }
 
   async onNewSession(state) {
+    let platform = OS.getPlatform();
+
+    let launchers = (<any>defaults).launchers;
+    let defaultLaunchers = [];
+
+    // only get launchers that are for this platform
+    launchers.forEach(launcher => {
+      if (launcher.platforms.indexOf(platform) > -1) {
+        // automatically enable default launchers
+        if (launcher.default) {
+          launcher.enabled = true;
+        } else {
+          launcher.enabled = false;
+        }
+
+        defaultLaunchers.push(launcher);
+      }
+    });
+
      Object.assign(state, {
-      appLaunchers: [{
-        id: 1,
-        img: 'images/File-Explorer-icon.png',
-        cmd: 'explorer %path%',
-        title: 'File explorer'
-      }, {
-        id: 2,
-        img: 'images/Command_prompt_icon_(windows).png',
-        cmd: 'start cmd.exe /k "cd /d %path%"',
-        title: 'cmd'
-      }]
+      appLaunchers: defaultLaunchers
     });
   }
 }

@@ -5,4 +5,5 @@ declare module "monterey-pal" {
   export var NPM;
   export var AURELIACLI;
   export var PROCESSES;
+  export var OS;
 }
