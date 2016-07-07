@@ -36,6 +36,30 @@
     height: 100%;
     overflow: hidden;
 
+    .vGrid-body {
+      height: 400px;
+    }
+
+    .vGrid-header {
+      overflow-y: hidden !important;
+    }
+
+    .project-list-header {
+      background-color: #dfdfe1;
+      color: #70509D;
+      max-height: 36px;
+      font-size: 18px;
+      line-height: 30px;
+      min-height: 36px;
+      text-align: center;
+      font-weight: 400;
+    }
+
+    .vGrid-glyphicon-sort {
+      right: 30px;
+      top: 9px;
+    }
+
     h1 {
       margin-top: 0;
       padding-top: 20px;
@@ -63,12 +87,13 @@
 }
 
 project-list {
+  position:absolute;
+  bottom: 10px;
+  top: 110px;
+  bottom: 5px;
+  left: 5px;
+  right: 5px;
   height: 100%;
-  ul {
-    height: ~"calc(100% - 155px)";
-    overflow: auto;
-    padding-left: 0;
-  }
 }
 
 task-bar {
@@ -91,16 +116,7 @@ task-bar {
 }
 
 
-.project-list-header {
-  background-color: #dfdfe1;
-  color: #70509D;
-  max-height: 36px;
-  font-size: 18px;
-  line-height: 36px;
-  min-height: 36px;
-  text-align: center;
-  font-weight: 400;
-}
+
 
 .task-manager-modal {
   width: 700px;
