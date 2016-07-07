@@ -3,42 +3,61 @@
 
   <ai-dialog class="task-manager-modal">
     <ai-dialog-body>
-      <h2>Tasks</h2>
 
-      <p>
-        Monterey is busy with ${taskManager.runningTasks.length} tasks.
-      </p>
+      <div class="left-side">
+        <h2>Tasks</h2>
+        <table>
+          <tr>
+            <td style="width: 50px;">Show</td>
+            <td>
+              <label style="font-weight: normal">
+                <input type="radio" checked.bind="filter" value="running" checked/> Running tasks (${taskManager.runningTasks.length})
+              </label>
+            </td>
+          </tr>
+          <tr>
+            <td></td>
+            <td>
+              <label style="font-weight: normal">
+                <input type="radio" checked.bind="filter" value="all"/> All tasks (${taskManager.allTasks.length})
+              </label>
+            </td>
+          </tr>
+        </table>
 
-      <hr />
-      <div class="row">
-        <div class="task-list">
-          <ul class="list-group">
-            <li class="list-group-item ${task.id == selectedTask.id ? 'selected': ''} ${task.end ? 'finished': 'in-progress'}"
-                repeat.for="task of taskManager.allTasks"
-                click.delegate="selectedTask = task">
-              ${task.title}
-            </li>
-          </ul>
-        </div>
 
-        <div class="task-detail">
-          <div if.bind="selectedTask">
-            <p style="font-weight: bold">${selectedTask.title} (${selectedTask.end ? 'took ' + selectedTask.elapsed : 'is taking ' + selectedTask.elapsed})</p>
-            <p if.bind="selectedTask.estimation">
-              ${selectedTask.estimation}
-            </p>
-            <ol class="log-list">
-              <li repeat.for="log of selectedTask.logs">
-                ${log}
+        <div class="row">
+          <div class="task-list">
+            <ul class="list-group">
+              <li class="list-group-item ${task.id == selectedTask.id ? 'selected': ''}"
+                  repeat.for="task of tasks"
+                  click.delegate="selectedTask = task">
+                ${task.title}
               </li>
-            </ol>
-          </div>
-          <div if.bind="!selectedTask">
-            <p>
-              No task selected
-            </p>
+            </ul>
           </div>
         </div>
+      </div>
+
+
+      <div class="right-side">
+        <h3 style="margin: 0">${selectedTask.title}</h3>
+        <p>
+           <b>Started on:</b> ${selectedTask.start | moment:'LTS'}<br/>
+           <b>Finished on:</b> ${selectedTask.end | moment:'LTS'}<br/>
+           <b>Running for:</b> ${selectedTask.elapsed}<br/>
+           <b>Estimation:</b> ${selectedTask.estimation}
+        </p>
+
+        <hr style="margin: 0">
+
+        <h4 style="margin: 0">Output</h4>
+
+        <ul class="logs">
+          <li style="color: white; list-style-type: none" repeat.for="log of selectedTask.logs">
+            ${log}
+          </li>
+        </ul>
       </div>
 
       <div style="clear: both"></div>

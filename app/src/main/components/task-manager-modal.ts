@@ -7,14 +7,19 @@ import {DialogController}       from 'aurelia-dialog';
 export class TaskManagerModal {
   @observable selectedTask;
   interval;
+  filter = 'running';
+
+  get tasks() {
+    return this.filter === 'running' ? this.taskManager.runningTasks : this.taskManager.allTasks;
+  }
 
   constructor(private dialogController: DialogController,
               private taskManager: TaskManager) {
   }
 
   attached() {
-    if (this.taskManager.allTasks.length > 0) {
-      this.selectedTask = this.taskManager.allTasks[0];
+    if (this.taskManager.runningTasks.length > 0) {
+      this.selectedTask = this.taskManager.runningTasks[0];
     }
     this.interval = setInterval(() => this.updateElapsed(), 1000);
   }
