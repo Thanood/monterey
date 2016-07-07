@@ -74,11 +74,26 @@ class Plugin extends BasePlugin {
     if (await FS.fileExists(p)) {
       project.packageJSONPath = p;
 
-      let packageJSON = JSON.parse(await FS.readFile(project.packageJSONPath));
+      let packageJSON = await this.getPackageJSON(project);
+
+      // if the project already has a name then it has just been scaffolded
+      if (project.name) {
+        // check if the name of the project is equal to the name mentioned in package.json
+        if (packageJSON.name !== project.name) {
+          // if not, update package.json to use the project name and persist this to the filesystem
+          packageJSON.name = project.name;
+          await FS.writeFile(project.packageJSONPath, JSON.stringify(packageJSON, null, 4));
+        }
+      }
+
       project.name = packageJSON.name;
       return true;
     }
 
     return false;
+  }
+
+  async getPackageJSON(project) {
+    return JSON.parse(await FS.readFile(project.packageJSONPath));
   }
 }
