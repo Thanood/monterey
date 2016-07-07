@@ -36,6 +36,12 @@ From inside the monterey folder:
 
 
 ### Working on the pal
+**Note that this step is not immediately required in order to work on Monterey**
+
+Check out [this tool](https://github.com/vegarringdal/montery-dev) which automates the process defined below.
+
+Make sure that you have run `npm install` and `jspm install` for both `monterey-pal` as well as `monterey-pal-electron`.
+
 From inside monterey's `app` folder:
 
 ```
