@@ -6,11 +6,11 @@
   <div class="main">
     <div class="left">
       <div class="top" style="width:100%">
-        <h1 style="text-align:center">Monterey</h1>
-        <div>
-            <button class="open btn btn-primary" click.delegate="addProject()">Add project</button>
-            <button class="create btn btn-primary" click.delegate="createProject()">Create project</button>
-            <button class="create btn btn-primary" click.delegate="removeProject()">Remove project</button>
+        <h1 class="main-header" style="text-align:center">Monterey</h1>
+        <div class="main-button-group">
+          <button class="main-button" click.delegate="addProject()">Add</button>
+          <button class="main-button" click.delegate="createProject()">Create</button>
+          <button class="main-button" click.delegate="removeProject()">Remove</button>
         </div>
       </div>
       <project-list selected-project.two-way="selectedProject" disabled.bind="_activePluginScreen"></project-list>

@@ -35,38 +35,92 @@
     width: 384px;
     overflow: hidden;
     box-shadow: 0 3px 4px 0 rgba(0,0,0,.14),0 3px 3px -2px rgba(0,0,0,.2),0 1px 8px 0 rgba(0,0,0,.12);
+
+    .main-header{
+      color: #70519E;
+      line-height: 25px;
+      letter-spacing: .4px;
+      white-space: nowrap;
+      vertical-align: middle;
+    }
+
+
+    .main-button-group {
+      height: 44px;
+      width: 100%;
+      position: absolute;
+      display: block;
+
+      .main-button{
+        display: block;
+        position: relative;
+        top: 0;
+        left: 0;
+        float: left;
+        height: 100%;
+        width: 33.33%;
+        background: #FFF;
+        color: #70519E;
+        border:0;
+        -webkit-box-orient: horizontal;
+        -webkit-box-direction: normal;
+        font-size: 18px;
+        line-height: 25px;
+        letter-spacing: .4px;
+        text-align: center;
+        white-space: nowrap;
+        vertical-align: middle;
+        border-right:1px solid rgb(230, 230, 230);;
+        justify-content: center;
+        outline:0;
+      }
+
+      .main-button:active{
+        color: #FFF;
+        background-image: -webkit-radial-gradient(49% 0 circle,#C632AC 0,#8A2979 100%);
+        background-image: radial-gradient(circle at 49% 0,#C632AC 0,#8A2979 100%);
+        outline: 0;
+      }
+    }
+
     .projectList {
+      position:absolute;
+      bottom:0;
+      top:0;
+      left:0;
+      right:0;
+
       .vGrid {
+        background-color: transparent !important;
+        border: 0 !important;
+
         .vGrid-header {
+          overflow-y: hidden !important;
+
           .vgrid-header-input-search-icon{
             position:absolute;
             top:49px;
             left:5px;
           }
+
           .vgrid-header-input-bottom{
             padding: 15px 28px;
             outline: 0 !important;
           }
-          overflow-y: hidden !important;
         }
+
         .vGrid-row {
           color: #777;
           font-size: 18px;
           letter-spacing: .4px;
           background-color: #ECECED !important;
         }
+
         .vGrid-row-selected {
           color: #EC2685;
           background-color: #f1f1f1 !important;
         }
-        background-color: transparent !important;
-        border: 0 !important;
       }
-      position:absolute;
-      bottom:0;
-      top:0;
-      left:0;
-      right:0
     }
 
 
@@ -74,8 +128,6 @@
       background-color: #dfdfe1;
       color: #70509D;
       max-height: 36px;
-      font-size: 18px;
-      line-height: 30px;
       min-height: 36px;
       text-align: center;
       font-weight: 400;
@@ -91,10 +143,6 @@
       padding-top: 20px;
     }
 
-    .top {
-      padding-left: 15px;
-      padding-right: 15px;
-    }
   }
 
   .right {
@@ -108,6 +156,11 @@
 
     .project-title, .relevant-checkbox {
       margin-left: 10px;
+      font-size: 24px;
+      color: #EC2685;
+      font-weight: 300 !important;
+      border-bottom: 1px solid rgba(0,0,0,.12);
+      text-transform: capitalize;
     }
   }
 }
@@ -115,7 +168,7 @@
 project-list {
   position:absolute;
   bottom: 0;
-  top: 110px;
+  top: 100px;
   bottom: 0;
   left: 0;
   right: 0;
