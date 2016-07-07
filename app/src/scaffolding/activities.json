@@ -67,10 +67,16 @@
   }, {
     "id": 8,
     "type": "screen",
+    "nextActivity": 10,
     "viewModel": "./aurelia-cli/run"
   }, {
     "id": 9,
     "type": "screen",
+    "nextActivity": 10,
     "viewModel": "./zip/run"
+  }, {
+    "id": 10,
+    "type": "screen",
+    "viewModel": "./npm-install"
   }]
 }

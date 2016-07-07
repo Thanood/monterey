@@ -1,6 +1,8 @@
+import {BasePlugin} from '../plugins/base-plugin';
+
 export class PluginManager {
 
-  plugins = [];
+  plugins: Array<BasePlugin> = [];
 
   /**
   * At application startup all plugins must register themselves with the PluginManager
@@ -25,6 +27,13 @@ export class PluginManager {
       await this.plugins[i].onNewSession(state);
     }
     return state;
+  }
+
+  async notifyOfAddedProject(project) {
+    for (let i = 0; i < this.plugins.length; i++) {
+      await this.plugins[i].onProjectAdd(project);
+    }
+    return project;
   }
 
   /**

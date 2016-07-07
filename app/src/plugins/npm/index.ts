@@ -1,6 +1,8 @@
+import {autoinject}    from 'aurelia-framework';
 import {PluginManager} from '../../shared/plugin-manager';
 import {FS}            from 'monterey-pal';
 import {BasePlugin}    from '../base-plugin';
+import {Common}        from './common';
 
 export function configure(aurelia) {
   let pluginManager = aurelia.container.get(PluginManager);
@@ -8,11 +10,23 @@ export function configure(aurelia) {
   pluginManager.registerPlugin(aurelia.container.get(Plugin));
 }
 
+@autoinject()
 class Plugin extends BasePlugin {
+
+  constructor(private common: Common) {
+    super();
+  }
+
   getTiles(project, showIrrelevant) {
     return [{
       viewModel: 'plugins/npm/tile'
     }];
+  }
+
+  async onProjectAdd(project) {
+    if (project.installNPM) {
+      this.common.installNPMDependencies(project);
+    }
   }
 
   async evaluateProject(project) {
@@ -33,10 +47,6 @@ class Plugin extends BasePlugin {
       if (await this.manuallyLocatePackageJSON(project)) {
         found = true;
       }
-    }
-
-    if (!found) {
-      project.name = FS.getDirName(project.path);
     }
 
     return project;

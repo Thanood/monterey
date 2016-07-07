@@ -1,10 +1,9 @@
 import {autoinject}       from 'aurelia-framework';
 import {DialogController} from 'aurelia-dialog';
-import {FS}               from 'monterey-pal';
+import {FS, NPM}          from 'monterey-pal';
 import {ProjectManager}   from '../shared/project-manager';
 import {Workflow}         from './workflow';
-// https://github.com/systemjs/plugin-json/issues/9#issuecomment-222405001 :(
-import * as activities         from './activities.json!';
+import * as activities    from './activities.json!';
 
 @autoinject()
 export class ScaffoldProject {
@@ -21,11 +20,17 @@ export class ScaffoldProject {
     await this.workflow.next();
   }
 
-  close() {
+  async close() {
     if (this.workflow.isLast && this.state.successful) {
-      let projectPath = FS.join(this.state.path, this.state.name);
-      this.projectManager.addProjectByPath(projectPath);
-      this.dialog.close(true, projectPath);
+      this.state.path = FS.join(this.state.path, this.state.name);
+
+      let proj = await this.projectManager.addProjectByWizardState(this.state);
+      if (proj) {
+        this.dialog.ok(proj);
+        return;
+      }
+
+      this.dialog.cancel();
     } else {
       this.dialog.cancel();
     }

@@ -43,7 +43,9 @@ export class Main {
   }
 
   @withModal(ScaffoldProject)
-  createProject() {}
+  createProject(proj) {
+    this.selectedProject = proj;
+  }
 
   activateScreen(viewModelPath, model = null) {
     if (!model) {

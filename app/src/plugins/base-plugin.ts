@@ -19,4 +19,8 @@ export class BasePlugin {
   async onNewSession(state) {
     return state;
   }
+
+  async onProjectAdd(project) {
+    return project;
+  }
 }
