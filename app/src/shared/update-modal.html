@@ -15,6 +15,7 @@
 
     <ai-dialog-footer>
       <a href.bind="release.html_url" class="bttn dialog-button" target="_blank">Open release</a>
+      <button click.trigger="closeAndDisable()">Close and never check again</button>
       <button click.trigger="dialog.cancel()">Close</button>
     </ai-dialog-footer>
   </ai-dialog>

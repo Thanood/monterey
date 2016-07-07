@@ -1,17 +1,18 @@
 import 'fetch';
-import {inject}        from 'aurelia-framework';
-import {HttpClient}    from 'aurelia-fetch-client';
-import {SESSION}       from 'monterey-pal';
-import {DialogService} from 'aurelia-dialog';
-import {GithubCreds}   from './github-creds';
+import {autoinject}       from 'aurelia-framework';
+import {HttpClient}       from 'aurelia-fetch-client';
+import {ApplicationState} from './application-state';
+import {DialogService}    from 'aurelia-dialog';
+import {GithubCreds}      from './github-creds';
 
-@inject(DialogService)
+@autoinject()
 export class GithubAPI {
   githubAPIUrl = 'https://api.github.com';
   client: HttpClient;
   _authConfigured = false;
 
-  constructor(private dialogService: DialogService) {
+  constructor(private dialogService: DialogService,
+              private state: ApplicationState) {
     this.client = new HttpClient();
   }
 
@@ -24,7 +25,7 @@ export class GithubAPI {
 
   async confirmAuth() {
     if (this._authConfigured) return;
-    if (await SESSION.has('gitAuthorization')) {
+    if (this.state.gitAuthorization) {
       await this.setCreds();
     } else {
       let response = await this.dialogService.open({ viewModel: GithubCreds });
@@ -35,7 +36,7 @@ export class GithubAPI {
   }
 
   async setCreds() {
-    let authorization = await SESSION.get('gitAuthorization');
+    let authorization = this.state.gitAuthorization;
     this.client.configure(config => {
       config.withDefaults(<any>{ 
         headers: {

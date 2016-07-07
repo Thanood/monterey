@@ -1,16 +1,17 @@
 import {inject, NewInstance}     from 'aurelia-framework';
 import {DialogController}        from 'aurelia-dialog';
-import {SESSION}                 from 'monterey-pal';
+import {ApplicationState}        from './application-state';
 import {ValidationRules}         from 'aurelia-validatejs';
 import {ValidationController}    from 'aurelia-validation';
 
-@inject(NewInstance.of(ValidationController), DialogController)
+@inject(NewInstance.of(ValidationController), DialogController, ApplicationState)
 export class GithubCreds {
   username: string;
   password: string;
 
   constructor(private validation: ValidationController, 
-              private dialog: DialogController) {}
+              private dialog: DialogController,
+              private state: ApplicationState) {}
 
   activate(model) {
     
@@ -29,7 +30,7 @@ export class GithubCreds {
       return;
     }
     
-    SESSION.set('gitAuthorization', btoa(`${this.username}:${this.password}`));
+    this.state.gitAuthorization = btoa(`${this.username}:${this.password}`);
 
     this.dialog.ok();
   }
