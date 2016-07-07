@@ -40,7 +40,7 @@
       </div>
 
 
-      <div class="right-side">
+      <div class="right-side" if.bind="selectedTask">
         <h3 style="margin: 0">${selectedTask.title}</h3>
         <p>
            <b>Started on:</b> ${selectedTask.start | moment:'LTS'}<br/>

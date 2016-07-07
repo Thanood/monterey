@@ -59,5 +59,8 @@
     "typescript": ">=1.9.0-dev || ^2.0.0",
     "vinyl-paths": "^2.1.0",
     "yargs": "^4.7.1"
+  },
+  "dependencies": {
+    "electron-remote": "^0.5.6"
   }
 }
