@@ -1,55 +1,63 @@
 <template>
-  <h1>App launcher</h1>
 
-  <p>
-    App launchers are configurable tiles that execute a cmd when clicked
-  </p>
 
-  <button class="btn btn-primary" click.delegate="addNew()">Add app launcher</button>
-  <button class="btn btn-primary" click.delegate="remove()">Remove app launcher</button>
-  <button click.delegate="save()" class="btn btn-primary">Save</button>
+  <div class="plugin-title-container">
+    <h1 class="plugin-title">App launcher</h1>
+  </div>
+  <div class="plugin-content-container">
+    <p>
+      App launchers are configurable tiles that execute a cmd when clicked
+    </p>
 
-  <div class="row">
-    <div class="col-md-4" if.bind="selectedLauncher">
-      <h3>Launchers:</h3>
-      <ul class="list-group">
-        <li class="list-group-item ${launcher.id == selectedLauncher.id ? 'selected': ''}"
-            repeat.for="launcher of state.appLaunchers"
-            click.delegate="selectLauncher(launcher)">
-          <input type="checkbox" checked.bind="launcher.enabled"/>
+    <button class="btn btn-primary" click.delegate="addNew()">Add app launcher</button>
+    <button class="btn btn-primary" click.delegate="remove()">Remove app launcher</button>
+    <button click.delegate="save()" class="btn btn-primary">Save</button>
+
+    <div class="row">
+      <div class="col-md-4" if.bind="selectedLauncher">
+        <h3>Launchers:</h3>
+        <ul class="list-group">
+          <li class="list-group-item ${launcher.id == selectedLauncher.id ? 'selected': ''}"
+              repeat.for="launcher of state.appLaunchers"
+              click.delegate="selectLauncher(launcher)">
+            <input type="checkbox" checked.bind="launcher.enabled"/>
           <span title.bind="launcher.title">
             ${launcher.title}
           </span>
-        </li>
-      </ul>
-    </div>
+          </li>
+        </ul>
+      </div>
 
-    <div class="col-md-8">
-      <h3>${selectedLauncher.title}</h3>
-      <p if.bind="selectedLauncher.description">${selectedLauncher.description}</p>
-      <form validation-renderer="bootstrap-form" if.bind="selectedLauncher">
-        <div class="form-group">
-          <label class="control-label" for="enabled">Enabled</label>
-          <input type="checkbox" id="enabled"
-                 checked.bind="selectedLauncher.enabled">
-        </div>
-        <div class="form-group">
-          <label class="control-label" for="title">Title</label>
-          <input type="text" class="form-control" id="title"
-                 value.bind="selectedLauncher.title & validate">
-        </div>
-        <div class="form-group">
-          <label class="control-label" for="img">Icon</label>
-          <input type="text" class="form-control" id="img"
-                 value.bind="selectedLauncher.img & validate">
-        </div>
-        <div class="form-group">
-          <p>%path% = ${project.path}</p>
-          <label class="control-label" for="cmd">Cmd</label>
-          <input type="text" class="form-control" id="cmd"
-                 value.bind="selectedLauncher.cmd & validate">
-        </div>
-      </form>
+      <div class="col-md-8">
+        <h3>${selectedLauncher.title}</h3>
+        <p if.bind="selectedLauncher.description">${selectedLauncher.description}</p>
+        <form validation-renderer="bootstrap-form" if.bind="selectedLauncher">
+          <div class="form-group">
+            <label class="control-label" for="enabled">Enabled</label>
+            <input type="checkbox" id="enabled"
+                   checked.bind="selectedLauncher.enabled">
+          </div>
+          <div class="form-group">
+            <label class="control-label" for="title">Title</label>
+            <input type="text" class="form-control" id="title"
+                   value.bind="selectedLauncher.title & validate">
+          </div>
+          <div class="form-group">
+            <label class="control-label" for="img">Icon</label>
+            <input type="text" class="form-control" id="img"
+                   value.bind="selectedLauncher.img & validate">
+          </div>
+          <div class="form-group">
+            <p>%path% = ${project.path}</p>
+            <label class="control-label" for="cmd">Cmd</label>
+            <input type="text" class="form-control" id="cmd"
+                   value.bind="selectedLauncher.cmd & validate">
+          </div>
+        </form>
+      </div>
     </div>
   </div>
+
+
+
 </template>
