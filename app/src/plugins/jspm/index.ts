@@ -56,7 +56,7 @@ class Plugin extends BasePlugin {
     if (packageJSON.jspm.directories && packageJSON.jspm.directories.baseURL) {
       baseURL = packageJSON.jspm.directories.baseURL;
     }
-    return `${project.path}/${baseURL}/config.js`;
+    return FS.join(project.path, baseURL, 'config.js');
   }
 
   readJspm017(project, packageJSON) {
@@ -65,7 +65,7 @@ class Plugin extends BasePlugin {
     if (packageJSON.jspm.directories && packageJSON.jspm.directories.baseURL) {
       baseURL = packageJSON.jspm.directories.baseURL;
     }
-    return `${project.path}/${baseURL}/jspm.config.js`;
+    return FS.join(project.path, baseURL, 'jspm.config.js');
   }
 
   async findJspmVersion(project, packageJSON) {

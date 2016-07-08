@@ -73,7 +73,7 @@ class Plugin extends BasePlugin {
 
   async tryLocatePackageJSON(project, p) {
     if (await FS.fileExists(p)) {
-      project.packageJSONPath = p;
+      project.packageJSONPath = FS.normalize(p);
 
       let packageJSON = await this.getPackageJSON(project);
 
