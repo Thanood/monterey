@@ -10,8 +10,13 @@ export function configure(aurelia) {
 
 class Plugin extends BasePlugin {
   getTiles(project, showIrrelevant) {
+    if (!showIrrelevant && !project.isUsingJSPM) {
+      return [];
+    }
+
     return [{
-      viewModel: 'plugins/jspm/tile'
+      viewModel: 'plugins/jspm/tile',
+      model: { relevant: project.isUsingJSPM }
     }];
   }
 

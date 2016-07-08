@@ -1,4 +1,4 @@
-import * as moment from  'moment';
+import * as moment              from  'moment';
 import {autoinject, observable} from 'aurelia-framework';
 import {TaskManager}            from '../../shared/task-manager';
 import {DialogController}       from 'aurelia-dialog';
@@ -7,6 +7,7 @@ import {DialogController}       from 'aurelia-dialog';
 export class TaskManagerModal {
   @observable selectedTask;
   interval;
+  model;
   filter = 'running';
 
   get tasks() {
@@ -17,8 +18,14 @@ export class TaskManagerModal {
               private taskManager: TaskManager) {
   }
 
+  activate(model) {
+    this.model = model;
+  }
+
   attached() {
-    if (this.taskManager.runningTasks.length > 0) {
+    if (this.model.task) {
+      this.selectedTask = this.model.task;
+    } else if (this.taskManager.runningTasks.length > 0) {
       this.selectedTask = this.taskManager.runningTasks[0];
     }
     this.interval = setInterval(() => this.updateElapsed(), 1000);

@@ -33,6 +33,7 @@ export class TaskManager {
     this.allTasks.unshift(task);
 
     return task.promise.then((result) => {
+      this.addTaskLog(task, '-----FINISHED-----');
       this.finishTask(task);
       return result;
     });

@@ -14,7 +14,7 @@ export class Tile {
   }
 
   activate(model) {
-    this.project = model.project;
+    Object.assign(this, model.model);
   }
 
   onClick() {

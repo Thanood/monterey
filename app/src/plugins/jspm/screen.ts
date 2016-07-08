@@ -1,16 +1,18 @@
-import {autoinject}  from 'aurelia-framework';
-import {JSPM, FS}    from 'monterey-pal';
-import {TaskManager} from '../../shared/task-manager';
+import {autoinject}       from 'aurelia-framework';
+import {JSPM, FS}         from 'monterey-pal';
+import {DialogService}    from 'aurelia-dialog';
+import {TaskManager}      from '../../shared/task-manager';
+import {TaskManagerModal} from '../../main/components/task-manager-modal';
 
 @autoinject()
 export class Screen {
 
-  _installing = false;
   lock = false;
   model;
   project;
 
-  constructor(private taskManager: TaskManager) {
+  constructor(private taskManager: TaskManager,
+              private dialogService: DialogService) {
   }
 
   activate(model) {
@@ -19,34 +21,36 @@ export class Screen {
   }
 
   install() {
-    if (this._installing) {
-      alert('Already installing');
-      return;
-    }
-
-    this._installing = true;
-
     let task = <any>{
       title: `jspm install of '${this.project.name}'`,
-      estimation: 'This could take minutes to complete',
+      estimation: 'This usually takes about a minute to complete',
       logs: []
     };
 
+    let workingDirectory = FS.getFolderPath(this.project.packageJSONPath);
+
     let promise = JSPM.install([], {
       jspmOptions: {
-        workingDirectory: FS.getFolderPath(this.project.packageJSONPath),
+        workingDirectory: workingDirectory,
         lock: this.lock
       },
       logCallback: (message) => {
-        if (message.level === 'custom' || message.level === 'warning' || message.level === 'error') {
-          this.taskManager.addTaskLog(task, message.message);
-        }
+        this.taskManager.addTaskLog(task, message.message);
       }
     })
-    .then(() => this._installing = false);
+    .then(() => JSPM.downloadLoader({
+      jspmOptions: {
+        workingDirectory: workingDirectory
+      },
+      logCallback: (message) => {
+        this.taskManager.addTaskLog(task, message.message);
+      }
+    }));
 
     task.promise = promise;
 
     this.taskManager.addTask(task);
+
+    this.dialogService.open({ viewModel: TaskManagerModal, model: { task: task }});
   }
 }
