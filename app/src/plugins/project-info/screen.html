@@ -1,31 +1,34 @@
 <template>
-  <h1>Project information</h1>
+  <div class="plugin-title-container">
+    <h1 class="plugin-title">Project information</h1>
+  </div>
+  <div class="plugin-content-container">
+    <p>
+      <b>Project name:</b>
+      ${project.name}
+    </p>
 
-  <p>
-    <b>Project name:</b>
-    ${project.name}
-  </p>
+    <p>
+      <b>Project path:</b>
+      ${project.path}
+    </p>
 
-  <p>
-    <b>Project path:</b>
-    ${project.path}
-  </p>
+    <p>
+      <b>Package.json path:</b>
+      ${project.packageJSONPath}
+    </p>
 
-  <p>
-    <b>Package.json path:</b>
-    ${project.packageJSONPath}
-  </p>
-
-  <p>
-    <b>Project is using JSPM:</b>
-    ${project.isUsingJSPM}
-  </p>
-  <p if.bind="project.jspmDefinition">
-    <b>configured JSPM version:</b>
-    ${project.jspmDefinition}
-  </p>
-  <p if.bind="project.isUsingJSPM">
-    <b>config.js path:</b>
-    ${project.configJsPath}
-  </p>
+    <p>
+      <b>Project is using JSPM:</b>
+      ${project.isUsingJSPM}
+    </p>
+    <p if.bind="project.jspmDefinition">
+      <b>configured JSPM version:</b>
+      ${project.jspmDefinition}
+    </p>
+    <p if.bind="project.isUsingJSPM">
+      <b>config.js path:</b>
+      ${project.configJsPath}
+    </p>
+  </div>
 </template>

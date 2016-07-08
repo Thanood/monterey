@@ -32,11 +32,12 @@
     top: 0;
     bottom: 0;
     left: 0;
+    z-index: 5;
     width: 384px;
     overflow: hidden;
-    box-shadow: 0 3px 4px 0 rgba(0,0,0,.14),0 3px 3px -2px rgba(0,0,0,.2),0 1px 8px 0 rgba(0,0,0,.12);
+    box-shadow: 0 3px 4px 0 rgba(0, 0, 0, .14), 0 3px 3px -2px rgba(0, 0, 0, .2), 0 1px 8px 0 rgba(0, 0, 0, .12);
 
-    .main-header{
+    .main-header {
       color: #70519E;
       line-height: 25px;
       letter-spacing: .4px;
@@ -44,14 +45,13 @@
       vertical-align: middle;
     }
 
-
     .main-button-group {
       height: 44px;
       width: 100%;
       position: absolute;
       display: block;
 
-      .main-button{
+      .main-button {
         display: block;
         position: relative;
         top: 0;
@@ -61,7 +61,7 @@
         width: 33.33%;
         background: #FFF;
         color: #70519E;
-        border:0;
+        border: 0;
         -webkit-box-orient: horizontal;
         -webkit-box-direction: normal;
         font-size: 16px;
@@ -70,25 +70,27 @@
         text-align: center;
         white-space: nowrap;
         vertical-align: middle;
-        border-right:1px solid rgb(230, 230, 230);;
+        border-right: 1px solid rgb(230, 230, 230);;
         justify-content: center;
-        outline:0;
+        outline: 0;
       }
 
-      .main-button:active{
+      .main-button:active, .main-button:hover {
         color: #FFF;
-        background-image: -webkit-radial-gradient(49% 0 circle,#C632AC 0,#8A2979 100%);
-        background-image: radial-gradient(circle at 49% 0,#C632AC 0,#8A2979 100%);
-        outline: 0;
+        background-image: -webkit-radial-gradient(49% 0 circle, #C632AC 0, #8A2979 100%);
+        background-image: radial-gradient(circle at 49% 0, #C632AC 0, #8A2979 100%);
+      }
+      .main-button:active{
+        outline: 1;
       }
     }
 
     .projectList {
-      position:absolute;
-      bottom:0;
-      top:0;
-      left:0;
-      right:0;
+      position: absolute;
+      bottom: 0;
+      top: 0;
+      left: 0;
+      right: 0;
 
       .vGrid {
         background-color: transparent !important;
@@ -97,13 +99,13 @@
         .vGrid-header {
           overflow-y: hidden !important;
 
-          .vgrid-header-input-search-icon{
-            position:absolute;
-            top:49px;
-            left:5px;
+          .vgrid-header-input-search-icon {
+            position: absolute;
+            top: 49px;
+            left: 5px;
           }
 
-          .vgrid-header-input-bottom{
+          .vgrid-header-input-bottom {
             padding: 15px 28px;
             outline: 0 !important;
           }
@@ -122,7 +124,6 @@
         }
       }
     }
-
 
     .project-list-header {
       background-color: #dfdfe1;
@@ -159,40 +160,48 @@
       font-size: 24px;
       color: #EC2685;
       font-weight: 300 !important;
-      border-bottom: 1px solid rgba(0,0,0,.12);
+      border-bottom: 1px solid rgba(0, 0, 0, .12);
       text-transform: capitalize;
     }
+
+    .returnToPluginListBtn{
+      position: absolute;
+      top:5px;
+      left:5px;
+      z-index: 10;
+    }
+
   }
-}
 
-project-list {
-  position:absolute;
-  bottom: 0;
-  top: 100px;
-  bottom: 0;
-  left: 0;
-  right: 0;
-}
-
-task-bar {
-  position: absolute;
-  bottom: 0;
-  width: 100%;
-  background-color: grey;
-  height: 30px;
-
-  .runningTasks {
+  project-list {
     position: absolute;
+    bottom: 0;
+    top: 100px;
+    left: 0;
     right: 0;
-    p {
-      color: white;
-      padding: 0;
-      margin: 0;
-      line-height: 30px;
+  }
+
+  task-bar {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    background-color: grey;
+    height: 30px;
+
+    .runningTasks {
+      position: absolute;
+      right: 0;
+
+      p {
+        color: white;
+        padding: 0;
+        margin: 0;
+        line-height: 30px;
+      }
     }
   }
-}
 
-.v-grid-context-menu {
-  display: none !important;
+  .v-grid-context-menu {
+    display: none !important;
+  }
 }

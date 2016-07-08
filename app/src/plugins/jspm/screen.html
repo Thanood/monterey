@@ -1,18 +1,21 @@
 <template>
-  <h1>JSPM Package Manager</h1>
+  <div class="plugin-title-container">
+    <h1 class="plugin-title">JSPM Package Manager</h1>
+  </div>
+  <div class="plugin-content-container">
+    <button click.delegate="install()" class="btn btn-primary">Install dependencies</button>
+    <label><input type="checkbox" value.bind="lock" /> lock dependencies</label>
 
-  <button click.delegate="install()" class="btn btn-primary">Install dependencies</button>
-  <label><input type="checkbox" value.bind="lock" /> lock dependencies</label>
 
+    <h3>Application dependencies</h3>
+    <v-grid
+      v-header-height="80"
+      v-multi-select="false"
+      v-collection.bind="topLevelDependencies"
+      v-grid-context.two-way="projectGrid">
 
-  <h3>Application dependencies</h3>
-  <v-grid
-    v-header-height="80"
-    v-multi-select="false"
-    v-collection.bind="topLevelDependencies"
-    v-grid-context.two-way="projectGrid">
-
-    <v-grid-col col-width="300" col-header-name="Name" col-field="package" col-sort="package" col-filter="package|*|onKeyDown"></v-grid-col>
-    <v-grid-col col-header-name="Version" col-field="version" col-sort="version" col-filter="version|*|onKeyDown"></v-grid-col>
-  </v-grid>
+      <v-grid-col col-width="300" col-header-name="Name" col-field="package" col-sort="package" col-filter="package|*|onKeyDown"></v-grid-col>
+      <v-grid-col col-header-name="Version" col-field="version" col-sort="version" col-filter="version|*|onKeyDown"></v-grid-col>
+    </v-grid>
+  </div>
 </template>
