@@ -5,7 +5,7 @@
     <ai-dialog-body>
 
       <div class="left-side">
-        <h2>Tasks</h2>
+        <h2 class="title">Tasks</h2>
         <table>
           <tr>
             <td style="width: 50px;">Show</td>
@@ -41,7 +41,7 @@
 
 
       <div class="right-side" if.bind="selectedTask">
-        <h3 style="margin: 0">${selectedTask.title}</h3>
+        <h3 class="title" style="margin: 0">${selectedTask.title}</h3>
         <p>
            <b>Started on:</b> ${selectedTask.start | moment:'LTS'}<br/>
            <b>Finished on:</b> ${selectedTask.end | moment:'LTS'}<br/>
@@ -64,7 +64,7 @@
     </ai-dialog-body>
 
     <ai-dialog-footer>
-      <button click.trigger="dialogController.close()">Close</button>
+      <button class="btn btn-primary" click.trigger="dialogController.close()">Close</button>
     </ai-dialog-footer>
   </ai-dialog>
 </template>
