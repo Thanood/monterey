@@ -13,10 +13,10 @@
         <li>
           <label>
             <input type="radio" name="source" checked.bind="state.source" value="skeleton"/>
-            aurelia-skeleton-navigation
+            Github project template
           </label>
           <select class="form-control" value.bind="state.skeleton" disabled.bind="state.source !== 'skeleton'">
-            <option repeat.for="skeleton of skeletons" model.bind="skeleton">${skeleton}</option>
+            <option repeat.for="template of templates" model.bind="template">${template.name}</option>
           </select>
         </li>
         <li>

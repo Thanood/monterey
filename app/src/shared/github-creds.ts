@@ -9,14 +9,9 @@ export class GithubCreds {
   username: string;
   password: string;
 
-  constructor(private validation: ValidationController, 
+  constructor(private validation: ValidationController,
               private dialog: DialogController,
               private state: ApplicationState) {}
-
-  activate(model) {
-    
-  }
-
   attached() {
     ValidationRules
     .ensure('username').required()
@@ -29,8 +24,10 @@ export class GithubCreds {
       alert('There are validation errors');
       return;
     }
-    
+
     this.state.gitAuthorization = btoa(`${this.username}:${this.password}`);
+
+    this.state._save();
 
     this.dialog.ok();
   }

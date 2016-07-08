@@ -41,9 +41,9 @@ export class Run {
         let projectDir = FS.join(this.state.path, this.state.name);
 
         if (this.state.source === 'skeleton') {
-          let releaseInfo = await this.githubAPI.getLatestRelease('aurelia', 'skeleton-navigation');
+          let releaseInfo = await this.githubAPI.getLatestRelease(this.state.skeleton.repo);
           url = releaseInfo.zipball_url;
-          subDir = this.state.skeleton;
+          subDir = this.state.skeleton.subfolder;
           this.logs.push(`Downloading version ${releaseInfo.tag_name}`);
         } else {
           url = this.state.zipUrl;
@@ -82,7 +82,9 @@ export class Run {
     // so we get the first directory name and extract that automatically
     let firstDir = (await FS.getDirectories(unzipPath))[0];
 
-    await FS.move(`${unzipPath}/${firstDir}/${subDir}`, projectDir);
+
+    let target = subDir ? FS.join(unzipPath, firstDir, subDir) : FS.join(unzipPath, firstDir);
+    await FS.move(target, projectDir);
     this.logs.push(`Moved directory to ${projectDir}....`);
 
     try {

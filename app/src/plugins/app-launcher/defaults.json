@@ -24,7 +24,7 @@
   }, {
     "id": 4,
     "img": "images/VSCodeHome.png",
-    "cmd": "Code.exe \"%path%\"",
+    "cmd": "Code.cmd \"%path%\"",
     "title": "Visual studio Code",
     "default": false,
     "platforms": ["win32"]

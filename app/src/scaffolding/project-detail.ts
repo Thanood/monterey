@@ -1,28 +1,23 @@
 import {inject, observable, BindingEngine,  NewInstance, Disposable} from 'aurelia-framework';
 import {ValidationRules}      from 'aurelia-validatejs';
 import {ValidationController} from 'aurelia-validation';
+import {MontereyRegistries}   from '../shared/monterey-registries';
 import {FS}                   from 'monterey-pal';
 import {IStep}                from './istep';
 
-@inject(NewInstance.of(ValidationController), BindingEngine)
+@inject(NewInstance.of(ValidationController), BindingEngine, MontereyRegistries)
 export class ProjectDetail {
   step: IStep;
   state;
   subscription: Disposable;
-  skeletons = [
-    'skeleton-esnext-aspnetcore',
-    'skeleton-esnext-webpack',
-    'skeleton-esnext',
-    'skeleton-typescript-aspnetcore',
-    'skeleton-typescript-webpack',
-    'skeleton-typescript'
-  ];
+  templates = [];
 
   constructor(private validation: ValidationController,
-              private bindingEngine: BindingEngine) {
+              private bindingEngine: BindingEngine,
+              private registries: MontereyRegistries) {
   }
 
-  activate(model) {
+  async activate(model) {
     this.state = model.state;
     this.step = model.step;
     this.step.execute = () => this.execute();
@@ -30,6 +25,12 @@ export class ProjectDetail {
 
     let observer = this.bindingEngine.propertyObserver(this.state, 'source');
     this.subscription = observer.subscribe(() => this.sourceChanged());
+
+    this.templates = await this.registries.getTemplates();
+    this.templates.push({
+      name: 'a',
+      repo: 'monterey-framework/registries',
+    });
   }
 
   sourceChanged() {
