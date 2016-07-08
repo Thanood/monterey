@@ -23,7 +23,7 @@ export class TaskManagerModal {
   }
 
   attached() {
-    if (this.model.task) {
+    if (this.model && this.model.task) {
       this.selectedTask = this.model.task;
     } else if (this.taskManager.runningTasks.length > 0) {
       this.selectedTask = this.taskManager.runningTasks[0];

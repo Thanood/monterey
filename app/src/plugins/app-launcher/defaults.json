@@ -21,5 +21,40 @@
     "title": "Cmder",
     "default": false,
     "platforms": ["win32"]
+  }, {
+    "id": 4,
+    "img": "images/VSCodeHome.png",
+    "cmd": "Code.exe \"%path%\"",
+    "title": "Visual studio Code",
+    "default": false,
+    "platforms": ["win32"]
+  }, {
+    "id": 5,
+    "img": "images/atom.png",
+    "cmd": "atom \"%path%\"",
+    "title": "Atom",
+    "default": false,
+    "platforms": ["win32"]
+  }, {
+    "id": 6,
+    "img": "images/visual-studio.png",
+    "cmd": "%VS140COMNTOOLS%/../IDE/devenv.exe",
+    "title": "Visual Studio",
+    "default": false,
+    "platforms": ["win32"]
+  }, {
+    "id": 7,
+    "img": "images/webstorm.jpg",
+    "cmd": "",
+    "title": "Webstorm",
+    "default": false,
+    "platforms": ["win32"]
+  }, {
+    "id": 8,
+    "img": "images/sublime.png",
+    "cmd": "",
+    "title": "Sublime",
+    "default": false,
+    "platforms": ["win32"]
   }]
 }
