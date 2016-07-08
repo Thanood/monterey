@@ -13,7 +13,7 @@ export class ScaffoldProject {
   constructor(private dialog: DialogController,
               private projectManager: ProjectManager) {
     // copy activities JSON so multiple sessions can be started
-    this.workflow = new Workflow(activities, this.state);
+    this.workflow = new Workflow(JSON.parse(JSON.stringify(activities)), this.state);
   }
 
   async next() {

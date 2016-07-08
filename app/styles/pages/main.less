@@ -64,7 +64,7 @@
         border:0;
         -webkit-box-orient: horizontal;
         -webkit-box-direction: normal;
-        font-size: 18px;
+        font-size: 16px;
         line-height: 25px;
         letter-spacing: .4px;
         text-align: center;
@@ -154,7 +154,7 @@
     padding-left: 20px;
     overflow: auto;
 
-    .project-title, .relevant-checkbox {
+    .project-title {
       margin-left: 10px;
       font-size: 24px;
       color: #EC2685;
@@ -193,58 +193,6 @@ task-bar {
   }
 }
 
-
-
-
-.task-manager-modal {
-  width: 700px;
-  height: 500px;
-
-  ai-dialog-body {
-    height: 445px;
-  }
-
-  .left-side {
-    width: 255px;
-    height: 352px;
-    float: left;
-    border-right: 1px solid gray;
-  }
-
-  .right-side {
-    width: 400px;
-    height: 53px;
-    padding-left: 20px;
-    float: left;
-  }
-
-  .task-detail {
-    float: left;
-    width: 417px;
-    margin-left: 20px;
-    padding-left: 10px;
-    height: 300px;
-  }
-
-  .logs {
-    background-color: black;
-    height: 274px;
-    padding-left: 5px;
-    overflow: auto;
-  }
-
-  .task-list {
-    width: 250px;
-
-    .list-group {
-      max-height: 300px;
-      overflow: auto;
-    }
-  }
-
-  .list-group-item {
-    &.finished {
-      background-color: #dbfdda;
-    }
-  }
+.v-grid-context-menu {
+  display: none !important;
 }
