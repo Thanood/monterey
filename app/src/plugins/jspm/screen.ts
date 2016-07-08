@@ -28,6 +28,8 @@ export class Screen {
     this.model = model;
     this.project = model.selectedProject;
 
+    // this is a hack (obviously)
+    // needs to be improved and moved to pal
     let packageJSON = JSON.parse(await FS.readFile(this.project.packageJSONPath));
     (<any>window)._this = this;
     this.a = (<any>window).require;
