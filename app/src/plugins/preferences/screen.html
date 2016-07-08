@@ -1,20 +1,22 @@
 <template>
-  <h1>Preferences</h1>
-
-  <form validation-renderer="bootstrap-form">
-    <div class="form-group">
-      <label class="control-label" for="checkForUpdatesOnStartup">Check for updates on startup</label>
-      <input type="checkbox" id="checkForUpdatesOnStartup" checked.bind="state.checkForUpdatesOnStartup">
-    </div>
-
-    <div class="form-group">
-      <label class="control-label" for="title">Github credentials</label>
-      <button if.bind="!state.gitAuthorization" click.delegate="configureGithub()" class="btn btn-primary">Configure</button>
-      <button if.bind="state.gitAuthorization" click.delegate="clearGithub()" class="btn btn-primary">Clear credentials</button>
-    </div>
-  </form>
-
-  
-
-  <button click.delegate="save()" class="btn btn-primary">Save</button>
+  <div class="plugin-title-container">
+    <h1 class="plugin-title">Preferences</h1>
+  </div>
+  <div class="plugin-content-container">
+    <form validation-renderer="bootstrap-form">
+      <div class="form-group">
+        <label class="control-label" for="checkForUpdatesOnStartup">Check for updates on startup</label>
+        <input type="checkbox" id="checkForUpdatesOnStartup" checked.bind="state.checkForUpdatesOnStartup">
+      </div>
+      <div class="form-group">
+        <label class="control-label" for="title">Github credentials</label>
+        <button if.bind="!state.gitAuthorization" click.delegate="configureGithub()" class="btn btn-primary">Configure
+        </button>
+        <button if.bind="state.gitAuthorization" click.delegate="clearGithub()" class="btn btn-primary">Clear
+          credentials
+        </button>
+      </div>
+    </form>
+    <button click.delegate="save()" class="btn btn-primary">Save</button>
+  </div>
 </template>

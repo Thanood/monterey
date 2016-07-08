@@ -1,6 +1,13 @@
 <template>
-  <h1>JSPM Package Manager</h1>
-
-  <button click.delegate="install()" class="btn btn-primary">Install dependencies</button>
-  <label><input type="checkbox" value.bind="lock" /> lock dependencies</label>
+  <div class="plugin-title-container">
+    <h1 class="plugin-title">JSPM Package Manager</h1>
+  </div>
+  <div class="plugin-content-container">
+    <form>
+      <button click.delegate="install()" class="btn btn-primary">Install dependencies</button>
+      <div class="checkbox">
+        <label><input type="checkbox" value.bind="lock"/> lock dependencies</label>
+      </div>
+    </form>
+  </div>
 </template>
