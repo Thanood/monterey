@@ -16,7 +16,7 @@ export class GithubAPI {
     this.client = new HttpClient();
   }
 
-  async getLatestRelease(repository) {
+  async getLatestReleaseZIP(repository) {
     await this.confirmAuth();
 
     return this.client.fetch(`${this.githubAPIUrl}/repos/${repository}/releases/latest`)
@@ -31,6 +31,27 @@ export class GithubAPI {
       }
 
       return response.json();
+    });
+  }
+
+  async getTags(repository) {
+    await this.confirmAuth();
+
+    return this.client.fetch(`${this.githubAPIUrl}/repos/${repository}/tags`)
+    .then(response => response.json());
+  }
+
+  async getLatestTag(repository) {
+    await this.confirmAuth();
+
+    return this.client.fetch(`${this.githubAPIUrl}/repos/${repository}/releases/latest`)
+    .then(response => {
+      if (response.status === 404) {
+        return 'master';
+      } else {
+        return response.json()
+        .then(data => data.tag_name);
+      }
     });
   }
 

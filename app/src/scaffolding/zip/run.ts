@@ -41,7 +41,7 @@ export class Run {
         let projectDir = FS.join(this.state.path, this.state.name);
 
         if (this.state.source === 'skeleton') {
-          let releaseInfo = await this.githubAPI.getLatestRelease(this.state.skeleton.repo);
+          let releaseInfo = await this.githubAPI.getLatestReleaseZIP(this.state.skeleton.repo);
           url = releaseInfo.zipball_url;
           subDir = this.state.skeleton.subfolder;
           this.logs.push(`Downloading version ${releaseInfo.tag_name}`);

@@ -13,3 +13,7 @@ declare module '*activities.json!' {
  declare module 'semver-compare' {
      export var cmp: any;
  }
+
+ declare module 'semver' {
+   export var compare: any;
+ }

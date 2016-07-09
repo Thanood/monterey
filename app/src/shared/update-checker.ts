@@ -3,7 +3,7 @@ import {DialogService}          from 'aurelia-dialog';
 import {HttpClient}             from 'aurelia-fetch-client';
 import {LogManager, autoinject} from 'aurelia-framework';
 import {FS}                     from 'monterey-pal';
-import * as semver              from 'semver-compare';
+import * as semver              from 'semver';
 import {UpdateModal}            from './update-modal';
 import {ApplicationState}       from './application-state';
 import * as packageJSON         from 'root/package.json!';
@@ -26,7 +26,7 @@ export class UpdateChecker {
       let latestRelease = await this.getLatestVersion();
       let latestVersion = latestRelease.tag_name;
       let currVersion: string = (<any>packageJSON).version;
-      if ((<any>semver)(latestVersion, currVersion) > 0) {
+      if (semver.compare(latestVersion, currVersion) > 0) {
         let model = {
           currentVersion: currVersion,
           release: latestRelease

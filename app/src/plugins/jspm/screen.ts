@@ -8,7 +8,6 @@ import {Analyzer}         from './analyzer';
 @autoinject()
 export class Screen {
 
-  lock = false;
   model;
   project;
   a;
@@ -16,6 +15,8 @@ export class Screen {
   config;
   process;
   loader;
+  loading = false;
+  projectGrid;
   topLevelDependencies = [];
   allDependencies = [];
 
@@ -27,25 +28,29 @@ export class Screen {
   async activate(model) {
     this.model = model;
     this.project = model.selectedProject;
+  }
 
-    // this is a hack (obviously)
-    // needs to be improved and moved to pal
+  async attached() {
+    this.loading = true;
+
+    await this.load();
+
+    this.loading = false;
+  }
+
+  async load() {
+    // clear old dependency list
+    let count = this.topLevelDependencies.length;
+    for (let i = count; i >= 0; i--) {
+      this.topLevelDependencies.splice(i, 1);
+    }
+
     let packageJSON = JSON.parse(await FS.readFile(this.project.packageJSONPath));
-    (<any>window)._this = this;
-    this.a = (<any>window).require;
-    let system = (<any>window).System;
-    this.jspm = this.a('jspm');
-    this.config = this.a('jspm/lib/config.js');
-    this.install = this.a('jspm/lib/install.js');
-    this.process = (<any>window).process;
-    (<any>window).System = system;
-    let originalWorkingDirectory = this.process.cwd();
-    this.process.chdir(this.project.path );
+    let config = await JSPM.getConfig(this.project.path, this.project.packageJSONPath);
 
-    this.jspm.setPackagePath(this.project.packageJSONPath);
-    await this.config.load();
+    this.allDependencies = this.analyzer.analyze(config.loader, packageJSON);
 
-    this.allDependencies = this.analyzer.analyze(this.config.loader, packageJSON);
+    // only show top level dependencies in the grid, sorted by package name
     this.topLevelDependencies =  this.allDependencies
       .filter(i => i.isTopLevel)
       .sort((a, b) => {
@@ -53,39 +58,82 @@ export class Screen {
         if (a.package > b.package) return 1;
         return 0;
       });
+
+    // don't do this synchronously, just continue with everything and latest version will
+    // gradually come in
+    this.analyzer.lookupLatest();
   }
 
-  install() {
+  updateSelected() {
+    let deps = this.getSelectedDependencies().map(pkg => pkg.alias);
+
+    if (deps.length ===  0) {
+      alert('Please select at least one dependency');
+      return;
+    }
+
+    if (deps.length > 1) {
+      deps = deps.concat(' ');
+    } else {
+      deps = deps[0];
+    }
+
+    console.log('installing', this.getSelectedDependencies());
+
+    let workingDirectory = FS.getFolderPath(this.project.packageJSONPath);
+    this.install(deps, { lock: false });
+  }
+
+  getSelectedDependencies(): Array<any> {
+    let selection = this.projectGrid.ctx.vGridSelection.getSelectedRows();
+    return selection.map(index => this.topLevelDependencies[index]);
+  }
+
+  installAll() {
+    let task = this.install(true, { lock: true });
+    task.promise = task.promise
+    .then(() => this.downloadLoader((message) => {
+      this.taskManager.addTaskLog(task, message.message);
+    }));
+  }
+
+  downloadLoader(callback) {
+    let workingDirectory = FS.getFolderPath(this.project.packageJSONPath);
+    return JSPM.downloadLoader({
+      jspmOptions: {
+        workingDirectory: workingDirectory
+      },
+      logCallback: callback
+    });
+  }
+
+  install(deps, jspmOptions = null) {
+    // always supply a workingDirectory so that
+    // we're not jspm installing in monterey directory
+    let workingDirectory = FS.getFolderPath(this.project.packageJSONPath);
+    Object.assign(jspmOptions, {
+      workingDirectory: workingDirectory
+    });
+
     let task = <any>{
       title: `jspm install of '${this.project.name}'`,
       estimation: 'This usually takes about a minute to complete',
       logs: []
     };
 
-    let workingDirectory = FS.getFolderPath(this.project.packageJSONPath);
-
-    let promise = JSPM.install([], {
-      jspmOptions: {
-        workingDirectory: workingDirectory,
-        lock: this.lock
-      },
+    let promise = JSPM.install(deps, {
+      jspmOptions: jspmOptions,
       logCallback: (message) => {
         this.taskManager.addTaskLog(task, message.message);
       }
-    })
-    .then(() => JSPM.downloadLoader({
-      jspmOptions: {
-        workingDirectory: workingDirectory
-      },
-      logCallback: (message) => {
-        this.taskManager.addTaskLog(task, message.message);
-      }
-    }));
+    });
 
     task.promise = promise;
 
     this.taskManager.addTask(task);
 
     this.dialogService.open({ viewModel: TaskManagerModal, model: { task: task }});
+
+    return task;
   }
 }
