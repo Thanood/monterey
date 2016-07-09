@@ -2,11 +2,11 @@
   <p>
     <b>Project is using JSPM</b>
   </p>
-  <p if.bind="project.jspmDefinition">
+  <p if.bind="project.jspmVersion">
     <b>JSPM version:</b>
-    ${project.jspmDefinition}
+    ${project.jspmVersion}
   </p>
-  <p if.bind="project.isUsingJSPM">
+  <p>
     <b>Config.js path:</b>
     ${project.configJsPath}
   </p>
