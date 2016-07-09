@@ -65,7 +65,8 @@ export class Screen {
   }
 
   updateSelected() {
-    let deps = this.getSelectedDependencies().map(pkg => pkg.alias);
+    let deps = this.getSelectedDependencies();
+    let installDeps;
 
     if (deps.length ===  0) {
       alert('Please select at least one dependency');
@@ -73,15 +74,17 @@ export class Screen {
     }
 
     if (deps.length > 1) {
-      deps = deps.concat(' ');
+      installDeps = {};
+      deps.forEach(dep => installDeps[dep.alias] = dep.name);
     } else {
-      deps = deps[0];
+      installDeps = {};
+      installDeps[deps[0].alias] = deps[0].name;
     }
 
-    console.log('installing', this.getSelectedDependencies());
+    console.log('installing', installDeps);
 
     let workingDirectory = FS.getFolderPath(this.project.packageJSONPath);
-    this.install(deps, { lock: false });
+    this.install(installDeps, { lock: false });
   }
 
   getSelectedDependencies(): Array<any> {
