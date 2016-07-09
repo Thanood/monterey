@@ -234,14 +234,23 @@ System.config({
       "isarray": "npm:isarray@1.0.0",
       "process": "github:jspm/nodelibs-process@0.1.2"
     },
+    "npm:closest@0.0.1": {
+      "matches-selector": "npm:matches-selector@0.0.1"
+    },
     "npm:core-js@2.4.0": {
       "fs": "github:jspm/nodelibs-fs@0.1.2",
       "path": "github:jspm/nodelibs-path@0.1.0",
       "process": "github:jspm/nodelibs-process@0.1.2",
       "systemjs-json": "github:systemjs/plugin-json@0.1.2"
     },
+    "npm:delegate@3.0.1": {
+      "closest": "npm:closest@0.0.1"
+    },
     "npm:font-awesome@4.6.3": {
       "css": "github:systemjs/plugin-css@0.1.23"
+    },
+    "npm:good-listener@1.1.7": {
+      "delegate": "npm:delegate@3.0.1"
     },
     "npm:inherits@2.0.1": {
       "util": "github:jspm/nodelibs-util@0.1.0"

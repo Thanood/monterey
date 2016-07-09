@@ -12,6 +12,7 @@ export class Screen {
   async activate(model) {
     this.project = model.selectedProject;
 
+    // allow plugins to provide a list of view/viewmodels that should be rendered here
     this.pluginManager.plugins.forEach(async plugin => {
       let sections = await plugin.getProjectInfoSections(this.project);
       (sections || []).forEach(section => {
@@ -23,6 +24,23 @@ export class Screen {
 
         this.sections.push(section);
       });
+    });
+  }
+
+  attached() {
+    let c = new Clipboard('.copy-btn', {
+        text: function(trigger) {
+          return (<any>$('.copyable-item')).text();
+        }
+    });
+
+    c.on('success', function(e) {
+      alert('copied project information to clipboard');
+    });
+
+    c.on('error', function(e) {
+      alert(`failed to copy project information to clipboard: ${e.text}`);
+      console.log(e);
     });
   }
 }
