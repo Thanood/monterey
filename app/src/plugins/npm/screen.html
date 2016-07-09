@@ -3,6 +3,42 @@
     <h1 class="plugin-title">NPM Package Manager</h1>
   </div>
   <div class="plugin-content-container">
-    <button class="btn btn-primary" click.delegate="install()" class="btn btn-primary">Install dependencies</button>
+    <button click.delegate="installAll()" class="btn btn-primary">Install</button>
+    <button click.delegate="updateAll()" class="btn btn-primary">Update all</button>
+    <button click.delegate="updateSelected()" class="btn btn-primary">
+      Update selected
+    </button>
+    <button click.delegate="load()" class="btn btn-primary">Refresh</button>
+
+    <i class="fa fa-spinner fa-spin fa-3x" if.bind="loading"></i>
+
+    <h3>Application dependencies</h3>
+    <v-grid
+      class="jspm-grid"
+      v-header-height="80"
+      v-loading-threshold="1000"
+      v-multi-select="true"
+      v-collection.bind="topLevelDependencies"
+      v-grid-context.two-way="projectGrid">
+
+      <v-grid-col col-width="50" col-type="selection" col-add-row-attributes="v-key-move"></v-grid-col>
+      <v-grid-col col-width="300" col-header-name="Name" col-field="name" col-sort="name" col-filter="name|*|onKeyDown">
+        <v-row-template>
+          <input readonly v-key-move class="vgrid-row-input" v-observe-field="index" value.bind="rowRef.name">
+        </v-row-template>
+      </v-grid-col>
+      <v-grid-col col-header-name="Version" col-field="version" col-sort="version" col-filter="version|*|onKeyDown">
+        <v-row-template>
+          <div class="${rowRef.isUpToDate === true ? 'up-to-date' : ''} ${rowRef.isUpToDate === false ? 'out-of-date' : ''} version-cell">
+            <input readonly v-key-move class="vgrid-row-input" v-observe-field="index" value.bind="rowRef.version">
+          </div>
+        </v-row-template>
+      </v-grid-col>
+      <v-grid-col col-header-name="Latest" col-field="latest" col-sort="latest" col-filter="latest|*|onKeyDown">
+        <v-row-template>
+          <input readonly v-key-move class="vgrid-row-input" v-observe-field="index" value.bind="rowRef.latest">
+        </v-row-template>
+      </v-grid-col>
+    </v-grid>
   </div>
 </template>
