@@ -1,0 +1,13 @@
+<template>
+  <p>
+    <b>Project is using JSPM</b>
+  </p>
+  <p if.bind="project.jspmDefinition">
+    <b>JSPM version:</b>
+    ${project.jspmDefinition}
+  </p>
+  <p if.bind="project.isUsingJSPM">
+    <b>Config.js path:</b>
+    ${project.configJsPath}
+  </p>
+</template>

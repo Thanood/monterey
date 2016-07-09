@@ -23,4 +23,8 @@ export class BasePlugin {
   async onProjectAdd(project) {
     return project;
   }
+
+  async getProjectInfoSections(project) {
+    return [];
+  }
 }
