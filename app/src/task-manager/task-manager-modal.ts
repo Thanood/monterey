@@ -1,6 +1,6 @@
 import * as moment              from  'moment';
 import {autoinject, observable} from 'aurelia-framework';
-import {TaskManager}            from '../../shared/task-manager';
+import {TaskManager}            from './task-manager';
 import {DialogController}       from 'aurelia-dialog';
 
 @autoinject()

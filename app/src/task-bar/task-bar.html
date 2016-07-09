@@ -1,5 +1,5 @@
-<template css="${visible ? '' : 'display: none'}">
-  <div class="runningTasks" click.delegate="showTasks()">
+<template>
+  <div class="runningTasks" click.delegate="showTasks()" if.bind="visible">
     <p>
       <span class="glyphicon glyphicon-cog gly-spin"></span>
       busy with ${taskManager.runningTasks.length} tasks...

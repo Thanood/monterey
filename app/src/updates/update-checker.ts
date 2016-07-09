@@ -5,7 +5,7 @@ import {LogManager, autoinject} from 'aurelia-framework';
 import {FS}                     from 'monterey-pal';
 import * as semver              from 'semver';
 import {UpdateModal}            from './update-modal';
-import {ApplicationState}       from './application-state';
+import {ApplicationState}       from '../shared/application-state';
 import * as packageJSON         from 'root/package.json!';
 
 const logger = LogManager.getLogger('project-manager');
@@ -36,7 +36,7 @@ export class UpdateChecker {
       } else {
         logger.info(`Current version ${currVersion} is equal to the latest version (${latestVersion})`);
       }
-    } catch(e) {
+    } catch (e) {
       logger.error('error during update check', e);
       // fail silently
     }

@@ -1,6 +1,6 @@
-import {autoinject} from 'aurelia-framework';
+import {autoinject}       from 'aurelia-framework';
 import {DialogController} from 'aurelia-dialog';
-import {ApplicationState} from './application-state';
+import {ApplicationState} from '../shared/application-state';
 
 @autoinject()
 export class UpdateModal {

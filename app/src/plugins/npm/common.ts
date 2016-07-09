@@ -1,6 +1,6 @@
 import {autoinject}  from 'aurelia-framework';
 import {NPM, FS}     from 'monterey-pal';
-import {TaskManager} from '../../shared/task-manager';
+import {TaskManager} from '../../task-manager/task-manager';
 
 @autoinject()
 export class Common {

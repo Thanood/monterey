@@ -1,6 +1,6 @@
 <template>
-  <require from="./converters/moment"></require>
-  <require from="./markdown"></require>
+  <require from="../shared/converters/moment"></require>
+  <require from="../shared/markdown"></require>
   <ai-dialog>
     <ai-dialog-body>
       <h2>Update available</h2>
@@ -10,7 +10,7 @@
       <hr>
       <markdown markdown.bind="release.body"></markdown>
       <hr>
-      
+
     </ai-dialog-body>
 
     <ai-dialog-footer>

@@ -1,14 +1,14 @@
-import {autoinject}     from 'aurelia-framework';
-import {UpdateChecker}  from './shared/update-checker';
-import {ProjectManager} from './shared/project-manager';
-import {PluginManager}  from './shared/plugin-manager';
+import {autoinject}       from 'aurelia-framework';
+import {UpdateChecker}    from './updates/update-checker';
+import {ProjectManager}   from './shared/project-manager';
+import {PluginManager}    from './shared/plugin-manager';
 import {ApplicationState} from './shared/application-state';
 
 @autoinject()
 export class App {
 
   constructor(private updateChecker: UpdateChecker,
-              private pluginManager: PluginManager, 
+              private pluginManager: PluginManager,
               private applicationState: ApplicationState,
               private projectManager: ProjectManager) {
   }

@@ -2,7 +2,7 @@ import {autoinject, singleton} from 'aurelia-framework';
 import {withModal}         from '../shared/decorators';
 import {ProjectFinder}     from '../shared/project-finder';
 import {ProjectManager}    from '../shared/project-manager';
-import {TaskManager}       from '../shared/task-manager';
+import {TaskManager}       from '../task-manager/task-manager';
 import {ScaffoldProject}   from '../scaffolding/scaffold-project';
 import {Tiles}             from './components/tiles';
 
