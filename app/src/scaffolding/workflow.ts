@@ -56,10 +56,6 @@ export class Workflow {
     let nextActivity = this.currentStep.nextActivity;
 
     if (!this.isFlowStep(this.currentStep)) {
-      if (!this.firstStep) {
-        this.firstStep = this.currentStep;
-      }
-
       let result;
 
       try {
@@ -100,6 +96,10 @@ export class Workflow {
 
     if (this.isFlowStep(this.currentStep)) {
       return await this.next();
+    } else {
+      if (!this.firstStep) {
+        this.firstStep = this.currentStep;
+      }
     }
 
     return true;
@@ -107,6 +107,10 @@ export class Workflow {
 
   isFlowStep(step) {
     return !!this.flowSteps.find(i => i === step.type);
+  }
+
+  get isFirst() {
+    return this.currentStep && this.firstStep && (this.currentStep.id === this.firstStep.id);
   }
 
   get isLast() {

@@ -9,7 +9,7 @@
 
     <ai-dialog-footer>
       <button class="btn btn-primary" click.trigger="close()" tabindex="3">Close</button>
-      <button class="btn btn-primary" click.trigger="workflow.previous()" if.bind="!workflow.isLast" tabindex="2">
+      <button class="btn btn-primary" click.trigger="workflow.previous()" if.bind="!workflow.isLast && !workflow.isFirst" tabindex="2">
         Previous
       </button>
       <button class="btn btn-primary" click.delegate="next()" tabindex="1" if.bind="!workflow.isLast">Next</button>
