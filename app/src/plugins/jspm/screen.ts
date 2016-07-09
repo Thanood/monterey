@@ -73,23 +73,20 @@ export class Screen {
       return;
     }
 
-    if (deps.length > 1) {
-      installDeps = {};
-      deps.forEach(dep => installDeps[dep.alias] = dep.name);
-    } else {
-      installDeps = {};
-      installDeps[deps[0].alias] = deps[0].name;
-    }
-
-    console.log('installing', installDeps);
+    installDeps = {};
+    deps.forEach(dep => installDeps[dep.alias] = `${dep.name}@${dep.latest}`);
 
     let workingDirectory = FS.getFolderPath(this.project.packageJSONPath);
-    this.install(installDeps, { lock: false });
+    this.install(installDeps, { lock: false, latest: true });
   }
 
   getSelectedDependencies(): Array<any> {
     let selection = this.projectGrid.ctx.vGridSelection.getSelectedRows();
     return selection.map(index => this.topLevelDependencies[index]);
+  }
+
+  updateAll() {
+    this.install(true, { lock: false, update: true });
   }
 
   installAll() {
