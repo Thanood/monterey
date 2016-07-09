@@ -60,7 +60,7 @@ export class Workflow {
 
       try {
         result = await this.currentStep.execute();
-      } catch(e) {
+      } catch (e) {
         alert(`Error occurred: ${e.message}`);
         return;
       }
