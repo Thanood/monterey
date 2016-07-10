@@ -37,7 +37,7 @@
           <input readonly v-key-move class="vgrid-row-input" v-observe-field="index" value.bind="rowRef.package">
         </v-row-template>
       </v-grid-col>
-      <v-grid-col col-header-name="Version" col-field="version" col-sort="version" col-filter="version|*|onKeyDown">
+      <v-grid-col col-width="150" col-header-name="Installed version" col-field="version" col-sort="version" col-filter="version|*|onKeyDown">
         <v-row-template>
           <div class="${rowRef.isUpToDate === true ? 'up-to-date' : ''} ${rowRef.isUpToDate === false ? 'out-of-date' : ''} version-cell">
             <input readonly v-key-move class="vgrid-row-input" v-observe-field="index" value.bind="rowRef.version">
