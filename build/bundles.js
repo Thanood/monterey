@@ -1,19 +1,19 @@
 module.exports = {
   "bundles": {
-    "dist/app-build": {
-      "includes": [
-        "[**/*.js]",
-        "**/*.json!json",
-        "**/*.html!text",
-        "**/*.css!text"
-      ],
-      "options": {
-        "inject": true,
-        "minify": true,
-        // "depCache": true,
-        "rev": true
-      }
-    },
+    // "dist/app-build": {
+    //   "includes": [
+    //     "[**/*.js]",
+    //     "**/*.json!json",
+    //     "**/*.html!text",
+    //     "**/*.css!text"
+    //   ],
+    //   "options": {
+    //     "inject": true,
+    //     "minify": true,
+    //     // "depCache": true,
+    //     "rev": true
+    //   }
+    // },
     "dist/aurelia": {
       "includes": [
         "aurelia-framework",
