@@ -29,26 +29,41 @@ export class Analyzer {
   }
 
   async lookupInstalledVersions(project, topLevelDependencies) {
-    let json = await NPM.ls({ workingDirectory: FS.getFolderPath(project.packageJSONPath) });
-    let keys = Object.keys(json.dependencies);
-
-    for (let i = 0; i < keys.length; i++) {
-      let key = keys[i];
-      let tld = topLevelDependencies.find(x => x.name === key);
-      if (tld) {
-        tld.version = json.dependencies[key].version;
-      }
+    let tree: string = await NPM.ls({ workingDirectory: FS.getFolderPath(project.packageJSONPath) });
+    let lines = tree.split('\n');
+    let deps = [];
+    // remove first line of tree (we already know what package it is)
+    lines = lines.splice(1, lines.length);
+    for (let i = 0; i < lines.length; i++) {
+      let line = lines[i];
+      line = line.replace('├── ', '');
+      deps.push({
+        name: line.split('@')[0],
+        version: line.split('@')[1],
+      });
     }
+
+    deps.forEach(dep => {
+      let tld = topLevelDependencies.find(x => x.name === dep.name);
+      if (tld) {
+        tld.version = dep.version;
+      }
+    });
   }
 
   getLatestVersions(dependencies) {
     dependencies.forEach(dep => {
       this.npmAPI.getLatest(dep.name)
       .then(version => dep.latest = version)
+      .catch((e) => {});
     });
   }
 
   async checkIfUpToDate(m) {
+    // can't determine whether a dep is out of date when
+    // there is no version or latest version known
+    if (!m.version || !m.latest) return;
+
     // not sure how to handle this yet
     // "typescript": ">=1.9.0-dev || ^2.0.0",
     if (m.version.indexOf('||') > -1) return;

@@ -31,7 +31,7 @@
       <v-grid-col col-header-name="Version" col-field="version" col-sort="version" col-filter="version|*|onKeyDown">
         <v-row-template>
           <div class="${rowRef.isUpToDate === true ? 'up-to-date' : ''} ${rowRef.isUpToDate === false ? 'out-of-date' : ''} version-cell">
-            <input readonly v-key-move class="vgrid-row-input" v-observe-field="index" value.bind="rowRef.version">
+            <input readonly v-key-move class="vgrid-row-input" v-observe-field="index" value="${!rowRef.missing ? rowRef.version : 'not installed'}">
           </div>
         </v-row-template>
       </v-grid-col>
@@ -42,7 +42,7 @@
       </v-grid-col>
       <v-grid-col col-header-name="Latest" col-field="latest" col-sort="latest" col-filter="latest|*|onKeyDown">
         <v-row-template>
-          <input readonly v-key-move class="vgrid-row-input" v-observe-field="index" value.bind="rowRef.latest">
+          <input readonly v-key-move class="vgrid-row-input" v-observe-field="index" value="${rowRef.latest ? rowRef.latest : 'not found'}">
         </v-row-template>
       </v-grid-col>
     </v-grid>
