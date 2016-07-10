@@ -29,26 +29,18 @@ export class Analyzer {
   }
 
   async lookupInstalledVersions(project, topLevelDependencies) {
-    let tree: string = await NPM.ls({ workingDirectory: FS.getFolderPath(project.packageJSONPath) });
-    let lines = tree.split('\n');
-    let deps = [];
-    // remove first line of tree (we already know what package it is)
-    lines = lines.splice(1, lines.length);
-    for (let i = 0; i < lines.length; i++) {
-      let line = lines[i];
-      line = line.replace('├── ', '');
-      deps.push({
-        name: line.split('@')[0],
-        version: line.split('@')[1],
-      });
-    }
+    let deps = await NPM.ls({ workingDirectory: FS.getFolderPath(project.packageJSONPath) });
 
-    deps.forEach(dep => {
-      let tld = topLevelDependencies.find(x => x.name === dep.name);
+    let keys = Object.keys(deps.dependencies);
+    for(let i = 0; i < keys.length; i++) {
+      let key = keys[i];
+      let dep = deps.dependencies[key];
+      let tld = topLevelDependencies.find(x => x.name === key);
       if (tld) {
         tld.version = dep.version;
+        tld.missing = dep.missing;
       }
-    });
+    }
   }
 
   getLatestVersions(dependencies) {
