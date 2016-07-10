@@ -1,5 +1,3 @@
-# Monterey is still in active development and is not ready to be used
-
 # Monterey
 
 [![Join the chat at https://gitter.im/monterey-framework/shell](https://badges.gitter.im/monterey-framework/shell.svg)](https://gitter.im/monterey-framework/shell?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
@@ -7,17 +5,15 @@
 Monterey is an extensible application that provides a graphical user interface for a collection of tools to simplify the creation, configuration and maintenance of Aurelia applications.
 
 ### What does Monterey look like
-![](http://i.imgur.com/XfG3lvP.png)
+![](http://i.imgur.com/iKvi8Dl.png)
 
-### Initial feature set
-1. ~~Maintain a list of Aurelia projects in a single application~~
-2. ~~Create new Aurelia project (via [aurelia-cli](https://github.com/aurelia/cli) or skeleton-navigation) through a GUI~~
-3. A GUI that shows JSPM dependencies (current versions and latest versions), update functionality and warning of forks
-4. NPM install functionality
-5. ~~Configurable app launchers for things like explorer.exe and cmd.exe or custom ones~~
+
+
 
 ### How to install and use Monterey
-To be determined (https://github.com/monterey-framework/monterey/issues/17)
+1. At the bottom of [this page](https://github.com/monterey-framework/monterey/releases/latest) download the appropriate ZIP for your platform
+2. Extract the ZIP
+3. Run monterey (on windows open monterey.exe)
 
 ### How to develop Monterey
 Suggested folder structure:
