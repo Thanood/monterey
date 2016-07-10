@@ -10,6 +10,7 @@
       This project has forks. Click <a href="#" class="alert-link" click.delegate="showForks()">here</a> to get more information.
     </div>
 
+    <!-- row of buttons -->
     <button click.delegate="installAll()" class="btn btn-primary">Install</button>
     <button click.delegate="updateAll()" class="btn btn-primary">Update all</button>
     <button click.delegate="updateSelected()" class="btn btn-primary" title="Update selected packages and even update when the major version is different than what's currently installed">
@@ -19,10 +20,12 @@
 
     <i class="fa fa-spinner fa-spin fa-3x" if.bind="loading"></i>
 
+    <!-- dependency list -->
     <h3>Application dependencies</h3>
     <v-grid
       class="jspm-grid"
-      v-header-height="80"
+      v-header-height="50"
+      v-row-height="25"
       v-loading-threshold="1000"
       v-multi-select="true"
       v-collection.bind="topLevelDependencies"
