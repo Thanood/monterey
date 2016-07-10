@@ -15,8 +15,10 @@ module.exports = {
     'app/jspm_packages/system-csp-production.js',
     'app/jspm_packages/npm/jquery@*.js',
     'app/jspm_packages/npm/jquery@*/dist/jquery.js',
+    'app/jspm_packages/github/monterey-framework/**/*',
     'app/styles/styles.css',
     'app/doc/CHANGELOG.md',
+    'app/scripts/**/*',
     'app/node_modules/**/*.js',
     'app/node_modules/**/package.json',
     'app/scripts/babel-polyfill.min.js'

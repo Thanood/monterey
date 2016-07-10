@@ -12,10 +12,8 @@ gulp.task('package', function(callback) {
   var options = {
     dir: './app/export',
     name: 'monterey',
-    // platform: 'all',
-    // arch: 'all',
-    platform: 'win32',
-    arch: 'x64',
+    platform: ['darwin', 'win32', 'linux'],
+    arch: 'all',
     out: 'release',
     overwrite: true,
     'app-version': appVersion
@@ -41,6 +39,8 @@ gulp.task('deploy', function(callback) {
 gulp.task('rename-index', function(cb) {
   fs.renameSync('./app/index.html', 'app/index.dev.html');
   fs.renameSync('./app/index.prod.html', 'app/index.html');
+  fs.renameSync('./app/index.js', 'app/index.dev.js');
+  fs.renameSync('./app/index.prod.js', 'app/index.js');
   cb();
 });
 
@@ -54,6 +54,8 @@ gulp.task('post-package', function(cb) {
 gulp.task('rename-index-back', function(cb) {
   fs.renameSync('./app/index.html', 'app/index.prod.html');
   fs.renameSync('./app/index.dev.html', 'app/index.html');
+  fs.renameSync('./app/index.js', 'app/index.prod.js');
+  fs.renameSync('./app/index.dev.js', 'app/index.js');
   cb();
 });
 
