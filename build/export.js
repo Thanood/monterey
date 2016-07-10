@@ -9,6 +9,7 @@ module.exports = {
     'app/favicon.ico',
     'app/package.json',
     'app/images/**/*',
+    'app/dist/**/*',
     'app/LICENSE',
     'app/jspm_packages/system.js',
     'app/jspm_packages/system-polyfills.js',
@@ -20,7 +21,7 @@ module.exports = {
     'app/doc/CHANGELOG.md',
     'app/scripts/**/*',
     'app/node_modules/**/*.js',
-    'app/node_modules/**/package.json',
+    'app/node_modules/**/*.json',
     'app/scripts/babel-polyfill.min.js'
   ],
   // this section lists any jspm packages that have
