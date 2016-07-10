@@ -14,8 +14,9 @@
 
     <h3>Application dependencies</h3>
     <v-grid
-      class="jspm-grid"
-      v-header-height="80"
+      class="npm-grid"
+      v-header-height="50"
+      v-row-height="25"
       v-loading-threshold="1000"
       v-multi-select="true"
       v-collection.bind="topLevelDependencies"
@@ -32,6 +33,11 @@
           <div class="${rowRef.isUpToDate === true ? 'up-to-date' : ''} ${rowRef.isUpToDate === false ? 'out-of-date' : ''} version-cell">
             <input readonly v-key-move class="vgrid-row-input" v-observe-field="index" value.bind="rowRef.version">
           </div>
+        </v-row-template>
+      </v-grid-col>
+      <v-grid-col col-header-name="Range" col-field="range" col-sort="range" col-filter="range|*|onKeyDown">
+        <v-row-template>
+          <input readonly v-key-move class="vgrid-row-input" v-observe-field="index" value.bind="rowRef.range">
         </v-row-template>
       </v-grid-col>
       <v-grid-col col-header-name="Latest" col-field="latest" col-sort="latest" col-filter="latest|*|onKeyDown">

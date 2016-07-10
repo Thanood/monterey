@@ -1,7 +1,7 @@
 import {autoinject}       from 'aurelia-framework';
 import {Common}           from './common';
 import {DialogService}    from 'aurelia-dialog';
-import {FS}               from 'monterey-pal';
+import {Analyzer}         from './analyzer';
 import {TaskManager}      from '../../task-manager/task-manager';
 import {TaskManagerModal} from '../../task-manager/task-manager-modal';
 
@@ -10,9 +10,11 @@ export class Screen {
 
   model;
   project;
+  loading: boolean;
   topLevelDependencies: Array<any> = [];
 
   constructor(private common: Common,
+              private analyzer: Analyzer,
               private dialogService: DialogService) {
   }
 
@@ -26,28 +28,18 @@ export class Screen {
   }
 
   async load() {
-    // let a = (<any>window).require;
-    // var npm = a('npm');
-    // await npm.load({ workingDirectory: this.project.path }, done => {
-    //   var npmLs = a('npm/lib/ls.js');
-    //   npmLs([], false, function (e) { console.log('RESPONSE:', e); });
-    // });
+    this.loading = true;
 
-    let packageJSON = JSON.parse(await FS.readFile(this.project.packageJSONPath));
-    let deps = Object.assign({}, packageJSON.dependencies, packageJSON.devDependencies);
+    this.topLevelDependencies = await this.analyzer.analyze(this.project);
 
-    // normalize data for the grid
-    let keys = Object.keys(deps);
-    for (let i = 0; i < keys.length; i++) {
-      let key = keys[i];
-      let dep = deps[key];
-      deps[key] = {
-        name: key,
-        version: deps[key]
-      };
+    let promises = [];
 
-      this.topLevelDependencies.push(deps[key]);
-    }
+    promises.push(this.analyzer.getLatestVersions(this.topLevelDependencies));
+    promises.push(this.analyzer.lookupInstalledVersions(this.project, this.topLevelDependencies));
+
+    Promise.all(promises)
+    .then(() => this.topLevelDependencies.forEach(dep => this.analyzer.checkIfUpToDate(dep)))
+    .then(() => this.loading = false);
   }
 
   installAll() {

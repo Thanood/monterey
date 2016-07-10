@@ -16,4 +16,8 @@ declare module '*activities.json!' {
 
  declare module 'semver' {
    export var compare: any;
+   export var lt: any;
+   export var lte: any;
+   export var gt: any;
+   export var gte: any;
  }
