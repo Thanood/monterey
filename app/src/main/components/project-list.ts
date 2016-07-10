@@ -21,7 +21,7 @@ export class ProjectList {
     this.setlastSelectedRow();
   }
 
-  setlastSelectedRow(){
+  setlastSelectedRow() {
      // on attached the grid is made, so we need to delay to next
     setTimeout(() => {
       this.projectGrid.ctx.vGridSelection.select(this.lastSelectedRow);
@@ -30,7 +30,7 @@ export class ProjectList {
   }
 
   selectProject(project) {
-    if(this.selectedProject !== project.data) {
+    if (this.selectedProject !== project.data) {
       if (this.disabled) {
         alert('Please return to the tile list before switching projects');
         this.setlastSelectedRow();

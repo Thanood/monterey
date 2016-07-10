@@ -34,7 +34,7 @@ export class Tile {
         } else {
           alert('Unable to detect JSPM');
         }
-      } catch(error) {
+      } catch (error) {
         alert(`Error during the detection of JSPM: ${error.message}`);
       }
     }

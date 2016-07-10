@@ -39,7 +39,7 @@ export class Analyzer {
 
     if (deps && deps.dependencies) {
       let keys = Object.keys(deps.dependencies);
-      for(let i = 0; i < keys.length; i++) {
+      for (let i = 0; i < keys.length; i++) {
         let key = keys[i];
         let dep = deps.dependencies[key];
         let tld = topLevelDependencies.find(x => x.name === key);
