@@ -4,10 +4,7 @@
   </div>
   <div class="plugin-content-container">
     <button click.delegate="installAll()" class="btn btn-primary">Install</button>
-    <button click.delegate="updateAll()" class="btn btn-primary">Update all</button>
-    <button click.delegate="updateSelected()" class="btn btn-primary">
-      Update selected
-    </button>
+    <button click.delegate="updateSelected()" class="btn btn-primary">Update selected</button>
     <button click.delegate="load()" class="btn btn-primary">Refresh</button>
 
     <i class="fa fa-spinner fa-spin fa-3x" if.bind="loading"></i>

@@ -29,16 +29,24 @@ export class Analyzer {
   }
 
   async lookupInstalledVersions(project, topLevelDependencies) {
-    let deps = await NPM.ls({ workingDirectory: FS.getFolderPath(project.packageJSONPath) });
+    let deps;
 
-    let keys = Object.keys(deps.dependencies);
-    for(let i = 0; i < keys.length; i++) {
-      let key = keys[i];
-      let dep = deps.dependencies[key];
-      let tld = topLevelDependencies.find(x => x.name === key);
-      if (tld) {
-        tld.version = dep.version;
-        tld.missing = dep.missing;
+    try {
+      deps = await NPM.ls({ workingDirectory: FS.getFolderPath(project.packageJSONPath) });
+    } catch (e) {
+      console.log(e);
+    }
+
+    if (deps && deps.dependencies) {
+      let keys = Object.keys(deps.dependencies);
+      for(let i = 0; i < keys.length; i++) {
+        let key = keys[i];
+        let dep = deps.dependencies[key];
+        let tld = topLevelDependencies.find(x => x.name === key);
+        if (tld) {
+          tld.version = dep.version;
+          tld.missing = dep.missing;
+        }
       }
     }
   }

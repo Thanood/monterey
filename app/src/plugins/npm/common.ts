@@ -8,15 +8,15 @@ export class Common {
   constructor(private taskManager: TaskManager) {
   }
 
-  installNPMDependencies(project) {
+  installNPMDependencies(project, deps = [], estimation = 'This could take minutes to complete') {
     let task = {
       title: `npm install of '${project.name}'`,
-      estimation: 'This could take minutes to complete',
+      estimation: estimation,
       logs: [],
       promise: null
     };
 
-    let promise = NPM.install([], {
+    let promise = NPM.install(deps, {
       npmOptions: {
         workingDirectory: FS.getFolderPath(project.packageJSONPath)
       },

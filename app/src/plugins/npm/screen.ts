@@ -4,12 +4,14 @@ import {DialogService}    from 'aurelia-dialog';
 import {Analyzer}         from './analyzer';
 import {TaskManager}      from '../../task-manager/task-manager';
 import {TaskManagerModal} from '../../task-manager/task-manager-modal';
+import {NPM}              from 'monterey-pal';
 
 @autoinject()
 export class Screen {
 
   model;
   project;
+  projectGrid;
   loading: boolean;
   topLevelDependencies: Array<any> = [];
 
@@ -46,5 +48,25 @@ export class Screen {
     let task = this.common.installNPMDependencies(this.project);
 
     this.dialogService.open({ viewModel: TaskManagerModal, model: { task: task }});
+  }
+
+  updateSelected() {
+    // get array of selected dependencies
+    // and add @* to the name to let npm ignore major version bumps
+    let deps = this.getSelectedDependencies().map(x => x.name + '@*');
+
+    if (deps.length ===  0) {
+      alert('Please select at least one dependency');
+      return;
+    }
+
+    let task = this.common.installNPMDependencies(this.project, deps, 'This could take 30 seconds or more to complete');
+
+    this.dialogService.open({ viewModel: TaskManagerModal, model: { task: task }});
+  }
+
+  getSelectedDependencies(): Array<any> {
+    let selection = this.projectGrid.ctx.vGridSelection.getSelectedRows();
+    return selection.map(index => this.topLevelDependencies[index]);
   }
 }
