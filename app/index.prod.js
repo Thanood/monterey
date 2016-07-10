@@ -11,6 +11,8 @@ const Menu = electron.Menu;
 const BrowserWindow = electron.BrowserWindow;
 let mainWindow;
 
+require('electron-debug')({ enabled: true });
+
 app.commandLine.appendSwitch('enable-transparent-visuals');
 
 app.on('window-all-closed', () => {
