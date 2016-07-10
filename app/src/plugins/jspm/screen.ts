@@ -4,21 +4,20 @@ import {DialogService}    from 'aurelia-dialog';
 import {TaskManager}      from '../../task-manager/task-manager';
 import {TaskManagerModal} from '../../task-manager/task-manager-modal';
 import {Analyzer}         from './analyzer';
+import {Forks}            from './forks';
+import {withModal}        from '../../shared/decorators';
 
 @autoinject()
 export class Screen {
 
   model;
   project;
-  a;
-  jspm;
-  config;
-  process;
-  loader;
   loading = false;
   projectGrid;
   topLevelDependencies = [];
   allDependencies = [];
+  workingDirectory;
+  forks = [];
 
   constructor(private taskManager: TaskManager,
               private analyzer: Analyzer,
@@ -28,6 +27,8 @@ export class Screen {
   async activate(model) {
     this.model = model;
     this.project = model.selectedProject;
+
+    this.workingDirectory = FS.getFolderPath(this.project.packageJSONPath);
   }
 
   async attached() {
@@ -44,6 +45,8 @@ export class Screen {
     for (let i = count; i >= 0; i--) {
       this.topLevelDependencies.splice(i, 1);
     }
+
+    this.forks = [];
 
     let packageJSON = JSON.parse(await FS.readFile(this.project.packageJSONPath));
     let config = await JSPM.getConfig(this.project.path, this.project.packageJSONPath);
@@ -62,6 +65,10 @@ export class Screen {
     // don't do this synchronously, just continue with everything and latest version will
     // gradually come in
     this.analyzer.lookupLatest();
+
+    // get list of forks
+    JSPM.getForks(config, { jspmOptions: { workingDirectory: this.workingDirectory }})
+    .then(forks => this.forks = forks);
   }
 
   updateSelected() {
@@ -76,7 +83,6 @@ export class Screen {
     installDeps = {};
     deps.forEach(dep => installDeps[dep.alias] = `${dep.name}@${dep.latest}`);
 
-    let workingDirectory = FS.getFolderPath(this.project.packageJSONPath);
     this.install(installDeps, { lock: false, latest: true });
   }
 
@@ -98,10 +104,9 @@ export class Screen {
   }
 
   downloadLoader(callback) {
-    let workingDirectory = FS.getFolderPath(this.project.packageJSONPath);
     return JSPM.downloadLoader({
       jspmOptions: {
-        workingDirectory: workingDirectory
+        workingDirectory: this.workingDirectory
       },
       logCallback: callback
     });
@@ -110,9 +115,8 @@ export class Screen {
   install(deps, jspmOptions = null) {
     // always supply a workingDirectory so that
     // we're not jspm installing in monterey directory
-    let workingDirectory = FS.getFolderPath(this.project.packageJSONPath);
     Object.assign(jspmOptions, {
-      workingDirectory: workingDirectory
+      workingDirectory: this.workingDirectory
     });
 
     let task = <any>{
@@ -136,4 +140,7 @@ export class Screen {
 
     return task;
   }
+
+  @withModal(Forks, function () { return { forks: this.forks }; })
+  showForks() {}
 }

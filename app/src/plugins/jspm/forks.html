@@ -1,0 +1,42 @@
+<template>
+  <ai-dialog>
+    <ai-dialog-body>
+      <h3>Forks</h3>
+      <p>
+        We have detected forks in this project.
+        Forks are caused by two or more dependencies requiring the same module with different versions.
+        Forks have been known to cause issues so the recommendation is to get rid of these forks.
+      </p>
+
+      <hr>
+      <p><b>Forks</b></p>
+      <p>The following forks have been detected:</p>
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <td>Package</td>
+            <td>Versions</td>
+          </tr>
+        </thead>
+        <tbody>
+          <tr repeat.for="fork of forks">
+            <td>${fork.dep}</td>
+            <td>${fork.versionString}</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <p><b>Recommendation</b></p>
+      <p>
+        "jspm update" sometimes resolves these forks.
+        If this does not help, look in the config.js file for which packages depend on the above packages.
+        Also, "jspm resolve only &lt;packagename&gt;" may help to resolve the fork.
+      </p>
+
+    </ai-dialog-body>
+
+    <ai-dialog-footer>
+      <button class="btn btn-primary" click.trigger="dialogController.close()">Close</button>
+    </ai-dialog-footer>
+  </ai-dialog>
+</template>

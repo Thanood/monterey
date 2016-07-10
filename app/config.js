@@ -44,8 +44,8 @@ System.config({
     "jquery": "npm:jquery@2.2.4",
     "json": "github:systemjs/plugin-json@0.1.2",
     "moment": "npm:moment@2.13.0",
-    "monterey-pal": "github:monterey-framework/monterey-pal@0.1.11",
-    "monterey-pal-electron": "github:monterey-framework/monterey-pal-electron@0.1.14",
+    "monterey-pal": "github:monterey-framework/monterey-pal@0.1.12",
+    "monterey-pal-electron": "github:monterey-framework/monterey-pal-electron@0.1.15",
     "semver": "npm:semver@5.2.0",
     "showdown": "github:showdownjs/showdown@1.4.2",
     "text": "github:systemjs/plugin-text@0.0.3",
@@ -234,23 +234,14 @@ System.config({
       "isarray": "npm:isarray@1.0.0",
       "process": "github:jspm/nodelibs-process@0.1.2"
     },
-    "npm:closest@0.0.1": {
-      "matches-selector": "npm:matches-selector@0.0.1"
-    },
     "npm:core-js@2.4.0": {
       "fs": "github:jspm/nodelibs-fs@0.1.2",
       "path": "github:jspm/nodelibs-path@0.1.0",
       "process": "github:jspm/nodelibs-process@0.1.2",
       "systemjs-json": "github:systemjs/plugin-json@0.1.2"
     },
-    "npm:delegate@3.0.1": {
-      "closest": "npm:closest@0.0.1"
-    },
     "npm:font-awesome@4.6.3": {
       "css": "github:systemjs/plugin-css@0.1.23"
-    },
-    "npm:good-listener@1.1.7": {
-      "delegate": "npm:delegate@3.0.1"
     },
     "npm:inherits@2.0.1": {
       "util": "github:jspm/nodelibs-util@0.1.0"
