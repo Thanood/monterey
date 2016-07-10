@@ -1,3 +1,18 @@
+<a name="0.1.1"></a>
+## [0.1.1](https://github.com/monterey-framework/monterey/compare/0.1.0...v0.1.1) (2016-07-10)
+
+
+### Bug Fixes
+
+* **scaffolding:** export .json files of node_modules, fixes .next() of undefined error ([84f6ffc](https://github.com/monterey-framework/monterey/commit/84f6ffc))
+
+
+### Features
+
+* **all:** added electron-debug to make debugging possible after deployment ([3f45469](https://github.com/monterey-framework/monterey/commit/3f45469))
+
+
+
 <a name="0.1.0"></a>
 # [0.1.0](https://github.com/monterey-framework/monterey/compare/0.0.1...v0.1.0) (2016-07-10)
 

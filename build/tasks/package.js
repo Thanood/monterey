@@ -30,7 +30,7 @@ gulp.task('deploy', function(callback) {
     'clean-release',
     'export',
     'package',
-    'post-package',
+    // 'post-package',
     'clean-export',
     callback
   );
