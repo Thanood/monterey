@@ -1,3 +1,13 @@
+<a name="0.1.3"></a>
+## [0.1.3](https://github.com/monterey-framework/monterey/compare/0.1.2...v0.1.3) (2016-07-11)
+
+
+### Bug Fixes
+
+* **deployment:** deploy all node_modules files, fixes error when scaffolding aurelia-cli project ([cdf0df9](https://github.com/monterey-framework/monterey/commit/cdf0df9))
+
+
+
 <a name="0.1.2"></a>
 ## [0.1.2](https://github.com/monterey-framework/monterey/compare/0.1.1...v0.1.2) (2016-07-11)
 
