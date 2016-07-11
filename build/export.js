@@ -20,9 +20,7 @@ module.exports = {
     'app/styles/styles.css',
     'app/doc/CHANGELOG.md',
     'app/scripts/**/*',
-    'app/node_modules/**/*.js',
-    'app/node_modules/**/*.json',
-    'app/node_modules/**/*.html',
+    'app/node_modules/**/*',
     'app/scripts/babel-polyfill.min.js'
   ],
   // this section lists any jspm packages that have
