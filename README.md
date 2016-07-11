@@ -7,7 +7,7 @@ Monterey is an extensible application that provides a graphical user interface f
 ### What does Monterey look like
 ![](http://i.imgur.com/iKvi8Dl.png)
 
-More screenshots [here](http://imgur.com/a/jlGOf)
+More screenshots [here](http://imgur.com/a/Zm9MZ)
 
 
 ### How to install and use Monterey
