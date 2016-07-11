@@ -8,8 +8,14 @@ var args = require('../args');
 
 // utilizes the bump plugin to bump the
 // semver for the repo
-gulp.task('bump-version', function() {
-  return gulp.src(['./app/package.json'])
+gulp.task('bump-version', ['bump-version-top-packagejson'], function() {
+    return gulp.src(['./app/package.json'])
+    .pipe(bump({type: args.bump})) //major|minor|patch|prerelease
+    .pipe(gulp.dest('./app/'));
+});
+
+gulp.task('bump-version-top-packagejson', function() {
+  return gulp.src(['./package.json'])
     .pipe(bump({type: args.bump})) //major|minor|patch|prerelease
     .pipe(gulp.dest('./'));
 });
