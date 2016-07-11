@@ -1,3 +1,13 @@
+<a name="0.1.2"></a>
+## [0.1.2](https://github.com/monterey-framework/monterey/compare/0.1.1...v0.1.2) (2016-07-11)
+
+
+### Bug Fixes
+
+* **deployment:** deploy using electron 1.2.6 ([dcd19a3](https://github.com/monterey-framework/monterey/commit/dcd19a3))
+
+
+
 <a name="0.1.1"></a>
 ## [0.1.1](https://github.com/monterey-framework/monterey/compare/0.1.0...v0.1.1) (2016-07-10)
 
