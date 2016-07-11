@@ -3,9 +3,7 @@
 var packager = require('electron-packager');
 var gulp = require('gulp');
 var fs = require('fs');
-var zip = require('gulp-zip');
 var runSequence = require('run-sequence');
-var zipDir;
 var appVersion = require('../../app/package.json').version;
 
 gulp.task('package', function(callback) {
@@ -31,7 +29,6 @@ gulp.task('deploy', function(callback) {
     'clean-release',
     'export',
     'package',
-    // 'post-package',
     'clean-export',
     callback
   );
@@ -45,12 +42,6 @@ gulp.task('rename-index', function(cb) {
   cb();
 });
 
-gulp.task('post-package', function(cb) {
-  runSequence(
-    'zip-release',
-    cb
-  );
-});
 
 gulp.task('rename-index-back', function(cb) {
   fs.renameSync('./app/index.html', 'app/index.prod.html');
@@ -58,27 +49,4 @@ gulp.task('rename-index-back', function(cb) {
   fs.renameSync('./app/index.js', 'app/index.prod.js');
   fs.renameSync('./app/index.dev.js', 'app/index.js');
   cb();
-});
-
-gulp.task('zip-release', (callback) => {
-  var releases = fs.readdirSync('./release/');
-  var i = -1;
-  var next = () => {
-    i ++;
-    zipDir = releases[i];
-
-    if (zipDir) {
-      runSequence('zip', next);
-    } else {
-      callback();
-    }
-  };
-
-  next();
-});
-
-gulp.task('zip', () => {
-  return gulp.src('./release/' + zipDir + '/**/*')
-  	.pipe(zip(`${zipDir}-${appVersion}.zip`))
-  	.pipe(gulp.dest('./release/'));
 });

@@ -70,6 +70,8 @@ gulp.task('export', function(callback) {
     'export-normalized-resources',
     'export-copy',
     'rename-index-back',
+    'unbundle',
+    'clean',
     callback
   );
 });

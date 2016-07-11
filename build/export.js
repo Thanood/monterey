@@ -22,6 +22,7 @@ module.exports = {
     'app/scripts/**/*',
     'app/node_modules/**/*.js',
     'app/node_modules/**/*.json',
+    'app/node_modules/**/*.html',
     'app/scripts/babel-polyfill.min.js'
   ],
   // this section lists any jspm packages that have
