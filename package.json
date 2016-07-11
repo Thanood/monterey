@@ -11,9 +11,9 @@
   "bugs": {
     "url": "https://github.com/monterey-framework/monterey/issues"
   },
+  "main": "app/index.js",
   "license": "CC0-1.0",
   "author": "Aurelia-tools",
-  "main": "index.js",
   "repository": {
     "type": "git",
     "url": "https://github.com/monterey-framework/monterey"

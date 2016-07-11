@@ -1,6 +1,6 @@
 {
   "name": "monterey",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Monterey is an extensible application that provides a graphical user interface for a collection of tools to simplify the creation, configuration and maintenance of Aurelia applications.",
   "keywords": [
     "monterey",
@@ -59,6 +59,7 @@
     "electron-connect": "^0.4.2",
     "electron-debug": "^1.0.1",
     "electron-json-storage": "^2.0.0",
+    "electron-prebuilt": "^1.2.6",
     "electron-remote": "^0.5.6",
     "jspm": "0.16.15",
     "mv": "^2.1.1",

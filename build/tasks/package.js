@@ -12,15 +12,16 @@ gulp.task('package', function(callback) {
   var options = {
     dir: './app/export',
     name: 'monterey',
-    platform: ['darwin', 'win32', 'linux'],
+    platform: ['darwin', 'win32', 'linux'], // darwin = mac osx
     arch: 'all',
     out: 'release',
     overwrite: true,
+    version: '1.2.6', // version of electron-prebuilt (https://github.com/electron-userland/electron-packager/issues/391#issuecomment-225380074)
     'app-version': appVersion
   };
 
   packager(options, function done(err, appPath) {
-    if (err) { return console.log(err); }
+    if (err) { return console.log(err, appPath); }
     callback();
   });
 });
