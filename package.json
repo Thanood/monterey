@@ -18,6 +18,18 @@
     "type": "git",
     "url": "https://github.com/monterey-framework/monterey"
   },
+  "scripts": {
+    "postinstall": "install-app-deps",
+    "pack": "build --dir",
+    "dist": "build"
+  },
+  "build": {
+    "appId": "monterey",
+    "app-category-type": "aurelia.gui",
+    "win": {
+      "iconUrl": "https://i.imgur.com/oiKvnDc.png"
+    }
+  },
   "devDependencies": {
     "aurelia-bundler": "^0.4.0",
     "aurelia-tools": "^0.2.3",
@@ -27,6 +39,7 @@
     "changelog": "^1.0.7",
     "conventional-changelog": "1.1.0",
     "del": "^2.2.1",
+    "electron-builder": "^5.12.1",
     "electron-connect": "^0.4.2",
     "electron-packager": "^7.2.0",
     "electron-prebuilt": "^1.2.5",

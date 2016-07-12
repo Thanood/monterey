@@ -10,3 +10,4 @@ test/e2e/dist
 app/styles/styles.css
 release
 app/export
+/dist/
