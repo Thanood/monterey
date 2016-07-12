@@ -1,6 +1,6 @@
 {
   "name": "monterey",
-  "version": "0.1.4",
+  "version": "v0.1.4",
   "description": "Monterey is an extensible application that provides a graphical user interface for a collection of tools to simplify the creation, configuration and maintenance of Aurelia applications.",
   "keywords": [
     "monterey",
@@ -14,6 +14,7 @@
   "main": "app/index.js",
   "license": "CC0-1.0",
   "author": "Aurelia-tools",
+  "email": "info@aureliatools.com",
   "repository": {
     "type": "git",
     "url": "https://github.com/monterey-framework/monterey"
