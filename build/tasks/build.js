@@ -28,17 +28,14 @@ gulp.task('build-system', function() {
     .pipe(gulp.dest(paths.output));
 });
 
-gulp.task('build-babel', function() {
+gulp.task('build-system-release', function() {
   if(!typescriptCompiler) {
     typescriptCompiler = typescript.createProject('tsconfig.json', {
       "typescript": require('typescript')
     });
   }
   return gulp.src(paths.dtsSrc.concat(paths.source))
-    .pipe(plumber({errorHandler: notify.onError('Error: <%= error.message %>')}))
-    .pipe(changed(paths.output, {extension: '.ts'}))
     .pipe(typescript(typescriptCompiler))
-    .pipe(to5(assign({}, compilerOptions.base())))
     .pipe(gulp.dest(paths.output));
 });
 
@@ -77,7 +74,7 @@ gulp.task('build', function(callback) {
 gulp.task('build-release', function(callback) {
   return runSequence(
     'clean',
-    ['build-babel', 'build-html', 'build-less', 'build-json'],
+    ['build-system-release', 'build-html', 'build-less', 'build-json'],
     callback
   );
 });

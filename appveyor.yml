@@ -25,6 +25,7 @@ install:
 build_script:
   - node --version
   - npm --version
+  - gulp export
   - npm run dist
 
 test: off

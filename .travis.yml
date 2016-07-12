@@ -35,6 +35,7 @@ install:
 - npm prune
 
 script:
+- gulp export
 - npm run dist
 
 branches:

@@ -64,6 +64,7 @@ gulp.task('export-normalized-resources', function() {
 gulp.task('export', function(callback) {
   return runSequence(
     'unbundle',
+    'build-release',
     'bundle',
     'clean-export',
     'rename-index',

@@ -1,6 +1,6 @@
 {
   "name": "monterey",
-  "version": "v0.1.4",
+  "version": "v0.1.5",
   "description": "Monterey is an extensible application that provides a graphical user interface for a collection of tools to simplify the creation, configuration and maintenance of Aurelia applications.",
   "keywords": [
     "monterey",
@@ -27,6 +27,10 @@
   "build": {
     "appId": "monterey",
     "app-category-type": "aurelia.gui",
+    "asar": false,
+    "directories": {
+      "app": "app/export"
+    },
     "win": {
       "iconUrl": "https://i.imgur.com/oiKvnDc.png"
     }
