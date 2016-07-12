@@ -27,10 +27,6 @@ export class ProjectDetail {
     this.subscription = observer.subscribe(() => this.sourceChanged());
 
     this.templates = await this.registries.getTemplates();
-    this.templates.push({
-      name: 'a',
-      repo: 'monterey-framework/registries',
-    });
   }
 
   sourceChanged() {
