@@ -21,6 +21,9 @@ install:
   - npm install electron-builder@next # force install next version to test electron-builder
   - npm install
   - npm prune
+  - cd app
+  - npm install
+  - jspm install
 
 build_script:
   - gulp export
