@@ -56,5 +56,12 @@
     "title": "Sublime",
     "default": false,
     "platforms": ["win32"]
+  }, {
+    "id": 8,
+    "img": "images/sourcetree.png",
+    "cmd": "\"%PROGRAMFILES(x86)%\\Atlassian\\SourceTree\\SourceTree.exe\"  -f \"%path%\"",
+    "title": "Sourcetree",
+    "default": false,
+    "platforms": ["win32"]
   }]
 }
