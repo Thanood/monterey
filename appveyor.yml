@@ -24,6 +24,7 @@ install:
   - cd app
   - npm install
   - jspm install
+  - cd ..
 
 build_script:
   - gulp export

@@ -37,6 +37,7 @@ install:
 - cd app
 - npm install
 - jspm install
+- cd ..
 
 script:
 - gulp export
