@@ -13,8 +13,10 @@
   },
   "main": "app/index.js",
   "license": "CC0-1.0",
-  "author": "Aurelia-tools",
-  "email": "info@aureliatools.com",
+  "author": {
+    "name": "Aurelia-tools",
+    "email": "info@aureliatools.com"
+  },
   "repository": {
     "type": "git",
     "url": "https://github.com/monterey-framework/monterey"

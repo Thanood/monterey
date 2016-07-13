@@ -12,8 +12,10 @@
     "url": "https://github.com/monterey-framework/monterey/issues"
   },
   "license": "CC0-1.0",
-  "author": "Aurelia-tools",
-  "email": "info@aureliatools.com",
+  "author": {
+    "name": "Aurelia-tools",
+    "email": "info@aureliatools.com"
+  },
   "main": "index.js",
   "repository": {
     "type": "git",
