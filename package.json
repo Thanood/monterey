@@ -26,13 +26,13 @@
     "pack": "build --dir",
     "dist": "build"
   },
+  "directories": {
+    "app": "app/export"
+  },
   "build": {
     "appId": "monterey",
     "app-category-type": "aurelia.gui",
     "asar": false,
-    "directories": {
-      "app": "app/export"
-    },
     "win": {
       "iconUrl": "https://i.imgur.com/oiKvnDc.png"
     }
