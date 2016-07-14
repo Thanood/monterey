@@ -1,0 +1,36 @@
+<template>
+  <require from="./converters/moment"></require>
+  <require from="./markdown"></require>
+  <ai-dialog>
+    <ai-dialog-body>
+      <h2>Manage endpoints</h2>
+      <p>Configure endpoints for applications and services</p>
+      
+      <form validation-renderer="bootstrap-form" style="min-width: 600px">
+        <div>
+            <div class="form-group">
+                <label>Monterey Registry</label>
+                <input class="form-control" type="text" value.bind="tempState.montereyRegistry & validate" />
+            </div>
+            <div class="form-group">
+                <label>NPM</label>
+                <input class="form-control" type="text" value.bind="tempState.npmRegistry & validate" />
+            </div>
+            <div class="form-group">
+                <label>Github API</label>
+                <input class="form-control" type="text" value.bind="tempState.githubApi & validate" />
+            </div>
+            <div class="form-group">
+                <label>Github Website</label>
+                <input class="form-control" type="text" value.bind="tempState.github & validate" />
+            </div>
+        </div>
+      </form>
+    </ai-dialog-body>
+
+    <ai-dialog-footer>
+      <button click.trigger="submit()">OK</button>
+      <button click.trigger="dialog.cancel()">Close</button>
+    </ai-dialog-footer>
+  </ai-dialog>
+</template>

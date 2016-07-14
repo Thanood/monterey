@@ -2,6 +2,7 @@ import {inject, NewInstance}  from 'aurelia-framework';
 import {ApplicationState}     from '../../shared/application-state';
 import {withModal}            from '../../shared/decorators';
 import {GithubCreds}          from '../../shared/github-creds';
+import {ManageEndpoints}      from '../../shared/manage-endpoints';
 import {SESSION}              from 'monterey-pal';
 import {ValidationRules}      from 'aurelia-validatejs';
 import {ValidationController} from 'aurelia-validation';
@@ -34,5 +35,10 @@ export class Screen {
 
   @withModal(GithubCreds)
   async configureGithub() {
+  }
+
+  @withModal(ManageEndpoints)
+  async manageEndpoints() {
+    
   }
 }
