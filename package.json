@@ -31,7 +31,7 @@
   },
   "build": {
     "appId": "monterey",
-    "app-category-type": "aurelia.gui",
+    "app-category-type": "monterey",
     "win": {
       "iconUrl": "https://i.imgur.com/oiKvnDc.png"
     }

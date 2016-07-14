@@ -24,14 +24,14 @@ install:
   - cd app
   - npm install
   - jspm install
+  - flatten-packages
   - cd ..
 
 build_script:
   - gulp build-release
-  - cd app/export
-  - flatten-packages
-  - cd ../../
+  - gulp rename-index
   - npm run dist
+  - gulp rename-index-back
 
 
 test: off
