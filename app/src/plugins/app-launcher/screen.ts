@@ -35,8 +35,9 @@ export class Screen {
 
   addNew() {
     this.state.appLaunchers.push({
-      id: this.createId(),
-      title: 'Name'
+      data: {
+        title: 'Name'
+      }
     });
 
     this.selectFirst();
@@ -71,6 +72,10 @@ export class Screen {
     }
 
     return true;
+  }
+
+  openBrowser() {
+    this.main.activateScreen('plugins/app-launcher/browser');
   }
 
   async save() {

@@ -4,6 +4,7 @@ import {ApplicationState}    from '../../shared/application-state';
 import {BasePlugin}          from '../base-plugin';
 import * as defaults         from './defaults.json!';
 import {OS}                  from 'monterey-pal';
+import {LauncherManager}     from './launcher-manager';
 
 export function configure(aurelia) {
   let pluginManager = aurelia.container.get(PluginManager);
@@ -13,9 +14,13 @@ export function configure(aurelia) {
 
 @autoinject()
 class Plugin extends BasePlugin {
-  constructor(private state: ApplicationState) {
+
+  manager:LauncherManager;
+
+  constructor(private state: ApplicationState, manager:LauncherManager) {
     super();
     this.state = state;
+    this.manager = manager;
   }
 
   getTiles(project, showIrrelevant) {
@@ -25,10 +30,10 @@ class Plugin extends BasePlugin {
     }];
 
     this.state.appLaunchers.forEach(launcher => {
-      if (launcher.enabled) {
+      if (launcher.data.enabled) {
         tiles.push({
           viewModel: 'plugins/app-launcher/tile',
-          model: launcher
+          model: launcher.data
         });
       }
     });
@@ -36,32 +41,14 @@ class Plugin extends BasePlugin {
     return tiles;
   }
 
-  createId() {
-    return Math.floor((Math.random() * 999999999) + 111111111);
-  }
-
   async onNewSession(state) {
     let platform = OS.getPlatform();
 
-    let launchers = (<any>defaults).launchers;
-    let defaultLaunchers = [];
+    // Install any default launchers
+    let launchers = (<any>defaults).defaults[platform];
 
-    // only get launchers that are for this platform
     launchers.forEach(launcher => {
-      if (launcher.platforms.indexOf(platform) > -1) {
-        // automatically enable default launchers
-        if (launcher.default) {
-          launcher.enabled = true;
-        } else {
-          launcher.enabled = false;
-        }
-
-        defaultLaunchers.push(launcher);
-      }
-    });
-
-     Object.assign(state, {
-      appLaunchers: defaultLaunchers
+      this.manager.installLauncher(platform, launcher);
     });
   }
 }
