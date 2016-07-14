@@ -1,13 +1,9 @@
-//Note: This file is provided as an aid to help you get up and running with
-//Electron for desktop apps. See the readme file for more information.
-/* eslint-disable strict, no-var, no-console */
-
 'use strict';
 
 const electron = require('electron');
 const storage = require('electron-json-storage');
-const electronConnect = require('electron-connect');
 const app = electron.app;
+const electronConnect = require('electron-connect');
 const Menu = electron.Menu;
 const BrowserWindow = electron.BrowserWindow;
 let mainWindow;
@@ -41,7 +37,7 @@ app.on('ready', () => {
 
   mainWindow.webContents.on('new-window', function(e, url) {
     e.preventDefault();
-    var open = require('open'); 
+    var open = require('open');
     open(url);
   });
 
