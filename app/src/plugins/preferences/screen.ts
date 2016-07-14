@@ -13,9 +13,9 @@ export class Screen {
   }
 
   attached() {
-    ValidationRules
-    .ensure('checkForUpdatesOnStartup')
-    .on(this.state);
+    // ValidationRules
+    // .ensure('checkForUpdatesOnStartup')
+    // .on(this.state);
   }
 
   async save() {

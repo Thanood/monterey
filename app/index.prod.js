@@ -1,11 +1,11 @@
 const electron = require('electron');
 const app = electron.app;
 const handleStartupEvent = require('./startuphandler.js');
-const storage = require('electron-json-storage');
-const Menu = electron.Menu;
 const BrowserWindow = electron.BrowserWindow;
+const update = require('./updater');
 let mainWindow;
 
+// handle any Squirrel event (installer events)
 if (!handleStartupEvent()) {
   require('electron-debug')({ enabled: true });
 
@@ -32,6 +32,11 @@ if (!handleStartupEvent()) {
       mainWindow.setTitle('Monterey');
     });
 
+    // start checking for updates
+    update(mainWindow);
+
+    // whenever an anchor with target _blank gets opened, open this via the `open` module
+    // so that the native browser is opened
     mainWindow.webContents.on('new-window', function(e, url) {
       e.preventDefault();
       var open = require('open');

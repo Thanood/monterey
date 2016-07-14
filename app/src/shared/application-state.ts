@@ -6,7 +6,6 @@ const logger = LogManager.getLogger('project-manager');
 export class ApplicationState {
 
   gitAuthorization: string;
-  checkForUpdatesOnStartup = true;
   appLaunchers = [];
   projects = [];
 
