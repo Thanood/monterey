@@ -27,7 +27,7 @@ install:
   - cd ..
 
 build_script:
-  - gulp export
+  - gulp build-release
   - cd app/export
   - flatten-packages
   - cd ../../

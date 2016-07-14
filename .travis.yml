@@ -41,7 +41,7 @@ install:
 - cd ..
 
 script:
-- gulp export
+- gulp build-release
 - npm run dist
 
 branches:

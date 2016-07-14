@@ -27,17 +27,17 @@
     "dist": "build"
   },
   "directories": {
-    "app": "app/export"
+    "app": "app"
   },
   "build": {
     "appId": "monterey",
     "app-category-type": "aurelia.gui",
-    "asar": false,
     "win": {
       "iconUrl": "https://i.imgur.com/oiKvnDc.png"
     }
   },
   "devDependencies": {
+    "asar": "^0.11.0",
     "aurelia-bundler": "^0.4.0",
     "aurelia-tools": "^0.2.3",
     "babel-plugin-transform-async-to-generator": "^6.8.0",
