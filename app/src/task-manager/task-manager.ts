@@ -36,6 +36,9 @@ export class TaskManager {
       this.addTaskLog(task, '-----FINISHED-----');
       this.finishTask(task);
       return result;
+    }).catch(() => {
+      this.addTaskLog(task, '-----FINISHED WITH ERROR-----');
+      this.finishTask(task);
     });
   }
 

@@ -34,7 +34,12 @@ export class Screen {
   async attached() {
     this.loading = true;
 
-    await this.load();
+    try {
+      await this.load();
+    } catch (e) {
+      alert(`Error loading JSPM dependencies: ${e.message}`);
+      console.log(e);
+    }
 
     this.loading = false;
   }
