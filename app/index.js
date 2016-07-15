@@ -21,7 +21,8 @@ app.on('ready', () => {
 
   mainWindow = new BrowserWindow({
     width: 1024,
-    height: 768
+    height: 768,
+    icon: __dirname + '/images/monterey.ico'
   });
 
   global.mainWindow = mainWindow;
