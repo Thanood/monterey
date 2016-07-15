@@ -4,7 +4,7 @@
   <require from="../task-bar/task-bar"></require>
 
   <div class="main">
-    <div class="left">
+    <div class="left ${pluginViewActivated ? 'left-plugin-view':''}">
       <div class="top">
         <h1 class="main-header" style="text-align:center">Monterey</h1>
         <div class="main-button-group">
@@ -16,7 +16,7 @@
       <project-list selected-project.two-way="selectedProject" disabled.bind="_activePluginScreen"></project-list>
     </div>
 
-    <div class="right">
+    <div class="right ${pluginViewActivated ? 'right-plugin-view':''}">
       <!-- list of tiles -->
       <tiles show.bind="!_activePluginScreen" view-model.ref="tilesVM" selected-project.bind="selectedProject"></tiles>
 

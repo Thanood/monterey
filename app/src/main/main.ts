@@ -14,6 +14,7 @@ export class Main {
   _activePluginScreenModel;
   _activePluginScreen: string;
   tilesVM: Tiles;
+  pluginViewActivated : boolean;
 
   constructor(private projectFinder: ProjectFinder,
               private projectManager: ProjectManager,
@@ -56,6 +57,8 @@ export class Main {
 
     this._activePluginScreenModel = model;
     this._activePluginScreen = viewModelPath;
+    this.pluginViewActivated = true;
+
   }
 
   returnToPluginList() {
@@ -65,6 +68,7 @@ export class Main {
       }
     }
     this._activePluginScreen = '';
+    this.pluginViewActivated = false;
   }
 
   refreshTiles() {
