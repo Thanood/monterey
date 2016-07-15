@@ -1,6 +1,11 @@
 # Monterey
 
 [![Join the chat at https://gitter.im/monterey-framework/shell](https://badges.gitter.im/monterey-framework/shell.svg)](https://gitter.im/monterey-framework/shell?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+[![Build Status](https://travis-ci.org/monterey-framework/monterey.svg?branch=master)](https://travis-ci.org/monterey-framework/monterey)
+[![Build status](https://ci.appveyor.com/api/projects/status/cc265tb7drdf9wh6?svg=true)](https://ci.appveyor.com/project/JeroenVinke/monterey)
+[![release](https://img.shields.io/github/release/monterey-framework/monterey.svg)]()
+
+https://travis-ci.org/aurelia-ui-toolkits/aurelia-kendoui-bridge.svg
 
 Monterey is an extensible application that provides a graphical user interface for a collection of tools to simplify the creation, configuration and maintenance of Aurelia applications.
 
