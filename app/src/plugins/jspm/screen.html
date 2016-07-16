@@ -1,10 +1,8 @@
 <template>
   <div class="plugin-title-container">
-    <h1 class="plugin-title">JSPM Package Manager</h1>
+    <h1 class="plugin-title">JSPM Package Manager<span class="project-title-plugin" if.bind="selectedProject.name">${' - '+selectedProject.name}</span></h1>
   </div>
   <div class="plugin-content-container">
-
-    <h3 class="project-title" if.bind="selectedProject.name">${selectedProject.name}</h3>
 
     <!-- forks -->
     <div class="alert alert-danger alert-dismissible" role="alert" if.bind="forks.length > 0">
