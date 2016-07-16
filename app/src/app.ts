@@ -17,6 +17,8 @@ export class App {
       await this.applicationState._save();
     } else {
       await this.applicationState._loadStateFromSession();
+
+      await this.projectManager.verifyProjectsExistence();
     }
   }
 

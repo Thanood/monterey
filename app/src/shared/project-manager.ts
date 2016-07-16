@@ -1,6 +1,7 @@
 import {autoinject}         from 'aurelia-framework';
 import {PluginManager}      from './plugin-manager';
 import {ApplicationState}   from './application-state';
+import {FS}                 from 'monterey-pal';
 
 @autoinject()
 export class ProjectManager {
@@ -55,6 +56,34 @@ export class ProjectManager {
     this.state.projects.splice(index, 1);
 
     await this.state._save();
+  }
+
+  async verifyProjectsExistence() {
+    let promises = [];
+
+    this.state.projects.forEach(project => {
+      promises.push(FS.fileExists(project.packageJSONPath)
+        .then(exists => {
+          return {
+            project: project,
+            exists: exists
+          };
+        }));
+    });
+
+    let result = await Promise.all(promises);
+    let removeProjects = result.filter(i => !i.exists);
+
+    if (removeProjects.length > 0) {
+      let projectNames = removeProjects.map(i => i.project.name).join(', ');
+      // do we need an alert here?
+      alert(`The following projects were removed/relocated and will be removed from Monterey:\r\n ${projectNames}`);
+
+      removeProjects.forEach(r => {
+        let index = this.state.projects.indexOf(r);
+        this.state.projects.splice(index, 1);
+      });
+    }
   }
 
   /**
