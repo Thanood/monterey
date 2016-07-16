@@ -32,6 +32,11 @@ export class Screen {
   }
 
   async attached() {
+    if (!(await this.analyzer.githubAPI.confirmAuth())) {
+      alert('Due to Github\'s rate limiting system, Github credentials are required in order to use this functionality');
+      return;
+    }
+
     this.loading = true;
 
     try {

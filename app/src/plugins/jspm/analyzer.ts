@@ -9,8 +9,8 @@ export class Analyzer {
   loader;
   packageJSON;
 
-  constructor(private githubAPI: GithubAPI,
-              private npmAPI: NPMAPI) {}
+  constructor(public githubAPI: GithubAPI,
+              public npmAPI: NPMAPI) {}
 
   analyze(loader, packageJSON) {
     this.loader = loader;

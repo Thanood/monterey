@@ -35,15 +35,11 @@ export class GithubAPI {
   }
 
   async getTags(repository: string) {
-    await this.confirmAuth();
-
     return this.client.fetch(`${this.githubAPIUrl}/repos/${repository}/tags`)
     .then(response => response.json());
   }
 
   async getLatestTag(repository: string) {
-    await this.confirmAuth();
-
     return this.client.fetch(`${this.githubAPIUrl}/repos/${repository}/releases/latest`)
     .then(response => {
       if (response.status === 404) {
@@ -56,15 +52,22 @@ export class GithubAPI {
   }
 
   async confirmAuth() {
-    if (this._authConfigured) return;
+    if (this._authConfigured) {
+      return true;
+    }
+
     if (this.state.gitAuthorization) {
       await this.setCreds();
+      return true;
     } else {
       let response = await this.dialogService.open({ viewModel: GithubCreds });
       if (!response.wasCancelled) {
         await this.setCreds();
+        return true;
       }
     }
+
+    return false;
   }
 
   async setCreds() {
