@@ -5,33 +5,26 @@ module.exports = function(config) {
   config.set({
 
     // base path that will be used to resolve all patterns (eg. files, exclude)
-    basePath: './app',
+    basePath: '',
 
     // frameworks to use
     // available frameworks: https://npmjs.org/browse/keyword/karma-adapter
     frameworks: ['jspm', 'jasmine'],
 
     jspm: {
-      config: "config.js",
-      packages: "jspm_packages/",
       // Edit this to your needs
-      loadFiles: ['test/unit/**/*.ts'],
+      loadFiles: ['test/unit/setup.js', 'test/unit/**/*.js'],
       serveFiles: ['src/**/*.*'],
       paths: {
-        '*': '*',
+        '*': 'src/*',
         'test/*': 'test/*',
-        'github:*': 'jspm_packages/github/*.js',
-        'npm:*': 'jspm_packages/npm/*.js'
+        'github:*': 'jspm_packages/github/*',
+        'npm:*': 'jspm_packages/npm/*'
       }
     },
 
-
     // list of files / patterns to load in the browser
-    // files: ['app/src/**/*.ts', 'test/**/*.ts'],
-
-    files: [
-      { pattern: 'scripts/babel-polyfill.min.js', watched: false, included: true, served: true }
-    ],
+    files: [],
 
     // list of files to exclude
     exclude: [],
@@ -40,25 +33,19 @@ module.exports = function(config) {
     // preprocess matching files before serving them to the browser
     // available preprocessors: https://npmjs.org/browse/keyword/karma-preprocessor
     preprocessors: {
-      '*.ts': ['typescript'],
-      // 'src/**/*.ts': ['typescript']
+      'test/**/*.js': ['babel'],
+      'src/**/*.js': ['babel']
     },
-    // 'babelPreprocessor': {
-    //   options: {
-    //     sourceMap: 'inline',
-    //     presets: [ 'es2015-loose', 'stage-1'],
-    //     plugins: [
-    //       'syntax-flow',
-    //       'transform-decorators-legacy',
-    //       'transform-flow-strip-types'
-    //     ]
-    //   }
-    // },
-    typescriptPreprocessor: {
-      tsconfigPath: '../tsconfig.json',
-      // tsconfigOverrides: {
-      //   "module": "system",
-      // }
+    'babelPreprocessor': {
+      options: {
+        sourceMap: 'inline',
+        presets: [ 'es2015-loose', 'stage-1'],
+        plugins: [
+          'syntax-flow',
+          'transform-decorators-legacy',
+          'transform-flow-strip-types'
+        ]
+      }
     },
 
     // test results reporter to use
