@@ -5,6 +5,7 @@ import {PluginManager} from '../../shared/plugin-manager';
 export class Screen {
   project;
   sections = [];
+  clipboard: Clipboard;
 
   constructor(private pluginManager: PluginManager) {
   }
@@ -28,19 +29,23 @@ export class Screen {
   }
 
   attached() {
-    let c = new Clipboard('.copy-btn', {
+    this.clipboard = new Clipboard('.copy-btn', {
         text: function(trigger) {
           return (<any>$('.copyable-item')).text();
         }
     });
 
-    c.on('success', function(e) {
+    this.clipboard.on('success', function(e) {
       alert('copied project information to clipboard');
     });
 
-    c.on('error', function(e) {
+    this.clipboard.on('error', function(e) {
       alert(`failed to copy project information to clipboard: ${e.text}`);
       console.log(e);
     });
+  }
+
+  detached() {
+    this.clipboard.destroy();
   }
 }
