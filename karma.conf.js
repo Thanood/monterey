@@ -1,5 +1,6 @@
 module.exports = function(config) {
-  config.set({
+
+  var configuration = {
     basePath: './',
     frameworks: ['systemjs', 'jasmine'],
     systemjs: {
@@ -54,10 +55,11 @@ module.exports = function(config) {
         flags: ['--no-sandbox']
       }
     },
-  });
-
+  };
 
   if (process.env.TRAVIS) {
     configuration.browsers = ['Chrome_travis_ci', 'Firefox'];
   }
+
+  config.set(configuration);
 };
