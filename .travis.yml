@@ -7,7 +7,6 @@ language: c
 
 env:
   - TEST_SUITE=tests
-  - TEST_SUITE=installer
 
 matrix:
   include:
@@ -41,6 +40,7 @@ install:
 - npm install
 - jspm install
 - cd ..
+- chmod a+x travis.sh
 
 script: ./travis.sh
 
