@@ -1,4 +1,4 @@
-import {ProjectManager} from '../../src/shared/project-manager';
+import {ProjectManager} from '../../src/shared/project-manager.ts';
 
 describe('project-manager object normalizer', () => {
   let projectManager;
