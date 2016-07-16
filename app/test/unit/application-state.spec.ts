@@ -1,14 +1,14 @@
-import {ProjectManager} from '../../src/shared/project-manager.ts';
+import {ApplicationState} from '../../src/shared/application-state';
 
-describe('project-manager object normalizer', () => {
-  let projectManager;
+describe('applicationstate object normalizer', () => {
+  let applicationState: ApplicationState;
 
   beforeEach(() => {
-    projectManager = new ProjectManager(null, null);
+    applicationState = new ApplicationState();
   });
 
   it('copies properties', () => {
-    let normalized = projectManager.normalize({
+    let normalized = <any>applicationState._normalize({
       a: 5,
       b: 'test'
     });
@@ -20,7 +20,7 @@ describe('project-manager object normalizer', () => {
   it('copies getter properties', () => {
     let obj = {};
     Object.defineProperty(obj, 'a', { get: function() { return 15; }, enumerable: true });
-    let normalized = projectManager.normalize(obj);
+    let normalized = <any>applicationState._normalize(obj);
 
     expect(normalized.a).toBe(15);
   });
@@ -31,7 +31,7 @@ describe('project-manager object normalizer', () => {
         a: 15
       }]
     };
-    let normalized = projectManager.normalize(obj);
+    let normalized = <any>applicationState._normalize(obj);
 
     expect(normalized.projects[0].a).toBe(15);
   });
@@ -42,7 +42,7 @@ describe('project-manager object normalizer', () => {
         foo: 'bar'
       }
     };
-    let normalized = projectManager.normalize(obj);
+    let normalized = <any>applicationState._normalize(obj);
 
     expect(normalized.something.foo).toBe('bar');
   });
