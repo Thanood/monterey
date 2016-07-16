@@ -1,23 +1,25 @@
 module.exports = function(config) {
   config.set({
-    basePath: './app',
+    basePath: './',
     frameworks: ['systemjs', 'jasmine'],
     systemjs: {
-      configFile: 'config.js',
+      configFile: 'app/config.js',
       config: {
         paths: {
           "*": "*",
-          "src/*": "src/*",
+          "src/*": "app/src/*",
+          "github:*": "app/jspm_packages/github/*",
+          "npm:*": "app/jspm_packages/npm/*",
           "typescript": "node_modules/typescript/lib/typescript.js",
           "systemjs": "node_modules/systemjs/dist/system.js",
           'system-polyfills': 'node_modules/systemjs/dist/system-polyfills.js',
           'es6-module-loader': 'node_modules/es6-module-loader/dist/es6-module-loader.js',
         },
         packages: {
-          'test/unit': {
+          'app/test/unit': {
             defaultExtension: 'ts'
           },
-          'src': {
+          'app/src': {
             defaultExtension: 'ts'
           }
         },
@@ -29,13 +31,13 @@ module.exports = function(config) {
         }
       },
       serveFiles: [
-        'src/**/*.*',
-        'jspm_packages/**/*'
+        'app/src/**/*.*',
+        'app/jspm_packages/**/*'
       ]
     },
     files: [
-      'test/unit/setup.ts',
-      'test/unit/*.ts'
+      'app/test/unit/setup.ts',
+      'app/test/unit/*.ts'
     ],
     exclude: [],
     preprocessors: { },

@@ -11,6 +11,7 @@ env:
 matrix:
   include:
     - os: osx
+      env: SOMEVAR
     - os: linux
       env: CC=clang CXX=clang++ npm_config_clang=1
       compiler: clang
