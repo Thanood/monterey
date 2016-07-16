@@ -4,7 +4,7 @@ describe('project-manager object normalizer', () => {
   let projectManager;
 
   beforeEach(() => {
-    projectManager = new ProjectManager();
+    projectManager = new ProjectManager(null, null);
   });
 
   it('copies properties', () => {

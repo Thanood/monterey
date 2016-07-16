@@ -19,6 +19,7 @@ module.exports = function(config) {
       serveFiles: ['src/**/*.*'],
       paths: {
         '*': '*',
+        '../../src/*': '*.ts',
         'test/*': 'test/*',
         'github:*': 'jspm_packages/github/*.js',
         'npm:*': 'jspm_packages/npm/*.js'
@@ -41,6 +42,7 @@ module.exports = function(config) {
     // available preprocessors: https://npmjs.org/browse/keyword/karma-preprocessor
     preprocessors: {
       '*.ts': ['typescript'],
+      'src/**/*.ts': ['typescript'],
       // 'src/**/*.ts': ['typescript']
     },
     // 'babelPreprocessor': {

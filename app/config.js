@@ -1,14 +1,11 @@
 System.config({
-  defaultJSExtensions: false,
+  defaultExtensions: false,
   transpiler: "babel",
   babelOptions: {
-    "presets": [
-      "es2015-loose",
-      "stage-1"
-    ],
-    "plugins": [
-      "transform-async-to-generator",
-      "transform-es2015-modules-systemjs"
+    "optional": [
+      "optimisation.modules.system",
+      "es7.decorators",
+      "es7.classProperties"
     ]
   },
   paths: {
