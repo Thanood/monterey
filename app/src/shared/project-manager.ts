@@ -84,6 +84,8 @@ export class ProjectManager {
         this.state.projects.splice(index, 1);
       });
     }
+
+    await this.state._save();
   }
 
   /**
