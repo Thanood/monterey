@@ -5,33 +5,22 @@ module.exports = function(wallaby) {
     env: {
       kind: 'electron'
     },
+
     files: [
 
-      {pattern: 'jspm_packages/system.src.js', instrument: false},
-      {pattern: 'config.js', instrument: false},
-      {pattern: 'jspm_packages/npm/babel-core@5.8.38/browser.min.js', load: true, instrument: false},
-      {pattern: 'src/**/*.js', load: false}
+      {pattern: 'app/jspm_packages/system.src.js', instrument: false},
+      {pattern: 'app/config.js', instrument: false},
+      {pattern: 'app/jspm_packages/npm/babel-core@5.8.38/browser.min.js', load: true, instrument: false},
+      {pattern: 'app/src/**/*.ts', load: false}
 
     ],
 
     tests: [
-      {pattern: 'test/unit/**/*.spec.js', load: false}
+      {pattern: 'app/test/unit/**/*.spec.ts', load: false}
     ],
 
-    compilers: {
-      '**/*.js': wallaby.compilers.babel({
-        presets: [ 'es2015-loose', 'stage-1'],
-        plugins: [
-          'syntax-flow',
-          'transform-runtime',
-          'transform-decorators-legacy',
-          'transform-flow-strip-types'
-        ]
-      })
-    },
-
     middleware: (app, express) => {
-      app.use('/jspm_packages', express.static(require('path').join(__dirname, 'jspm_packages')));
+      app.use('/jspm_packages', express.static(require('path').join(__dirname, 'app/jspm_packages')));
     },
 
     bootstrap: function(wallaby) {
