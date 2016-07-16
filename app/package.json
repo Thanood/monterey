@@ -65,6 +65,7 @@
     "electron-prebuilt": "^1.2.6",
     "electron-remote": "^0.5.6",
     "jspm": "0.16.15",
+    "open": "0.0.5",
     "mv": "^2.1.1",
     "npm": "^3.8.6",
     "temp": "^0.8.3",
