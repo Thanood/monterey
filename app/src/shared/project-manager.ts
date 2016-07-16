@@ -2,6 +2,7 @@ import {autoinject}         from 'aurelia-framework';
 import {PluginManager}      from './plugin-manager';
 import {ApplicationState}   from './application-state';
 import {FS}                 from 'monterey-pal';
+import {Project}            from './project';
 
 @autoinject()
 export class ProjectManager {
@@ -10,7 +11,11 @@ export class ProjectManager {
               public state: ApplicationState) {
   }
 
-  async addProjectByPath(path) {
+  /**
+   * Add a project to monterey with the root path of the project
+   * This is a folder path
+   */
+  async addProjectByPath(path: string) {
     return await this.addProject({
       path: path
     });
@@ -27,7 +32,7 @@ export class ProjectManager {
   /**
   * Main entry point for adding projects to Monterey
   */
-  async addProject(projectObj) {
+  async addProject(projectObj: Project): Promise<Project|boolean> {
     // have all plugins evaluate the project
     projectObj = await this.pluginManager.evaluateProject(projectObj);
 
@@ -50,7 +55,9 @@ export class ProjectManager {
     return projectObj;
   }
 
-
+  /**
+   * Remove a project from the applicationstate and persist changes
+   */
   async removeProject(project) {
     let index = this.state.projects.indexOf(project);
     this.state.projects.splice(index, 1);
@@ -58,6 +65,11 @@ export class ProjectManager {
     await this.state._save();
   }
 
+  /**
+   * Confirm that the package.json of every project still exists
+   * if not, then it has been moved/removed and we should remove it
+   * from monterey
+   */
   async verifyProjectsExistence() {
     let promises = [];
 

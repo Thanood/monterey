@@ -1,4 +1,5 @@
 import * as moment from  'moment';
+import {Task}      from './task';
 
 /* Usage:
 let task = {
@@ -18,7 +19,7 @@ export class TaskManager {
   runningTasks = [];
   allTasks = [];
 
-  addTask(task) {
+  addTask(task: Task) {
     if (!task.promise || !task.title) {
       throw new Error('task promise and title are required');
     }

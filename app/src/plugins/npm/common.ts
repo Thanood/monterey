@@ -1,6 +1,7 @@
 import {autoinject}  from 'aurelia-framework';
 import {NPM, FS}     from 'monterey-pal';
 import {TaskManager} from '../../task-manager/task-manager';
+import {Project}     from '../../shared/project';
 
 @autoinject()
 export class Common {
@@ -8,7 +9,7 @@ export class Common {
   constructor(private taskManager: TaskManager) {
   }
 
-  installNPMDependencies(project, deps = [], estimation = 'This could take minutes to complete') {
+  installNPMDependencies(project: Project, deps = [], estimation = 'This could take minutes to complete') {
     let task = {
       title: `npm install of '${project.name}'`,
       estimation: estimation,

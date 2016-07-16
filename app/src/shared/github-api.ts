@@ -16,7 +16,7 @@ export class GithubAPI {
     this.client = new HttpClient();
   }
 
-  async getLatestReleaseZIP(repository) {
+  async getLatestReleaseZIP(repository: string) {
     await this.confirmAuth();
 
     return this.client.fetch(`${this.githubAPIUrl}/repos/${repository}/releases/latest`)
@@ -34,14 +34,14 @@ export class GithubAPI {
     });
   }
 
-  async getTags(repository) {
+  async getTags(repository: string) {
     await this.confirmAuth();
 
     return this.client.fetch(`${this.githubAPIUrl}/repos/${repository}/tags`)
     .then(response => response.json());
   }
 
-  async getLatestTag(repository) {
+  async getLatestTag(repository: string) {
     await this.confirmAuth();
 
     return this.client.fetch(`${this.githubAPIUrl}/repos/${repository}/releases/latest`)

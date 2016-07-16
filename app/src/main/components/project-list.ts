@@ -1,18 +1,17 @@
-import {inject, bindable} from 'aurelia-framework';
-import {ProjectManager}   from '../../shared/project-manager';
+import {autoinject, bindable} from 'aurelia-framework';
+import {ApplicationState}     from '../../shared/application-state';
+import {Project}              from '../../shared/project';
 
-@inject(ProjectManager)
+@autoinject(ApplicationState)
 export class ProjectList {
-  @bindable selectedProject;
+  @bindable selectedProject: Project;
   @bindable disabled = false;
-  state;
 
   projectGrid;
   // keeps the index of the last selected row
   lastSelectedRow = 0;
 
-  constructor(projectManager) {
-    this.state = projectManager.state;
+  constructor(private state: ApplicationState) {
   }
 
   attached() {
@@ -39,7 +38,6 @@ export class ProjectList {
         this.lastSelectedRow = project.row;
         this.selectedProject = project.data;
       }
-
     }
   }
 }

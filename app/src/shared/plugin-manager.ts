@@ -1,4 +1,6 @@
-import {BasePlugin} from '../plugins/base-plugin';
+import {BasePlugin}       from '../plugins/base-plugin';
+import {Project}          from './project';
+import {ApplicationState} from './application-state';
 
 export class PluginManager {
 
@@ -7,7 +9,7 @@ export class PluginManager {
   /**
   * At application startup all plugins must register themselves with the PluginManager
   */
-  registerPlugin(plugin) {
+  registerPlugin(plugin: BasePlugin) {
     this.plugins.push(plugin);
   }
 
@@ -15,21 +17,27 @@ export class PluginManager {
   * Whenever a project gets added to monterey, plugins have the opportunity
   * to evaluate the project and provide information of it to the monterey system
   */
-  async evaluateProject(project) {
+  async evaluateProject(project: Project) {
     for (let i = 0; i < this.plugins.length; i++) {
       await this.plugins[i].evaluateProject(project);
     }
     return project;
   }
 
-  async notifyOfNewSession(state) {
+  /**
+   * Notifies every plugin of the fact that a new Monterey session has started
+   */
+  async notifyOfNewSession(state: ApplicationState) {
     for (let i = 0; i < this.plugins.length; i++) {
       await this.plugins[i].onNewSession(state);
     }
     return state;
   }
 
-  async notifyOfAddedProject(project) {
+  /**
+   * Notifies every project of the fact that a project has been added to Monterey
+   */
+  async notifyOfAddedProject(project: Project) {
     for (let i = 0; i < this.plugins.length; i++) {
       await this.plugins[i].onProjectAdd(project);
     }
@@ -39,7 +47,7 @@ export class PluginManager {
   /**
   * Collects an array of tiles by calling the getTiles function of every plugin
   */
-  getTilesForPlugin(project, showIrrelevant) {
+  getTilesForPlugin(project: Project, showIrrelevant: boolean) {
     let tiles = [];
 
     this.plugins.forEach(plugin => {

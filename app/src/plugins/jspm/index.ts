@@ -4,7 +4,7 @@ import {JSPMDetection} from './jspm-detection';
 import {autoinject}    from 'aurelia-framework';
 
 export function configure(aurelia) {
-  let pluginManager = aurelia.container.get(PluginManager);
+  let pluginManager = <PluginManager>aurelia.container.get(PluginManager);
 
   pluginManager.registerPlugin(aurelia.container.get(Plugin));
 }

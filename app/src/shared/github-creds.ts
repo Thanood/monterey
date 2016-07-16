@@ -12,6 +12,7 @@ export class GithubCreds {
   constructor(private validation: ValidationController,
               private dialog: DialogController,
               private state: ApplicationState) {}
+
   attached() {
     ValidationRules
     .ensure('username').required()

@@ -7,4 +7,5 @@ export interface IStep {
   stateProperty?: string;
   branches?: Array<any>;
   answer: string;
+  state?: any;
 }

@@ -5,7 +5,7 @@ import {BasePlugin}    from '../base-plugin';
 import {Common}        from './common';
 
 export function configure(aurelia) {
-  let pluginManager = aurelia.container.get(PluginManager);
+  let pluginManager = <PluginManager>aurelia.container.get(PluginManager);
 
   pluginManager.registerPlugin(aurelia.container.get(Plugin));
 }

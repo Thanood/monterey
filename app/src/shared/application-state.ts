@@ -1,5 +1,6 @@
 import {SESSION}    from 'monterey-pal';
 import {LogManager} from 'aurelia-framework';
+import {Project}    from './project.ts';
 
 const logger = LogManager.getLogger('project-manager');
 
@@ -7,7 +8,7 @@ export class ApplicationState {
 
   gitAuthorization: string;
   appLaunchers = [];
-  projects = [];
+  projects: Array<Project> = [];
 
   /**
   * restores the application state from session

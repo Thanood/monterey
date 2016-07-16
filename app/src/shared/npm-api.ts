@@ -14,7 +14,7 @@ export class NPMAPI {
     this.client = new HttpClient();
   }
 
-  async getLatest(repository) {
+  async getLatest(repository: string) {
     return this.client.fetch(`${this.npmAPIUrl}-/package/${repository}/dist-tags`)
     .then(response => response.json())
     .then(data => data.latest);

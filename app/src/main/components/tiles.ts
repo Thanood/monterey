@@ -1,9 +1,10 @@
 import {autoinject, bindable} from 'aurelia-framework';
 import {PluginManager}        from '../../shared/plugin-manager';
+import {Project}              from '../../shared/project';
 
 @autoinject()
 export class Tiles {
-  @bindable selectedProject;
+  @bindable selectedProject: Project;
   tiles = [];
   @bindable showIrrelevant = false;
 

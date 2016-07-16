@@ -11,8 +11,8 @@ export class Workflow {
   // some activity types can be run 'automatically' without the user having to press next
   flowSteps = ['state-assign', 'branch-switch', 'project-create', 'project-install', 'start'];
   _isLast = false;
-  takenPath = [];
-  firstStep;
+  takenPath: Array<IStep> = [];
+  firstStep: IStep;
   definition;
   name: string;
 
@@ -25,7 +25,7 @@ export class Workflow {
     this.next();
   }
 
-  getStep(id) {
+  getStep(id): IStep {
     return this.definition.activities.find(i => i.id === id);
   }
 
@@ -105,7 +105,7 @@ export class Workflow {
     return true;
   }
 
-  isFlowStep(step) {
+  isFlowStep(step: IStep) {
     return !!this.flowSteps.find(i => i === step.type);
   }
 
@@ -140,11 +140,11 @@ export class Workflow {
     return nextActivity;
   }
 
-  setState(step) {
+  setState(step: IStep) {
     Object.assign(this.state, step.state);
   }
 
-  saveAnswer(step) {
+  saveAnswer(step: IStep) {
     if (step.stateProperty) {
       this.state[step.stateProperty] = step.answer;
     }

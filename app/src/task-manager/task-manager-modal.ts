@@ -1,13 +1,14 @@
-import * as moment              from  'moment';
+import * as moment              from 'moment';
 import {autoinject, observable} from 'aurelia-framework';
 import {TaskManager}            from './task-manager';
 import {DialogController}       from 'aurelia-dialog';
+import {Task}                   from './task';
 
 @autoinject()
 export class TaskManagerModal {
-  @observable selectedTask;
+  @observable selectedTask: Task;
   interval;
-  model;
+  model: { task: Task };
   filter = 'running';
 
   get tasks() {
