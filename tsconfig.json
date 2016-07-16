@@ -2,7 +2,6 @@
   "compileOnSave": false,
   "compilerOptions": {
     "rootDir": "app/src",
-    "outDir": "app/dist",
     "sourceMap": true,
     "target": "es6",
     "module": "commonjs",
@@ -11,8 +10,7 @@
     "removeComments": true,
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
-    "moduleResolution": "node",
-    "lib": ["es2015", "dom"]
+    "moduleResolution": "node"
   },
   "filesGlob": [
     "./app/src/**/*.ts",

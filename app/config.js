@@ -1,6 +1,16 @@
 System.config({
-  defaultJSExtensions: true,
-  transpiler: "none",
+  defaultJSExtensions: false,
+  transpiler: "babel",
+  babelOptions: {
+    "presets": [
+      "es2015-loose",
+      "stage-1"
+    ],
+    "plugins": [
+      "transform-async-to-generator",
+      "transform-es2015-modules-systemjs"
+    ]
+  },
   paths: {
     "*": "dist/*",
     "github:*": "jspm_packages/github/*",
