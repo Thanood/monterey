@@ -73,9 +73,6 @@
     "yauzl": "^2.6.0"
   },
   "devDependencies": {
-    "es6-module-loader": "^0.17.11",
-    "jspm": "^0.16.15",
-    "systemjs": "^0.19.31",
-    "typescript": "^1.8.10"
+    "jspm": "^0.16.15"
   }
 }
