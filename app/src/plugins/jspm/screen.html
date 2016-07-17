@@ -1,6 +1,6 @@
 <template>
   <div class="plugin-title-container">
-    <h1 class="plugin-title">JSPM Package Manager</h1>
+    <h1 class="plugin-title">JSPM Package Manager<span class="project-title-plugin" if.bind="selectedProject.name">${' - '+selectedProject.name}</span></h1>
   </div>
   <div class="plugin-content-container">
 
@@ -9,6 +9,8 @@
       <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
       This project has forks. Click <a href="#" class="alert-link" click.delegate="showForks()">here</a> to get more information.
     </div>
+
+
 
     <!-- row of buttons -->
     <button click.delegate="installAll()" class="btn btn-primary">Install</button>
