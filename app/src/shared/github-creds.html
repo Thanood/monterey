@@ -1,13 +1,12 @@
 <template>
   <require from="./converters/moment"></require>
-  <require from="./markdown"></require>
   <ai-dialog>
     <ai-dialog-body>
       <h2>GitHub access</h2>
       <p>Monterey makes extensive use of the Github API. Unfortunately GitHub rate limites requests when no authentication is provided.</p>
-      
+
       <p>Please enter your Github username and either your password or an <a href="https://github.com/settings/tokens" target="_blank">access token</a>. Monterey does not need <b>any</b> permissions (scopes) when creating an access token.
-      
+
       <form validation-renderer="bootstrap-form">
         <div class="form-group">
           <label class="control-label" for="usernametitle">Username</label>
