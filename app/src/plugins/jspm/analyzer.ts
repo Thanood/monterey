@@ -103,16 +103,18 @@ export class Analyzer {
         promise = this.githubAPI.getTags(m.package)
           .then(tags => tags.map(i => i.name).sort(semver.compare))
           .then(tags => m.latest = this.normalizeTag(tags[tags.length - 1]));
-      }
-
-      // use npm api to get the latest version of npm packages
-      if (m.isNPM) {
+      } else if (m.isNPM) {
+        // use npm api to get the latest version of npm packages
         promise = this.npmAPI.getLatest(m.package)
           .then(tag => m.latest = this.normalizeTag(tag));
       }
 
-      // as soon as we know what the latest version is, compare it with current
-      promise = promise.then(() => this.checkIfUpToDate(m));
+      if (promise) {
+          // as soon as we know what the latest version is, compare it with current
+        promise = promise.then(() => this.checkIfUpToDate(m));
+      } else {
+        m.latest = 'unknown endpoint';
+      }
 
       promises.push(promise);
     }
@@ -126,10 +128,12 @@ export class Analyzer {
   }
 
   async checkIfUpToDate(m) {
-    if (m.latest === m.version) {
-      m.isUpToDate = true;
-    } else {
-      m.isUpToDate = false;
+    if (semver.valid(m.version) && semver.valid(m.latest)) {
+      if (m.latest === m.version) {
+        m.isUpToDate = true;
+      } else {
+        m.isUpToDate = false;
+      }
     }
   }
 

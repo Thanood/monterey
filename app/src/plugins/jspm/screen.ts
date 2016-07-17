@@ -6,12 +6,13 @@ import {TaskManagerModal} from '../../task-manager/task-manager-modal';
 import {Analyzer}         from './analyzer';
 import {Forks}            from './forks';
 import {withModal}        from '../../shared/decorators';
+import {Project}          from '../../shared/project';
 
 @autoinject()
 export class Screen {
 
   model;
-  project;
+  project: Project;
   loading = false;
   projectGrid;
   topLevelDependencies = [];
@@ -37,6 +38,11 @@ export class Screen {
       return;
     }
 
+    if (!(await JSPM.isJspmInstalled(this.project.path))) {
+      alert(`JSPM is not installed (tried to found ${this.project.path})`);
+      return;
+    }
+
     this.loading = true;
 
     try {
@@ -59,7 +65,9 @@ export class Screen {
     this.forks = [];
 
     let packageJSON = JSON.parse(await FS.readFile(this.project.packageJSONPath));
-    let config = await JSPM.getConfig(this.project.path, this.project.packageJSONPath);
+    let config = await JSPM.getConfig({
+      project: this.project
+    });
 
     this.allDependencies = this.analyzer.analyze(config.loader, packageJSON);
 
@@ -77,7 +85,12 @@ export class Screen {
     this.analyzer.lookupLatest();
 
     // get list of forks
-    JSPM.getForks(config, { jspmOptions: { workingDirectory: this.workingDirectory }})
+    JSPM.getForks(config, {
+      project: this.project,
+      jspmOptions: {
+        workingDirectory: this.workingDirectory
+      }
+    })
     .then(forks => this.forks = forks);
   }
 
@@ -115,6 +128,7 @@ export class Screen {
 
   downloadLoader(callback) {
     return JSPM.downloadLoader({
+      project: this.project,
       jspmOptions: {
         workingDirectory: this.workingDirectory
       },
@@ -136,6 +150,7 @@ export class Screen {
     };
 
     let promise = JSPM.install(deps, {
+      project: this.project,
       jspmOptions: jspmOptions,
       logCallback: (message) => {
         this.taskManager.addTaskLog(task, message.message);

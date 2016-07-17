@@ -20,4 +20,5 @@ declare module '*activities.json!' {
    export var lte: any;
    export var gt: any;
    export var gte: any;
+   export var valid: any;
  }
