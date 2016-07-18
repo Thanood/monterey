@@ -39,7 +39,8 @@ module.exports = function(wallaby) {
       for (; i < len; i++) {
         promises.push(System['import'](wallaby.tests[i].replace(/\.js$/, '')));
       }
-      System['import']('core-js')
+      System['import']('aurelia-polyfills')
+      .then(() => System['import']('core-js'))
       .then(function() {
         return Promise.all(promises);
       })
