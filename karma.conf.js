@@ -24,9 +24,15 @@ module.exports = function(config) {
             defaultExtension: 'ts'
           }
         },
+        meta: {
+          "npm:moment@2.14.1/moment.js": {
+            "exports": "moment"
+          }
+        },
         transpiler: 'typescript',
         typescriptOptions : {
-          "module": "amd",
+          "module": "commonjs",
+          "target": "es6",
           "emitDecoratorMetadata": true,
           "experimentalDecorators": true
         }

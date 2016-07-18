@@ -46,7 +46,7 @@
       "font-awesome": "npm:font-awesome@^4.6.3",
       "jquery": "npm:jquery@2.2.4",
       "json": "github:systemjs/plugin-json@^0.1.2",
-      "moment": "npm:moment@^2.13.0",
+      "moment": "npm:moment@2.14.1",
       "monterey-pal": "github:monterey-framework/monterey-pal@^0.1.14",
       "monterey-pal-electron": "github:monterey-framework/monterey-pal-electron@^0.1.20",
       "semver": "npm:semver@^5.2.0",

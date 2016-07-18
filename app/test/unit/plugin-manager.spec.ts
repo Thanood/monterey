@@ -79,7 +79,6 @@ describe('PluginManager callbacks', () => {
     try {
       let tiles = await pluginManager.getTilesForPlugin(project, false);
 
-      console.log(tiles);
       expect(tiles.length).toBe(6);
       tiles = tiles.sort((a, b) => b.id - a.id);
 
