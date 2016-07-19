@@ -1,7 +1,7 @@
 #!/bin/bash
 set -ev
 if [ "${TEST_SUITE}" = "tests" ]; then
-  export CHROME_BIN=chromium-browser
+  export CHROME_BIN=/usr/bin/google-chrome
   export DISPLAY=:99.0
   sh -e /etc/init.d/xvfb start
   sudo apt-get update
