@@ -1,4 +1,4 @@
-import {autoinject}    from 'aurelia-framework';
+import {autoinject, TaskQueue} from 'aurelia-framework';
 import {PluginManager} from '../../shared/plugin-manager';
 import {Notification}  from '../../shared/notification';
 import {OS}            from 'monterey-pal';
@@ -7,16 +7,20 @@ import {OS}            from 'monterey-pal';
 export class Screen {
   project;
   sections = [];
+  loading = true;
   items: { key: string, value: string }[] = [];
   clipboard: Clipboard;
 
   constructor(private pluginManager: PluginManager,
+              private taskQueue: TaskQueue,
               private notification: Notification) {
   }
 
   async activate(model) {
     this.project = model.selectedProject;
+  }
 
+  attached() {
     // allow plugins to provide a list of view/viewmodels that should be rendered here
     this.pluginManager.plugins.forEach(async (plugin) => {
       let sections = await plugin.getProjectInfoSections(this.project);
@@ -31,16 +35,14 @@ export class Screen {
       });
     });
 
-    this.items.push({ key: 'Project name', value: this.project.name });
-    this.items.push({ key: 'Project path:', value: this.project.path });
-    this.items.push({ key: 'Package.json path:', value: this.project.packageJSONPath });
-    this.items.push({ key: 'NodeJS:', value: OS.getNodeVersion() });
-    this.items.push({ key: 'NPM:', value: OS.getNPMVersion() });
-    this.items.push({ key: 'Electron:', value: OS.getElectronVersion() });
-    this.items.push({ key: 'Chrome:', value: OS.getChromeVersion() });
+    // loading all system information can take a while, so push this task on the taskqueue
+    // without this, the spinner would not show
+    this.taskQueue.queueTask(() => this.loadInfo());
+
+    this.initializeClipboard();
   }
 
-  attached() {
+  initializeClipboard() {
     this.clipboard = new Clipboard('.copy-btn', {
         text: (trigger) => {
           return this.getMarkdown();
@@ -55,6 +57,18 @@ export class Screen {
       this.notification.error(`failed to copy project information to clipboard: ${e.text}`);
       console.log(e);
     });
+  }
+
+  loadInfo() {
+    this.items.push({ key: 'Project name', value: this.project.name });
+    this.items.push({ key: 'Project path:', value: this.project.path });
+    this.items.push({ key: 'Package.json path:', value: this.project.packageJSONPath });
+    this.items.push({ key: 'NodeJS:', value: OS.getNodeVersion() });
+    this.items.push({ key: 'NPM:', value: OS.getNPMVersion() });
+    this.items.push({ key: 'Electron:', value: OS.getElectronVersion() });
+    this.items.push({ key: 'Chrome:', value: OS.getChromeVersion() });
+
+    this.loading = false;
   }
 
   getMarkdown() {

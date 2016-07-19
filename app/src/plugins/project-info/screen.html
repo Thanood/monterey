@@ -6,6 +6,10 @@
 
     <button class="copy-btn btn btn-primary">Copy to clipboard (markdown)</button>
 
+    <br>
+
+    <i class="fa fa-spinner fa-spin fa-3x" if.bind="loading"></i>
+
     <p class="copyable-item" repeat.for="item of items"><span class="key">${item.key}</span> <span class="value">${item.value}</span></p>
 
     <compose repeat.for="section of sections" view-model="${section.viewModel}" model.bind="section.model"></compose>
