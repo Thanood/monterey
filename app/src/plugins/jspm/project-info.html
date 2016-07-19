@@ -1,13 +1,13 @@
 <template>
   <p class="copyable-item">
-    <b>Project is using JSPM</b>
+    <span class="key">Project is using JSPM</span>
   </p>
   <p if.bind="project.jspmVersion" class="copyable-item">
-    <b>JSPM version:</b>
-    ${project.jspmVersion}
+    <span class='key'>JSPM version:</span>
+    <span class='value'>${project.jspmVersion}</span>
   </p>
   <p class="copyable-item">
-    <b>Config.js path:</b>
-    ${project.configJsPath}
+    <span class='key'>Config.js path:</span>
+    <span class='value'>${project.configJsPath}</span>
   </p>
 </template>

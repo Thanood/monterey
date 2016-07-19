@@ -1,11 +1,13 @@
 import {autoinject}    from 'aurelia-framework';
 import {PluginManager} from '../../shared/plugin-manager';
 import {Notification}  from '../../shared/notification';
+import {OS}            from 'monterey-pal';
 
 @autoinject()
 export class Screen {
   project;
   sections = [];
+  items: { key: string, value: string }[] = [];
   clipboard: Clipboard;
 
   constructor(private pluginManager: PluginManager,
@@ -28,12 +30,20 @@ export class Screen {
         this.sections.push(section);
       });
     });
+
+    this.items.push({ key: 'Project name', value: this.project.name });
+    this.items.push({ key: 'Project path:', value: this.project.path });
+    this.items.push({ key: 'Package.json path:', value: this.project.packageJSONPath });
+    this.items.push({ key: 'NodeJS:', value: OS.getNodeVersion() });
+    this.items.push({ key: 'NPM:', value: OS.getNPMVersion() });
+    this.items.push({ key: 'Electron:', value: OS.getElectronVersion() });
+    this.items.push({ key: 'Chrome:', value: OS.getChromeVersion() });
   }
 
   attached() {
     this.clipboard = new Clipboard('.copy-btn', {
-        text: function(trigger) {
-          return (<any>$('.copyable-item')).text();
+        text: (trigger) => {
+          return this.getMarkdown();
         }
     });
 
@@ -45,6 +55,22 @@ export class Screen {
       this.notification.error(`failed to copy project information to clipboard: ${e.text}`);
       console.log(e);
     });
+  }
+
+  getMarkdown() {
+    let markdown = '';
+    $('.copyable-item').each((index, item) => {
+      let key = $(item).find('.key').text();
+      if (key) {
+        markdown += '* **' + key + '**\r\n';
+      }
+
+      let val = $(item).find('.value').text();
+      if (val) {
+        markdown += val + '\r\n';
+      }
+    });
+    return markdown;
   }
 
   detached() {

@@ -4,25 +4,10 @@
   </div>
   <div class="plugin-content-container">
 
-    <button class="copy-btn btn btn-primary">Copy to clipboard</button>
+    <button class="copy-btn btn btn-primary">Copy to clipboard (markdown)</button>
 
-    <p class="copyable-item">
-      <b>Project name:</b>
-      ${project.name}
-    </p>
-
-    <p class="copyable-item">
-      <b>Project path:</b>
-      ${project.path}
-    </p>
-
-    <p class="copyable-item">
-      <b>Package.json path:</b>
-      ${project.packageJSONPath}
-    </p>
-
+    <p class="copyable-item" repeat.for="item of items"><span class="key">${item.key}</span> <span class="value">${item.value}</span></p>
 
     <compose repeat.for="section of sections" view-model="${section.viewModel}" model.bind="section.model"></compose>
-
   </div>
 </template>
