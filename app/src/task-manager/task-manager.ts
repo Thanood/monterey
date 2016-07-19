@@ -1,4 +1,4 @@
-import * as moment from  'moment';
+import 'moment';
 import {Task}      from './task';
 
 /* Usage:

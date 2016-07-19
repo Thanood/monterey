@@ -1,5 +1,4 @@
 import 'bootstrap';
-import 'toastr';
 import {LogManager}                      from 'aurelia-framework';
 import {ConsoleAppender}                 from 'aurelia-logging-console';
 import {BootstrapFormValidationRenderer} from './shared/bootstrap-validation-renderer';

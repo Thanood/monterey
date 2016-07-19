@@ -14,7 +14,7 @@ export class Screen {
     this.project = model.selectedProject;
 
     // allow plugins to provide a list of view/viewmodels that should be rendered here
-    this.pluginManager.plugins.forEach(async plugin => {
+    this.pluginManager.plugins.forEach(async (plugin) => {
       let sections = await plugin.getProjectInfoSections(this.project);
       (sections || []).forEach(section => {
         if (!section.model) {

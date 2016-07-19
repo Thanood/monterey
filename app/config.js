@@ -1,6 +1,6 @@
 System.config({
   defaultJSExtensions: true,
-  transpiler: "none",
+  transpiler: false,
   paths: {
     "*": "dist/*",
     "github:*": "jspm_packages/github/*",
@@ -13,6 +13,12 @@ System.config({
       "deps": [
         "jquery"
       ]
+    },
+    "npm:moment@2.14.1/moment.js": {
+      "exports": "moment"
+    },
+    "github:CodeSeven/toastr@2.1.2/toastr.js": {
+      "format": "amd"
     }
   },
 

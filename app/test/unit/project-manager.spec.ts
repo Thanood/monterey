@@ -8,12 +8,12 @@ describe('ProjectManager removeProject', () => {
   beforeEach(() => {
     state = {
       projects: [],
-      _save: jasmine.createSpy('_save')
+      _save: jasmine.createSpy('_save').and.returnValue(new Promise(resolve => resolve()))
     };
-    sut = new ProjectManager(null, state);
+    sut = new ProjectManager(null, state, null);
   });
 
-  it('removes project from state', () => {
+  it('removes project from state', async (d) => {
     let deleteProject = {
       name: 'foo'
     };
@@ -25,12 +25,14 @@ describe('ProjectManager removeProject', () => {
       name: 'bar'
     });
 
-    sut.removeProject(deleteProject);
+    await sut.removeProject(deleteProject);
     expect(state.projects.length).toBe(2);
     expect(state.projects.indexOf(deleteProject)).toBe(-1);
+
+    d();
   });
 
-  it('persists changes to session', () => {
+  it('persists changes to session', async (d) => {
     let deleteProject = {
       name: 'foo'
     };
@@ -42,8 +44,9 @@ describe('ProjectManager removeProject', () => {
       name: 'bar'
     });
 
-    sut.removeProject(deleteProject);
+    await sut.removeProject(deleteProject);
     expect(state._save).toHaveBeenCalled();
+    d();
   });
 });
 
@@ -56,7 +59,7 @@ describe('ProjectManager hasProjects', () => {
     state = {
       projects: []
     };
-    sut = new ProjectManager(null, state);
+    sut = new ProjectManager(null, state, null);
   });
 
   it('returns whether the projectmanager has any projects registered', () => {
@@ -79,7 +82,7 @@ describe('ProjectManager addProjectByWizardState', () => {
     state = {
       projects: []
     };
-    sut = new ProjectManager(null, state);
+    sut = new ProjectManager(null, state, null);
   });
 
   it('calls addProject with project definition based on wizard state', () => {
@@ -108,7 +111,7 @@ describe('ProjectManager addProjectByPath', () => {
     state = {
       projects: []
     };
-    sut = new ProjectManager(null, state);
+    sut = new ProjectManager(null, state, null);
   });
 
   it('calls addProject with project path', () => {
@@ -127,11 +130,16 @@ describe('ProjectManager addProject', () => {
   let sut: ProjectManager;
   let state;
   let pluginManager;
+  let notification;
 
   beforeEach(() => {
     state = {
       projects: [],
       _save: jasmine.createSpy('_save'),
+    };
+    notification = {
+      warning: jasmine.createSpy('warning'),
+      error: jasmine.createSpy('error')
     };
     pluginManager = {
       notifyOfAddedProject: jasmine.createSpy('notifyOfAddedProject'),
@@ -141,7 +149,7 @@ describe('ProjectManager addProject', () => {
         });
       })
     };
-    sut = new ProjectManager(pluginManager, state);
+    sut = new ProjectManager(pluginManager, state, notification);
   });
 
   it('has all plugins evaluate the project', () => {
@@ -154,34 +162,31 @@ describe('ProjectManager addProject', () => {
   });
 
   it('expects a PackageJSONPath', async (d) => {
-    let toastrSpy = spyOn((<any>window).toastr, 'error');
     let project = {
       path: ''
     };
     let result = await sut.addProject(project);
 
-    expect(toastrSpy).toHaveBeenCalledWith('location of package.json was not found, the project will not be added to Monterey');
+    expect(notification.error).toHaveBeenCalledWith('location of package.json was not found, the project will not be added to Monterey');
     expect(result).toBe(false);
 
     d();
   });
 
   it('expects a name', async (d) => {
-    let toastrSpy = spyOn((<any>window).toastr, 'error');
     let project = {
       path: '',
       packageJSONPath: 'C:/test/package.json'
     };
     let result = await sut.addProject(project);
 
-    expect(toastrSpy).toHaveBeenCalledWith('project name was not found, the project will not be added to Monterey');
+    expect(notification.error).toHaveBeenCalledWith('project name was not found, the project will not be added to Monterey');
     expect(result).toBe(false);
 
     d();
   });
 
   it('adds project to state', async (d) => {
-    let toastrSpy = spyOn((<any>window).toastr, 'error');
     let project = {
       path: '',
       packageJSONPath: 'C:/test/package.json',
@@ -196,7 +201,6 @@ describe('ProjectManager addProject', () => {
   });
 
   it('notifies plugins of added project', async (d) => {
-    let toastrSpy = spyOn((<any>window).toastr, 'error');
     let project = {
       path: '',
       packageJSONPath: 'C:/test/package.json',
@@ -210,7 +214,6 @@ describe('ProjectManager addProject', () => {
   });
 
   it('persists changes to session', async (d) => {
-    let toastrSpy = spyOn((<any>window).toastr, 'error');
     let project = {
       path: '',
       packageJSONPath: 'C:/test/package.json',
@@ -229,13 +232,17 @@ describe('ProjectManager verifyProjectsExistence', () => {
   let state;
   let pal;
   let fs;
+  let notification;
 
   beforeEach(() => {
     state = {
       projects: [],
       _save: jasmine.createSpy('_save'),
     };
-    sut = new ProjectManager(null, state);
+    notification = {
+      warning: jasmine.createSpy('warning')
+    };
+    sut = new ProjectManager(null, state, notification);
     fs = {
       fileExists: jasmine.createSpy('fileExists').and.callFake(param => {
         return new Promise(resolve => {
@@ -290,9 +297,6 @@ describe('ProjectManager verifyProjectsExistence', () => {
   });
 
   it('warns user that projects have been removed', async (d) => {
-
-    let toastrSpy = spyOn((<any>window).toastr, 'warning');
-
     state.projects = [{
       name: 'foo',
       packageJSONPath: '/existing'
@@ -306,7 +310,7 @@ describe('ProjectManager verifyProjectsExistence', () => {
 
     await sut.verifyProjectsExistence();
 
-    expect(toastrSpy).toHaveBeenCalledWith('The following projects were removed/relocated and will be removed from Monterey:\r\n bar, baz');
+    expect(notification.warning).toHaveBeenCalledWith('The following projects were removed/relocated and will be removed from Monterey:\r\n bar, baz');
 
     d();
   });

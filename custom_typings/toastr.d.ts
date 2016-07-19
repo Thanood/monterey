@@ -209,3 +209,7 @@ declare var toastr: Toastr;
 declare module "toastr" {
 	export = toastr;
 }
+
+declare interface Window {
+  toastr: Toastr;
+}

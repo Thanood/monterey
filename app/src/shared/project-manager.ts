@@ -3,13 +3,14 @@ import {PluginManager}      from './plugin-manager';
 import {ApplicationState}   from './application-state';
 import {FS}                 from 'monterey-pal';
 import {Project}            from './project';
-import * as toastr          from 'toastr';
+import {Notification}       from './notification';
 
 @autoinject()
 export class ProjectManager {
 
   constructor(private pluginManager: PluginManager,
-              public state: ApplicationState) {
+              public state: ApplicationState,
+              private notification: Notification) {
   }
 
   /**
@@ -38,12 +39,12 @@ export class ProjectManager {
     projectObj = await this.pluginManager.evaluateProject(projectObj);
 
     if (!projectObj.packageJSONPath) {
-      toastr.error('location of package.json was not found, the project will not be added to Monterey');
+      this.notification.error('location of package.json was not found, the project will not be added to Monterey');
       return false;
     }
 
     if (!projectObj.name) {
-      toastr.error('project name was not found, the project will not be added to Monterey');
+      this.notification.error('project name was not found, the project will not be added to Monterey');
       return false;
     }
 
@@ -90,7 +91,7 @@ export class ProjectManager {
     if (removeProjects.length > 0) {
       let projectNames = removeProjects.map(i => i.project.name).join(', ');
       // do we need an alert here?
-      toastr.warning(`The following projects were removed/relocated and will be removed from Monterey:\r\n ${projectNames}`);
+      this.notification.warning(`The following projects were removed/relocated and will be removed from Monterey:\r\n ${projectNames}`);
 
       removeProjects.forEach(r => {
         let index = this.state.projects.indexOf(r);

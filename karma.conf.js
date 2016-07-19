@@ -1,5 +1,4 @@
 module.exports = function(config) {
-
   var configuration = {
     basePath: './',
     frameworks: ['systemjs', 'jasmine'],
@@ -14,7 +13,7 @@ module.exports = function(config) {
           "typescript": "node_modules/typescript/lib/typescript.js",
           "systemjs": "node_modules/systemjs/dist/system.js",
           'system-polyfills': 'node_modules/systemjs/dist/system-polyfills.js',
-          'es6-module-loader': 'node_modules/es6-module-loader/dist/es6-module-loader.js',
+          'es6-module-loader': 'node_modules/es6-module-loader/dist/es6-module-loader.js'
         },
         packages: {
           'app/test/unit': {
@@ -25,13 +24,13 @@ module.exports = function(config) {
           }
         },
         meta: {
-          "npm:moment@2.14.1/moment.js": {
-            "exports": "moment"
+          "github:CodeSeven/toastr@2.1.2/toastr.js": {
+            "format": "global"
           }
         },
         transpiler: 'typescript',
-        typescriptOptions : {
-          "module": "commonjs",
+        typescriptOptions: {
+          "module": "amd",
           "target": "es6",
           "emitDecoratorMetadata": true,
           "experimentalDecorators": true
@@ -39,12 +38,12 @@ module.exports = function(config) {
       },
       serveFiles: [
         'app/src/**/*.*',
-        'app/jspm_packages/**/*'
+        'app/jspm_packages/**/*.*'
       ]
     },
     files: [
       'app/test/unit/setup.ts',
-      'app/test/unit/*.ts'
+      'app/test/unit/*.spec.ts'
     ],
     exclude: [],
     preprocessors: { },
@@ -54,13 +53,13 @@ module.exports = function(config) {
     logLevel: config.LOG_INFO,
     autoWatch: true,
     browsers: ['Chrome'],
-    singleRun: false,
     customLaunchers: {
       Chrome_travis_ci: {
         base: 'Chrome',
         flags: ['--no-sandbox']
       }
     },
+    singleRun: false
   };
 
   if (process.env.TRAVIS) {
