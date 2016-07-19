@@ -7,6 +7,7 @@ import {Analyzer}         from './analyzer';
 import {Forks}            from './forks';
 import {withModal}        from '../../shared/decorators';
 import {Project}          from '../../shared/project';
+import {Notification}     from '../../shared/notification';
 
 @autoinject()
 export class Screen {
@@ -22,7 +23,8 @@ export class Screen {
 
   constructor(private taskManager: TaskManager,
               private analyzer: Analyzer,
-              private dialogService: DialogService) {
+              private dialogService: DialogService,
+              private notification: Notification) {
   }
 
   async activate(model) {
@@ -34,12 +36,12 @@ export class Screen {
 
   async attached() {
     if (!(await this.analyzer.githubAPI.confirmAuth())) {
-      alert('Due to Github\'s rate limiting system, Github credentials are required in order to use this functionality');
+      this.notification.error('Due to Github\'s rate limiting system, Github credentials are required in order to use this functionality');
       return;
     }
 
     if (!(await JSPM.isJspmInstalled(this.project.path))) {
-      alert(`JSPM is not installed (tried to found ${this.project.path})`);
+      this.notification.error(`JSPM is not installed (tried to find ${this.project.path}). Did you install all npm modules?`);
       return;
     }
 
@@ -48,7 +50,7 @@ export class Screen {
     try {
       await this.load();
     } catch (e) {
-      alert(`Error loading JSPM dependencies: ${e.message}`);
+      this.notification.error(`Error loading JSPM dependencies: ${e.message}`);
       console.log(e);
     }
 
@@ -99,7 +101,7 @@ export class Screen {
     let installDeps;
 
     if (deps.length ===  0) {
-      alert('Please select at least one dependency');
+      this.notification.warning('Please select at least one dependency');
       return;
     }
 

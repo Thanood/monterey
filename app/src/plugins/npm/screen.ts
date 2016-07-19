@@ -5,6 +5,7 @@ import {Analyzer}         from './analyzer';
 import {TaskManager}      from '../../task-manager/task-manager';
 import {TaskManagerModal} from '../../task-manager/task-manager-modal';
 import {NPM}              from 'monterey-pal';
+import {Notification}     from '../../shared/notification';
 
 @autoinject()
 export class Screen {
@@ -17,7 +18,8 @@ export class Screen {
 
   constructor(private common: Common,
               private analyzer: Analyzer,
-              private dialogService: DialogService) {
+              private dialogService: DialogService,
+              private notification: Notification) {
   }
 
   activate(model) {
@@ -56,7 +58,7 @@ export class Screen {
     let deps = this.getSelectedDependencies().map(x => x.name + '@*');
 
     if (deps.length ===  0) {
-      alert('Please select at least one dependency');
+      this.notification.warning('Please select at least one dependency');
       return;
     }
 

@@ -1,9 +1,11 @@
-import {LogManager} from 'aurelia-framework';
-import {AURELIACLI} from 'monterey-pal';
-import {IStep}      from '../istep';
+import {LogManager, autoinject}   from 'aurelia-framework';
+import {AURELIACLI}               from 'monterey-pal';
+import {IStep}                    from '../istep';
+import {Notification}             from '../../shared/notification';
 
 const logger = LogManager.getLogger('project-manager');
 
+@autoinject()
 export class Run {
   failed = false;
   finished = false;
@@ -11,6 +13,9 @@ export class Run {
   state;
   step: IStep;
   promise: Promise<void>;
+
+  constructor(private notification: Notification) {
+  }
 
   async activate(model) {
     this.model = model;
@@ -34,7 +39,7 @@ export class Run {
         this.state.successful = true;
         resolve();
       } catch (e) {
-        alert('Error while scaffolding the application: ' + e.message);
+        this.notification.error('Error while scaffolding the application: ' + e.message);
         logger.error(e);
         this.failed = true;
         this.state.successful = false;
@@ -50,7 +55,7 @@ export class Run {
   }
 
   async previous() {
-    alert('This is not possible at this point');
+    this.notification.warning('This is not possible at this point');
     return {
       goToPreviousStep: true
     };

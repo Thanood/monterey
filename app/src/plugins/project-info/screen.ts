@@ -1,5 +1,6 @@
 import {autoinject}    from 'aurelia-framework';
 import {PluginManager} from '../../shared/plugin-manager';
+import {Notification}  from '../../shared/notification';
 
 @autoinject()
 export class Screen {
@@ -7,7 +8,8 @@ export class Screen {
   sections = [];
   clipboard: Clipboard;
 
-  constructor(private pluginManager: PluginManager) {
+  constructor(private pluginManager: PluginManager,
+              private notification: Notification) {
   }
 
   async activate(model) {
@@ -35,12 +37,12 @@ export class Screen {
         }
     });
 
-    this.clipboard.on('success', function(e) {
-      alert('copied project information to clipboard');
+    this.clipboard.on('success', (e) => {
+      this.notification.success('copied project information to clipboard');
     });
 
-    this.clipboard.on('error', function(e) {
-      alert(`failed to copy project information to clipboard: ${e.text}`);
+    this.clipboard.on('error', (e) => {
+      this.notification.error(`failed to copy project information to clipboard: ${e.text}`);
       console.log(e);
     });
   }

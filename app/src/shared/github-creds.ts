@@ -3,15 +3,17 @@ import {DialogController}        from 'aurelia-dialog';
 import {ApplicationState}        from './application-state';
 import {ValidationRules}         from 'aurelia-validatejs';
 import {ValidationController}    from 'aurelia-validation';
+import {Notification}            from '../shared/notification';
 
-@inject(NewInstance.of(ValidationController), DialogController, ApplicationState)
+@inject(NewInstance.of(ValidationController), DialogController, ApplicationState, Notification)
 export class GithubCreds {
   username: string;
   password: string;
 
   constructor(private validation: ValidationController,
               private dialog: DialogController,
-              private state: ApplicationState) {}
+              private state: ApplicationState,
+              private notification: Notification) {}
 
   attached() {
     ValidationRules
@@ -22,7 +24,7 @@ export class GithubCreds {
 
   submit() {
     if (this.validation.validate().length > 0) {
-      alert('There are validation errors');
+      this.notification.error('There are validation errors');
       return;
     }
 

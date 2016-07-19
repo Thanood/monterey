@@ -3,8 +3,9 @@ import {ApplicationState}     from '../../shared/application-state';
 import {Main}                 from '../../main/main';
 import {ValidationRules}      from 'aurelia-validatejs';
 import {ValidationController} from 'aurelia-validation';
+import {Notification}         from '../../shared/notification';
 
-@inject(ApplicationState, NewInstance.of(ValidationController), Main)
+@inject(ApplicationState, NewInstance.of(ValidationController), Main, Notification)
 export class Screen {
   @observable selectedLauncher;
   model;
@@ -12,7 +13,8 @@ export class Screen {
 
   constructor(private state: ApplicationState,
               private validation: ValidationController,
-              private main: Main) {
+              private main: Main,
+              private notification: Notification) {
     if (!this.state.appLaunchers) {
       this.state.appLaunchers = [];
     }
@@ -75,12 +77,12 @@ export class Screen {
 
   async save() {
     if (this.validation.validate().length > 0) {
-      alert('There are validation errors');
+      this.notification.error('There are validation errors');
       return;
     }
 
     await this.state._save();
-    alert('Changes saved');
+    this.notification.success('Changes saved');
   }
 
   beforeReturn() {

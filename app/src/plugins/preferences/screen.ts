@@ -5,11 +5,13 @@ import {GithubCreds}          from '../../shared/github-creds';
 import {SESSION}              from 'monterey-pal';
 import {ValidationRules}      from 'aurelia-validatejs';
 import {ValidationController} from 'aurelia-validation';
+import {Notification}         from '../../shared/notification';
 
-@inject(ApplicationState, NewInstance.of(ValidationController))
+@inject(ApplicationState, NewInstance.of(ValidationController), Notification)
 export class Screen {
   constructor(private state: ApplicationState,
-              private validation: ValidationController) {
+              private validation: ValidationController,
+              private notification: Notification) {
   }
 
   attached() {
@@ -20,12 +22,12 @@ export class Screen {
 
   async save() {
     if (this.validation.validate().length > 0) {
-      alert('There are validation errors');
+      this.notification.error('There are validation errors');
       return;
     }
 
     await this.state._save();
-    alert('Changes saved');
+    this.notification.success('Changes saved');
   }
 
   clearGithub() {

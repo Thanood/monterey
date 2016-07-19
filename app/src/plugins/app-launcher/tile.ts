@@ -1,10 +1,15 @@
-import {PROCESSES} from 'monterey-pal';
-import {useView}   from 'aurelia-framework';
+import {PROCESSES}           from 'monterey-pal';
+import {useView, autoinject} from 'aurelia-framework';
+import {Notification}        from '../../shared/notification';
 
 @useView('plugins/default-tile.html')
+@autoinject()
 export class AppLauncher {
   project;
   cmd: string;
+
+  constructor(private notification: Notification){
+  }
 
   activate(model) {
     this.project = model.project;
@@ -13,7 +18,7 @@ export class AppLauncher {
 
   onClick() {
     if (!this.cmd) {
-      alert('no cmd provided for this app launcher');
+      this.notification.error('no cmd provided for this app launcher');
       return;
     }
 
@@ -22,7 +27,7 @@ export class AppLauncher {
     try {
       PROCESSES.execChildProcess(this.cmd);
     } catch (e) {
-      alert(`error executing cmd: ${e.message}`);
+      this.notification.error(`error executing cmd: ${e.message}`);
       console.log(e);
     }
   }

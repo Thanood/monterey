@@ -1,8 +1,9 @@
 import {autoinject, bindable} from 'aurelia-framework';
 import {ApplicationState}     from '../../shared/application-state';
 import {Project}              from '../../shared/project';
+import {Notification}         from '../../shared/notification';
 
-@autoinject(ApplicationState)
+@autoinject()
 export class ProjectList {
   @bindable selectedProject: Project;
   @bindable disabled = false;
@@ -11,7 +12,8 @@ export class ProjectList {
   // keeps the index of the last selected row
   lastSelectedRow = 0;
 
-  constructor(private state: ApplicationState) {
+  constructor(private state: ApplicationState,
+              private notification: Notification) {
   }
 
   attached() {
@@ -31,7 +33,7 @@ export class ProjectList {
   selectProject(project) {
     if (this.selectedProject !== project.data) {
       if (this.disabled) {
-        alert('Please return to the tile list before switching projects');
+        this.notification.error('Please return to the tile list before switching projects');
         this.setlastSelectedRow();
         return;
       } else {

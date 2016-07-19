@@ -2,6 +2,7 @@ import {useView, autoinject} from 'aurelia-framework';
 import {Main}                from '../../main/main';
 import {JSPMDetection}       from './jspm-detection';
 import {ApplicationState}    from '../../shared/application-state';
+import {Notification}        from '../../shared/notification';
 
 @autoinject()
 @useView('plugins/default-tile.html')
@@ -13,7 +14,8 @@ export class Tile {
 
   constructor(private main: Main,
               private state: ApplicationState,
-              private jspmDetection: JSPMDetection) {
+              private jspmDetection: JSPMDetection,
+              private notification: Notification) {
     this.title = 'JSPM';
     this.img = 'images/jspm.png';
   }
@@ -32,10 +34,10 @@ export class Tile {
           await this.state._save();
           this.main.activateScreen('plugins/jspm/screen');
         } else {
-          alert('Unable to detect JSPM');
+          this.notification.error('Unable to detect JSPM');
         }
       } catch (error) {
-        alert(`Error during the detection of JSPM: ${error.message}`);
+        this.notification.error(`Error during the detection of JSPM: ${error.message}`);
       }
     }
   }

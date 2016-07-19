@@ -90,7 +90,6 @@ export class ProjectManager {
 
     if (removeProjects.length > 0) {
       let projectNames = removeProjects.map(i => i.project.name).join(', ');
-      // do we need an alert here?
       this.notification.warning(`The following projects were removed/relocated and will be removed from Monterey:\r\n ${projectNames}`);
 
       removeProjects.forEach(r => {

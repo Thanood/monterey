@@ -2,6 +2,8 @@ import {autoinject, LogManager} from 'aurelia-framework';
 import {FS}                     from 'monterey-pal';
 import {GithubAPI}              from '../../shared/github-api';
 import {IStep}                  from '../istep';
+import {Notification}           from '../../shared/notification';
+
 
 const logger = LogManager.getLogger('zip-scaffolder');
 
@@ -15,7 +17,8 @@ export class Run {
   state;
   promise: Promise<void>;
 
-  constructor(private githubAPI: GithubAPI) {
+  constructor(private githubAPI: GithubAPI,
+              private notification: Notification) {
   }
 
   async activate(model) {
@@ -27,7 +30,7 @@ export class Run {
   }
 
   async previous() {
-    alert('This is not possible at this point');
+    this.notification.warning('This is not possible at this point');
     return {
       goToPreviousStep: false
     };
@@ -56,7 +59,7 @@ export class Run {
         this.state.successful = true;
         resolve();
       } catch (e) {
-        alert('Error while scaffolding the application: ' + e.message);
+        this.notification.error('Error while scaffolding the application: ' + e.message);
         logger.error(e);
         this.failed = true;
         this.state.successful = false;
