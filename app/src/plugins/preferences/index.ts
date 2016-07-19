@@ -7,10 +7,4 @@ export function configure(aurelia) {
   pluginManager.registerPlugin(aurelia.container.get(Plugin));
 }
 
-class Plugin extends BasePlugin {
-  getTiles(project, showIrrelevant) {
-    return [{
-      viewModel: 'plugins/preferences/tile'
-    }];
-  }
-}
+class Plugin extends BasePlugin {}

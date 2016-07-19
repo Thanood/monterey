@@ -1,8 +1,10 @@
 <template>
-  <div class="runningTasks" click.delegate="showTasks()" if.bind="visible">
-    <p>
-      <span class="glyphicon glyphicon-cog gly-spin"></span>
-      busy with ${taskManager.runningTasks.length} tasks...
-    </p>
-  </div>
+  <require from="./task-bar-item"></require>
+  <task-bar-item click.delegate="showTasks()"
+                 text.bind="taskManagerText"
+                 icon="glyphicon glyphicon-cog ${taskManager.runningTasks.length > 0 ? ' gly-spin' : ''}"></task-bar-item>
+
+  <task-bar-item text="Support" img="images/support-25x25.png" click.delegate="openSupportPage()"></task-bar-item>
+
+  <task-bar-item text="Preferences" icon="fa fa-wrench" click.delegate="openPreferences()"></task-bar-item>
 </template>

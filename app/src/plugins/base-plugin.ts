@@ -13,7 +13,7 @@ export class BasePlugin {
   // if they want to add tiles to the screen
   // the getTiles() function can return an array of tiles
   getTiles(project, showIrrelevant = false): Array<any> {
-    throw new Error('getTiles not set in plugin');
+    return [];
   }
 
   async onNewSession(state) {
