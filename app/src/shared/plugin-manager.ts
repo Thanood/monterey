@@ -18,9 +18,7 @@ export class PluginManager {
   * to evaluate the project and provide information of it to the monterey system
   */
   async evaluateProject(project: Project) {
-    for (let i = 0; i < this.plugins.length; i++) {
-      await this.plugins[i].evaluateProject(project);
-    }
+    await this.call('evaluateProject', project);
     return project;
   }
 
@@ -28,9 +26,7 @@ export class PluginManager {
    * Notifies every plugin of the fact that a new Monterey session has started
    */
   async notifyOfNewSession(state: ApplicationState) {
-    for (let i = 0; i < this.plugins.length; i++) {
-      await this.plugins[i].onNewSession(state);
-    }
+    await this.call('onNewSession', state);
     return state;
   }
 
@@ -38,10 +34,18 @@ export class PluginManager {
    * Notifies every project of the fact that a project has been added to Monterey
    */
   async notifyOfAddedProject(project: Project) {
-    for (let i = 0; i < this.plugins.length; i++) {
-      await this.plugins[i].onProjectAdd(project);
-    }
+    await this.call('onProjectAdd', project);
     return project;
+  }
+
+  /**
+   * Call a function on all plugins
+   */
+  private async call(func: string, ...params) {
+    let p = Array.prototype.slice.call(params);
+    for (let i = 0; i < this.plugins.length; i++) {
+      await this.plugins[i][func].apply(this.plugins[i], p);
+    }
   }
 
   /**
