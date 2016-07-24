@@ -10,7 +10,7 @@ https://travis-ci.org/aurelia-ui-toolkits/aurelia-kendoui-bridge.svg
 Monterey is an extensible application that provides a graphical user interface for a collection of tools to simplify the creation, configuration and maintenance of Aurelia applications.
 
 ### What does Monterey look like
-![](http://i.imgur.com/iKvi8Dl.png)
+![](http://i.imgur.com/5mBNBC3.png)
 
 More screenshots [here](http://imgur.com/a/Zm9MZ)
 
