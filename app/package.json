@@ -80,6 +80,6 @@
     "yauzl": "^2.6.0"
   },
   "devDependencies": {
-    "jspm": "^0.16.15"
+    "jspm": "0.16.15"
   }
 }
