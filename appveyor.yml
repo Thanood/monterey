@@ -17,7 +17,7 @@ environment:
 install:
   - ps: Install-Product node 6 x64
   - git reset --hard HEAD
-  - npm install gulp jspm@0.16.15 flatten-packages -g
+  - npm install gulp jspm@0.16.39 flatten-packages -g
   - npm install electron-builder@next # force install next version to test electron-builder
   - npm install
   - npm prune
