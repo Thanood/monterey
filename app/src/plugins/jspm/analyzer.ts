@@ -101,8 +101,16 @@ export class Analyzer {
       // use github api to get the latest version of github packages
       if (m.isGithub) {
         promise = this.githubAPI.getTags(m.package)
-          .then(tags => tags.map(i => i.name).sort(semver.compare))
-          .then(tags => m.latest = this.normalizeTag(tags[tags.length - 1]));
+          .then(tags => {
+            // some github repositories have no releases
+            if (tags.length > 0) {
+              tags = tags.map(i => i.name).sort(semver.compare);
+
+              m.latest = this.normalizeTag(tags[tags.length - 1]);
+            } else {
+              m.latest = 'no releases';
+            }
+          });
       } else if (m.isNPM) {
         // use npm api to get the latest version of npm packages
         promise = this.npmAPI.getLatest(m.package)
