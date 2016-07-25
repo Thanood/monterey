@@ -49,10 +49,6 @@ app.on('ready', () => {
 });
 
 let setApplicationMenu = function() {
-  // var menus = [];
-  // if (env.name !== 'production') {
-  //   menus.push(devMenuTemplate);
-  // }
   Menu.setApplicationMenu(Menu.buildFromTemplate(devMenuTemplate));
 };
 

@@ -2,12 +2,33 @@ const electron = require('electron');
 const app = electron.app;
 const handleStartupEvent = require('./startuphandler.js');
 const BrowserWindow = electron.BrowserWindow;
+const Menu = electron.Menu;
 const update = require('./updater');
 let mainWindow;
 
+let setApplicationMenu = function() {
+  Menu.setApplicationMenu(Menu.buildFromTemplate(devMenuTemplate));
+};
+
+let devMenuTemplate = [{
+  label: 'DevTools',
+  submenu: [{
+    label: 'Reload',
+    accelerator: 'CmdOrCtrl+R',
+    click: function() {
+      BrowserWindow.getFocusedWindow().webContents.reloadIgnoringCache();
+    }
+  }, {
+    label: 'Toggle DevTools',
+    accelerator: 'Alt+CmdOrCtrl+I',
+    click: function() {
+      BrowserWindow.getFocusedWindow().toggleDevTools();
+    }
+  }]
+}];
+
 // handle any Squirrel event (installer events)
 if (!handleStartupEvent()) {
-  require('electron-debug')({ enabled: true });
 
   app.commandLine.appendSwitch('enable-transparent-visuals');
   app.on('window-all-closed', () => {
@@ -17,6 +38,8 @@ if (!handleStartupEvent()) {
   });
 
   app.on('ready', () => {
+    setApplicationMenu();
+
     mainWindow = new BrowserWindow({
       width: 1024,
       height: 768
@@ -25,7 +48,6 @@ if (!handleStartupEvent()) {
     global.mainWindow = mainWindow;
     global.rootDir = __dirname;
 
-    mainWindow.setMenu(null);
     mainWindow.loadURL(`file://${__dirname}/index.html`);
 
     mainWindow.webContents.on('did-finish-load', () => {
