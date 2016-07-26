@@ -8,14 +8,6 @@ language: c
 env:
   - TEST_SUITE=tests
 
-matrix:
-  include:
-    - os: osx
-      env: SOMEVAR
-    - os: linux
-      env: CC=clang CXX=clang++ npm_config_clang=1
-      compiler: clang
-
 cache:
   directories:
   - node_modules
@@ -24,19 +16,12 @@ cache:
   - $HOME/.electron
   - $HOME/.cache
 
-addons:
-  apt:
-    packages:
-      - libgnome-keyring-dev
-      - icnsutils
-      - graphicsmagick
-
 install:
   chmod a+x travis.sh
 
 
 script:
-  - echo $foo
+  - ./travis.sh
 
 branches:
   except:
