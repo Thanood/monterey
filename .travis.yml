@@ -35,7 +35,8 @@ install:
   chmod a+x travis.sh
 
 
-script: ./travis.sh
+script:
+  - echo $foo
 
 branches:
   except:
