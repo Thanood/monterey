@@ -10,6 +10,8 @@ if [ "${TEST_SUITE}" = "tests" ]; then
   sudo dpkg -i google-chrome*.deb
 	gulp test
 else
+  export CSC_LINK=${CSC_LINK}
+  export CSC_KEY_PASSWORD=${CSC_KEY_PASSWORD}
   gulp build-release
   gulp rename-index
   npm run dist
