@@ -1,1 +1,0 @@
-echo $CSC_LINK
