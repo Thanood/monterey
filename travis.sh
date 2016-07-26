@@ -1,1 +1,1 @@
-echo $foo
+echo $CSC_LINK
