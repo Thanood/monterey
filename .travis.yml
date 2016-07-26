@@ -10,5 +10,6 @@ env:
 
 install:
 - chmod a+x travis.sh
+- chmod a+x test.sh
 
 script: ./test.sh
