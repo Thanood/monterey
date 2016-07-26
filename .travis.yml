@@ -8,43 +8,7 @@ language: c
 env:
   - TEST_SUITE=tests
 
-matrix:
-  include:
-    - os: osx
-      env: SOMEVAR
-    - os: linux
-      env: CC=clang CXX=clang++ npm_config_clang=1
-      compiler: clang
-
-cache:
-  directories:
-  - node_modules
-  - app/node_modules
-  - app/jspm_packages
-  - $HOME/.electron
-  - $HOME/.cache
-
-addons:
-  apt:
-    packages:
-      - libgnome-keyring-dev
-      - icnsutils
-      - graphicsmagick
-
 install:
-- nvm install 6
-- npm install electron-builder@next # force install next version to test electron-builder
-- npm install gulp jspm@0.16.39 -g
-- npm install
-- npm prune
-- cd app
-- npm install
-- jspm install
-- cd ..
 - chmod a+x travis.sh
 
-script: ./travis.sh
-
-branches:
-  except:
-    - "/^v\\d+\\.\\d+\\.\\d+$/"
+script: ./test.sh
