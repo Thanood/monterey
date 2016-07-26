@@ -31,17 +31,6 @@ addons:
       - icnsutils
       - graphicsmagick
 
-install:
-- nvm install 6
-- npm install electron-builder@next # force install next version to test electron-builder
-- npm install gulp jspm@0.16.39 -g
-- npm install
-- npm prune
-- cd app
-- npm install
-- jspm install
-- cd ..
-- chmod a+x travis.sh
 
 script: ./travis.sh
 
