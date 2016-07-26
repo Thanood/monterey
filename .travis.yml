@@ -31,6 +31,9 @@ addons:
       - icnsutils
       - graphicsmagick
 
+install:
+  chmod a+x travis.sh
+
 
 script: ./travis.sh
 
