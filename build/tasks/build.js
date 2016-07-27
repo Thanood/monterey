@@ -5,11 +5,9 @@ var plumber = require('gulp-plumber');
 var typescript = require('gulp-typescript');
 var sourcemaps = require('gulp-sourcemaps');
 var paths = require('../paths');
-var to5 = require('gulp-babel');
 var assign = Object.assign || require('object.assign');
 var notify = require('gulp-notify');
 var less = require('gulp-less');
-var compilerOptions = require('../babel-options');
 
 
 var typescriptCompiler = typescriptCompiler || null;
