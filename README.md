@@ -14,9 +14,13 @@ More screenshots [here](http://imgur.com/a/Zm9MZ)
 
 
 ### How to install and use Monterey
-1. At the bottom of [this page](https://github.com/monterey-framework/monterey/releases/latest) download the appropriate ZIP for your platform
-2. Extract the ZIP
-3. Run monterey (on windows open monterey.exe)
+1. Go to the [latest release](https://github.com/monterey-framework/monterey/releases/latest) page
+2. Download the installer for the OS you're using:  
+  - **OSX:** monterey-x.y.z.dmg 
+  - **Windows:** monterey-Setup-x.y.z.exe 
+  - **Linux:** monterey-x.y.z.deb 
+3. Run the installer
+4. Open Monterey
 
 ### How to develop Monterey
 Suggested folder structure:
