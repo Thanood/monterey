@@ -30,9 +30,9 @@ describe('TaskManager addTask', () => {
     taskManager.addTaskLog(task, 'logMessage2');
     taskManager.addTaskLog(task, 'logMessage3');
 
-    expect(task.logs[0].indexOf('logMessage3') > -1).toBe(true);
-    expect(task.logs[1].indexOf('logMessage2') > -1).toBe(true);
-    expect(task.logs[2].indexOf('logMessage1') > -1).toBe(true);
+    expect(task.logs[0].message.indexOf('logMessage3') >= -1).toBe(true);
+    expect(task.logs[1].message.indexOf('logMessage2') >= -1).toBe(true);
+    expect(task.logs[2].message.indexOf('logMessage1') >= -1).toBe(true);
   });
 
   it('finishTask sets end date and removes task from runningTasks array', () => {
@@ -92,7 +92,7 @@ describe('TaskManager addTask', () => {
     let p = taskManager.addTask(task);
 
     p.then(() => {
-      expect(task.logs[0].indexOf('-----FINISHED-----') > -1).toBe(true);
+      expect(task.logs[0].message.indexOf('-----FINISHED-----') > -1).toBe(true);
       d();
     });
 
@@ -111,10 +111,11 @@ describe('TaskManager addTask', () => {
     let p = taskManager.addTask(task);
 
     p.then(() => {
-      expect(task.logs[0].indexOf('-----FINISHED WITH ERROR-----') > -1).toBe(true);
+      expect(task.logs[0].message.indexOf('FOO BAR ERROR') > -1).toBe(true);
+      expect(task.logs[1].message.indexOf('-----FINISHED WITH ERROR-----') > -1).toBe(true);
       d();
     });
 
-    _reject();
+    _reject(new Error('FOO BAR ERROR'));
   });
 });
