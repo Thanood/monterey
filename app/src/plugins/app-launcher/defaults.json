@@ -63,5 +63,19 @@
     "title": "Sourcetree",
     "default": false,
     "platforms": ["win32"]
+  }, {
+    "id": 9,
+    "img": "images/terminal.png",
+    "cmd": "open -a Terminal %path%",
+    "title": "Terminal",
+    "default": true,
+    "platforms": ["darwin"]
+  }, {
+    "id": 9,
+    "img": "images/finder.png",
+    "cmd": "open -a Finder %path%",
+    "title": "Finder",
+    "default": true,
+    "platforms": ["darwin"]
   }]
 }
