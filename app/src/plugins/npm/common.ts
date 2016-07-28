@@ -22,8 +22,9 @@ export class Common {
         workingDirectory: FS.getFolderPath(project.packageJSONPath)
       },
       logCallback: (message) => {
-        if (message.level === 'custom' || message.level === 'warning' || message.level === 'error') {
-          this.taskManager.addTaskLog(task, message.message);
+        if (message.level === 'custom' || message.level === 'warn' || message.level === 'error') {
+          if (message.level === 'custom') message.level = 'info';
+          this.taskManager.addTaskLog(task, message.message, message.level);
         }
       }
     });

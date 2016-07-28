@@ -2,10 +2,12 @@ import {autoinject} from 'aurelia-framework';
 import {NPMAPI}     from '../../shared/npm-api';
 import {FS, NPM}    from 'monterey-pal';
 import * as semver  from 'semver';
+import {Notification} from '../../shared/notification';
 
 @autoinject()
 export class Analyzer {
-  constructor(private npmAPI: NPMAPI) {
+  constructor(private npmAPI: NPMAPI,
+              private notification: Notification) {
   }
 
   async analyze(project) {
@@ -35,6 +37,7 @@ export class Analyzer {
       deps = await NPM.ls({ workingDirectory: FS.getFolderPath(project.packageJSONPath) });
     } catch (e) {
       console.log(e);
+      this.notification.error(`Error during 'npm ls': ${e.message}`);
     }
 
     if (deps && deps.dependencies) {
