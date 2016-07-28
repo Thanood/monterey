@@ -10,6 +10,7 @@ const logger = LogManager.getLogger('zip-scaffolder');
 @autoinject()
 export class Run {
   failed = false;
+  failedMessage: string;
   finished = false;
   logs = [];
   step: IStep;
@@ -62,6 +63,7 @@ export class Run {
         this.notification.error('Error while scaffolding the application: ' + e.message);
         logger.error(e);
         this.failed = true;
+        this.failedMessage = e.message;
         this.state.successful = false;
         reject();
       }
