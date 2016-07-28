@@ -36,10 +36,6 @@ class Plugin extends BasePlugin {
     return tiles;
   }
 
-  createId() {
-    return Math.floor((Math.random() * 999999999) + 111111111);
-  }
-
   async onNewSession(state) {
     let platform = OS.getPlatform();
 

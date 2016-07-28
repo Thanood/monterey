@@ -4,6 +4,7 @@ import {Main}                 from '../../main/main';
 import {ValidationRules}      from 'aurelia-validatejs';
 import {ValidationController} from 'aurelia-validation';
 import {Notification}         from '../../shared/notification';
+import {RandomNumber}         from '../../shared/random-number';
 
 @inject(ApplicationState, NewInstance.of(ValidationController), Main, Notification)
 export class Screen {
@@ -37,7 +38,7 @@ export class Screen {
 
   addNew() {
     this.state.appLaunchers.push({
-      id: this.createId(),
+      id: new RandomNumber().create(),
       title: 'Name'
     });
 
@@ -87,9 +88,5 @@ export class Screen {
 
   beforeReturn() {
     this.main.refreshTiles();
-  }
-
-  createId() {
-    return Math.floor((Math.random() * 999999999) + 111111111);
   }
 }

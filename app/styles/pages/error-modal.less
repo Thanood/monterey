@@ -1,4 +1,4 @@
-.task-manager-modal {
+.error-modal {
   width: 700px;
   height: 515px;
   color: #646464;
@@ -37,9 +37,24 @@
       text-transform: capitalize;
       border-bottom: 1px solid rgba(0, 0, 0, .12);
     }
+
+    .stacktrace {
+      width: 380px;
+      color: white;
+      height: 350px;
+      padding-left: 5px;
+      margin-top: 5px;
+      overflow: scroll;
+      background-color: black;
+
+      p {
+        color: white !important;
+        word-break: break-word;
+      }
+    }
   }
 
-  .task-detail {
+  .error-detail {
     float: left;
     width: 417px;
     margin-left: 20px;
@@ -47,25 +62,12 @@
     height: 300px;
   }
 
-  .logs {
-    background-color: black;
-    height: 274px;
-    padding-left: 5px;
-    overflow: auto;
-  }
-
-  .task-list, .error-list {
+  .error-list {
     width: 250px;
 
     .list-group {
       max-height: 300px;
       overflow: auto;
-    }
-  }
-
-  .list-group-item {
-    &.finished {
-      background-color: #dbfdda;
     }
   }
 }

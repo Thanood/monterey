@@ -1,6 +1,7 @@
 import 'moment';
-import {Task}       from './task';
-import {LogManager} from 'aurelia-framework';
+import {Task}         from './task';
+import {LogManager}   from 'aurelia-framework';
+import {RandomNumber} from '../shared/random-number';
 
 const logger = LogManager.getLogger('TaskManager');
 
@@ -27,7 +28,7 @@ export class TaskManager {
       throw new Error('task promise and title are required');
     }
 
-    task.id = this.createId();
+    task.id = new RandomNumber().create();
     task.start = new Date();
     if (!task.logs) {
       task.logs = [];
@@ -60,9 +61,5 @@ export class TaskManager {
     this.runningTasks.splice(index, 1);
 
     task.end = new Date();
-  }
-
-  createId() {
-    return Math.floor((Math.random() * 999999999) + 111111111);
   }
 }

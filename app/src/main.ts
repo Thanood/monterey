@@ -3,7 +3,7 @@ import {LogManager}                      from 'aurelia-framework';
 import {ConsoleAppender}                 from 'aurelia-logging-console';
 import {BootstrapFormValidationRenderer} from './shared/bootstrap-validation-renderer';
 import {ApplicationState}                from './shared/application-state';
-import {Notification}                    from './shared/notification';
+import {Errors}                          from './errors/errors';
 
 LogManager.addAppender(new ConsoleAppender());
 LogManager.setLevel(LogManager.logLevel.debug);
@@ -25,14 +25,16 @@ export function configure(aurelia) {
     .feature('scaffolding')
     .feature('plugins');
 
-  let notification = <Notification>aurelia.container.get(Notification);
+  let errors = <Errors>aurelia.container.get(Errors);
   let logger = LogManager.getLogger('global exception');
   window.onerror = (message: string, filename?: string, lineno?: number, colno?: number, error?: Error) => {
-    notification.error(`Unhandled exception: ${error.message}`);
+    console.log(error);
+    errors.add(error);
     logger.error(error);
   };
   window.addEventListener('unhandledrejection', function(event: any) {
-    notification.error(`Unhandled rejection: ${event.reason.message}`);
+    console.log(event);
+    errors.add({ message: event.reason.message });
     logger.error(event);
   });
 

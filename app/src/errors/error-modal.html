@@ -1,0 +1,31 @@
+<template>
+  <ai-dialog class="error-modal">
+    <ai-dialog-body>
+      <div class="left-side">
+        <div class="error-list">
+          <ul class="list-group">
+            <li class="list-group-item ${selectedError.id === error.id ? 'selected': ''}"
+                repeat.for="error of errors.errors"
+                click.delegate="selectedError = error">
+              ${error.message}
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="right-side" show.bind="selectedError">
+        <p class="title">${selectedError.message}</p>
+        <div>
+          <button class="btn btn-primary copy-btn">Copy to clipboard</button>
+        </div>
+        <div class="stacktrace">
+          <p>${selectedError.stack}</p>
+        </div>
+      </div>
+    </ai-dialog-body>
+
+    <ai-dialog-footer>
+      <button class="btn btn-primary" click.trigger="dialogController.close()">Close</button>
+    </ai-dialog-footer>
+  </ai-dialog>
+</template>

@@ -3,6 +3,8 @@ import {TaskManager}      from '../task-manager/task-manager';
 import {withModal}        from '../shared/decorators';
 import {TaskManagerModal} from '../task-manager/task-manager-modal';
 import {Main}             from '../main/main';
+import {Errors}           from '../errors/errors';
+import {ErrorModal}       from '../errors/error-modal';
 
 @autoinject()
 export class TaskBar {
@@ -19,11 +21,15 @@ export class TaskBar {
   }
 
   constructor(private taskManager: TaskManager,
+              private errors: Errors,
               private main: Main) {
   }
 
   @withModal(TaskManagerModal)
   showTasks() {}
+
+  @withModal(ErrorModal)
+  showErrors() {}
 
   openSupportPage() {
     window.open('https://github.com/monterey-framework/monterey/issues', '_blank');
