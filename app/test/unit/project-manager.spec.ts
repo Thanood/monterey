@@ -4,13 +4,17 @@ import {initializePAL} from 'monterey-pal';
 describe('ProjectManager removeProject', () => {
   let sut: ProjectManager;
   let state;
+  let ea;
 
   beforeEach(() => {
     state = {
       projects: [],
       _save: jasmine.createSpy('_save').and.returnValue(new Promise(resolve => resolve()))
     };
-    sut = new ProjectManager(null, state, null);
+    ea = {
+      publish: (msg) => {}
+    };
+    sut = new ProjectManager(null, state, null, ea);
   });
 
   it('removes project from state', async (d) => {
@@ -54,12 +58,16 @@ describe('ProjectManager removeProject', () => {
 describe('ProjectManager hasProjects', () => {
   let sut: ProjectManager;
   let state;
+  let ea;
 
   beforeEach(() => {
     state = {
       projects: []
     };
-    sut = new ProjectManager(null, state, null);
+    ea = {
+      publish: (msg) => {}
+    };
+    sut = new ProjectManager(null, state, null, ea);
   });
 
   it('returns whether the projectmanager has any projects registered', () => {
@@ -77,12 +85,16 @@ describe('ProjectManager hasProjects', () => {
 describe('ProjectManager addProjectByWizardState', () => {
   let sut: ProjectManager;
   let state;
+  let ea;
 
   beforeEach(() => {
     state = {
       projects: []
     };
-    sut = new ProjectManager(null, state, null);
+    ea = {
+      publish: (msg) => {}
+    };
+    sut = new ProjectManager(null, state, null, ea);
   });
 
   it('calls addProject with project definition based on wizard state', () => {
@@ -106,12 +118,16 @@ describe('ProjectManager addProjectByWizardState', () => {
 describe('ProjectManager addProjectByPath', () => {
   let sut: ProjectManager;
   let state;
+  let ea;
 
   beforeEach(() => {
     state = {
       projects: []
     };
-    sut = new ProjectManager(null, state, null);
+    ea = {
+      publish: (msg) => {}
+    };
+    sut = new ProjectManager(null, state, null, ea);
   });
 
   it('calls addProject with project path', () => {
@@ -131,11 +147,15 @@ describe('ProjectManager addProject', () => {
   let state;
   let pluginManager;
   let notification;
+  let ea;
 
   beforeEach(() => {
     state = {
       projects: [],
       _save: jasmine.createSpy('_save'),
+    };
+    ea = {
+      publish: (msg) => {}
     };
     notification = {
       warning: jasmine.createSpy('warning'),
@@ -149,7 +169,7 @@ describe('ProjectManager addProject', () => {
         });
       })
     };
-    sut = new ProjectManager(pluginManager, state, notification);
+    sut = new ProjectManager(pluginManager, state, notification, ea);
   });
 
   it('has all plugins evaluate the project', () => {
@@ -232,6 +252,7 @@ describe('ProjectManager verifyProjectsExistence', () => {
   let state;
   let pal;
   let fs;
+  let ea;
   let notification;
 
   beforeEach(() => {
@@ -242,7 +263,10 @@ describe('ProjectManager verifyProjectsExistence', () => {
     notification = {
       warning: jasmine.createSpy('warning')
     };
-    sut = new ProjectManager(null, state, notification);
+    ea = {
+      publish: (msg) => {}
+    };
+    sut = new ProjectManager(null, state, notification, ea);
     fs = {
       fileExists: jasmine.createSpy('fileExists').and.callFake(param => {
         return new Promise(resolve => {
