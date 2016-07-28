@@ -4,13 +4,15 @@ import {ApplicationState}   from './application-state';
 import {FS}                 from 'monterey-pal';
 import {Project}            from './project';
 import {Notification}       from './notification';
+import {EventAggregator}    from 'aurelia-event-aggregator';
 
 @autoinject()
 export class ProjectManager {
 
   constructor(private pluginManager: PluginManager,
               public state: ApplicationState,
-              private notification: Notification) {
+              private notification: Notification,
+              private ea: EventAggregator) {
   }
 
   /**
@@ -54,6 +56,8 @@ export class ProjectManager {
 
     await this.state._save();
 
+    this.ea.publish('ProjectAdded', projectObj);
+
     return projectObj;
   }
 
@@ -65,6 +69,8 @@ export class ProjectManager {
     this.state.projects.splice(index, 1);
 
     await this.state._save();
+
+    this.ea.publish('ProjectRemoved', project);
   }
 
   /**

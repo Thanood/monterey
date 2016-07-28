@@ -5,9 +5,9 @@
     v-header-height="80"
     v-multi-select="false"
     v-loading-threshold="1000"
-    v-collection.bind=state.projects
+    v-collection.bind="state.projects"
     v-grid-context.two-way="projectGrid"
-    v-row-onclick.delegate="selectProject($event.detail)">
+    v-row-onclick.delegate="projectClicked($event.detail)">
     <v-grid-col col-width="385" col-header-name="My projects" col-field="name" col-sort="name" col-filter="name|*|onKeyDown">
       <v-header-template>
         <p class="vgrid-label-bottom project-list-header" v-sort="name">My projects</p>
