@@ -33,7 +33,7 @@ addons:
 
 install:
 - nvm install 6
-- npm install electron-builder@next # force install next version to test electron-builder
+- npm install electron-builder@5.17.0
 - npm install gulp jspm@0.16.39 -g
 - npm install
 - npm prune
