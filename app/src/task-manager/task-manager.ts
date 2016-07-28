@@ -48,9 +48,11 @@ export class TaskManager {
     });
   }
 
-  addTaskLog(task: Task, text: string, prefix?: string) {
-    prefix = prefix ? `[${prefix}]` : '';
-    task.logs.unshift(`[${moment().format('LTS')}] ${prefix} ${text}`);
+  addTaskLog(task: Task, text: string, level?: string) {
+    task.logs.unshift({
+      message: `[${moment().format('LTS')}] ${level ? `[${level}]` : ''} ${text}`,
+      level: level
+    });
   }
 
   finishTask(task) {

@@ -33,7 +33,7 @@ declare module 'monterey-pal' {
       execChildProcess(cmd: any, options?: any): void;
   };
   export const NPM: {
-      install(packages: any, error: any): void;
+      install(packages: any, error: any): Promise<void>;
       load(npmOptions: any, error: any): void;
       ls(npmOptions: any): void;
   };
