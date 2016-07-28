@@ -17,6 +17,11 @@ export class Question {
     this.step = model.step;
     this.step.execute = () => this.execute();
     this.step.previous = () => this.previous();
+
+    if (this.state[this.step.stateProperty] && !this.step.answer) {
+      this.step.answer = this.state[this.step.stateProperty];
+    }
+
     this.stepChanged();
   }
 

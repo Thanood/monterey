@@ -60,6 +60,11 @@ export class ProjectDetail {
 
     if (this.validation.validate().length === 0) {
       this.subscription.dispose();
+
+      if (this.state.source === 'skeleton') {
+        this.state.name = this.state.skeleton.name;
+      }
+
       canContinue = true;
     }
 
