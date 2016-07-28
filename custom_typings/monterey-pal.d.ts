@@ -38,8 +38,8 @@ declare module 'monterey-pal' {
       ls(npmOptions: any): void;
   };
   export const JSPM: {
-      install(packages: any, options: any): void;
-      downloadLoader(options: any): void;
+      install(packages: any, options: any): Promise<void>;
+      downloadLoader(options: any): Promise<void>;
       isJspmInstalled(projectPath: any): void;
       getJSPMRootPath(projectPath: any): void;
       getConfig(options: any): any;

@@ -121,11 +121,7 @@ export class Screen {
   }
 
   installAll() {
-    let task = this.install(true, { lock: true });
-    task.promise = task.promise
-    .then(() => this.downloadLoader((message) => {
-      this.taskManager.addTaskLog(task, message.message);
-    }));
+    this.install(true, { lock: true }, true);
   }
 
   downloadLoader(callback) {
@@ -138,7 +134,7 @@ export class Screen {
     });
   }
 
-  install(deps, jspmOptions = null) {
+  install(deps, jspmOptions = null, withLoader = false) {
     // always supply a workingDirectory so that
     // we're not jspm installing in monterey directory
     Object.assign(jspmOptions, {
@@ -158,6 +154,12 @@ export class Screen {
         this.taskManager.addTaskLog(task, message.message);
       }
     });
+
+    if (withLoader) {
+      promise = promise.then(() => this.downloadLoader((message) => {
+        this.taskManager.addTaskLog(task, message.message);
+      }));
+    }
 
     task.promise = promise;
 
