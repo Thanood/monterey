@@ -6,6 +6,9 @@ const BrowserWindow = electron.BrowserWindow;
 const Menu = electron.Menu;
 const update = require('./updater');
 let mainWindow;
+const fixPath = require('fix-path');
+
+fixPath();
 
 let setApplicationMenu = function() {
   Menu.setApplicationMenu(Menu.buildFromTemplate(devMenuTemplate));

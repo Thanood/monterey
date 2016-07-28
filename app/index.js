@@ -7,6 +7,9 @@ const electronConnect = require('electron-connect');
 const Menu = electron.Menu;
 const BrowserWindow = electron.BrowserWindow;
 let mainWindow;
+const fixPath = require('fix-path');
+
+fixPath();
 
 app.commandLine.appendSwitch('enable-transparent-visuals');
 

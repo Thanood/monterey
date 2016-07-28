@@ -75,9 +75,10 @@
     "electron-json-storage": "^2.0.0",
     "electron-prebuilt": "^1.2.6",
     "electron-remote": "^0.5.6",
-    "open": "0.0.5",
+    "fix-path": "^2.0.0",
     "mv": "^2.1.1",
     "npm": "^3.8.6",
+    "open": "0.0.5",
     "temp": "^0.8.3",
     "unzip": "^0.1.11",
     "yauzl": "^2.6.0"
