@@ -5,7 +5,8 @@ declare module 'monterey-pal' {
   };
   export const FS: {
       readFile(filePath: any): string;
-      fileExists(p: any): Promise<boolean>;
+      fileExists(p: string): Promise<boolean>;
+      folderExists(p: string): Promise<boolean>;
       showOpenDialog(config: any): string[];
       normalize(path: any): string;
       writeFile(path: any, content: any): void;

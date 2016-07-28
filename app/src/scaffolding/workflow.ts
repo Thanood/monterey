@@ -1,5 +1,9 @@
-import {IStep} from './istep';
+import {IStep}      from './istep';
+import {LogManager} from 'aurelia-framework';
 
+const logger = LogManager.getLogger('workflow');
+
+// the workflow is the engine behind the wizard
 export class Workflow {
   currentStep = <IStep>{
     id: 0,
@@ -62,6 +66,7 @@ export class Workflow {
         result = await this.currentStep.execute();
       } catch (e) {
         alert(`Error occurred: ${e.message}`);
+        logger.error(e);
         return;
       }
 
@@ -154,6 +159,15 @@ export class Workflow {
     this.definition.activities.forEach(activity => {
       if (!this.isFlowStep(activity) && !activity.viewModel) {
         activity.viewModel = 'scaffolding/question';
+      }
+
+      // hijack the activity where the name of the project gets entered
+      // so we can show a more advanced screen than simply asking for the project name
+      if (activity.stateProperty === 'name') {
+        activity.stateProperty = undefined;
+        activity.type = 'screen';
+        activity.defaultValue = undefined;
+        activity.viewModel = '../project-name';
       }
     });
   }

@@ -37,10 +37,9 @@
     "nextActivity": 6
   }, {
     "id": 5,
-    "type": "input-text",
-    "nextActivity": 6,
-    "question": "What would you like to name your new project?",
-    "stateProperty": "name"
+    "type": "screen",
+    "viewModel": "./project-name",
+    "nextActivity": 6
   }, {
     "id": 6,
     "type": "screen",
