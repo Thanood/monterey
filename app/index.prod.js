@@ -1,4 +1,5 @@
 const electron = require('electron');
+const storage = require('electron-json-storage');
 const app = electron.app;
 const handleStartupEvent = require('./startuphandler.js');
 const BrowserWindow = electron.BrowserWindow;
@@ -23,6 +24,12 @@ let devMenuTemplate = [{
     accelerator: 'Alt+CmdOrCtrl+I',
     click: function() {
       BrowserWindow.getFocusedWindow().toggleDevTools();
+    }
+  }, {
+    label: 'Clear session',
+    click: function() {
+      storage.clear(function (err){});
+      BrowserWindow.getFocusedWindow().loadURL(`file://${__dirname}/index.html`);
     }
   }]
 }];
