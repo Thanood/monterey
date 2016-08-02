@@ -27,4 +27,8 @@ export class BasePlugin {
   async getProjectInfoSections(project) {
     return [];
   }
+
+  async getTaskBarItems(project) {
+    return [];
+  }
 }

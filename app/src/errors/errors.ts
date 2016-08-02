@@ -6,6 +6,5 @@ export class Errors {
   add(error) {
     error.id = new RandomNumber().create();
     this.errors.push(error);
-    console.log(this.errors);
   }
 }

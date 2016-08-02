@@ -38,14 +38,21 @@ export class PluginManager {
     return project;
   }
 
+  async getTaskBarItems(project: Project): Promise<Array<string>> {
+    let items = await this.call('getTaskBarItems', project);
+    return items;
+  }
+
   /**
    * Call a function on all plugins
    */
   private async call(func: string, ...params) {
+    let result = [];
     let p = Array.prototype.slice.call(params);
     for (let i = 0; i < this.plugins.length; i++) {
-      await this.plugins[i][func].apply(this.plugins[i], p);
+      result = result.concat(await this.plugins[i][func].apply(this.plugins[i], p));
     }
+    return result;
   }
 
   /**

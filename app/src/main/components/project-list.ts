@@ -42,6 +42,7 @@ export class ProjectList {
     } else {
       this.selectedProject = null;
     }
+    this.ea.publish('SelectedProjectChanged', this.selectedProject);
   }
 
   projectClicked(project) {
@@ -55,6 +56,7 @@ export class ProjectList {
         this.selectedProject = project.data;
       }
     }
+    this.ea.publish('SelectedProjectChanged', this.selectedProject);
   }
 
   detached() {

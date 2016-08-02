@@ -1,41 +1,24 @@
 import {autoinject}       from 'aurelia-framework';
-import {TaskManager}      from '../task-manager/task-manager';
-import {withModal}        from '../shared/decorators';
-import {TaskManagerModal} from '../task-manager/task-manager-modal';
-import {Main}             from '../main/main';
-import {Errors}           from '../errors/errors';
-import {ErrorModal}       from '../errors/error-modal';
+import {PluginManager}    from '../shared/plugin-manager';
+import {EventAggregator, Subscription}  from 'aurelia-event-aggregator';
 
 @autoinject()
 export class TaskBar {
-  get visible() {
-    return this.taskManager.runningTasks.length > 0;
+  subscription: Subscription;
+  items: Array<string> = [];
+
+  constructor(private pluginManager: PluginManager,
+              private ea: EventAggregator) {
+    this.subscription = this.ea.subscribe('SelectedProjectChanged', (project) => {
+      this.updateTaskBar(project);
+    });
   }
 
-  get taskManagerText () {
-    if (this.taskManager.runningTasks.length > 0) {
-      return `busy with ${this.taskManager.runningTasks.length} tasks...`;
-    } else {
-      return 'Taskmanager';
-    }
+  async updateTaskBar(project) {
+    this.items = await this.pluginManager.getTaskBarItems(project);
   }
 
-  constructor(private taskManager: TaskManager,
-              private errors: Errors,
-              private main: Main) {
-  }
-
-  @withModal(TaskManagerModal)
-  showTasks() {}
-
-  @withModal(ErrorModal)
-  showErrors() {}
-
-  openSupportPage() {
-    window.open('https://github.com/monterey-framework/monterey/issues', '_blank');
-  }
-
-  openPreferences() {
-    this.main.activateScreen('plugins/preferences/screen');
+  detached() {
+    this.subscription.dispose();
   }
 }

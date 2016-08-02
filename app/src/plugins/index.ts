@@ -6,4 +6,7 @@ export function configure(aurelia) {
   aurelia.feature('plugins/preferences');
   aurelia.feature('plugins/gist-run');
   aurelia.feature('plugins/gulp');
+  aurelia.feature('plugins/errors');
+  aurelia.feature('plugins/support');
+  aurelia.feature('plugins/task-manager');
 }
