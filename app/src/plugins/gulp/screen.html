@@ -1,0 +1,20 @@
+<template>
+  <div class="plugin-title-container">
+    <h1 class="plugin-title">Gulp</h1>
+  </div>
+  <div class="plugin-content-container">
+    <form validation-renderer="bootstrap-form">
+      <div class="form-group">
+        <label class="control-label" for="gulpfile">Gulpfile.js</label>
+        <input type="text"
+               class="form-control"
+               style="display: inline; width: 445px;"
+               id="gulpfile"
+               disabled="disabled"
+               value.bind="project.gulpfile & validate">
+         <button click.delegate="browser()" class="btn btn-primary">Select gulpfile.js</button>
+      </div>
+      <button click.delegate="save()" class="btn btn-primary">Save</button>
+    </form>
+  </div>
+</template>
