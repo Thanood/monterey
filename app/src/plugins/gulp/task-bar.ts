@@ -1,1 +1,3 @@
-export class TaskBar {}
+export class TaskBar {
+  visible = false;
+}

@@ -1,0 +1,23 @@
+<template>
+  <div class="task-list">
+    <ul class="list-group">
+      <li class="list-group-item ${task.id == selectedTask.id ? 'selected': ''}"
+          repeat.for="task of tasks"
+          click.delegate="selectedTask = task"
+          title.bind="task.name">
+        ${task.name}
+      </li>
+    </ul>
+  </div>
+  <div class="task-detail">
+    <div>
+      <h3 class="title" show.bind="selectedTask">${selectedTask.name}</h3>
+      <button class="btn btn-primary cancel-button" show.bind="selectedTask" click.delegate="cancel()">Cancel task</button>
+
+      <button class="btn btn-primary close-button" click.delegate="close()">X</button>
+    </div>
+
+    <ul class="logs" show.bind="selectedTask">
+    </ul>
+  </div>
+</template>

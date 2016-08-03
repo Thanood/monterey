@@ -1,5 +1,7 @@
 <template>
   <require from="../../task-bar/task-bar-item"></require>
+  <require from="./task-runner"></require>
 
-  <task-bar-item text="Gulp" img="images/gulp-25x25.png"></task-bar-item>
+  <task-runner if.bind="visible" close.call="visible = false"></task-runner>
+  <task-bar-item text="Gulp" img="images/gulp-25x25.png" click.delegate="visible = !visible"></task-bar-item>
 </template>

@@ -1,0 +1,38 @@
+task-runner {
+  position: absolute;
+  right: 0;
+  bottom: @taskbarHeight;
+  display: block;
+  width: 500px;
+  height: 200px;
+  border-top: 3px solid @taskbarColor;
+  border-left: 3px solid @taskbarColor;
+  border-right: 3px solid @taskbarColor;
+  background-color: white;
+
+  .task-list {
+    width: 150px;
+    height: 200px;
+    float: left;
+    overflow: auto;
+  }
+
+  .task-detail {
+    margin-left: 5px;
+    float: left;
+    width: 335px;
+
+    .title {
+      display: inline;
+    }
+
+    .logs {
+      margin-top: 5px;
+      height: 150px;
+    }
+
+    .close-button {
+      float: right;
+    }
+  }
+}
