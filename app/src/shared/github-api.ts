@@ -30,7 +30,18 @@ export class GithubAPI {
         };
       }
 
-      return response.json();
+      //if ok return json, if not throw error
+      if (response.status === 200) {
+        return response.json();
+      } else {
+        if (response.status === 401) {
+          throw {message:`Github returned ${response.statusText}, please check you credentials and try again`};
+        } else {
+          throw {message:`Github returned ${response.statusText}`};
+        }
+      }
+
+
     });
   }
 
@@ -52,7 +63,7 @@ export class GithubAPI {
   }
 
   async confirmAuth() {
-    if (this._authConfigured) {
+    if (this._authConfigured && this.state.gitAuthorization) {
       return true;
     }
 
