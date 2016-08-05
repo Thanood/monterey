@@ -16,6 +16,7 @@ class Plugin extends BasePlugin {
     }
 
     return [{
+      model: { relevant: project.isUsingGulp === true },
       viewModel: 'plugins/gulp/tile'
     }];
   }

@@ -14,7 +14,7 @@ export class Tile {
     this.img = 'images/gulp.png';
   }
 
-  activate(model, relevant) {
+  activate(model) {
     this.project = model.project;
     Object.assign(this, model.model);
   }
