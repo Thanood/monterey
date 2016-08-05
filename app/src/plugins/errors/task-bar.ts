@@ -1,6 +1,6 @@
 import {autoinject}       from 'aurelia-framework';
-import {Errors}           from '../../errors/errors';
-import {ErrorModal}       from '../../errors/error-modal';
+import {Errors}           from './errors';
+import {ErrorModal}       from './error-modal';
 import {withModal}        from '../../shared/decorators';
 
 @autoinject()

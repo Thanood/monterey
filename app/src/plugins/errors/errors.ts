@@ -1,4 +1,4 @@
-import {RandomNumber} from '../shared/random-number';
+import {RandomNumber} from '../../shared/random-number';
 
 export class Errors {
   errors = [];

@@ -2,8 +2,8 @@ import {autoinject}       from 'aurelia-framework';
 import {Common}           from './common';
 import {DialogService}    from 'aurelia-dialog';
 import {Analyzer}         from './analyzer';
-import {TaskManager}      from '../../task-manager/task-manager';
-import {TaskManagerModal} from '../../task-manager/task-manager-modal';
+import {TaskManager}      from '../../plugins/task-manager/task-manager';
+import {TaskManagerModal} from '../../plugins/task-manager/task-manager-modal';
 import {NPM}              from 'monterey-pal';
 import {Notification}     from '../../shared/notification';
 

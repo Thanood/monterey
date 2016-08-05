@@ -3,7 +3,7 @@ import {LogManager}                      from 'aurelia-framework';
 import {ConsoleAppender}                 from 'aurelia-logging-console';
 import {BootstrapFormValidationRenderer} from './shared/bootstrap-validation-renderer';
 import {ApplicationState}                from './shared/application-state';
-import {Errors}                          from './errors/errors';
+import {Errors}                          from './plugins/errors/errors';
 
 LogManager.addAppender(new ConsoleAppender());
 LogManager.setLevel(LogManager.logLevel.debug);

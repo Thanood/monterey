@@ -1,7 +1,7 @@
 import {autoinject}       from 'aurelia-framework';
 import {withModal}        from '../../shared/decorators';
-import {TaskManager}      from '../../task-manager/task-manager';
-import {TaskManagerModal} from '../../task-manager/task-manager-modal';
+import {TaskManager}      from './task-manager';
+import {TaskManagerModal} from './task-manager-modal';
 
 @autoinject()
 export class TaskBar {

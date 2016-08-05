@@ -1,7 +1,7 @@
 import 'moment';
 import {Task}         from './task';
 import {LogManager}   from 'aurelia-framework';
-import {RandomNumber} from '../shared/random-number';
+import {RandomNumber} from '../../shared/random-number';
 
 const logger = LogManager.getLogger('TaskManager');
 

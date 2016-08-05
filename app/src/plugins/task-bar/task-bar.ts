@@ -1,5 +1,5 @@
 import {autoinject}       from 'aurelia-framework';
-import {PluginManager}    from '../shared/plugin-manager';
+import {PluginManager}    from '../../shared/plugin-manager';
 import {EventAggregator, Subscription}  from 'aurelia-event-aggregator';
 
 @autoinject()

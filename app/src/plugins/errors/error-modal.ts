@@ -1,7 +1,7 @@
 import {Errors}           from './errors';
 import {autoinject}       from 'aurelia-framework';
 import {DialogController} from 'aurelia-dialog';
-import {Notification}     from '../shared/notification';
+import {Notification}     from '../../shared/notification';
 
 @autoinject()
 export class ErrorModal {
