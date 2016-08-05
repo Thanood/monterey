@@ -6,7 +6,8 @@ export class MontereyRegistries {
   client: HttpClient;
   cache = {
     templates: null,
-    gistrun: null
+    gistrun: null,
+    gitbooks: null
   };
 
   constructor() {
@@ -32,5 +33,15 @@ export class MontereyRegistries {
     return this.client.fetch(`gistrun.json`)
     .then(response => response.json())
     .then(data => { this.cache.gistrun = data; return data; });
+  }
+
+  async getGitbooks() {
+    if (this.cache.gitbooks) {
+      return this.cache.gitbooks;
+    }
+
+    return this.client.fetch(`gitbooks.json`)
+    .then(response => response.json())
+    .then(data => { this.cache.gitbooks = data; return data; });
   }
 }

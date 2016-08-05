@@ -1,5 +1,7 @@
+import {SupportModal}     from './support-modal';
+import {withModal}        from '../../shared/decorators';
+
 export class TaskBar {
-  openSupportPage() {
-    window.open('https://github.com/monterey-framework/monterey/issues', '_blank');
-  }
+  @withModal(SupportModal)
+  showSupportModal() {}
 }
