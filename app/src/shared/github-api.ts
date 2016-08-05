@@ -16,14 +16,14 @@ export class GithubAPI {
     this.client = new HttpClient();
   }
 
-  async getLatestReleaseZIP(repository:string) {
+  async getLatestReleaseZIP(repository: string) {
     await this.confirmAuth();
 
     return this.client.fetch(`${this.githubAPIUrl}/repos/${repository}/releases/latest`)
       .then(response => {
 
-        let error:any;
-        let result:any;
+        let error;
+        let result;
 
         switch (response.status) {
           case 200:
