@@ -16,33 +16,45 @@ export class GithubAPI {
     this.client = new HttpClient();
   }
 
-  async getLatestReleaseZIP(repository: string) {
+  async getLatestReleaseZIP(repository:string) {
     await this.confirmAuth();
 
     return this.client.fetch(`${this.githubAPIUrl}/repos/${repository}/releases/latest`)
-    .then(response => {
-      // if we get a 404 then there probably hasn't been a release yet
-      // then return the zip url of the master branch
-      if (response.status === 404) {
-        return {
-          zipball_url: `https://github.com/${repository}/archive/master.zip`,
-          tag_name: 'master'
-        };
-      }
+      .then(response => {
 
-      //if ok return json, if not throw error
-      if (response.status === 200) {
-        return response.json();
-      } else {
-        if (response.status === 401) {
-          throw {message:`Github returned ${response.statusText}, please check you credentials and try again`};
-        } else {
-          throw {message:`Github returned ${response.statusText}`};
+        let error:any;
+        let result:any;
+
+        switch (response.status) {
+          case 200:
+            result = response.json();
+            break;
+          case 401:
+            error = {
+              message: `Github returned ${response.statusText}, please check you credentials and try again`
+            };
+            break;
+          case 404:
+            // if we get a 404 then there probably hasn't been a release yet
+            // then return the zip url of the master branch
+            result = {
+              zipball_url: `https://github.com/${repository}/archive/master.zip`,
+              tag_name: 'master'
+            };
+            break;
+          default:
+            error = {
+              message: `Github returned ${response.statusText}`
+            };
         }
-      }
 
+        if (error) {
+          throw error;
+        } else {
+          return result;
+        }
 
-    });
+      });
   }
 
   async getTags(repository: string) {
