@@ -69,6 +69,13 @@ export class Run {
         this.failedMessage = e.message;
         this.state.successful = false;
         reject();
+      } finally {
+        try {
+          FS.cleanupTemp();
+          this.logs.push('Cleaned up temp files and folders');
+        } catch (e) {
+          logger.info('Did not finish cleanup of temp folder: ', e);
+        }
       }
     });
   }
@@ -94,13 +101,6 @@ export class Run {
     let target = subDir ? FS.join(unzipPath, firstDir, subDir) : FS.join(unzipPath, firstDir);
     await FS.move(target, projectDir);
     this.logs.push(`Moved directory to ${projectDir}....`);
-
-    try {
-      FS.cleanupTemp();
-      this.logs.push('Cleaned up temp files and folders');
-    } catch (e) {
-      logger.info('Did not finish cleanup of temp folder: ', e);
-    }
   }
 
   async execute() {
