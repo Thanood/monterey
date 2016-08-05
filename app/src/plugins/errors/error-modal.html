@@ -1,4 +1,6 @@
 <template>
+  <require from="../../shared/converters/limit-text-size"></require>
+
   <ai-dialog class="error-modal">
     <ai-dialog-body>
       <div class="left-side">
@@ -7,14 +9,14 @@
             <li class="list-group-item ${selectedError.id === error.id ? 'selected': ''}"
                 repeat.for="error of errors.errors"
                 click.delegate="selectedError = error">
-              ${error.message}
+              ${error.message | limitTextSize: 20}
             </li>
           </ul>
         </div>
       </div>
 
       <div class="right-side" show.bind="selectedError">
-        <p class="title">${selectedError.message}</p>
+        <p class="title">${selectedError.message | limitTextSize: 50}</p>
         <div>
           <button class="btn btn-primary copy-btn">Copy to clipboard</button>
         </div>
