@@ -1,5 +1,5 @@
-import {TaskManager} from '../../src/task-manager/task-manager';
-import {Task} from '../../src/task-manager/task';
+import {TaskManager} from '../../src/plugins/task-manager/task-manager';
+import {Task} from '../../src/plugins/task-manager/task';
 
 describe('TaskManager addTask', () => {
   let taskManager: TaskManager;
