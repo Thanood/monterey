@@ -1,5 +1,5 @@
 var gulp = require('gulp');
-var Karma = require('karma').Server;
+var karma = require('karma');
 
 /**
  * Run test once and exit
@@ -27,7 +27,7 @@ gulp.task('tdd', function (done) {
  * Run test once with code coverage and exit
  */
 gulp.task('cover', function(done) {
-  new Karma({
+  new karma.Server({
     configFile: __dirname + '/../../karma.conf.js',
     singleRun: true,
     reporters: ['coverage'],
