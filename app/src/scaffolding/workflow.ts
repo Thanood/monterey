@@ -91,6 +91,7 @@ export class Workflow {
     let nextStep = this.getStep(nextActivity);
 
     this.currentStep = nextStep;
+    this.currentStep.next = () => this.next();
 
     this.takenPath.push(this.currentStep);
 

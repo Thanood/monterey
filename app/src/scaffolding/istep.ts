@@ -8,4 +8,5 @@ export interface IStep {
   branches?: Array<any>;
   answer: string;
   state?: any;
+  next: () => void;
 }

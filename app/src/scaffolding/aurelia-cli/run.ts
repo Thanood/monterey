@@ -37,6 +37,9 @@ export class Run {
         await AURELIACLI.create(this.state);
         this.finished = true;
         this.state.successful = true;
+
+        this.step.next();
+
         resolve();
       } catch (e) {
         this.notification.error('Error while scaffolding the application: ' + e.message);
