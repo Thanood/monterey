@@ -21,6 +21,12 @@ export class ScaffoldProject {
   }
 
   async close() {
+    if (!this.workflow.isLast) {
+      if (!confirm('Are you sure?')) {
+        return;
+      }
+    }
+
     if (this.workflow.isLast && this.state.successful) {
       this.state.path = FS.join(this.state.path, this.state.name);
 
@@ -34,13 +40,5 @@ export class ScaffoldProject {
     } else {
       this.dialog.cancel();
     }
-  }
-
-  canDeactivate() {
-    if (!this.workflow.isLast) {
-      return confirm('Are you sure?');
-    }
-
-    return true;
   }
 }
