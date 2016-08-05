@@ -18,6 +18,18 @@ describe('ApplicationState object normalizer', () => {
     expect(normalized.b).toBe('test');
   });
 
+  it('copies array of strings', () => {
+    let normalized = <any>applicationState._normalize({
+      b: [
+        'foo',
+        'bar'
+      ]
+    });
+
+    expect(normalized.b[0]).toBe('foo');
+    expect(normalized.b[1]).toBe('bar');
+  });
+
   it('copies getter properties', () => {
     let obj = {};
     Object.defineProperty(obj, 'a', { get: function() { return 15; }, enumerable: true });

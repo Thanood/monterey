@@ -18,7 +18,6 @@ export class ProjectList {
   constructor(private state: ApplicationState,
               private notification: Notification,
               private ea: EventAggregator) {
-    this.selectedProject = this.state.projects[0];
     this.projectRemoved = ea.subscribe('ProjectRemoved', () => this.select(0));
     this.projectAdded = ea.subscribe('ProjectAdded', (project) => {
       let index = this.state.projects.indexOf(project);

@@ -1,23 +1,43 @@
 <template>
-  <div class="task-list">
+  <div if.bind="loading" class="loading">
+    <i class="fa fa-spinner fa-spin fa-3x"></i>
+    Fetching gulp tasks...
+  </div>
+
+  <div class="task-runner-header">
+    <h4>Gulp tasks for "${main.selectedProject.name}"</h4>
+
+    <button class="btn btn-primary close-button" click.delegate="close()">X</button>
+  </div>
+
+  <div class="task-list" if.bind="!loading">
+    <div class="task-list-header">
+      <p>${tasks.length} tasks</p>
+      <button class="btn btn-primary refreshTaskList" click.delegate="loadTasks(false)"><i class="fa fa-refresh"></i></button>
+
+      <div style="clear: both"></div>
+    </div>
     <ul class="list-group">
       <li class="list-group-item ${task.id == selectedTask.id ? 'selected': ''}"
           repeat.for="task of tasks"
           click.delegate="selectedTask = task"
+          dblclick.delegate="run(task)"
           title.bind="task.name">
-        ${task.name}
+        ${task.name} <i class="au-target glyphicon glyphicon-cog gly-spin" show.bind="task.running"></i>
       </li>
     </ul>
   </div>
-  <div class="task-detail">
-    <div>
-      <h3 class="title" show.bind="selectedTask">${selectedTask.name}</h3>
-      <button class="btn btn-primary cancel-button" show.bind="selectedTask" click.delegate="cancel()">Cancel task</button>
-
-      <button class="btn btn-primary close-button" click.delegate="close()">X</button>
+  <div class="task-detail" if.bind="!loading">
+    <div if.bind="selectedTask">
+      <h3 class="title">gulp ${selectedTask.name}</h3>
+      <button class="btn btn-primary" if.bind="selectedTask.running" click.delegate="cancel(selectedTask)">Cancel task</button>
+      <button class="btn btn-primary" if.bind="!selectedTask.running" click.delegate="run(selectedTask)">Run task</button>
     </div>
 
     <ul class="logs" show.bind="selectedTask">
+      <li style="color: white; list-style-type: none" repeat.for="log of selectedTask.logs">
+        ${log.message}
+      </li>
     </ul>
   </div>
 </template>

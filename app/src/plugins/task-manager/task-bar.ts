@@ -17,7 +17,7 @@ export class TaskBar {
     }
   }
 
-  constructor(private taskManager: TaskManager) { console.log(taskManager); }
+  constructor(private taskManager: TaskManager) { }
 
   @withModal(TaskManagerModal)
   showTasks() {}

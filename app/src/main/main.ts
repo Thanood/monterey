@@ -5,12 +5,13 @@ import {ProjectManager}    from '../shared/project-manager';
 import {TaskManager}       from '../task-manager/task-manager';
 import {ScaffoldProject}   from '../scaffolding/scaffold-project';
 import {Tiles}             from './components/tiles';
+import {Project}           from '../shared/project';
 
 @autoinject()
 @singleton()
 export class Main {
 
-  selectedProject;
+  selectedProject: Project;
   _activePluginScreenModel;
   _activePluginScreen: string;
   tilesVM: Tiles;

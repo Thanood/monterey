@@ -51,6 +51,9 @@ declare module 'monterey-pal' {
       getNPMVersion(): string;
       getChromeVersion(): string;
       getElectronVersion(): string;
+      spawn(cmd: string, args: Array<string>, options, stdout: (data) => void, stderr: (data) => void): { process: any, completion: Promise<any> };
+      exec(cmd: string, options): Promise<string>;
+      kill(process: any): void;
   };
 
   export function initializePAL(callback: (fs, session, aureliacli, processes, npm, jspm, os) => void): void;

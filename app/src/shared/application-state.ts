@@ -39,9 +39,16 @@ export class ApplicationState {
       let key = keys[i];
       let val = obj[key];
       if (Object.prototype.toString.call(val) === '[object Array]') {
+        // here we have an array
         normalized[key] = [];
         for (let x = 0; x < val.length; x++) {
-          normalized[key].push(this._normalize(val[x]));
+          // if it's an array of object, normalize all objects in the array
+          if (val[x] === Object(val[x])) {
+            normalized[key].push(this._normalize(val[x]));
+          } else {
+            // strings, integers etc can be copied without normalization
+            normalized[key].push(val[x]);
+          }
         }
       } else if (val === Object(val)) {
         normalized[key] = this._normalize(val);
