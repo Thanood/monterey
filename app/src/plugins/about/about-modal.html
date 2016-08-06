@@ -1,0 +1,22 @@
+<template>
+  <require from="../../shared/converters/limit-text-size"></require>
+
+  <ai-dialog class="about-modal">
+    <ai-dialog-body>
+      <img src="images/monterey-128x128.png" />
+      <p>Monterey is an extensible application that provides a graphical user interface for a collection of tools to simplify the creation, configuration and maintenance of Aurelia applications</p>
+
+      <hr>
+
+      <p>Github: <a href="https://github.com/monterey-framework/monterey">https://github.com/monterey-framework/monterey</a></p>
+      <p>Gitter: <a href="https://gitter.im/monterey-framework/monterey">https://gitter.im/monterey-framework/monterey</a></p>
+      <p>Monterey version: ${montereyVersion}</p>
+      <p>NodeJS version: ${nodeJSVersion}</p>
+      <p>Electron version: ${electronVersion}</p>
+    </ai-dialog-body>
+
+    <ai-dialog-footer>
+      <button class="btn btn-primary" click.trigger="dialogController.close()">Close</button>
+    </ai-dialog-footer>
+  </ai-dialog>
+</template>

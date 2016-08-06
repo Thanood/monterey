@@ -9,4 +9,5 @@ export function configure(aurelia) {
   aurelia.feature('plugins/errors');
   aurelia.feature('plugins/support');
   aurelia.feature('plugins/task-manager');
+  aurelia.feature('plugins/about');
 }
