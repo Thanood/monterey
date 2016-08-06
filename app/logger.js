@@ -5,7 +5,9 @@ const fs = require('fs');
 module.exports = class Logger {
 
 
-  constructor() {
+  constructor(timer) {
+    this.logBuffer = '';
+    this.timeout = timer || 10000;
     this.logFileString = this.generatelogFileStringString();
     this.logFolderString = 'logs';
     this.logFolder = this.addToPath(__dirname, this.logFolderString);
@@ -21,7 +23,10 @@ module.exports = class Logger {
 
   generatelogFileStringString() {
     let date = new Date();
-    return `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}.txt`;
+    let year = date.getFullYear();
+    let month = date.getMonth().toString().length === 1 ? "0" + (date.getMonth() + 1) : date.getMonth() + 1;
+    let day = date.getDate().toString().length === 1 ? "0" + date.getDate() : date.getDate();
+    return `${year}-${month}-${day}.csv`;
   }
 
 
@@ -97,7 +102,33 @@ module.exports = class Logger {
   }
 
 
+  addFlushDelay(){
+    this.timer = setTimeout(this.flushBuffer.bind(this), this.timeout)
+  }
+
+
+
+  flushBuffer(){
+    if(this.logBuffer !== ""){
+     this.appendToFile(this.logFileWithPath, this.logBuffer).then((err)=> {
+       if (err) {
+         console.log(err)
+       }
+       this.addFlushDelay();
+     });
+    } else {
+      this.addFlushDelay();
+    }
+    this.logBuffer = "";
+  }
+
+
+
+
   activate() {
+
+    this.addFlushDelay();
+
     //event listener for logging
     ipcMain.on('log-message', (event, args) => {
 
@@ -119,12 +150,12 @@ module.exports = class Logger {
       let result = `${type};${id};${new Date().toISOString()};${msg}`;
 
       // no timeout for this atm, cant have this before we find a better way to know if electron failed
-      this.appendToFile(this.logFileWithPath, result).then((err)=> {
-        if (err) {
-          console.log(err)
-        }
-      });
+      this.logBuffer = this.logBuffer + result;
+
     });
+
+
+
   }
 
 

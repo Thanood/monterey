@@ -19,6 +19,7 @@ fixPath();
 app.commandLine.appendSwitch('enable-transparent-visuals');
 
 app.on('window-all-closed', () => {
+  log.flushBuffer();
   if (process.platform !== 'darwin') {
     app.quit();
   }
