@@ -7,4 +7,6 @@ export interface Project {
   isUsingGulp?: boolean;
   gulpfile?: string;
   gulptasks?: Array<string>;
+
+  aureliaJSONPath?: string;
 }

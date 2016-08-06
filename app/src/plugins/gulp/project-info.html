@@ -1,8 +1,8 @@
 <template>
-  <p class="copyable-item">
+  <p class="copyable-item" if.bind="project.gulpfile">
     <span class="key">Project is using Gulp</span>
   </p>
-  <p class="copyable-item">
+  <p class="copyable-item" if.bind="project.gulpfile">
     <span class='key'>gulpfile.js path:</span>
     <span class='value'>${project.gulpfile}</span>
   </p>
