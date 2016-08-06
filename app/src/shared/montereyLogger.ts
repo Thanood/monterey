@@ -1,5 +1,5 @@
-declare var System:any;
-import {Logger} from 'aurelia-logging';
+declare var System: any;
+import { Logger } from 'aurelia-logging';
 const {ipcRenderer} = System._nodeRequire('electron');
 /*
  * An implementation of the Appender interface. -> to aurelia and renamed it, ad spit out a object instead
@@ -10,8 +10,8 @@ export class MonteryLogAppender {
    *
    * @param args Obj from logger
    */
-  send(args:any){
-      ipcRenderer.send('log-message', args);
+  send(args: any) {
+    ipcRenderer.send('log-message', args);
   }
 
   /**
@@ -20,12 +20,12 @@ export class MonteryLogAppender {
    * @param logger The source logger.
    * @param rest The data to log.
    */
-  debug(logger: Logger, ...rest : any[]): void {
-   this.send({
-        type:'debug',
-        id: logger.id,
-        msg: rest
-      });
+  debug(logger: Logger, ...rest: any[]): void {
+    this.send({
+      type: 'debug',
+      id: logger.id,
+      msg: rest
+    });
   }
 
   /**
@@ -34,9 +34,9 @@ export class MonteryLogAppender {
    * @param logger The source logger.
    * @param rest The data to log.
    */
-  info(logger: Logger, ...rest : any[]): void {
+  info(logger: Logger, ...rest: any[]): void {
     this.send({
-      type:'info',
+      type: 'info',
       id: logger.id,
       msg: rest
     });
@@ -48,9 +48,9 @@ export class MonteryLogAppender {
    * @param logger The source logger.
    * @param rest The data to log.
    */
-  warn(logger: Logger, ...rest : any[]): void {
+  warn(logger: Logger, ...rest: any[]): void {
     this.send({
-      type:'warn',
+      type: 'warn',
       id: logger.id,
       msg: rest
     });
@@ -62,11 +62,12 @@ export class MonteryLogAppender {
    * @param logger The source logger.
    * @param rest The data to log.
    */
-  error(logger: Logger, ...rest : any[]): void {
+  error(logger: Logger, ...rest: any[]): void {
     this.send({
-      type:'error',
+      type: 'error',
       id: logger.id,
       msg: rest
     });
   }
-};
+}
+;

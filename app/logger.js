@@ -33,14 +33,14 @@ module.exports = class Logger {
   verifyLogPathAndFile() {
 
     this.checkFileOrFolderAccess(this.logFolder)
-      .then((err)=> {
+      .then((err) => {
         if (err) {
           //path does not exist
           this.makeDir(this.logFolder)
-            .then((err)=> {
+            .then((err) => {
               if (!err) {
                 //folder created, lets create/append headers to file
-                this.appendToFile(this.logFileWithPath, 'type;id;date;msg').then((err)=> {
+                this.appendToFile(this.logFileWithPath, 'type;id;date;msg').then((err) => {
                   if (err) {
                     console.log(err)
                   }
@@ -49,16 +49,16 @@ module.exports = class Logger {
             })
         } else {
           this.checkFileOrFolderAccess(this.logFileWithPath)
-            .then((err)=> {
+            .then((err) => {
               if (err) {
                 //file does not exist, lets create/append headers
-                this.appendToFile(this.logFileWithPath, 'type;id;date;msg').then((err)=> {
+                this.appendToFile(this.logFileWithPath, 'type;id;date;msg').then((err) => {
                   if (err) {
                     console.log(err)
                   }
                 });
               } else {
-                this.appendToFile(this.logFileWithPath, 'info;monetery;date;application started').then((err)=> {
+                this.appendToFile(this.logFileWithPath, 'info;monetery;date;application started').then((err) => {
                   if (err) {
                     console.log(err)
                   }
@@ -102,27 +102,24 @@ module.exports = class Logger {
   }
 
 
-  addFlushDelay(){
-    this.timer = setTimeout(this.flushBuffer.bind(this), this.timeout)
+  addFlushDelay() {
+    this.timer = setTimeout(this.flushBuffer.bind(this), this.timeout);
   }
 
 
-
-  flushBuffer(){
-    if(this.logBuffer !== ""){
-     this.appendToFile(this.logFileWithPath, this.logBuffer).then((err)=> {
-       if (err) {
-         console.log(err)
-       }
-       this.addFlushDelay();
-     });
+  flushBuffer() {
+    if (this.logBuffer !== "") {
+      this.appendToFile(this.logFileWithPath, this.logBuffer).then((err) => {
+        if (err) {
+          console.log(err)
+        }
+        this.addFlushDelay();
+      });
     } else {
       this.addFlushDelay();
     }
     this.logBuffer = "";
   }
-
-
 
 
   activate() {
@@ -138,8 +135,8 @@ module.exports = class Logger {
 
       //parse the message to string
       if (args.msg.length !== undefined) {
-        args.msg.forEach((e)=> {
-          if (typeof(e) === 'object') {
+        args.msg.forEach((e) => {
+          if (typeof (e) === 'object') {
             e = JSON.stringify(e);
           }
           msg = msg + e;
@@ -155,9 +152,8 @@ module.exports = class Logger {
     });
 
 
-
   }
 
 
-}
+};
 
