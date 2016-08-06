@@ -31,10 +31,10 @@ class Plugin extends BasePlugin {
 
   async evaluateProject(project) {
     let pathsToTry = [
-      `${project.path}/package.json`,
-      `${project.path}/src/skeleton/package.json`,
-      `${project.path}/src/skeleton-navigation-esnext-vs/package.json`,
-      `${project.path}/src/skeleton-navigation-typescript-vs/package.json`
+      FS.join(project.path, 'package.json'),
+      FS.join(project.path, 'src/skeleton/package.json'),
+      FS.join(project.path, 'src/skeleton-navigation-esnext-vs/package.json'),
+      FS.join(project.path, 'src/skeleton-navigation-typescript-vs/package.json')
     ];
 
     let found = false;
