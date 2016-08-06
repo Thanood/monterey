@@ -26,10 +26,10 @@ export class TaskBar {
       return;
     }
 
-    this.toolbarVisible = project.isUsingGulp;
+    this.toolbarVisible = project.isUsingGulp();
 
     // close gulp window automatically if the currently selected project does not use gulp
-    if (this.visible && !project.isUsingGulp) {
+    if (this.visible && !project.isUsingGulp()) {
       this.visible = false;
     }
   }

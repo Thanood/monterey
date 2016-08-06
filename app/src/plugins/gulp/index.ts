@@ -11,12 +11,12 @@ export function configure(aurelia) {
 
 class Plugin extends BasePlugin {
   getTiles(project: Project, showIrrelevant) {
-    if (!showIrrelevant && !project.isUsingGulp) {
+    if (!showIrrelevant && !project.isUsingGulp()) {
       return [];
     }
 
     return [{
-      model: { relevant: project.isUsingGulp === true },
+      model: { relevant: project.isUsingGulp() },
       viewModel: 'plugins/gulp/tile'
     }];
   }
@@ -33,13 +33,12 @@ class Plugin extends BasePlugin {
     for(let i = 0; i < lookupPaths.length; i++) {
       if (await FS.fileExists(lookupPaths[i])) {
         project.gulpfile = lookupPaths[i];
-        project.isUsingGulp = true;
       }
     };
   }
 
-  async getProjectInfoSections(project) {
-    if (project.isUsingJSPM) {
+  async getProjectInfoSections(project: Project) {
+    if (project.isUsingGulp()) {
       return [{ viewModel: 'plugins/gulp/project-info' }];
     }
     return [];

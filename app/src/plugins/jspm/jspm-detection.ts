@@ -1,9 +1,9 @@
-import {FS} from 'monterey-pal';
+import {FS}      from 'monterey-pal';
+import {Project} from '../../shared/project';
 
 export class JSPMDetection {
-  async findJspmConfig(project) {
+  async findJspmConfig(project: Project) {
     let packageJSON = JSON.parse(await FS.readFile(project.packageJSONPath));
-    let isUsingJSPM = false;
     let configJs = null;
 
     if (packageJSON.jspm) {
@@ -37,13 +37,7 @@ export class JSPMDetection {
           }
         }
       }
-
-      if (project.configJsPath && project.jspmVersion) {
-        isUsingJSPM = true;
-      }
     }
-
-    project.isUsingJSPM = isUsingJSPM;
   }
 
   getJspm016Path(project, packageJSON) {

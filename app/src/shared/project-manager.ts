@@ -36,7 +36,7 @@ export class ProjectManager {
   /**
   * Main entry point for adding projects to Monterey
   */
-  async addProject(projectObj: Project): Promise<Project|boolean> {
+  async addProject(projectObj): Promise<Project|boolean> {
     // have all plugins evaluate the project
     projectObj = await this.pluginManager.evaluateProject(projectObj);
 
@@ -50,15 +50,17 @@ export class ProjectManager {
       return false;
     }
 
-    this.state.projects.push(projectObj);
+    let project = new Project(projectObj);
 
-    await this.pluginManager.notifyOfAddedProject(projectObj);
+    this.state.projects.push(project);
+
+    await this.pluginManager.notifyOfAddedProject(project);
 
     await this.state._save();
 
-    this.ea.publish('ProjectAdded', projectObj);
+    this.ea.publish('ProjectAdded', project);
 
-    return projectObj;
+    return project;
   }
 
   /**

@@ -1,6 +1,6 @@
 import {SESSION}    from 'monterey-pal';
 import {LogManager} from 'aurelia-framework';
-import {Project}    from './project.ts';
+import {Project}    from './project';
 
 const logger = LogManager.getLogger('project-manager');
 
@@ -15,6 +15,10 @@ export class ApplicationState {
   */
   async _loadStateFromSession() {
     Object.assign(this, await SESSION.get('state'));
+
+    for (let i = 0; i < this.projects.length; i++) {
+      this.projects[i] = new Project(this.projects[i]);
+    }
 
     logger.debug('Loaded state: ', this);
   }

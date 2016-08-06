@@ -30,7 +30,6 @@ export class Screen {
     });
 
     if (paths.length === 1) {
-      this.project.isUsingGulp = true;
       this.project.gulpfile = paths[0];
     } else {
       this.notification.error('Please select one gulpfile.js file');

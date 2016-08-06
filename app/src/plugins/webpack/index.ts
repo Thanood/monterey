@@ -33,8 +33,8 @@ class Plugin extends BasePlugin {
     };
   }
 
-  async getProjectInfoSections(project) {
-    if (project.aureliaJSONPath) {
+  async getProjectInfoSections(project: Project) {
+    if (project.isUsingWebpack()) {
       return [{ viewModel: 'plugins/webpack/project-info' }];
     }
     return [];
