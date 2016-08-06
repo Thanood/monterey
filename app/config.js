@@ -58,7 +58,7 @@ System.config({
     "json": "github:systemjs/plugin-json@0.1.2",
     "moment": "npm:moment@2.14.1",
     "monterey-pal": "github:monterey-framework/monterey-pal@0.1.18",
-    "monterey-pal-electron": "github:monterey-framework/monterey-pal-electron@0.1.26",
+    "monterey-pal-electron": "github:monterey-framework/monterey-pal-electron@0.1.27",
     "semver": "npm:semver@5.3.0",
     "showdown": "github:showdownjs/showdown@1.4.2",
     "text": "github:systemjs/plugin-text@0.0.3",
