@@ -24,6 +24,9 @@ class Plugin extends BasePlugin {
   async evaluateProject(project: Project) {
     let lookupPaths = [
       FS.join(project.path, 'gulpfile.js'),
+      FS.join(project.path, 'src', 'skeleton', 'gulpfile.js'),
+      FS.join(project.path, 'src', 'skeleton-navigation-esnext-vs', 'gulpfile.js'),
+      FS.join(project.path, 'src', 'skeleton-navigation-typescript-vs', 'gulpfile.js'),
       FS.join(project.packageJSONPath, 'gulpfile.js')
     ];
 
