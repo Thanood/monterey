@@ -9,4 +9,6 @@ export interface Project {
   gulptasks?: Array<string>;
 
   aureliaJSONPath?: string;
+
+  webpackConfigPath?: string;
 }
