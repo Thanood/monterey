@@ -74,7 +74,7 @@
     "electron-debug": "^1.0.1",
     "electron-json-storage": "^2.0.0",
     "electron-prebuilt": "^1.2.6",
-    "electron-remote": "^0.5.6",
+    "electron-remote": "git+https://git@github.com/monterey-framework/electron-remote.git",
     "fix-path": "^2.0.0",
     "mv": "^2.1.1",
     "npm": "^3.8.6",
