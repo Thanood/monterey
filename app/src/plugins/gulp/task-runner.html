@@ -4,13 +4,23 @@
     Fetching gulp tasks...
   </div>
 
+  <div if.bind="!loading && errored" class="error">
+    <i class="fa fa-exclamation-triangle"></i>
+    <p>
+      Error occurred.<br>
+      ${error}
+    </p>
+    <br>
+    <button class="btn btn-primary refreshTaskList" click.delegate="loadTasks(false)"><i class="fa fa-refresh"></i></button>
+  </div>
+
   <div class="task-runner-header">
     <h4>Gulp tasks for "${main.selectedProject.name}"</h4>
 
     <button class="btn btn-primary close-button" click.delegate="close()">X</button>
   </div>
 
-  <div class="task-list" if.bind="!loading">
+  <div class="task-list" if.bind="!loading && !errored">
     <div class="task-list-header">
       <p>${tasks.length} tasks</p>
       <button class="btn btn-primary refreshTaskList" click.delegate="loadTasks(false)"><i class="fa fa-refresh"></i></button>
@@ -27,7 +37,8 @@
       </li>
     </ul>
   </div>
-  <div class="task-detail" if.bind="!loading">
+
+  <div class="task-detail" if.bind="!loading && !errored">
     <div if.bind="selectedTask">
       <h3 class="title">gulp ${selectedTask.name}</h3>
       <button class="btn btn-primary" if.bind="selectedTask.running" click.delegate="cancel(selectedTask)">Cancel task</button>

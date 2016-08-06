@@ -10,10 +10,16 @@ task-runner {
   border-right: 3px solid @taskbarColor;
   background-color: white;
 
-  .loading {
+  .loading, .error {
     position: absolute;
     left: 227px;
     top: 124px;
+  }
+
+  .error {
+    p {
+      display: inline;
+    }
   }
 
   .task-list {

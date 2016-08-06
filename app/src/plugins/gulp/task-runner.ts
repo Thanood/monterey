@@ -11,7 +11,9 @@ export class TaskRunner {
   @bindable visible = false;
   tasks: Array<GulpTask> = [];
   runningTasks: Array<GulpTask> = [];
-  loading: boolean;
+  loading: boolean = false;
+  errored: boolean = false;
+  error: string;
   selectedTask: GulpTask;
   subscription: Subscription;
   _title = 'Gulp';
@@ -58,6 +60,9 @@ export class TaskRunner {
   }
 
   async loadTasks(useCache = true) {
+    this.errored = false;
+    this.error = null;
+
     this.loading = true;
     let project = this.main.selectedProject;
     let tasks: Array<string> = [];
@@ -66,13 +71,19 @@ export class TaskRunner {
     if (useCache && project.gulptasks) {
       tasks = project.gulptasks;
     } else {
-      tasks = await this.gulpService.getTasks(project.gulpfile);
+      try {
+        tasks = await this.gulpService.getTasks(project.gulpfile);
 
-      // cache the gulp tasks we have just loaded through gulp --tasks-simple
-      // speeds up load times
-      project.gulptasks = tasks;
+        // cache the gulp tasks we have just loaded through gulp --tasks-simple
+        // speeds up load times
+        project.gulptasks = tasks;
 
-      this.state._save();
+        this.state._save();
+      } catch (e) {
+        this.errored = true;
+        console.log(e);
+        this.error = 'Did you install the npm modules?';
+      }
     }
 
     tasks.forEach(task => {
