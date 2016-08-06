@@ -1,11 +1,11 @@
 import 'bootstrap';
 import {LogManager}                      from 'aurelia-framework';
-import {ConsoleAppender}                 from 'aurelia-logging-console';
+import {MonteryLogAppender}             from './shared/montereyLogger';
 import {BootstrapFormValidationRenderer} from './shared/bootstrap-validation-renderer';
 import {ApplicationState}                from './shared/application-state';
 import {Errors}                          from './plugins/errors/errors';
 
-LogManager.addAppender(new ConsoleAppender());
+LogManager.addAppender(new MonteryLogAppender());
 LogManager.setLevel(LogManager.logLevel.debug);
 
 export function configure(aurelia) {
@@ -34,9 +34,14 @@ export function configure(aurelia) {
   };
   window.addEventListener('unhandledrejection', function(event: any) {
     console.log(event);
-    errors.add({ message: event.reason.message });
+    if(event.reason) {
+      errors.add({message: event.reason.message});
+    }
     logger.error(event);
   });
+
+
+
 
   // register the bootstrap validation error renderer under the bootstrap-form key
   // so that aurelia-validation uses this renderer when validation-renderer="bootstrap-form" is put on a form
