@@ -15,7 +15,7 @@ export class MontereyRegistries {
     this.client.configure(config => config.withBaseUrl(this.endpoint));
   }
 
-  async getTemplates() {
+  async getTemplates(): Promise<Array<any>> {
     if (this.cache.templates) {
       return this.cache.templates;
     }

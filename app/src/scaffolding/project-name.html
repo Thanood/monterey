@@ -2,7 +2,10 @@
   <form validation-renderer="bootstrap-form">
     <div class="form-group">
       <label class="control-label" for="control">What would you like to name your new project?</label>
-      <input type="text" class="form-control" id="control"
+      <input type="text"
+             class="form-control"
+             id="control"
+             ref="textfield"
              value.bind="state.name & validate & debounce:500">
     </div>
     <p if.bind="state.name && available"><i class="fa fa-check" aria-hidden="true"></i> Project folder "${state.name}" is available</p>

@@ -1,10 +1,30 @@
 <template>
-  <ai-dialog class="scaffold-modal">
+  <require from="../shared/converters/limit-text-size"></require>
 
+  <ai-dialog class="scaffold-modal">
     <ai-dialog-body>
-      <h2 class="main-header-dialog">${workflow.name}</h2>
-      <compose view-model.bind="workflow.currentStep.viewModel"
-               model.bind="{ state: state, step: workflow.currentStep }"></compose>
+      <div class="left">
+        <h2>Project template</h2>
+        <div class="project-template-list">
+          <ul class="list-group">
+            <li class="list-group-item ${selectedTemplate.id === template.id ? 'selected': ''}"
+                repeat.for="template of templates"
+                title.bind="template.name"
+                click.delegate="switchTemplate(template)">
+              ${template.name | limitTextSize: 40}
+
+              <i class="fa fa-arrow-right" show.bind="selectedTemplate.id === template.id"></i>
+            </li>
+          </ul>
+        </div>
+      </div>
+
+
+      <div class="right">
+        <h2 class="main-header-dialog">Create new application</h2>
+        <compose view-model.bind="workflow.currentStep.viewModel"
+                 model.bind="{ state: state, step: workflow.currentStep }"></compose>
+      </div>
     </ai-dialog-body>
 
     <ai-dialog-footer>

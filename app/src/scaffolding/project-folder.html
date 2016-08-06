@@ -1,0 +1,13 @@
+<template>
+  <form validation-renderer="bootstrap-form" class="scaffolding-project-detail">
+    <div class="form-group">
+      <label class="control-label">Where should the project folder be created?</label>
+      <input type="text"
+             style="display: inline; width: 445px;"
+             class="form-control"
+             disabled.bind="true"
+             value.bind="state.path & validate">
+      <button click.delegate="directoryBrowser()" class="btn btn-primary">Choose folder</button>
+    </div>
+  </form>
+</template>

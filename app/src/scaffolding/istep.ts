@@ -6,7 +6,8 @@ export interface IStep {
   execute?: () => Promise<{ goToNextStep: boolean }>;
   stateProperty?: string;
   branches?: Array<any>;
-  answer: string;
+  answer: string | any;
   state?: any;
   next: () => void;
+  options?: Array<any>;
 }

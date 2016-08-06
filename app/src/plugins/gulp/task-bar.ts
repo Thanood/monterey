@@ -12,16 +12,26 @@ export class TaskBar {
 
   constructor(private ea: EventAggregator,
               private main: Main) {
-    this.toolbarVisible = main.selectedProject.isUsingGulp;
+    this.updateVisibility(main.selectedProject);
 
     this.subscription = this.ea.subscribe('SelectedProjectChanged', (project: Project) => {
-      this.toolbarVisible = project.isUsingGulp;
-
-      // close gulp window automatically if the currently selected project does not use gulp
-      if (this.visible && !project.isUsingGulp) {
-        this.visible = false;
-      }
+      this.updateVisibility(project);
     });
+  }
+
+  updateVisibility(project: Project) {
+    if (!project) {
+      this.toolbarVisible = false;
+      this.visible = false;
+      return;
+    }
+
+    this.toolbarVisible = project.isUsingGulp;
+
+    // close gulp window automatically if the currently selected project does not use gulp
+    if (this.visible && !project.isUsingGulp) {
+      this.visible = false;
+    }
   }
 
   toggle() {

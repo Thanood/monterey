@@ -11,6 +11,7 @@ export class ProjectName {
   state;
   step: IStep;
   available: boolean;
+  textfield: Element;
   observer: Disposable;
 
   constructor(private validation: ValidationController,
@@ -33,6 +34,9 @@ export class ProjectName {
     .on(this.state);
 
     this.checkFolderExistence();
+
+    // focus the textfield, so users can start typing immediately
+    (<any>this.textfield).focus();
   }
 
   nameChanged() {
@@ -50,6 +54,9 @@ export class ProjectName {
   async execute() {
     let canContinue = false;
 
+    // wait for debounce to finish, gives a better user experience
+    await new Promise(resolve => setTimeout(resolve, 500));
+
     if (this.validation.validate().length === 0) {
       if (this.available) {
         canContinue = true;
@@ -57,8 +64,6 @@ export class ProjectName {
       } else {
         this.notification.error('Please select a project folder that does not exist yet');
       }
-    } else {
-      this.notification.error('There are validation errors');
     }
 
     return {

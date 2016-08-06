@@ -4,13 +4,11 @@
     "id": 1,
     "type": "state-assign",
     "nextActivity": 2,
-    "state": {
-      "source": "cli"
-    }
+    "state": {}
   }, {
     "id": 2,
     "type": "screen",
-    "viewModel": "./project-detail",
+    "viewModel": "./project-folder",
     "nextActivity": 3
   }, {
     "id": 3,
@@ -19,62 +17,67 @@
     "branches": [
       {
         "case": "cli",
-        "nextActivity": 4
+        "nextActivity": 5
       },
       {
         "case": "skeleton",
-        "nextActivity": 5
+        "nextActivity": 6
       },
       {
         "case": "zip",
-        "nextActivity": 5
+        "nextActivity": 4
       }
     ]
   }, {
     "id": 4,
     "type": "screen",
-    "viewModel": "./aurelia-cli/activities",
+    "viewModel": "./zip/url-input",
     "nextActivity": 6
   }, {
     "id": 5,
     "type": "screen",
-    "viewModel": "./project-name",
-    "nextActivity": 6
+    "viewModel": "./aurelia-cli/activities",
+    "nextActivity": 7
   }, {
     "id": 6,
     "type": "screen",
-    "viewModel": "./project-description",
+    "viewModel": "./project-name",
     "nextActivity": 7
   }, {
     "id": 7,
+    "type": "screen",
+    "viewModel": "./project-description",
+    "nextActivity": 8
+  }, {
+    "id": 8,
     "type": "branch-switch",
     "stateProperty": "source",
     "branches": [
       {
         "case": "cli",
-        "nextActivity": 8
+        "nextActivity": 9
       },
       {
         "case": "skeleton",
-        "nextActivity": 9
+        "nextActivity": 10
       },
       {
         "case": "zip",
-        "nextActivity": 9
+        "nextActivity": 10
       }
     ]
   }, {
-    "id": 8,
-    "type": "screen",
-    "nextActivity": 10,
-    "viewModel": "./aurelia-cli/run"
-  }, {
     "id": 9,
     "type": "screen",
-    "nextActivity": 10,
-    "viewModel": "./zip/run"
+    "nextActivity": 11,
+    "viewModel": "./aurelia-cli/run"
   }, {
     "id": 10,
+    "type": "screen",
+    "nextActivity": 11,
+    "viewModel": "./zip/run"
+  }, {
+    "id": 11,
     "type": "screen",
     "viewModel": "./npm-install"
   }]

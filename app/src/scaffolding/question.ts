@@ -22,6 +22,17 @@ export class Question {
       this.step.answer = this.state[this.step.stateProperty];
     }
 
+    // select first item for input-select questions
+    if (this.step.type === 'input-select') {
+      if (!this.step.answer) {
+        this.step.answer = this.step.options[0].value;
+      } else {
+        // make sure that we use the correct instance of the selected option
+        // otherwise the radio button won't be checked for the default value
+        this.step.answer = this.step.options.find(i => i.value.id === this.step.answer.id).value;
+      }
+    }
+
     this.stepChanged();
   }
 
