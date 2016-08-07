@@ -76,7 +76,23 @@ export class PostCreate {
   }
 
   async execute() {
-    console.log(this.actions);
+
+    if (this.actions.find(x => x.name === 'Install NPM dependencies')) {
+
+    }
+
+    if (this.actions.find(x => x.name === 'Install JSPM dependencies')) {
+
+    }
+
+    if (this.actions.find(x => x.name === 'Start the project (au run --watch)')) {
+
+    }
+
+    if (this.actions.find(x => x.name === 'Start the project (gulp watch)')) {
+
+    }
+
     return {
       goToNextStep: true
     };

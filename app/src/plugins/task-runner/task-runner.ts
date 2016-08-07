@@ -2,7 +2,7 @@ import {autoinject, bindable, computedFrom} from 'aurelia-framework';
 import {EventAggregator, Subscription}      from 'aurelia-event-aggregator';
 import {Container}            from 'aurelia-dependency-injection';
 import {Main}                 from '../../main/main';
-import {GulpService}          from './gulp-service';
+import {GulpService}          from '../gulp/gulp-service';
 import {AureliaCLIService}    from '../aurelia-cli/aurelia-cli-service';
 import {RandomNumber}         from '../../shared/random-number';
 import {ApplicationState}     from '../../shared/application-state';

@@ -1,4 +1,4 @@
-import {TaskRunner}                    from '../gulp/task-runner';
+import {TaskRunner}                    from '../task-runner/task-runner';
 import {Project}                       from '../../shared/project';
 import {autoinject}                    from 'aurelia-framework';
 import {EventAggregator, Subscription} from 'aurelia-event-aggregator';
