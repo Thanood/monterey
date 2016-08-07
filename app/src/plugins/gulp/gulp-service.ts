@@ -1,14 +1,28 @@
-import {OS, FS} from 'monterey-pal';
+import {autoinject}           from 'aurelia-framework';
+import {OS, FS}               from 'monterey-pal';
+import {ApplicationState}     from '../../shared/application-state';
 import {Project, ProjectTask} from '../../shared/project';
 
+@autoinject()
 export class GulpService {
   title  = 'Gulp';
 
-  async getTasks(project: Project): Promise<Array<ProjectTask>> {
-    let gulpFileDir = FS.getFolderPath(project.gulpfile);
-    let output = await OS.exec('gulp --tasks-simple', { cwd:  gulpFileDir });
+  constructor(private state: ApplicationState) {}
 
-    let tasks = output.match(/[^\r\n]+/g);
+  async getTasks(project: Project, useCache: boolean = true): Promise<Array<ProjectTask>> {
+    let tasks;
+    if (useCache && project.gulptasks) {
+      tasks = project.gulptasks;
+    } else {
+      let gulpFileDir = FS.getFolderPath(project.gulpfile);
+      let output = await OS.exec('gulp --tasks-simple', { cwd:  gulpFileDir });
+
+      tasks = output.match(/[^\r\n]+/g);
+      project.gulptasks = tasks;
+
+      await this.state._save();
+    }
+
     let commands: Array<ProjectTask> = [];
 
     tasks.forEach(task => {

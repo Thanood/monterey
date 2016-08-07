@@ -15,22 +15,22 @@
   </div>
 
   <div class="task-runner-header">
-    <h4>Tasks for "${main.selectedProject.name}"</h4>
+    <h4>Tasks for "${selectedProject.name}"</h4>
 
     <button class="btn btn-primary close-button" click.delegate="close()">X</button>
   </div>
 
   <div class="task-list" if.bind="!loading && !errored">
     <div class="task-list-header">
-      <p>${tasks.length} tasks</p>
+      <p>${taskRunnerState.tasks.length} tasks</p>
       <button class="btn btn-primary refreshTaskList" click.delegate="loadTasks(false)"><i class="fa fa-refresh"></i></button>
 
       <div style="clear: both"></div>
     </div>
     <ul class="list-group">
-      <li class="list-group-item ${task.id == selectedTask.id ? 'selected': ''}"
-          repeat.for="task of tasks"
-          click.delegate="selectedTask = task"
+      <li class="list-group-item ${task.id == taskRunnerState.selectedTask.id ? 'selected': ''}"
+          repeat.for="task of taskRunnerState.tasks"
+          click.delegate="taskRunnerState.selectedTask = task"
           dblclick.delegate="run(task)"
           title.bind="task.name">
         ${task.name} <i class="au-target glyphicon glyphicon-cog gly-spin" show.bind="task.running"></i>
@@ -39,14 +39,15 @@
   </div>
 
   <div class="task-detail" if.bind="!loading && !errored">
-    <div if.bind="selectedTask">
-      <h3 class="title">${selectedTask.name}</h3>
-      <button class="btn btn-primary" if.bind="selectedTask.running" click.delegate="cancel(selectedTask)">Cancel task</button>
-      <button class="btn btn-primary" if.bind="!selectedTask.running" click.delegate="run(selectedTask)">Run task</button>
+    <div if.bind="taskRunnerState.selectedTask">
+      <h3 class="title">${taskRunnerState.selectedTask.name}</h3>
+      <button class="btn btn-primary" if.bind="taskRunnerState.selectedTask.running" click.delegate="cancel(taskRunnerState.selectedTask)">Cancel task</button>
+      <button class="btn btn-primary" if.bind="!taskRunnerState.selectedTask.running" click.delegate="run(taskRunnerState.selectedTask)">Run task</button>
+      <button class="btn btn-primary" click.delegate="clearLog(taskRunnerState.selectedTask)">Clear</button>
     </div>
 
-    <ul class="logs" show.bind="selectedTask">
-      <li style="color: white; list-style-type: none" repeat.for="log of selectedTask.logs">
+    <ul class="logs" show.bind="taskRunnerState.selectedTask">
+      <li style="color: white; list-style-type: none" repeat.for="log of taskRunnerState.selectedTask.logs">
         ${log.message}
       </li>
     </ul>

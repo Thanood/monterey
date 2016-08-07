@@ -1,14 +1,14 @@
 import {autoinject, bindable, computedFrom} from 'aurelia-framework';
 import {EventAggregator, Subscription}      from 'aurelia-event-aggregator';
-import {Container}            from 'aurelia-dependency-injection';
-import {Main}                 from '../../main/main';
-import {GulpService}          from '../gulp/gulp-service';
-import {AureliaCLIService}    from '../aurelia-cli/aurelia-cli-service';
-import {RandomNumber}         from '../../shared/random-number';
-import {ApplicationState}     from '../../shared/application-state';
-import {Notification}         from '../../shared/notification';
-import {Project, ProjectTask} from '../../shared/project';
-import {FS}                   from 'monterey-pal';
+import {Container}                  from 'aurelia-dependency-injection';
+import {Main}                       from '../../main/main';
+import {GulpService}                from '../gulp/gulp-service';
+import {AureliaCLIService}          from '../aurelia-cli/aurelia-cli-service';
+import {RandomNumber}               from '../../shared/random-number';
+import {ApplicationState}           from '../../shared/application-state';
+import {Notification}               from '../../shared/notification';
+import {Project, ProjectTask, Task} from '../../shared/project';
+import {FS}                         from 'monterey-pal';
 
 // the task runner runs tasks for a specific project type
 // for aurelia cli this could be 'au run --watch'
@@ -17,19 +17,31 @@ import {FS}                   from 'monterey-pal';
 @autoinject()
 export class TaskRunner {
   @bindable visible = false;
-  tasks: Array<Task> = [];
-  runningTasks: Array<Task> = [];
   loading: boolean = false;
   errored: boolean = false;
   error: string;
-  selectedTask: Task;
   subscription: Subscription;
   _title: string;
   service: any;
+  selectedProject: Project;
 
   @computedFrom('_title')
   get title () {
     return this._title;
+  }
+
+  get taskRunnerState() {
+    if (!this.selectedProject) return;
+
+    if (!this.selectedProject.__meta__) {
+      this.selectedProject.__meta__ = {
+        taskrunner: {
+          runningTasks: [],
+          tasks: []
+        }
+      };
+    }
+    return this.selectedProject.__meta__.taskrunner;
   }
 
   constructor(private main: Main,
@@ -51,26 +63,28 @@ export class TaskRunner {
   }
 
   selectedProjectChanged() {
-    let project = this.main.selectedProject;
-    this.tasks = [];
+    this.selectedProject = this.main.selectedProject;
+    // this.taskRunnerState.tasks = [];
 
-    if (project.isUsingGulp()) {
+    if (!this.selectedProject) return;
+
+    if (this.selectedProject.isUsingGulp()) {
       this.service = this.container.get(GulpService);
-    } else if (project.isUsingAureliaCLI()) {
+    } else if (this.selectedProject.isUsingAureliaCLI()) {
       this.service = this.container.get(AureliaCLIService);
     }
 
-    this.selectedTask = null;
+    // this.taskRunnerState.selectedTask = null;
 
-    if (this.runningTasks.length > 0) {
-      let tasks = this.runningTasks.map(x => x.name);
-      this.notification.warning(`The following tasks were still running: ${tasks}. Cancelling them now`);
-      this.runningTasks.forEach(task => this.cancel(task));
-    }
+    // if (this.taskRunnerState.runningTasks.length > 0) {
+    //   let tasks = this.taskRunnerState.map(x => x.name);
+    //   this.notification.warning(`The following tasks were still running: ${tasks}. Cancelling them now`);
+    //   this.taskRunnerState.forEach(task => this.cancel(task));
+    // }
 
     this.updateTitle();
 
-    if (this.visible) {
+    if (this.visible && this.taskRunnerState.tasks.length === 0) {
       this.loadTasks();
     }
   }
@@ -80,8 +94,10 @@ export class TaskRunner {
   }
 
   visibleChanged(visible) {
-    if (visible && this.tasks.length === 0) {
-      this.loadTasks();
+    if (this.selectedProject) {
+      if (visible && this.taskRunnerState.tasks.length === 0) {
+        this.loadTasks();
+      }
     }
   }
 
@@ -90,39 +106,20 @@ export class TaskRunner {
     this.error = null;
 
     this.loading = true;
-    let project = this.main.selectedProject;
-    let tasks: Array<ProjectTask> = [];
-
-    this.tasks = [];
+    this.taskRunnerState.tasks = [];
 
     // make sure that node_modules are installed by checking whether or not node_modules folder exists
-    if (!(await FS.folderExists(FS.join(FS.getFolderPath(project.packageJSONPath), 'node_modules')))) {
+    if (!(await FS.folderExists(FS.join(FS.getFolderPath(this.selectedProject.packageJSONPath), 'node_modules')))) {
       this.errored = true;
       this.error = 'Did you install the npm modules?';
       this.loading = false;
       return;
     }
 
-    if (useCache && project.tasks) {
-      tasks = project.tasks;
-    } else {
-      try {
-        tasks = await this.service.getTasks(project);
-
-        // cache tasks, speeds up load times (especially for gulp tasks)
-        project.tasks = tasks;
-
-        this.state._save();
-      } catch (e) {
-        this.errored = true;
-        console.log(e);
-        this.error = e.message;
-        this.loading = false;
-      }
-    }
+    let tasks = await this.service.getTasks(this.selectedProject, useCache);
 
     tasks.forEach(task => {
-      this.tasks.push(<Task>{
+      this.taskRunnerState.tasks.push(<Task>{
         id: new RandomNumber().create(),
         command: task.command,
         parameters: task.parameters,
@@ -132,8 +129,8 @@ export class TaskRunner {
     });
 
     // select first task
-    if (!this.selectedTask && this.tasks.length > 0) {
-      this.selectedTask = this.tasks[0];
+    if (!this.taskRunnerState.selectedTask && this.taskRunnerState.tasks.length > 0) {
+      this.taskRunnerState.selectedTask = this.taskRunnerState.tasks[0];
     }
 
     this.loading = false;
@@ -144,10 +141,10 @@ export class TaskRunner {
   }
 
   run(task: Task) {
-    this.runningTasks.push(task);
+    this.taskRunnerState.runningTasks.push(task);
     this.updateTitle();
 
-    let result = this.service.runTask(this.main.selectedProject, task, stdout => {
+    let result = this.service.runTask(this.selectedProject, task, stdout => {
       task.logs.unshift({ message: stdout });
     }, stderr => {
       task.logs.unshift({ message: stderr });
@@ -156,8 +153,8 @@ export class TaskRunner {
     result.completion.then(() => {
 
       // remove task from runningTasks array
-      let index = this.runningTasks.indexOf(task);
-      this.runningTasks.splice(index, 1);
+      let index = this.taskRunnerState.runningTasks.indexOf(task);
+      this.taskRunnerState.runningTasks.splice(index, 1);
       this.updateTitle();
 
       task.running = false;
@@ -166,18 +163,12 @@ export class TaskRunner {
     task.running = true;
   }
 
+  clearLog(task: Task) {
+    task.logs = [];
+  }
+
   updateTitle() {
-    let runningTasks = this.runningTasks.length;
+    let runningTasks = this.taskRunnerState.runningTasks.length;
     this._title = this.service.getTaskBarTitle(runningTasks);
   }
-}
-
-export interface Task {
-  id: number,
-  name: string;
-  running: boolean;
-  process: any;
-  command: string;
-  parameters: Array<string>;
-  logs: Array<{ message: string }>;
 }

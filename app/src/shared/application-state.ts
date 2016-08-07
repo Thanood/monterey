@@ -38,10 +38,16 @@ export class ApplicationState {
   // which sometimes lead to properties not being persisted into the session
   _normalize(obj) {
     let normalized = {};
+    let ignoreKeys = ['__meta__'];
     let keys = Object.keys(obj);
     for (let i = 0; i < keys.length; i++) {
       let key = keys[i];
       let val = obj[key];
+
+      if (ignoreKeys.indexOf(key) > -1) {
+        continue;
+      }
+
       if (Object.prototype.toString.call(val) === '[object Array]') {
         // here we have an array
         normalized[key] = [];

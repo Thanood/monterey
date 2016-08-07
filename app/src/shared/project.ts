@@ -5,11 +5,7 @@ export interface Project {
   path: string;
 
   gulpfile?: string;
-
-  // for aurelia cli this is 'au run --watch'
-  // for gulp this could be 'gulp watch'
-  // for webpack this could be 'npm start'
-  tasks?: Array<ProjectTask>;
+  gulptasks?: Array<string>;
 
   aureliaJSONPath?: string;
 
@@ -18,6 +14,15 @@ export interface Project {
   jspmVersion?: string;
   configJsPath?: string;
   jspmDefinition?: string;
+
+  // won't be save in session
+  __meta__?: {
+    taskrunner: {
+      selectedTask?: Task,
+      tasks?: Array<Task>,
+      runningTasks?: Array<Task>
+    }
+  };
 }
 
 export class Project {
@@ -45,4 +50,14 @@ export class Project {
 export interface ProjectTask {
   command: string;
   parameters: Array<string>;
+}
+
+export interface Task {
+  id: number;
+  name: string;
+  running: boolean;
+  process: any;
+  command: string;
+  parameters: Array<string>;
+  logs: Array<{ message: string }>;
 }
