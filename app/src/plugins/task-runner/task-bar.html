@@ -3,5 +3,5 @@
   <require from="../task-runner/task-runner"></require>
 
   <task-runner show.bind="visible" visible.two-way="visible" view-model.ref="taskRunner"></task-runner>
-  <task-bar-item if.bind="toolbarVisible" text.bind="taskRunner.title" img="images/aurelia-25x25.png" click.delegate="toggle()"></task-bar-item>
+  <task-bar-item if.bind="toolbarVisible" text.bind="taskRunner.title" img.bind="taskRunner.img" icon.bind="taskRunner.icon" click.delegate="toggle()"></task-bar-item>
 </template>

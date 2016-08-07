@@ -26,12 +26,21 @@ export class TaskBar {
       return;
     }
 
-    this.toolbarVisible = project.isUsingGulp();
+    this.toolbarVisible = project.isUsingGulp() || project.isUsingAureliaCLI() || project.isUsingWebpack();
 
-    // close gulp window automatically if the currently selected project does not use gulp
-    if (this.visible && !project.isUsingGulp()) {
-      this.visible = false;
-    }
+    // this.toolbarVisible = project.isUsingGulp();
+
+    // // close gulp window automatically if the currently selected project does not use gulp
+    // if (this.visible && !project.isUsingGulp()) {
+    //   this.visible = false;
+    // }
+
+    // this.toolbarVisible = project.isUsingAureliaCLI();
+
+    // // close gulp window automatically if the currently selected project is not an aureia-cli project
+    // if (this.visible && !project.isUsingAureliaCLI()) {
+    //   this.visible = false;
+    // }
   }
 
   toggle() {

@@ -11,12 +11,12 @@ export function configure(aurelia) {
 
 class Plugin extends BasePlugin {
   getTiles(project: Project, showIrrelevant) {
-    if (!showIrrelevant && !project.webpackConfigPath) {
+    if (!showIrrelevant && !project.isUsingWebpack()) {
       return [];
     }
 
     return [{
-      model: { relevant: !!project.webpackConfigPath },
+      model: { relevant: !!project.isUsingWebpack() },
       viewModel: 'plugins/webpack/tile'
     }];
   }

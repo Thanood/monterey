@@ -1,6 +1,7 @@
 import {PluginManager} from '../../shared/plugin-manager';
 import {BasePlugin}    from '../base-plugin';
 import {JSPMDetection} from './jspm-detection';
+import {Project}       from '../../shared/project';
 import {autoinject}    from 'aurelia-framework';
 
 export function configure(aurelia) {
@@ -15,25 +16,25 @@ class Plugin extends BasePlugin {
     super();
   }
 
-  getTiles(project, showIrrelevant) {
-    if (!showIrrelevant && !project.isUsingJSPM) {
+  getTiles(project: Project, showIrrelevant) {
+    if (!showIrrelevant && !project.isUsingJSPM()) {
       return [];
     }
 
     return [{
       viewModel: 'plugins/jspm/tile',
-      model: { relevant: project.isUsingJSPM, project: project }
+      model: { relevant: project.isUsingJSPM(), project: project }
     }];
   }
 
-  async evaluateProject(project) {
+  async evaluateProject(project: Project) {
     if (project.packageJSONPath) {
       await this.jspmDetection.findJspmConfig(project);
     }
   }
 
-  async getProjectInfoSections(project) {
-    if (project.isUsingJSPM) {
+  async getProjectInfoSections(project: Project) {
+    if (project.isUsingJSPM()) {
       return [{ viewModel: 'plugins/jspm/project-info' }];
     }
     return [];

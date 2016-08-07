@@ -2,13 +2,12 @@ import {OS, FS} from 'monterey-pal';
 import {Project, ProjectTask} from '../../shared/project';
 import {TaskRunnerService} from '../task-runner/task-runner';
 
-export class AureliaCLIService implements TaskRunnerService {
-  title  = 'Aurelia-CLI';
+export class WebpackService implements TaskRunnerService {
+  title  = 'Webpack';
 
   async getTasks(project: Project, useCache: boolean): Promise<Array<ProjectTask>> {
     return [
-      { command: 'au', parameters: ['run', '--watch'] },
-      { command: 'au', parameters: ['run'] }
+      { command: 'npm', parameters: ['start'] }
     ];
   }
 
@@ -23,8 +22,8 @@ export class AureliaCLIService implements TaskRunnerService {
 
   getTaskBarStyle(runningTasks: number) {
     return {
-      title: runningTasks > 0 ? `Aurelia-CLI (${runningTasks})` : 'Aurelia-CLI',
-      img: 'images/aurelia-25x25.png'
+      title: runningTasks > 0 ? `Webpack (${runningTasks})` : 'Webpack',
+      img: 'images/webpack-25x25.png'
     };
   }
 }

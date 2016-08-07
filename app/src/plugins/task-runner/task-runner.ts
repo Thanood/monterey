@@ -4,6 +4,7 @@ import {Container}                  from 'aurelia-dependency-injection';
 import {Main}                       from '../../main/main';
 import {GulpService}                from '../gulp/gulp-service';
 import {AureliaCLIService}          from '../aurelia-cli/aurelia-cli-service';
+import {WebpackService}             from '../webpack/webpack-service';
 import {RandomNumber}               from '../../shared/random-number';
 import {ApplicationState}           from '../../shared/application-state';
 import {Notification}               from '../../shared/notification';
@@ -22,12 +23,24 @@ export class TaskRunner {
   error: string;
   subscription: Subscription;
   _title: string;
-  service: any;
+  _img: string;
+  _icon: string;
+  service: TaskRunnerService;
   selectedProject: Project;
 
   @computedFrom('_title')
   get title () {
     return this._title;
+  }
+
+  @computedFrom('_img')
+  get img () {
+    return this._img;
+  }
+
+  @computedFrom('_icon')
+  get icon () {
+    return this._icon;
   }
 
   get taskRunnerState() {
@@ -63,8 +76,10 @@ export class TaskRunner {
   }
 
   selectedProjectChanged() {
+    this.errored = false;
+    this.error = null;
+
     this.selectedProject = this.main.selectedProject;
-    // this.taskRunnerState.tasks = [];
 
     if (!this.selectedProject) return;
 
@@ -72,17 +87,11 @@ export class TaskRunner {
       this.service = this.container.get(GulpService);
     } else if (this.selectedProject.isUsingAureliaCLI()) {
       this.service = this.container.get(AureliaCLIService);
+    } else if(this.selectedProject.isUsingWebpack()) {
+      this.service = this.container.get(WebpackService);
     }
 
-    // this.taskRunnerState.selectedTask = null;
-
-    // if (this.taskRunnerState.runningTasks.length > 0) {
-    //   let tasks = this.taskRunnerState.map(x => x.name);
-    //   this.notification.warning(`The following tasks were still running: ${tasks}. Cancelling them now`);
-    //   this.taskRunnerState.forEach(task => this.cancel(task));
-    // }
-
-    this.updateTitle();
+    this.updateTaskBar();
 
     if (this.visible && this.taskRunnerState.tasks.length === 0) {
       this.loadTasks();
@@ -102,9 +111,6 @@ export class TaskRunner {
   }
 
   async loadTasks(useCache = true) {
-    this.errored = false;
-    this.error = null;
-
     this.loading = true;
     this.taskRunnerState.tasks = [];
 
@@ -142,7 +148,7 @@ export class TaskRunner {
 
   run(task: Task) {
     this.taskRunnerState.runningTasks.push(task);
-    this.updateTitle();
+    this.updateTaskBar();
 
     let result = this.service.runTask(this.selectedProject, task, stdout => {
       task.logs.unshift({ message: stdout });
@@ -155,7 +161,7 @@ export class TaskRunner {
       // remove task from runningTasks array
       let index = this.taskRunnerState.runningTasks.indexOf(task);
       this.taskRunnerState.runningTasks.splice(index, 1);
-      this.updateTitle();
+      this.updateTaskBar();
 
       task.running = false;
       task.logs.unshift({ message: 'PROCESS STOPPED' });
@@ -167,8 +173,19 @@ export class TaskRunner {
     task.logs = [];
   }
 
-  updateTitle() {
+  updateTaskBar() {
     let runningTasks = this.taskRunnerState.runningTasks.length;
-    this._title = this.service.getTaskBarTitle(runningTasks);
+    let style = this.service.getTaskBarStyle(runningTasks);
+    this._title = style.title;
+    this._img = style.img;
+    this._icon = style.icon;
   }
+}
+
+
+export interface TaskRunnerService {
+  getTasks(project: Project, useCache: boolean): Promise<Array<ProjectTask>>;
+  runTask(project: Project, task: ProjectTask, stdout, stderr);
+  cancelTask(process);
+  getTaskBarStyle(runningTasks: number);
 }

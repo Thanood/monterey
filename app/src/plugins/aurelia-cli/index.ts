@@ -39,8 +39,4 @@ class Plugin extends BasePlugin {
     }
     return [];
   }
-
-  async getTaskBarItems(project: Project) {
-    return ['plugins/aurelia-cli/task-bar'];
-  }
 }

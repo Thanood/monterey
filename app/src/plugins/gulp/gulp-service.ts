@@ -2,9 +2,10 @@ import {autoinject}           from 'aurelia-framework';
 import {OS, FS}               from 'monterey-pal';
 import {ApplicationState}     from '../../shared/application-state';
 import {Project, ProjectTask} from '../../shared/project';
+import {TaskRunnerService} from '../task-runner/task-runner';
 
 @autoinject()
-export class GulpService {
+export class GulpService implements TaskRunnerService {
   title  = 'Gulp';
 
   constructor(private state: ApplicationState) {}
@@ -42,7 +43,10 @@ export class GulpService {
     OS.kill(process);
   }
 
-  getTaskBarTitle(runningTasks: number) {
-    return runningTasks > 0 ? `Gulp (${runningTasks})` : 'Gulp';
+  getTaskBarStyle(runningTasks: number) {
+    return {
+      title: runningTasks > 0 ? `Gulp (${runningTasks})` : 'Gulp',
+      img: 'images/gulp-25x25.png'
+    };
   }
 }
