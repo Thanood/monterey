@@ -1,3 +1,5 @@
+import {Project} from '../shared/project';
+
 export interface IStep {
   id: number;
   nextActivity: number;
@@ -10,4 +12,9 @@ export interface IStep {
   state?: any;
   next: () => void;
   options?: Array<any>;
+
+  // post-create creates the project and uses
+  // this property to pass the created project to the modal
+  // which returns the project when the modal is closed
+  project?: Project;
 }

@@ -11,23 +11,7 @@ export class ScaffoldProject {
   state: any = {};
   workflow: Workflow;
   @bindable selectedTemplate: ProjectTemplate;
-  templates: Array<ProjectTemplate> = [{
-    name: 'cli',
-    source: 'cli',
-    id: 1
-  }, {
-    name: 'skeleton',
-    source: 'skeleton',
-    state: {
-      repo: '',
-      subfolder: ''
-    },
-    id: 2
-  }, {
-    name: 'zip',
-    source: 'zip',
-    id: 3
-  }];
+  templates: Array<ProjectTemplate> = [];
 
   constructor(private dialog: DialogController,
               private projectManager: ProjectManager,
@@ -106,16 +90,10 @@ export class ScaffoldProject {
       }
     }
 
-    if (this.workflow.isLast && this.state.successful) {
-      this.state.path = FS.join(this.state.path, this.state.name);
-
-      let proj = await this.projectManager.addProjectByWizardState(this.state);
-      if (proj) {
-        this.dialog.ok(proj);
-        return;
-      }
-
-      this.dialog.cancel();
+    let curStep = this.workflow.currentStep;
+    if (curStep && curStep.project) {
+      await curStep.execute();
+      this.dialog.ok(curStep.project);
     } else {
       this.dialog.cancel();
     }

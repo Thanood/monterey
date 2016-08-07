@@ -18,7 +18,7 @@ export class Landing {
   }
 
   @withModal(ScaffoldProject)
-  create(projectPath) {
+  create() {
     this.router.navigateToRoute('main');
   }
 }

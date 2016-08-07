@@ -79,6 +79,6 @@
   }, {
     "id": 11,
     "type": "screen",
-    "viewModel": "./npm-install"
+    "viewModel": "./post-create"
   }]
 }
