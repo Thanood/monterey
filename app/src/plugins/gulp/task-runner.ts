@@ -1,22 +1,31 @@
 import {autoinject, bindable, computedFrom} from 'aurelia-framework';
 import {EventAggregator, Subscription}      from 'aurelia-event-aggregator';
+import {Container}            from 'aurelia-dependency-injection';
 import {Main}                 from '../../main/main';
 import {GulpService}          from './gulp-service';
+import {AureliaCLIService}    from '../aurelia-cli/aurelia-cli-service';
 import {RandomNumber}         from '../../shared/random-number';
 import {ApplicationState}     from '../../shared/application-state';
 import {Notification}         from '../../shared/notification';
+import {Project, ProjectTask} from '../../shared/project';
+import {FS}                   from 'monterey-pal';
 
+// the task runner runs tasks for a specific project type
+// for aurelia cli this could be 'au run --watch'
+// for gulp this could be 'gulp watch'
+// for webpack this could be 'npm start'
 @autoinject()
 export class TaskRunner {
   @bindable visible = false;
-  tasks: Array<GulpTask> = [];
-  runningTasks: Array<GulpTask> = [];
+  tasks: Array<Task> = [];
+  runningTasks: Array<Task> = [];
   loading: boolean = false;
   errored: boolean = false;
   error: string;
-  selectedTask: GulpTask;
+  selectedTask: Task;
   subscription: Subscription;
-  _title = 'Gulp';
+  _title: string;
+  service: any;
 
   @computedFrom('_title')
   get title () {
@@ -24,29 +33,46 @@ export class TaskRunner {
   }
 
   constructor(private main: Main,
-              private gulpService: GulpService,
               private state: ApplicationState,
               private notification: Notification,
-              private ea: EventAggregator) {}
+              private container: Container,
+              private ea: EventAggregator) {
+  }
 
   async attached() {
     this.subscription = this.ea.subscribe('SelectedProjectChanged', () => {
-      this.selectedTask = null;
-
-      if (this.runningTasks.length > 0) {
-        let gulptasks = this.runningTasks.map(x => x.name);
-        this.notification.warning(`The following gulp tasks were still running: ${gulptasks}. Cancelling them now`);
-        this.runningTasks.forEach(task => this.cancel(task));
-      }
-
-      if (this.visible) {
-        this.loadTasks();
-      }
+      this.selectedProjectChanged();
     });
+    this.selectedProjectChanged();
   }
 
-  cancel(task: GulpTask) {
-    this.gulpService.cancelTask(task.process);
+  cancel(task: Task) {
+    this.service.cancelTask(task.process);
+  }
+
+  selectedProjectChanged() {
+    let project = this.main.selectedProject;
+    this.tasks = [];
+
+    if (project.isUsingGulp()) {
+      this.service = this.container.get(GulpService);
+    } else if (project.isUsingAureliaCLI()) {
+      this.service = this.container.get(AureliaCLIService);
+    }
+
+    this.selectedTask = null;
+
+    if (this.runningTasks.length > 0) {
+      let tasks = this.runningTasks.map(x => x.name);
+      this.notification.warning(`The following tasks were still running: ${tasks}. Cancelling them now`);
+      this.runningTasks.forEach(task => this.cancel(task));
+    }
+
+    this.updateTitle();
+
+    if (this.visible) {
+      this.loadTasks();
+    }
   }
 
   close() {
@@ -65,31 +91,42 @@ export class TaskRunner {
 
     this.loading = true;
     let project = this.main.selectedProject;
-    let tasks: Array<string> = [];
+    let tasks: Array<ProjectTask> = [];
 
     this.tasks = [];
-    if (useCache && project.gulptasks) {
-      tasks = project.gulptasks;
+
+    // make sure that node_modules are installed by checking whether or not node_modules folder exists
+    if (!(await FS.folderExists(FS.join(FS.getFolderPath(project.packageJSONPath), 'node_modules')))) {
+      this.errored = true;
+      this.error = 'Did you install the npm modules?';
+      this.loading = false;
+      return;
+    }
+
+    if (useCache && project.tasks) {
+      tasks = project.tasks;
     } else {
       try {
-        tasks = await this.gulpService.getTasks(project.gulpfile);
+        tasks = await this.service.getTasks(project);
 
-        // cache the gulp tasks we have just loaded through gulp --tasks-simple
-        // speeds up load times
-        project.gulptasks = tasks;
+        // cache tasks, speeds up load times (especially for gulp tasks)
+        project.tasks = tasks;
 
         this.state._save();
       } catch (e) {
         this.errored = true;
         console.log(e);
-        this.error = 'Did you install the npm modules?';
+        this.error = e.message;
+        this.loading = false;
       }
     }
 
     tasks.forEach(task => {
-      this.tasks.push(<GulpTask>{
+      this.tasks.push(<Task>{
         id: new RandomNumber().create(),
-        name: task,
+        command: task.command,
+        parameters: task.parameters,
+        name: `${task.command} ${task.parameters ? task.parameters.join(' ') : ''}`,
         logs: []
       });
     });
@@ -106,11 +143,11 @@ export class TaskRunner {
     this.subscription.dispose();
   }
 
-  run(task: GulpTask) {
+  run(task: Task) {
     this.runningTasks.push(task);
     this.updateTitle();
 
-    let result = this.gulpService.runTask(this.main.selectedProject.gulpfile, task.name, stdout => {
+    let result = this.service.runTask(this.main.selectedProject, task, stdout => {
       task.logs.unshift({ message: stdout });
     }, stderr => {
       task.logs.unshift({ message: stderr });
@@ -131,14 +168,16 @@ export class TaskRunner {
 
   updateTitle() {
     let runningTasks = this.runningTasks.length;
-    this._title = runningTasks > 0 ? `Gulp (${runningTasks})` : 'Gulp';
+    this._title = this.service.getTaskBarTitle(runningTasks);
   }
 }
 
-export interface GulpTask {
+export interface Task {
   id: number,
   name: string;
   running: boolean;
   process: any;
+  command: string;
+  parameters: Array<string>;
   logs: Array<{ message: string }>;
 }

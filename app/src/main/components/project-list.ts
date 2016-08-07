@@ -41,7 +41,8 @@ export class ProjectList {
     } else {
       this.selectedProject = null;
     }
-    this.ea.publish('SelectedProjectChanged', this.selectedProject);
+
+    this.publishChange();
   }
 
   projectClicked(project) {
@@ -55,7 +56,14 @@ export class ProjectList {
         this.selectedProject = project.data;
       }
     }
-    this.ea.publish('SelectedProjectChanged', this.selectedProject);
+
+    this.publishChange();
+  }
+
+  publishChange() {
+    // allow for the binding to Main to be updated
+    // as parts of monterey get the selected project from Main
+    setTimeout(() => this.ea.publish('SelectedProjectChanged', this.selectedProject), 100);
   }
 
   detached() {

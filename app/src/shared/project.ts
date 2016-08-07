@@ -5,7 +5,11 @@ export interface Project {
   path: string;
 
   gulpfile?: string;
-  gulptasks?: Array<string>;
+
+  // for aurelia cli this is 'au run --watch'
+  // for gulp this could be 'gulp watch'
+  // for webpack this could be 'npm start'
+  tasks?: Array<ProjectTask>;
 
   aureliaJSONPath?: string;
 
@@ -36,4 +40,9 @@ export class Project {
   isUsingJSPM() {
     return !!(this.configJsPath && this.jspmVersion);
   }
+}
+
+export interface ProjectTask {
+  command: string;
+  parameters: Array<string>;
 }

@@ -1,7 +1,7 @@
 <template>
   <div if.bind="loading" class="loading">
     <i class="fa fa-spinner fa-spin fa-3x"></i>
-    Fetching gulp tasks...
+    Fetching tasks...
   </div>
 
   <div if.bind="!loading && errored" class="error">
@@ -15,7 +15,7 @@
   </div>
 
   <div class="task-runner-header">
-    <h4>Gulp tasks for "${main.selectedProject.name}"</h4>
+    <h4>Tasks for "${main.selectedProject.name}"</h4>
 
     <button class="btn btn-primary close-button" click.delegate="close()">X</button>
   </div>
@@ -40,7 +40,7 @@
 
   <div class="task-detail" if.bind="!loading && !errored">
     <div if.bind="selectedTask">
-      <h3 class="title">gulp ${selectedTask.name}</h3>
+      <h3 class="title">${selectedTask.name}</h3>
       <button class="btn btn-primary" if.bind="selectedTask.running" click.delegate="cancel(selectedTask)">Cancel task</button>
       <button class="btn btn-primary" if.bind="!selectedTask.running" click.delegate="run(selectedTask)">Run task</button>
     </div>
