@@ -8,6 +8,7 @@ import {Forks}            from './forks';
 import {withModal}        from '../../shared/decorators';
 import {Project}          from '../../shared/project';
 import {Notification}     from '../../shared/notification';
+import {Common}           from './common';
 
 @autoinject()
 export class Screen {
@@ -18,11 +19,11 @@ export class Screen {
   projectGrid;
   topLevelDependencies = [];
   allDependencies = [];
-  workingDirectory;
   forks = [];
 
   constructor(private taskManager: TaskManager,
               private analyzer: Analyzer,
+              private common: Common,
               private dialogService: DialogService,
               private notification: Notification) {
   }
@@ -30,8 +31,6 @@ export class Screen {
   async activate(model) {
     this.model = model;
     this.project = model.selectedProject;
-
-    this.workingDirectory = FS.getFolderPath(this.project.packageJSONPath);
   }
 
   async attached() {
@@ -86,11 +85,13 @@ export class Screen {
     // gradually come in
     this.analyzer.lookupLatest();
 
+    let workingDirectory = FS.getFolderPath(this.project.packageJSONPath);
+
     // get list of forks
     JSPM.getForks(config, {
       project: this.project,
       jspmOptions: {
-        workingDirectory: this.workingDirectory
+        workingDirectory: workingDirectory
       }
     })
     .then(forks => this.forks = forks);
@@ -124,50 +125,10 @@ export class Screen {
     this.install(true, { lock: true }, true);
   }
 
-  downloadLoader(callback) {
-    return JSPM.downloadLoader({
-      project: this.project,
-      jspmOptions: {
-        workingDirectory: this.workingDirectory
-      },
-      logCallback: callback
-    });
-  }
-
-  install(deps, jspmOptions = null, withLoader = false) {
-    // always supply a workingDirectory so that
-    // we're not jspm installing in monterey directory
-    Object.assign(jspmOptions, {
-      workingDirectory: this.workingDirectory
-    });
-
-    let task = <any>{
-      title: `jspm install of '${this.project.name}'`,
-      estimation: 'This usually takes about a minute to complete',
-      logs: []
-    };
-
-    let promise = JSPM.install(deps, {
-      project: this.project,
-      jspmOptions: jspmOptions,
-      logCallback: (message) => {
-        this.taskManager.addTaskLog(task, message.message);
-      }
-    });
-
-    if (withLoader) {
-      promise = promise.then(() => this.downloadLoader((message) => {
-        this.taskManager.addTaskLog(task, message.message);
-      }));
-    }
-
-    task.promise = promise;
-
-    this.taskManager.addTask(task);
+  install(deps, jspmOptions = {}, withLoader = false) {
+    let task = this.common.install(deps, jspmOptions, withLoader);
 
     this.dialogService.open({ viewModel: TaskManagerModal, model: { task: task }});
-
-    return task;
   }
 
   @withModal(Forks, function () { return { forks: this.forks }; })

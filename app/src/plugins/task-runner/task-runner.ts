@@ -83,18 +83,22 @@ export class TaskRunner {
 
     if (!this.selectedProject) return;
 
-    if (this.selectedProject.isUsingGulp()) {
-      this.service = this.container.get(GulpService);
-    } else if (this.selectedProject.isUsingAureliaCLI()) {
-      this.service = this.container.get(AureliaCLIService);
-    } else if(this.selectedProject.isUsingWebpack()) {
-      this.service = this.container.get(WebpackService);
-    }
+    this.service = this.getService(this.selectedProject);
 
     this.updateTaskBar();
 
     if (this.visible && this.taskRunnerState.tasks.length === 0) {
       this.loadTasks();
+    }
+  }
+
+  getService(project: Project) {
+    if (this.selectedProject.isUsingGulp()) {
+      return this.container.get(GulpService);
+    } else if (this.selectedProject.isUsingAureliaCLI()) {
+      return this.container.get(AureliaCLIService);
+    } else if(this.selectedProject.isUsingWebpack()) {
+      return this.container.get(WebpackService);
     }
   }
 
@@ -112,7 +116,6 @@ export class TaskRunner {
 
   async loadTasks(useCache = true) {
     this.loading = true;
-    this.taskRunnerState.tasks = [];
 
     // make sure that node_modules are installed by checking whether or not node_modules folder exists
     if (!(await FS.folderExists(FS.join(FS.getFolderPath(this.selectedProject.packageJSONPath), 'node_modules')))) {
@@ -122,17 +125,7 @@ export class TaskRunner {
       return;
     }
 
-    let tasks = await this.service.getTasks(this.selectedProject, useCache);
-
-    tasks.forEach(task => {
-      this.taskRunnerState.tasks.push(<Task>{
-        id: new RandomNumber().create(),
-        command: task.command,
-        parameters: task.parameters,
-        name: `${task.command} ${task.parameters ? task.parameters.join(' ') : ''}`,
-        logs: []
-      });
-    });
+    await this._loadTasks(this.selectedProject, this.taskRunnerState, this.service, useCache);
 
     // select first task
     if (!this.taskRunnerState.selectedTask && this.taskRunnerState.tasks.length > 0) {
@@ -146,11 +139,34 @@ export class TaskRunner {
     this.subscription.dispose();
   }
 
-  run(task: Task) {
-    this.taskRunnerState.runningTasks.push(task);
+  async _loadTasks(project: Project, taskRunnerState: any, service: TaskRunnerService, useCache = true) {
+    taskRunnerState.tasks = [];
+
+    let tasks = await service.getTasks(project, useCache);
+
+    tasks.forEach(task => {
+      taskRunnerState.tasks.push(<Task>{
+        id: new RandomNumber().create(),
+        command: task.command,
+        parameters: task.parameters,
+        name: `${task.command} ${task.parameters ? task.parameters.join(' ') : ''}`,
+        logs: []
+      });
+    });
+  }
+
+  run(task: Task, project?: Project, service?: TaskRunnerService) {
+    if (!project) {
+      project = this.selectedProject;
+    }
+    if (!service) {
+      service = this.service;
+    }
+
+    project.__meta__.taskrunner.runningTasks.push(task);
     this.updateTaskBar();
 
-    let result = this.service.runTask(this.selectedProject, task, stdout => {
+    let result = service.runTask(project, task, stdout => {
       task.logs.unshift({ message: stdout });
     }, stderr => {
       task.logs.unshift({ message: stderr });
@@ -159,8 +175,8 @@ export class TaskRunner {
     result.completion.then(() => {
 
       // remove task from runningTasks array
-      let index = this.taskRunnerState.runningTasks.indexOf(task);
-      this.taskRunnerState.runningTasks.splice(index, 1);
+      let index = project.__meta__.taskrunner.runningTasks.indexOf(task);
+      project.__meta__.taskrunner.runningTasks.splice(index, 1);
       this.updateTaskBar();
 
       task.running = false;
