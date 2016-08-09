@@ -7,6 +7,8 @@ import {DialogController}   from 'aurelia-dialog';
 declare var System: any;
 declare var process: any;
 const spawn = System._nodeRequire('child_process').spawn;
+const Convert = System._nodeRequire('ansi-to-html');
+
 
 
 @autoinject()
@@ -17,10 +19,17 @@ export class TerminalModal {
   input: string = "";
   path: string = "";
   active: boolean = false;
+  convert:any;
 
 
   constructor(private dialogController: DialogController, private state: ApplicationState, private main: Main, private terminalState: TerminalState) {
-
+    this.convert = new Convert({
+      fg: '#FFF',
+      bg: '#000',
+      newline: false,
+      escapeXML: false,
+      stream: false
+    });
   }
 
   async activate() {
@@ -40,26 +49,44 @@ export class TerminalModal {
     this.startTerminal()
   }
 
+  replaceAll = function (text, search, replacement) {
+    return text.replace(new RegExp(search, 'g'), replacement);
+  };
+
+  processData(terminal: any, str: string) {
+
+    str = this.replaceAll(str, ">", "&gt");
+    str = this.replaceAll(str, "<", "&lt");
+
+    terminal.terminalText = terminal.terminalText + this.convert.toHtml(str);
+
+    let textarea = document.getElementById('terminal-vr');
+    textarea.innerHTML = '<span>' + terminal.terminalText + '</span>';
+  }
+
   startTerminal() {
     let cmd = process.platform === 'win32' ? 'cmd' : 'bash';
 
     let terminal = {context: null, terminalText: ""};
     terminal.context = spawn(cmd, {
-      cwd: this.path
+      cwd: this.path,
+      shell: true,
+      env: Object.assign(process.env, {FORCE_COLOR: true})
     });
 
     terminal.context.stdout.on('data', (data) => {
-      terminal.terminalText = terminal.terminalText + data;
+      this.processData(terminal, data.toString());
       this.scroll();
     });
 
     terminal.context.stderr.on('data', (data) => {
-      terminal.terminalText = terminal.terminalText + data;
+      this.processData(terminal, data.toString());
       this.scroll();
     });
 
     terminal.context.on('exit', (code) => {
-      terminal.terminalText = terminal.terminalText + 'child process exited with code ' + code + '\n';
+      this.processData(terminal, 'child process exited with code ' + code + '\n');
+
       this.terminalState.terminals.forEach((t, i)=> {
         if (t.context.pid == terminal.context.pid) {
           this.terminalState.terminals.splice(i, 1);

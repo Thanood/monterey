@@ -19,9 +19,9 @@
 
       </div>
       <div class="right-side">
-        <h2 class="title">${terminalState.selectedTerminal.context.pid ? terminalState.selectedTerminal.context.pid:"none"}</h2>
-        <textarea id="terminal-vr" disabled class="terminal"
-                  value.bind="terminalState.selectedTerminal.terminalText"></textarea>
+        <h2 class="title">${terminalState.selectedTerminal.context.pid ?
+          terminalState.selectedTerminal.context.pid:"none"}</h2>
+        <div id="terminal-vr" disabled class="terminal"></div>
         <input if.bind="active" class="terminal-input" value.bind="input" keydown.delegate="keydown($event)">
       </div>
     </ai-dialog-body>
