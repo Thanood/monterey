@@ -5,9 +5,11 @@ const path = require('path');
 
 module.exports = class Logger {
 
-  constructor(timer) {
+  constructor(timer, days) {
+    console.log("Stating Monetery-logger");
     this.logBuffer = '';
     this.timeout = timer || 10000;
+    this.deleteAfterDays = days || 5;
     this.logFolder = path.join(__dirname, 'logs');
     this.logFileName = this.getLogFileName();
     this.logFilePath = path.join(this.logFolder, this.logFileName);
@@ -25,7 +27,13 @@ module.exports = class Logger {
   // make sure that the folder and logfile exists
   // if not, create them
   verifyLogPathAndFile() {
+    console.log("Checking log folder");
     this.checkFileOrFolderAccess(this.logFolder)
+      .then(()=> {
+        console.log("Clearing old files");
+        //important this runs after checkFileOrFolderAccess()
+        this.clearLog(this.deleteAfterDays);
+      })
       .then((err) => {
         if (err) {
           //path does not exist
@@ -59,8 +67,63 @@ module.exports = class Logger {
               }
             })
         }
+      })
+      .catch((e)=> {
+        console.log(e);
       });
   }
+
+  //important this runs after checkFileOrFolderAccess()
+  clearLog(days) {
+    return new Promise((resolve, reject) => {
+      try {
+        //get temp date and set it back 5 days into deleteDate variable
+        let tempDate = new Date();
+        tempDate.setDate(tempDate.getDate() - days);
+        var deleteDate = tempDate.getTime();
+
+        //read out files in log folder
+        fs.readdir(path.join(this.logFolder, ''), (err, files)=> {
+          if (err) {
+            console.log(err);
+          }
+
+          //loop the files
+          files.forEach((file)=> {
+
+            //get the stat of the file
+            fs.stat(path.join(this.logFolder, file), (err, fileStat) => {
+              if (err) {
+                console.log(err);
+              }
+              //get date modified
+              let filedate = new Date(fileStat.mtime).getTime();
+
+              //is date lover then 5 days
+              if (deleteDate > filedate) {
+
+                //delete the file
+                fs.unlink(path.join(this.logFolder, file), (err)=> {
+                  if (err) {
+                    console.log(err);
+                  } else {
+                    console.log('logfile deleted :' + file);
+                  }
+                })
+              }
+            });
+          });
+          resolve();
+        })
+      } catch (e) {
+        //here we want it to continue...
+        console.log('function : checkFileOrFolderAccess() crashed');
+        console.log(e);
+        resolve();
+      }
+    });
+  }
+
 
   checkFileOrFolderAccess(fileOrPath) {
     return new Promise((resolve, reject) => {
@@ -69,12 +132,12 @@ module.exports = class Logger {
           resolve(err)
         });
       } catch (e) {
-        console.log('failed to get access of directory');
+        console.log(e);
         // resolve anyway
-        resolve();
+        reject('function : checkFileOrFolderAccess() crashed with params:' + folderPath);
       }
     });
-  };
+  }
 
   makeDir(folderPath) {
     return new Promise((resolve, reject) => {
@@ -83,12 +146,12 @@ module.exports = class Logger {
           resolve(err)
         });
       } catch (e) {
-        console.log('failed to create directory for logs');
+        console.log(e);
         // resolve anyway
-        resolve();
+        reject('function : makeDir() crashed with params:' + folderPath);
       }
     });
-  };
+  }
 
   appendToFile(file, text) {
     return new Promise((resolve, reject) => {
@@ -97,9 +160,9 @@ module.exports = class Logger {
           resolve(err)
         });
       } catch (e) {
-        console.log('appendToFile failed in logger');
+        console.log(e);
         // resolve anyway
-        resolve();
+        reject('function : appendToFile() crashed with params:' + file);
       }
     });
   }
@@ -119,7 +182,8 @@ module.exports = class Logger {
         });
       } catch (e) {
         // we couldn't flush the buffer but we should swallow the exception
-        console.log('failed to flush log buffer');
+        console.log('function : flushBuffer() crashed');
+        console.log(e);
       }
     } else {
       this.addFlushDelay();
