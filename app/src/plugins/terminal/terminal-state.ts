@@ -12,7 +12,8 @@ export class TerminalState {
   terminals: any;
   selectedTerminal: any;
   id: number = 0;
-  path:string;
+  path: string;
+  lastXtermInputLength: number = null;
 
   constructor(private main: Main) {
     this.terminals = [];
@@ -25,16 +26,15 @@ export class TerminalState {
   }
 
 
-  createXterm(id) {
-
-    let length = this.terminals.length;
+  createXterm() {
 
     let xterminal = new XTERM({
       cursorBlink: true,
       cols: 70,
       rows: 18
     });
-    let element = document.createElement("DIV");
+    
+    let length = this.terminals.length;
     xterminal.open(this.terminals[length - 1].element);
 
     xterminal.on('key', (key, ev)=> {
@@ -47,10 +47,7 @@ export class TerminalState {
       } else if (ev.keyCode == 8) {
 
         // Do not delete the prompt
-        let children = xterminal.rowContainer.children;
-        let length = xterminal.rowContainer.children.length;
-
-        if (xterminal.x > children[length - 1].innerText.length) {
+        if (xterminal.x > this.lastXtermInputLength) {
           this.selectedTerminal.pty.write('\b \b');
         }
 
@@ -59,7 +56,7 @@ export class TerminalState {
       }
     });
 
-    xterminal.on('paste', function (data, ev) {
+    xterminal.on('paste', function (data) {
       this.selectedTerminal.pty.write(data);
     });
 
@@ -69,7 +66,7 @@ export class TerminalState {
 
 
   createPTY(id) {
-    let terminalView = this.createXterm(id);
+    let terminalView = this.createXterm();
     let cmd = process.platform === 'win32' ? process.env['comspec'] || 'cmd.exe' : process.env.SHELL || 'sh';
 
     var ptyTerminal = PTY.spawn(cmd, [], {
@@ -80,15 +77,18 @@ export class TerminalState {
     });
 
     ptyTerminal.on('data', (data)=> {
-      terminalView.write(data)
+      terminalView.write(data);
+      if (this.lastXtermInputLength = null) {
+        let children = terminalView.rowContainer.children;
+        this.lastXtermInputLength = children[this.lastXtermInputLength - 1].innerText.length
+      }
     });
 
-    ptyTerminal.on('exit', (code) => {
+    ptyTerminal.on('exit', () => {
       this.terminals.forEach((t, i)=> {
         if (t.pty.pid === this.selectedTerminal.pty.pid) {
           this.terminals.splice(i, 1);
           this.selectedTerminal = null;
-         // this.active = false;
         }
       })
     });
@@ -98,12 +98,10 @@ export class TerminalState {
     this.terminals[length - 1].xterm = terminalView;
     this.terminals[length - 1].pty = ptyTerminal;
 
-    if(this.selectedTerminal){
+    if (this.selectedTerminal) {
       this.selectedTerminal.active = false;
     }
     this.selectedTerminal = this.terminals[length - 1];
-
-    //this.active = true;
 
   }
 
