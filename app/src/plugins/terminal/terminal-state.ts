@@ -33,7 +33,7 @@ export class TerminalState {
       cols: 70,
       rows: 18
     });
-    
+
     let length = this.terminals.length;
     xterminal.open(this.terminals[length - 1].element);
 
@@ -46,7 +46,7 @@ export class TerminalState {
         this.selectedTerminal.pty.write(key)
       } else if (ev.keyCode == 8) {
 
-        // Do not delete the prompt
+        // Do not delete the corrent text from terminal
         if (xterminal.x > this.lastXtermInputLength) {
           this.selectedTerminal.pty.write('\b \b');
         }
@@ -61,7 +61,6 @@ export class TerminalState {
     });
 
     return xterminal;
-
   }
 
 
