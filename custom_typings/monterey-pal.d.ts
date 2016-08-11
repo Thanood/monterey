@@ -56,5 +56,9 @@ declare module 'monterey-pal' {
       kill(process: any): void;
   };
 
-  export function initializePAL(callback: (fs, session, aureliacli, processes, npm, jspm, os) => void): void;
+  export function initializePAL(callback: (fs, session, aureliacli, processes, npm, jspm, os, electron) => void): void;
+
+  export const ELECTRON: {
+    getIpcRenderer(): any;
+  }
 }

@@ -30,7 +30,7 @@ class Plugin extends BasePlugin {
       FS.join(project.packageJSONPath, 'gulpfile.js')
     ];
 
-    for(let i = 0; i < lookupPaths.length; i++) {
+    for (let i = 0; i < lookupPaths.length; i++) {
       if (await FS.fileExists(lookupPaths[i])) {
         project.gulpfile = lookupPaths[i];
       }

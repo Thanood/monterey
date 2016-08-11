@@ -26,7 +26,7 @@ class Plugin extends BasePlugin {
       FS.join(project.path, 'aurelia_project', 'aurelia.json')
     ];
 
-    for(let i = 0; i < lookupPaths.length; i++) {
+    for (let i = 0; i < lookupPaths.length; i++) {
       if (await FS.fileExists(lookupPaths[i])) {
         project.aureliaJSONPath = lookupPaths[i];
       }

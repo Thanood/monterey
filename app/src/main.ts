@@ -1,11 +1,11 @@
 import 'bootstrap';
 import {LogManager}                      from 'aurelia-framework';
-import {ConsoleAppender}                 from 'aurelia-logging-console';
+import {MonteryLogAppender}              from './shared/monterey-logger';
 import {BootstrapFormValidationRenderer} from './shared/bootstrap-validation-renderer';
 import {ApplicationState}                from './shared/application-state';
 import {Errors}                          from './plugins/errors/errors';
 
-LogManager.addAppender(new ConsoleAppender());
+LogManager.addAppender(new MonteryLogAppender());
 LogManager.setLevel(LogManager.logLevel.debug);
 
 export function configure(aurelia) {
@@ -27,14 +27,18 @@ export function configure(aurelia) {
 
   let errors = <Errors>aurelia.container.get(Errors);
   let logger = LogManager.getLogger('global exception');
+
   window.onerror = (message: string, filename?: string, lineno?: number, colno?: number, error?: Error) => {
     console.log(error);
     errors.add(error);
     logger.error(error);
   };
+
   window.addEventListener('unhandledrejection', function(event: any) {
     console.log(event);
-    errors.add({ message: event.reason.message });
+    if (event.reason) {
+      errors.add({message: event.reason.message});
+    }
     logger.error(event);
   });
 

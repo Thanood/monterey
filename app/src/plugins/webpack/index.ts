@@ -26,7 +26,7 @@ class Plugin extends BasePlugin {
       FS.join(project.path, 'webpack.config.js')
     ];
 
-    for(let i = 0; i < lookupPaths.length; i++) {
+    for (let i = 0; i < lookupPaths.length; i++) {
       if (await FS.fileExists(lookupPaths[i])) {
         project.webpackConfigPath = lookupPaths[i];
       }

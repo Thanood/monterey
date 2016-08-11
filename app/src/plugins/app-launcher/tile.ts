@@ -8,7 +8,7 @@ export class AppLauncher {
   project;
   cmd: string;
 
-  constructor(private notification: Notification){
+  constructor(private notification: Notification) {
   }
 
   activate(model) {

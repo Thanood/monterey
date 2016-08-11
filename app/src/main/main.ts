@@ -15,7 +15,7 @@ export class Main {
   _activePluginScreenModel;
   _activePluginScreen: string;
   tilesVM: Tiles;
-  pluginViewActivated : boolean;
+  pluginViewActivated: boolean;
 
   constructor(private projectFinder: ProjectFinder,
               private projectManager: ProjectManager,

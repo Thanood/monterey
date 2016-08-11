@@ -12,3 +12,4 @@ release
 app/export
 /dist/
 *.asar
+app/logs
