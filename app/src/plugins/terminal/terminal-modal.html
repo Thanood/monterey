@@ -11,14 +11,14 @@
                 class="list-group-item ${terminal.id == terminalState.selectedTerminal.id ? 'selected': ''}"
                 repeat.for="terminal of terminalState.terminals"
                 click.delegate="setTerminal(terminal)">
-                ${terminal.pty.pid}
+                ${terminal.name}
               </li>
             </ul>
           </div>
         </div>
       </div>
       <div class="right-side">
-        <h2 class="title">${terminalState.selectedTerminal.pty.pid ? terminalState.selectedTerminal.pty.pid:"none"}</h2>
+        <h2 class="title"><div contenteditable="true" blur.trigger="updateTitle($event)">${terminalState.selectedTerminal.name ? terminalState.selectedTerminal.name:"none"}</div></h2>
         <div
           repeat.for="terminal of terminalState.terminals">
           <div id="${terminal.id}" show.bind="terminal.active"><div ref="terminal.element"></div></div>

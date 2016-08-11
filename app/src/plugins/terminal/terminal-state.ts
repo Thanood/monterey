@@ -11,7 +11,7 @@ const XTERM = System._nodeRequire("xTerm");
 export class TerminalState {
   terminals: any;
   selectedTerminal: any;
-  id: number = 0;
+  id: number = 1;
   path: string;
   lastXtermInputLength: number = null;
 
@@ -85,17 +85,21 @@ export class TerminalState {
 
     ptyTerminal.on('exit', () => {
       this.terminals.forEach((t, i)=> {
-        if (t.pty.pid === this.selectedTerminal.pty.pid) {
-          this.terminals.splice(i, 1);
-          this.selectedTerminal = null;
+        if (this.selectedTerminal) {
+          if (t.pty.pid === this.selectedTerminal.pty.pid) {
+            this.terminals.splice(i, 1);
+            this.selectedTerminal = null;
+          }
         }
-      })
+      });
+
     });
 
     let length = this.terminals.length;
 
     this.terminals[length - 1].xterm = terminalView;
     this.terminals[length - 1].pty = ptyTerminal;
+    this.terminals[length - 1].name = id;
 
     if (this.selectedTerminal) {
       this.selectedTerminal.active = false;

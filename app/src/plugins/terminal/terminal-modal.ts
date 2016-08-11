@@ -21,6 +21,15 @@ export class TerminalModal {
   }
 
 
+  updateTitle(e){
+    if(this.terminalState.selectedTerminal){
+      this.terminalState.selectedTerminal.name = e.target.innerText;
+      return true;
+    } else {
+      return false;
+    }
+  }
+
   setTerminal(terminal) {
     if(this.terminalState.selectedTerminal){
       this.terminalState.selectedTerminal.active = false;
