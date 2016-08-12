@@ -1,0 +1,34 @@
+<template>
+  <require from="../../../node_modules/xterm/src/xterm.css"></require>
+  <ai-dialog class="terminal-modal">
+    <ai-dialog-body>
+      <div class="left-side">
+        <h2 class="title">Terminals</h2>
+        <div class="row">
+          <div class="task-list">
+            <ul class="list-group">
+              <li
+                class="list-group-item ${terminal.id == terminalState.selectedTerminal.id ? 'selected': ''}"
+                repeat.for="terminal of terminalState.terminals"
+                click.delegate="setTerminal(terminal)">
+                ${terminal.name}
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="right-side">
+        <h2 class="title"><div contenteditable="true" blur.trigger="updateTitle($event)">${terminalState.selectedTerminal.name ? terminalState.selectedTerminal.name:"none"}</div></h2>
+        <div
+          repeat.for="terminal of terminalState.terminals">
+          <div id="${terminal.id}" show.bind="terminal.active"><div ref="terminal.element"></div></div>
+        </div>
+      </div>
+    </ai-dialog-body>
+    <ai-dialog-footer>
+      <button class="btn btn-primary" click.delegate="addTerminal()">New terminal</button>
+      <button class="btn btn-primary" click.delegate="closeTerminal()">kill selected</button>
+      <button class="btn btn-primary" click.trigger="dialogController.close()">Close</button>
+    </ai-dialog-footer>
+  </ai-dialog>
+</template>
