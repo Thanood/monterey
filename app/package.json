@@ -81,7 +81,6 @@
     "electron-remote": "git+https://git@github.com/monterey-framework/electron-remote.git",
     "fix-path": "^2.0.0",
     "mv": "^2.1.1",
-    "node-gyp": "^3.4.0",
     "npm": "^3.8.6",
     "open": "0.0.5",
     "pty.js": "https://github.com/Tyriar/pty.js/tarball/fffbf86eb9e8051b5b2be4ba9c7b07faa018ce8d",
