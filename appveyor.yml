@@ -18,7 +18,6 @@ install:
   - ps: Install-Product node 6 x64
   - git reset --hard HEAD
   - npm install gulp npm@next jspm@0.16.39 flatten-packages windows-build-tools --production
-  - npm install electron-builder@next # force install next version to test electron-builder
   - npm install
   - npm prune
   - cd app
