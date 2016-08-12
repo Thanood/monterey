@@ -6,7 +6,7 @@ const path = require('path');
 module.exports = class Logger {
 
   constructor(timer, days) {
-    console.log("Stating Monetery-logger");
+    console.log("Starting Monterey logger");
     this.logBuffer = '';
     this.timeout = timer || 10000;
     this.deleteAfterDays = days || 5;
@@ -27,11 +27,11 @@ module.exports = class Logger {
   // make sure that the folder and logfile exists
   // if not, create them
   verifyLogPathAndFile() {
-    console.log("Checking log folder");
+    console.log("Ensure log folder existence");
     this.checkFileOrFolderAccess(this.logFolder)
       .then(()=> {
         console.log("Clearing old files");
-        //important this runs after checkFileOrFolderAccess()
+        // it is important that this runs after checkFileOrFolderAccess()
         this.clearLog(this.deleteAfterDays);
       })
       .then((err) => {
@@ -73,36 +73,36 @@ module.exports = class Logger {
       });
   }
 
-  //important this runs after checkFileOrFolderAccess()
+  // cleanup old log files
   clearLog(days) {
     return new Promise((resolve, reject) => {
       try {
-        //get temp date and set it back 5 days into deleteDate variable
+        // get the date of 5 days ago
         let tempDate = new Date();
         tempDate.setDate(tempDate.getDate() - days);
         var deleteDate = tempDate.getTime();
 
-        //read out files in log folder
-        fs.readdir(path.join(this.logFolder, ''), (err, files)=> {
+        // read out files in log folder
+        fs.readdir(path.normalize(this.logFolder), (err, files)=> {
           if (err) {
             console.log(err);
           }
 
-          //loop the files
+          // iterate over the files
           files.forEach((file)=> {
 
-            //get the stat of the file
-            fs.stat(path.join(this.logFolder, file), (err, fileStat) => {
+            // get the stat of the file
+            fs.stat(this.logFilePath, (err, fileStat) => {
               if (err) {
                 console.log(err);
               }
-              //get date modified
-              let filedate = new Date(fileStat.mtime).getTime();
+              // get date modified
+              let lastModifiedDate = new Date(fileStat.mtime).getTime();
 
-              //is date lover then 5 days
-              if (deleteDate > filedate) {
+              // has the date been modified 
+              if (deleteDate > lastModifiedDate) {
 
-                //delete the file
+                // delete the file
                 fs.unlink(path.join(this.logFolder, file), (err)=> {
                   if (err) {
                     console.log(err);
