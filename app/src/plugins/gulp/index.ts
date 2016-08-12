@@ -27,7 +27,7 @@ class Plugin extends BasePlugin {
       FS.join(project.path, 'src', 'skeleton', 'gulpfile.js'),
       FS.join(project.path, 'src', 'skeleton-navigation-esnext-vs', 'gulpfile.js'),
       FS.join(project.path, 'src', 'skeleton-navigation-typescript-vs', 'gulpfile.js'),
-      FS.join(project.packageJSONPath, 'gulpfile.js')
+      FS.join(FS.getFolderPath(project.packageJSONPath), 'gulpfile.js')
     ];
 
     for (let i = 0; i < lookupPaths.length; i++) {
