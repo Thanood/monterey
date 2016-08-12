@@ -54,11 +54,14 @@ declare module 'monterey-pal' {
       spawn(cmd: string, args: Array<string>, options, stdout: (data) => void, stderr: (data) => void): { process: any, completion: Promise<any> };
       exec(cmd: string, options): Promise<string>;
       kill(process: any): void;
+      getEnv(key?: string|Array<string>): any;
   };
 
   export function initializePAL(callback: (fs, session, aureliacli, processes, npm, jspm, os, electron) => void): void;
 
   export const ELECTRON: {
     getIpcRenderer(): any;
+    getxTerm(): any;
+    getPty(): any;
   }
 }

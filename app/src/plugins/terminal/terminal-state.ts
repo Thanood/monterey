@@ -1,11 +1,6 @@
 import {Main}               from '../../main/main';
 import {autoinject}         from 'aurelia-framework';
-
-declare var System: any;
-declare var process: any;
-
-const PTY = System._nodeRequire('pty.js');
-const XTERM = System._nodeRequire("xTerm");
+import {ELECTRON, OS}           from 'monterey-pal';
 
 @autoinject()
 export class TerminalState {
@@ -14,11 +9,15 @@ export class TerminalState {
   id: number = 1;
   path: string;
   lastXtermInputLength: number = null;
+  xterm;
+  pty;
 
   constructor(private main: Main) {
     this.terminals = [];
     this.selectedTerminal = {};
     this.path = this.main.selectedProject.path;
+    this.xterm = ELECTRON.getxTerm();
+    this.pty = ELECTRON.getPty();
   }
 
   getID() {
@@ -28,7 +27,7 @@ export class TerminalState {
 
   createXterm() {
 
-    let xterminal = new XTERM({
+    let xterminal = new this.xterm({
       cursorBlink: true,
       cols: 70,
       rows: 18
@@ -66,11 +65,11 @@ export class TerminalState {
 
   createPTY(id) {
     let terminalView = this.createXterm();
-    let cmd = process.platform === 'win32' ? process.env['comspec'] || 'cmd.exe' : process.env.SHELL || 'sh';
+    let cmd = OS.getPlatform() === 'win32' ? OS.getEnv(['comspec']) || 'cmd.exe' : OS.getEnv('SHELL') || 'sh';
 
-    var ptyTerminal = PTY.spawn(cmd, [], {
+    var ptyTerminal = this.pty.spawn(cmd, [], {
       name: 'xterm-color',
-      env: process.env,
+      env: OS.getEnv(),
       cwd: this.path,
       cols: terminalView.cols
     });
@@ -105,7 +104,5 @@ export class TerminalState {
       this.selectedTerminal.active = false;
     }
     this.selectedTerminal = this.terminals[length - 1];
-
   }
-
 }
