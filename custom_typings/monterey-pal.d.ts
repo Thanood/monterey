@@ -30,9 +30,6 @@ declare module 'monterey-pal' {
       clear(): void;
       has(key: any): void;
   };
-  export const PROCESSES: {
-      execChildProcess(cmd: any, options?: any): void;
-  };
   export const NPM: {
       install(packages: any, error: any): Promise<void>;
       load(npmOptions: any, error: any): void;

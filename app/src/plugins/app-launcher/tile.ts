@@ -1,4 +1,4 @@
-import {PROCESSES, OS} from 'monterey-pal';
+import {OS} from 'monterey-pal';
 import {useView, autoinject} from 'aurelia-framework';
 import {Notification}        from '../../shared/notification';
 
