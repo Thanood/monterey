@@ -32,6 +32,9 @@
   "build": {
     "appId": "monterey",
     "app-category-type": "monterey",
+    "asar": {
+      "unpackDir": "{app/node_modules/pty\\.js/**/*,node_modules/pty\\.js/**/*}"
+    },
     "win": {
       "iconUrl": "https://i.imgur.com/bC47YNC.png"
     },
