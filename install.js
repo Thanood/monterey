@@ -1,11 +1,9 @@
-// install npm in root & under app/, then install jspm and fixes pty.js
+// install npm in root & under app/, then install jspm.
 
 
 //mics vars
 var path = require("path");
-var childProcess = require('child_process');
 var spawn = require("child_process").spawn;
-var pathToElectron = path.join(__dirname, '/node_modules/electron-prebuilt/dist/electron');
 var npm = process.platform === "win32" ? "npm.cmd" : "npm";
 var jspm = process.platform === "win32" ? "jspm.cmd" : "jspm";
 var montereyPath = __dirname;
@@ -78,36 +76,7 @@ installNPM()
   .then(()=> {
     return installJSPM()
   })
-  .then(()=> {
 
-    //misc vars
-    var installNodeHeaders = require('electron-rebuild').installNodeHeaders;
-    var rebuildNativeModules = require('electron-rebuild').rebuildNativeModules;
-    var shouldRebuildNativeModules = require('electron-rebuild').shouldRebuildNativeModules;
-    var pathToElectron = require('electron-prebuilt');
-    var preGypFixRun = require('electron-rebuild').preGypFixRun;
-
-
-    shouldRebuildNativeModules(pathToElectron)
-      .then((shouldBuild) => {
-        if (!shouldBuild) return true;
-
-        let electronVersion = childProcess.execSync(`${pathToElectron} --version`, {
-          encoding: 'utf8',
-        });
-        electronVersion = electronVersion.match(/v(\d+\.\d+\.\d+)/)[1];
-
-        return installNodeHeaders(electronVersion)
-          .then(() => rebuildNativeModules(electronVersion, './app/node_modules/pty.js'))
-          .then(() => console.log("build success"))
-          .then(() => preGypFixRun('./app/node_modules/pty.js', true, pathToElectron))
-          .then(() => console.log("gypfix success"));
-      })
-      .catch((e) => {
-        console.error("Building modules didn't work!");
-        console.error(e);
-      });
-  });
 
 
 
