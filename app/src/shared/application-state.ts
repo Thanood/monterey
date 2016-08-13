@@ -1,8 +1,5 @@
 import {SESSION}    from 'monterey-pal';
-import {LogManager} from 'aurelia-framework';
 import {Project}    from './project';
-
-const logger = LogManager.getLogger('project-manager');
 
 export class ApplicationState {
 
@@ -11,7 +8,7 @@ export class ApplicationState {
   projects: Array<Project> = [];
   
   endpoints = {
-    montereyRegistry: 'http://127.0.0.1:8080/',
+    montereyRegistry: 'https://raw.githubusercontent.com/monterey-framework/registries/master/',
     npmRegistry: 'https://registry.npmjs.org/',
     githubApi: 'https://api.github.com/',
     github: 'https://github.com/'
@@ -26,8 +23,6 @@ export class ApplicationState {
     for (let i = 0; i < this.projects.length; i++) {
       this.projects[i] = new Project(this.projects[i]);
     }
-
-    logger.debug('Loaded state: ', this);
   }
 
   async _isNew(): Promise<boolean> {

@@ -1,7 +1,8 @@
 import {bindable, autoinject} from 'aurelia-framework';
 import {LauncherManager}      from './launcher-manager';
+import {Notification}         from '../../shared/notification';
 
-@autoinject
+@autoinject()
 export class BrowserTile {
 
   @bindable launcher;
@@ -9,10 +10,10 @@ export class BrowserTile {
 
   dataLoaded: boolean = false;
   errors: string;
-  manager: LauncherManager;
   icon: any;
 
-  constructor(manager:LauncherManager) {
+  constructor(private manager: LauncherManager,
+              private notification: Notification) {
     this.manager = manager;
   }
 
@@ -37,7 +38,7 @@ export class BrowserTile {
       // Do stuff
       try {
         await this.manager.installLauncher(this.platform, this.launcher.path);
-        alert('Launcher installed');
+        this.notification.success('App launcher installed');
       }
       catch (err) {
         alert(err.message);
