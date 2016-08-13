@@ -55,6 +55,7 @@ declare module 'monterey-pal' {
       exec(cmd: string, options): Promise<string>;
       kill(process: any): void;
       getEnv(key?: string|Array<string>): any;
+      openItem(path: string): any;
   };
 
   export function initializePAL(callback: (fs, session, aureliacli, processes, npm, jspm, os, electron) => void): void;
