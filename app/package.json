@@ -17,7 +17,7 @@
     "email": "info@aureliatools.com"
   },
   "scripts": {
-    "postinstall": "./node_modules/.bin/electron-rebuild -f -p -w pty.js"
+    "postinstall": "../node_modules/.bin/electron-rebuild -f -p -w pty.js"
   },
   "main": "index.js",
   "repository": {
@@ -79,7 +79,6 @@
     "aurelia-cli": "^0.13.6",
     "electron-debug": "^1.0.1",
     "electron-json-storage": "^2.0.0",
-    "electron-rebuild": "^1.2.0",
     "electron-remote": "git+https://git@github.com/monterey-framework/electron-remote.git",
     "fix-path": "^2.0.0",
     "mv": "^2.1.1",
