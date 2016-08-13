@@ -25,7 +25,6 @@ export class Screen {
 
   activate(model) {
     this.model = model;
-    this.model.beforeReturn = () => this.beforeReturn();
     this.project = model.selectedProject;
   }
 
@@ -92,7 +91,7 @@ export class Screen {
     this.notification.success('Changes saved');
   }
 
-  beforeReturn() {
-    this.main.refreshTiles();
+  goBack() {
+    this.main.returnToPluginList();
   }
 }

@@ -1,10 +1,10 @@
 import {LauncherManager}        from './launcher-manager';
 import {observable, autoinject} from 'aurelia-framework';
 import {OS}                     from 'monterey-pal';
+import {Main}                   from '../../main/main';
 
 @autoinject
 export class Browser {
-  manager: LauncherManager;
   platform: string;
 
   @observable quickSearch;
@@ -14,7 +14,8 @@ export class Browser {
   rawData;
   data;
 
-  constructor(manager: LauncherManager) {
+  constructor(private manager: LauncherManager,
+              private main: Main) {
     this.manager = manager;
     this.platform = OS.getPlatform();
   }
@@ -53,5 +54,9 @@ export class Browser {
           return filter === "" || item.name.toLowerCase().indexOf(filter) !== -1 || item.description.toLowerCase().indexOf(filter) !== -1;
       });
     });
+  }
+
+  goBack() {
+    this.main.activateScreen('plugins/app-launcher/screen');
   }
 }

@@ -7,12 +7,14 @@ import {SESSION}              from 'monterey-pal';
 import {ValidationRules}      from 'aurelia-validatejs';
 import {ValidationController} from 'aurelia-validation';
 import {Notification}         from '../../shared/notification';
+import {Main}                 from '../../main/main';
 
-@inject(ApplicationState, NewInstance.of(ValidationController), Notification)
+@inject(ApplicationState, NewInstance.of(ValidationController), Notification, Main)
 export class Screen {
   constructor(private state: ApplicationState,
               private validation: ValidationController,
-              private notification: Notification) {
+              private notification: Notification,
+              private main: Main) {
   }
 
   attached() {
@@ -36,11 +38,12 @@ export class Screen {
   }
 
   @withModal(GithubCreds)
-  async configureGithub() {
-  }
+  async configureGithub() {}
 
   @withModal(ManageEndpoints)
-  async manageEndpoints() {
-    
+  async manageEndpoints() {}
+
+  goBack() {
+    this.main.returnToPluginList();
   }
 }

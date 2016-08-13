@@ -9,6 +9,7 @@ import {withModal}        from '../../shared/decorators';
 import {Project}          from '../../shared/project';
 import {Notification}     from '../../shared/notification';
 import {Common}           from './common';
+import {Main}             from '../../main/main';
 
 @autoinject()
 export class Screen {
@@ -25,7 +26,8 @@ export class Screen {
               private analyzer: Analyzer,
               private common: Common,
               private dialogService: DialogService,
-              private notification: Notification) {
+              private notification: Notification,
+              private main: Main) {
   }
 
   async activate(model) {
@@ -133,4 +135,8 @@ export class Screen {
 
   @withModal(Forks, function () { return { forks: this.forks }; })
   showForks() {}
+
+  goBack() {
+    this.main.returnToPluginList();
+  }
 }

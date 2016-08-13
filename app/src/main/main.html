@@ -21,7 +21,6 @@
       <tiles show.bind="!_activePluginScreen && selectedProject" view-model.ref="tilesVM" selected-project.bind="selectedProject"></tiles>
 
       <!-- Plugins can tell compose to render a screen -->
-      <button class="returnToPluginListBtn btn btn-primary" show.bind="_activePluginScreen" click.delegate="returnToPluginList()">Back</button>
       <compose show.bind="_activePluginScreen" model.bind="_activePluginScreenModel"
                view-model.bind="_activePluginScreen"></compose>
 

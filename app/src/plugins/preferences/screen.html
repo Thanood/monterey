@@ -1,5 +1,6 @@
 <template>
   <div class="plugin-title-container">
+    <button class="returnToPluginListBtn btn btn-primary" click.delegate="goBack()">Back</button>
     <h1 class="plugin-title">Preferences</h1>
   </div>
   <div class="plugin-content-container">
@@ -14,10 +15,13 @@
       </div>
     </form>
 
-    <h3>Manage endpoints</h3>
     <hr />
+
+    <h3>Manage endpoints</h3>
     <button click.delegate="manageEndpoints()" class="btn btn-primary">Manage</button>
 
+    <hr />
+    
     <button click.delegate="save()" class="btn btn-primary">Save</button>
   </div>
 </template>
