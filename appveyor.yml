@@ -1,13 +1,6 @@
 platform:
   - x64
 
-cache:
-  - cache-version.txt
-  - node_modules
-  - app\node_modules
-  - '%APPDATA%\npm-cache'
-  - '%USERPROFILE%\.electron'
-
 init:
   - git config --global core.autocrlf input
 
