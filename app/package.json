@@ -79,7 +79,6 @@
     "aurelia-cli": "^0.13.6",
     "electron-debug": "^1.0.1",
     "electron-json-storage": "^2.0.0",
-    "electron-prebuilt": "^1.2.6",
     "electron-rebuild": "^1.2.0",
     "electron-remote": "git+https://git@github.com/monterey-framework/electron-remote.git",
     "fix-path": "^2.0.0",
