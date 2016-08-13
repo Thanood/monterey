@@ -16,9 +16,6 @@
     "name": "Aurelia-tools",
     "email": "info@aureliatools.com"
   },
-  "scripts": {
-    "postinstall": "../node_modules/.bin/electron-rebuild -f -p -w pty.js"
-  },
   "main": "index.js",
   "repository": {
     "type": "git",

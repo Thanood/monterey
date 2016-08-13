@@ -24,7 +24,9 @@
   "scripts": {
     "postinstall": "install-app-deps",
     "pack": "build --dir",
-    "dist": "build"
+    "dist": "build",
+    "first-install": "node install",
+    "test-build": "gulp rename-index && build && gulp rename-index-back"
   },
   "directories": {
     "app": "app"
