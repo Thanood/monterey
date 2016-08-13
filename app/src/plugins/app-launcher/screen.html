@@ -5,11 +5,8 @@
     <h1 class="plugin-title">App launcher</h1>
   </div>
   <div class="plugin-content-container">
-
-
-
     <p>
-      App launchers are configurable tiles that execute a cmd when clicked
+      App launchers are configurable tiles that execute a command when clicked
     </p>
 
     <button class="btn btn-primary" click.delegate="addNew()">Add app launcher</button>
@@ -49,11 +46,11 @@
             <input type="text" class="form-control" id="title"
                    value.bind="selectedLauncher.data.title & validate">
           </div>
-          <!--<div class="form-group">
+          <div class="form-group">
             <label class="control-label" for="img">Icon</label>
             <input type="text" class="form-control" id="img"
                    value.bind="selectedLauncher.data.img & validate">
-          </div>-->
+          </div>
           <div class="form-group">
             <p>%path% = ${project.path}</p>
             <label class="control-label" for="cmd">Cmd</label>
@@ -64,7 +61,4 @@
       </div>
     </div>
   </div>
-
-
-
 </template>

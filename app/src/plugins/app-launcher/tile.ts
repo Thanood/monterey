@@ -7,7 +7,7 @@ import {Notification}        from '../../shared/notification';
 export class AppLauncher {
   project;
   cmd: string;
-  useShell:boolean;
+  useShell: boolean;
 
   constructor(private notification: Notification) {
   }
@@ -17,7 +17,7 @@ export class AppLauncher {
     Object.assign(this, model.model);
   }
 
-  onClick() {
+  async onClick() {
     if (!this.cmd) {
       this.notification.error('no cmd provided for this app launcher');
       return;
@@ -29,7 +29,7 @@ export class AppLauncher {
       if(this.useShell) {
         OS.openItem(this.cmd);
       } else {
-        PROCESSES.execChildProcess(this.cmd);
+        await OS.exec(this.cmd, {});
       }
     } catch (e) {
       this.notification.error(`error executing cmd: ${e.message}`);
