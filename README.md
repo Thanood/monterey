@@ -31,11 +31,12 @@ Suggested folder structure:
 
 From inside the monterey folder:
 
-1. npm install
-2. cd app
-3. npm install
-4. jspm install
-5. gulp watch (manually reloading electron with ctrl+R is required) or gulp watch-r to automatically reload electron
+1. npm install --global --production windows-build-tools npm@next
+2. npm install
+3. cd app
+4. npm install
+5. jspm install
+6. gulp watch (manually reloading electron with ctrl+R is required) or gulp watch-r to automatically reload electron
 
 
 ### Working on the pal
