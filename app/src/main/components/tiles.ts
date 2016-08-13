@@ -19,6 +19,15 @@ export class Tiles {
     this.refreshTiles();
   }
 
+  executeTile(tile) {
+    try {
+      tile.currentViewModel.onClick();
+    }
+    catch(err) {
+      console.log(err);
+    }
+  }
+
   refreshTiles() {
     // remove all tiles from the screen
     for (let i = this.tiles.length - 1; i >= 0; i--) {

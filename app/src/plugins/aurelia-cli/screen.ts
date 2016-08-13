@@ -5,14 +5,16 @@ import {ValidationRules}      from 'aurelia-validatejs';
 import {ValidationController} from 'aurelia-validation';
 import {Notification}         from '../../shared/notification';
 import {FS}                   from 'monterey-pal';
+import {Main}                 from '../../main/main';
 
-@inject(ApplicationState, NewInstance.of(ValidationController), Notification)
+@inject(ApplicationState, NewInstance.of(ValidationController), Notification, Main)
 export class Screen {
   project: Project;
 
   constructor(private state: ApplicationState,
               private validation: ValidationController,
-              private notification: Notification) {
+              private notification: Notification,
+              private main: Main) {
   }
 
   async activate(model) {
@@ -44,5 +46,9 @@ export class Screen {
 
     await this.state._save();
     this.notification.success('Changes saved');
+  }
+
+  goBack() {
+    this.main.returnToPluginList();
   }
 }

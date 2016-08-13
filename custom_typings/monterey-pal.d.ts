@@ -22,15 +22,13 @@ declare module 'monterey-pal' {
       cleanupTemp(): void;
       downloadFile(url: any, targetPath: any): void;
       _downloadFile(stream: any, url: any, targetPath: any): void;
+      createFolder(path: string): Promise<void>;
   };
   export const SESSION: {
       get(key: any): void;
       set(key: any, value: any): void;
       clear(): void;
       has(key: any): void;
-  };
-  export const PROCESSES: {
-      execChildProcess(cmd: any, options?: any): void;
   };
   export const NPM: {
       install(packages: any, error: any): Promise<void>;
@@ -55,6 +53,7 @@ declare module 'monterey-pal' {
       exec(cmd: string, options): Promise<string>;
       kill(process: any): void;
       getEnv(key?: string|Array<string>): any;
+      openItem(path: string): any;
   };
 
   export function initializePAL(callback: (fs, session, aureliacli, processes, npm, jspm, os, electron) => void): void;

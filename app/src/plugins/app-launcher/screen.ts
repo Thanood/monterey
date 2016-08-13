@@ -25,7 +25,6 @@ export class Screen {
 
   activate(model) {
     this.model = model;
-    this.model.beforeReturn = () => this.beforeReturn();
     this.project = model.selectedProject;
   }
 
@@ -39,7 +38,9 @@ export class Screen {
   addNew() {
     this.state.appLaunchers.push({
       id: new RandomNumber().create(),
-      title: 'Name'
+      data: {
+        title: 'Name'
+      }
     });
 
     this.selectFirst();
@@ -76,6 +77,10 @@ export class Screen {
     return true;
   }
 
+  openBrowser() {
+    this.main.activateScreen('plugins/app-launcher/browser');
+  }
+
   async save() {
     if (this.validation.validate().length > 0) {
       this.notification.error('There are validation errors');
@@ -86,7 +91,7 @@ export class Screen {
     this.notification.success('Changes saved');
   }
 
-  beforeReturn() {
-    this.main.refreshTiles();
+  goBack() {
+    this.main.returnToPluginList();
   }
 }

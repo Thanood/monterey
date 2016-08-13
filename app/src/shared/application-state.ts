@@ -1,14 +1,18 @@
 import {SESSION}    from 'monterey-pal';
-import {LogManager} from 'aurelia-framework';
 import {Project}    from './project';
-
-const logger = LogManager.getLogger('project-manager');
 
 export class ApplicationState {
 
   gitAuthorization: string;
   appLaunchers = [];
   projects: Array<Project> = [];
+  
+  endpoints = {
+    montereyRegistry: 'https://raw.githubusercontent.com/monterey-framework/registries/master/',
+    npmRegistry: 'https://registry.npmjs.org/',
+    githubApi: 'https://api.github.com/',
+    github: 'https://github.com/'
+  };
 
   /**
   * restores the application state from session
@@ -19,8 +23,6 @@ export class ApplicationState {
     for (let i = 0; i < this.projects.length; i++) {
       this.projects[i] = new Project(this.projects[i]);
     }
-
-    logger.debug('Loaded state: ', this);
   }
 
   async _isNew(): Promise<boolean> {

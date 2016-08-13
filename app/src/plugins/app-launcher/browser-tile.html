@@ -1,0 +1,19 @@
+<template>
+  <div class="row-tile">
+    <div class="row">                
+      <div class="col-xs-8">
+        <div style="float:left; width:40px">
+          <img src="${ dataLoaded ? icon : 'images/loading.gif'}" style="width:40px; height:40px; margin-top:10px" />
+        </div>
+        <div style="display:block; margin-left: 60px">
+          <h1>${launcher.name}</h1>
+          <p>${launcher.description}</p>
+          <p class="text-danger" if.bind="errors"><strong>Warning:</strong> could not load plugin installation data...</p>
+        </div>
+      </div>
+      <div class="col-xs-4">
+        <button click.delegate="install()" class="btn install-btn btn-primary" disabled.bind="!dataLoaded || errors">Install</button>
+      </div>
+    </div>
+  </div>
+</template>

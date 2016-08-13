@@ -1,4 +1,4 @@
-import {PROCESSES}           from 'monterey-pal';
+import {OS} from 'monterey-pal';
 import {useView, autoinject} from 'aurelia-framework';
 import {Notification}        from '../../shared/notification';
 
@@ -7,6 +7,7 @@ import {Notification}        from '../../shared/notification';
 export class AppLauncher {
   project;
   cmd: string;
+  useShell: boolean;
 
   constructor(private notification: Notification) {
   }
@@ -16,7 +17,7 @@ export class AppLauncher {
     Object.assign(this, model.model);
   }
 
-  onClick() {
+  async onClick() {
     if (!this.cmd) {
       this.notification.error('no cmd provided for this app launcher');
       return;
@@ -25,7 +26,11 @@ export class AppLauncher {
     this.cmd = this.cmd.replace(/%path%/g, this.project.path);
 
     try {
-      PROCESSES.execChildProcess(this.cmd);
+      if(this.useShell) {
+        OS.openItem(this.cmd);
+      } else {
+        await OS.exec(this.cmd, {});
+      }
     } catch (e) {
       this.notification.error(`error executing cmd: ${e.message}`);
       console.log(e);

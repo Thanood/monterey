@@ -1,7 +1,8 @@
 import {autoinject, TaskQueue} from 'aurelia-framework';
-import {PluginManager} from '../../shared/plugin-manager';
-import {Notification}  from '../../shared/notification';
-import {OS}            from 'monterey-pal';
+import {PluginManager}         from '../../shared/plugin-manager';
+import {Notification}          from '../../shared/notification';
+import {OS}                    from 'monterey-pal';
+import {Main}                  from '../../main/main';
 
 @autoinject()
 export class Screen {
@@ -13,7 +14,8 @@ export class Screen {
 
   constructor(private pluginManager: PluginManager,
               private taskQueue: TaskQueue,
-              private notification: Notification) {
+              private notification: Notification,
+              private main: Main) {
   }
 
   async activate(model) {
@@ -85,6 +87,10 @@ export class Screen {
       }
     });
     return markdown;
+  }
+
+  goBack() {
+    this.main.returnToPluginList();
   }
 
   detached() {

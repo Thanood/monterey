@@ -6,6 +6,7 @@ import {TaskManager}      from '../../plugins/task-manager/task-manager';
 import {TaskManagerModal} from '../../plugins/task-manager/task-manager-modal';
 import {NPM}              from 'monterey-pal';
 import {Notification}     from '../../shared/notification';
+import {Main}             from '../../main/main';
 
 @autoinject()
 export class Screen {
@@ -19,7 +20,8 @@ export class Screen {
   constructor(private common: Common,
               private analyzer: Analyzer,
               private dialogService: DialogService,
-              private notification: Notification) {
+              private notification: Notification,
+              private main: Main) {
   }
 
   activate(model) {
@@ -70,5 +72,9 @@ export class Screen {
   getSelectedDependencies(): Array<any> {
     let selection = this.projectGrid.ctx.vGridSelection.getSelectedRows();
     return selection.map(index => this.topLevelDependencies[index]);
+  }
+
+  goBack() {
+    this.main.returnToPluginList();
   }
 }
