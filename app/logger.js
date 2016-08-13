@@ -13,7 +13,11 @@ module.exports = class Logger {
     this.logFolder = path.join(__dirname, 'logs');
     this.logFileName = this.getLogFileName();
     this.logFilePath = path.join(this.logFolder, this.logFileName);
-    this.verifyLogPathAndFile();
+
+    this.verifyLogPathAndFile()
+    .then(() => {
+      return this.clearLog(this.deleteAfterDays);
+    });
   }
 
   getLogFileName() {
@@ -27,50 +31,31 @@ module.exports = class Logger {
   // make sure that the folder and logfile exists
   // if not, create them
   verifyLogPathAndFile() {
-    console.log("Ensure log folder existence");
-    this.checkFileOrFolderAccess(this.logFolder)
-      .then(()=> {
-        console.log("Clearing old files");
-        // it is important that this runs after checkFileOrFolderAccess()
-        this.clearLog(this.deleteAfterDays);
-      })
-      .then((err) => {
-        if (err) {
-          //path does not exist
-          this.makeDir(this.logFolder)
-            .then((err) => {
-              if (!err) {
-                //folder created, lets create/append headers to file
-                this.appendToFile(this.logFilePath, 'type;id;date;msg').then((err) => {
-                  if (err) {
-                    console.log(err)
-                  }
-                });
-              }
-            })
-        } else {
-          this.checkFileOrFolderAccess(this.logFilePath)
-            .then((err) => {
-              if (err) {
-                //file does not exist, lets create/append headers
-                this.appendToFile(this.logFilePath, 'type;id;date;msg').then((err) => {
-                  if (err) {
-                    console.log(err)
-                  }
-                });
-              } else {
-                this.appendToFile(this.logFilePath, 'info;monetery;date;application started').then((err) => {
-                  if (err) {
-                    console.log(err)
-                  }
-                });
-              }
-            })
+    console.log(`Making sure that the logfolder ('${this.logFolder}') exists`);
+    return this.fileOrFolderExists(this.logFolder)
+    .then(exists => {
+      if (!exists) {
+        return this.makeDir(this.logFolder);
+      }
+    })
+    .then(() => {
+      return this.fileOrFolderExists(this.logFilePath)
+      .then(exists => {
+        if (!exists) {
+          // logfile did not exist, add csv headers to the file
+          // this also creates the file
+          return this.appendToFile(this.logFilePath, 'type;id;date;msg').then((err) => {
+            if (err) {
+              console.log(err)
+            }
+          });
         }
-      })
-      .catch((e)=> {
-        console.log(e);
       });
+    })
+    .catch((e)=> {
+      console.log('Error during verifyLogPathAndFile');
+      console.log(e);
+    });
   }
 
   // cleanup old log files
@@ -83,41 +68,32 @@ module.exports = class Logger {
         var deleteDate = tempDate.getTime();
 
         // read out files in log folder
-        fs.readdir(path.normalize(this.logFolder), (err, files)=> {
-          if (err) {
-            console.log(err);
-          }
+        this.getFilesInDir(path.normalize(this.logFolder))
+        .then(files => {
+          if (files) {
+            let promises = [];
+            // iterate over the files
+            files.forEach(file => {
+              let filePath = path.join(this.logFolder, file);
 
-          // iterate over the files
-          files.forEach((file)=> {
-
-            // get the stat of the file
-            fs.stat(this.logFilePath, (err, fileStat) => {
-              if (err) {
-                console.log(err);
-              }
-              // get date modified
-              let lastModifiedDate = new Date(fileStat.mtime).getTime();
-
-              // has the date been modified 
-              if (deleteDate > lastModifiedDate) {
-
-                // delete the file
-                fs.unlink(path.join(this.logFolder, file), (err)=> {
-                  if (err) {
-                    console.log(err);
-                  } else {
-                    console.log('logfile deleted :' + file);
-                  }
-                })
-              }
+              promises.push(this.getModifiedDate(filePath)
+              .then(modifiedDate => {
+                // should we cleanup this file?
+                if (deleteDate > modifiedDate) {
+                  // yes we do, logfile is too old
+                  // delete the file
+                  return this.deleteFile(filePath);
+                }
+              }));
             });
-          });
+
+            return Promise.all(promises);
+          }
           resolve();
-        })
+        });          
       } catch (e) {
         //here we want it to continue...
-        console.log('function : checkFileOrFolderAccess() crashed');
+        console.log('error during clearLog()');
         console.log(e);
         resolve();
       }
@@ -125,17 +101,55 @@ module.exports = class Logger {
   }
 
 
-  checkFileOrFolderAccess(fileOrPath) {
+  fileOrFolderExists(fileOrPath) {
     return new Promise((resolve, reject) => {
       try {
         fs.access(fileOrPath, fs.R_OK && fs.W_OK, (err) => {
-          resolve(err)
+          if(err) resolve(false);
+          resolve(true);
         });
       } catch (e) {
         console.log(e);
-        // resolve anyway
-        reject('function : checkFileOrFolderAccess() crashed with params:' + folderPath);
+        reject('error during fileOrFolderExists() with params:' + folderPath);
       }
+    });
+  }
+
+  getFilesInDir(path) {
+    return new Promise((resolve, reject) => {
+      fs.readdir(path, (err, files)=> {
+        if (err) {
+          reject(err);
+        }
+        resolve(files);
+      });
+    });
+  }
+
+  deleteFile(path) {
+    return new Promise((resolve, reject) => {
+      fs.unlink(path, err => {
+        if (err) {
+          console.log(`failed to remove old logfile ${path}: ${err}`);
+          reject(err);
+        } else {
+          console.log(`removed old logfile: ${path}`)
+          resolve();
+        }
+      });
+    });
+  }
+
+  getModifiedDate(filePath) {
+    return new Promise((resolve, reject) => {
+      fs.stat(filePath, (err, fileStat) => {
+        if (err) {
+          reject(err);
+          return;
+        }
+        let lastModifiedDate = new Date(fileStat.mtime).getTime();
+        resolve(lastModifiedDate);
+      });
     });
   }
 
@@ -143,12 +157,12 @@ module.exports = class Logger {
     return new Promise((resolve, reject) => {
       try {
         fs.mkdir(folderPath, (err, folder) => {
-          resolve(err)
+          if(err) reject(err);
+          resolve();
         });
       } catch (e) {
         console.log(e);
-        // resolve anyway
-        reject('function : makeDir() crashed with params:' + folderPath);
+        reject('error during makeDir() with params:' + folderPath);
       }
     });
   }
@@ -162,16 +176,17 @@ module.exports = class Logger {
       } catch (e) {
         console.log(e);
         // resolve anyway
-        reject('function : appendToFile() crashed with params:' + file);
+        reject('error during appendToFile() with params:' + file);
       }
     });
   }
-
+ 
   addFlushDelay() {
     this.timer = setTimeout(() => this.flushBuffer(), this.timeout);
   }
 
   flushBuffer() {
+    // don't write to disk if the buffer is empty
     if (this.logBuffer !== '') {
       try {
         this.appendToFile(this.logFilePath, this.logBuffer).then((err) => {
@@ -182,7 +197,7 @@ module.exports = class Logger {
         });
       } catch (e) {
         // we couldn't flush the buffer but we should swallow the exception
-        console.log('function : flushBuffer() crashed');
+        console.log('error during flushBuffer() crashed');
         console.log(e);
       }
     } else {
@@ -191,8 +206,18 @@ module.exports = class Logger {
     this.logBuffer = '';
   }
 
+  writeToBuffer(type, id, msg) {
+  // convert to csv line format
+    let result = `${type};${id};${new Date().toISOString()};${msg}\r\n`;
+
+    // append to buffer
+    this.logBuffer = this.logBuffer + result;
+  }
+
   activate() {
     this.addFlushDelay();
+
+    this.writeToBuffer('info', 'monterey', 'application started');
 
     //event listener for logging
     ipcMain.on('log-message', (event, args) => {
@@ -210,11 +235,7 @@ module.exports = class Logger {
         })
       }
 
-      // convert to csv line format
-      let result = `${type};${id};${new Date().toISOString()};${msg}\r\n`;
-
-      this.logBuffer = this.logBuffer + result;
+      this.writeToBuffer(type, id, msg);
     });
   }
 };
-
