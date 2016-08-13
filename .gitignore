@@ -13,3 +13,4 @@ app/export
 /dist/
 *.asar
 app/logs
+app/images/app-launcher
