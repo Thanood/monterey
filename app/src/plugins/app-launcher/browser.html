@@ -19,7 +19,7 @@
       <p><strong>Error message:</strong> ${endpointError}</p>
     </div>
     <div repeat.for="platform of data.platforms" show.bind="data.launchers[platform].length > 0">
-      <h1>${platform}</h1>
+      <h1>${platformDisplay}</h1>
       <browser-tile repeat.for="launcher of data.launchers[platform]" launcher.bind="launcher" platform.bind="platform"></browser-tile>
     <div>
   </div>

@@ -6,6 +6,7 @@ import {Main}                   from '../../main/main';
 @autoinject
 export class Browser {
   platform: string;
+  platformDisplay: string;
 
   @observable quickSearch;
   @observable showAllPlugins: boolean = false;
@@ -18,6 +19,16 @@ export class Browser {
               private main: Main) {
     this.manager = manager;
     this.platform = OS.getPlatform();
+    this.platformDisplay = this.platform;
+
+    switch(this.platform) {
+      case 'win32':
+        this.platformDisplay = 'Windows';
+        break;
+      case 'darwin':
+        this.platformDisplay = 'Mac';
+        break;
+    }
   }
 
   attached() {
