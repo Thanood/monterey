@@ -1,25 +1,25 @@
 <template>
-    <require from="./browser-tile"></require>
+  <require from="./browser-tile"></require>
 
-    <div class="plugin-title-container">
-        <h1 class="plugin-title">Browse launchers</h1>
+  <div class="plugin-title-container">
+    <h1 class="plugin-title">Browse launchers</h1>
+  </div>
+  <div class="plugin-content-container">
+    <div class="row">
+      <input type="text" class="form-control" value.bind="quickSearch & debounce" placeholder="Search for launchers..."" />
+      <div class="checkbox">
+        <label>
+          <input type="checkbox" checked.bind="showAllPlugins" /> Show plugins that are incompatible with the current platform
+        </label>
       </div>
-    <div class="plugin-content-container">
-        <div class="row">
-            <input type="text" class="form-control" value.bind="quickSearch & debounce" placeholder="Search for launchers..."" />
-            <div class="checkbox">
-                <label>
-                    <input type="checkbox" checked.bind="showAllPlugins" /> Show plugins that are incompatible with the current platform
-                </label>
-            </div>
-        </div>
-        <div class="alert alert-danger" if.bind="endpointError">
-            <p>The Monterey registry could not be reached - you may be having network connectivity issues or your endpoints may be incorrectly configured</p>
-            <p><strong>Error message:</strong> ${endpointError}</p>
-        </div>
-        <div repeat.for="platform of data.platforms" show.bind="data.launchers[platform].length > 0">
-            <h1>${platform}</h1>
-            <browser-tile repeat.for="launcher of data.launchers[platform]" launcher.bind="launcher" platform.bind="platform"></browser-tile>
-        <div>
     </div>
+    <div class="alert alert-danger" if.bind="endpointError">
+      <p>The Monterey registry could not be reached - you may be having network connectivity issues or your endpoints may be incorrectly configured</p>
+      <p><strong>Error message:</strong> ${endpointError}</p>
+    </div>
+    <div repeat.for="platform of data.platforms" show.bind="data.launchers[platform].length > 0">
+      <h1>${platform}</h1>
+      <browser-tile repeat.for="launcher of data.launchers[platform]" launcher.bind="launcher" platform.bind="platform"></browser-tile>
+    <div>
+  </div>
 </template>

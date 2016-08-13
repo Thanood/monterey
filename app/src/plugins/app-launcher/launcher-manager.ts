@@ -7,14 +7,9 @@ import {TaskManager}        from '../task-manager/task-manager';
 @autoinject
 export class LauncherManager {
 
-  registry:MontereyRegistries;
-  state:ApplicationState;
-  taskManager:TaskManager;
-
-  constructor(registry:MontereyRegistries, state:ApplicationState, taskManager:TaskManager) {
-    this.registry = registry;
-    this.state = state;
-    this.taskManager = taskManager;
+  constructor(private registry: MontereyRegistries, 
+              private state: ApplicationState, 
+              private taskManager: TaskManager) {
   }
 
   // Gets launchers from the remote registry
@@ -58,12 +53,23 @@ export class LauncherManager {
       let result = await this.getLauncher(platform, launcherPath);
 
       let root = FS.getRootDir();
-      let file = await FS.downloadFile(result.remoteImagePath, root + "/images/app-launcher/" + platform + "/" + launcherPath + ".png");
+      let imgFolder = FS.join(root, '/images/app-launcher/', platform, '/');
 
-      result.data.img = root + "/images/app-launcher/" + platform + "/" + launcherPath + ".png";
+      // create folder structure where the image of the app-launcher will be downloaded to
+      if (!(await FS.folderExists(imgFolder))) {
+        await FS.createFolder(imgFolder);
+      }
+
+      let imgSrc = result.remoteImagePath;
+      let imgTarget =  FS.join(imgFolder, launcherPath + '.png');
+      let file = await FS.downloadFile(imgSrc, imgTarget);
+
+      result.data.img = root + '/images/app-launcher/' + platform + '/' + launcherPath + '.png';
       result.data.enabled = true;
 
       this.state.appLaunchers.push(result);
+
+      this.state._save();
     }
     catch(err) {
       throw new Error(`Failed to install ${platform}/${launcherPath} launcher: ${err.message}`);

@@ -11,7 +11,7 @@ export class ApplicationState {
   projects: Array<Project> = [];
   
   endpoints = {
-    montereyRegistry: 'https://raw.githubusercontent.com/monterey-framework/registries/master/',
+    montereyRegistry: 'http://127.0.0.1:8080/',
     npmRegistry: 'https://registry.npmjs.org/',
     githubApi: 'https://api.github.com/',
     github: 'https://github.com/'

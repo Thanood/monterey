@@ -22,6 +22,7 @@ declare module 'monterey-pal' {
       cleanupTemp(): void;
       downloadFile(url: any, targetPath: any): void;
       _downloadFile(stream: any, url: any, targetPath: any): void;
+      createFolder(path: string): Promise<void>;
   };
   export const SESSION: {
       get(key: any): void;

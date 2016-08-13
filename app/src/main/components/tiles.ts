@@ -20,11 +20,8 @@ export class Tiles {
   }
 
   executeTile(tile) {
-    console.log(tile);
     try {
-      tile.currentViewModel.onClick().catch(err => {
-        console.log(err);
-      });
+      tile.currentViewModel.onClick();
     }
     catch(err) {
       console.log(err);

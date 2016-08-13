@@ -1,6 +1,6 @@
-import {LauncherManager} from './launcher-manager';
+import {LauncherManager}        from './launcher-manager';
 import {observable, autoinject} from 'aurelia-framework';
-import {OS} from 'monterey-pal';
+import {OS}                     from 'monterey-pal';
 
 @autoinject
 export class Browser {
@@ -30,7 +30,6 @@ export class Browser {
   }
 
   quickSearchChanged(newValue) {
-    console.log(newValue);
     this.filterLaunchers(newValue);
   }
 
