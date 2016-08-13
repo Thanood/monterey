@@ -1,0 +1,38 @@
+<template>
+  <ai-dialog class="share-modal">
+    <ai-dialog-body>
+      <h3>Share</h3>
+      <p>We welcome anyone to share app launcher configurations that others may find useful.</p>
+
+      <ol>
+        <li>Open an issue <a href="https://github.com/monterey-framework/monterey/issues/new" target="_blank">here</a></li>
+        <li>Enter "App launcher contribution" as the title</li>
+        <li>Click on the copy button: <button class="btn btn-primary copy-btn">Copy</button><br/><br/>
+        <li>Paste the content of the clipboard into the issue and submit</li>
+<p ref="issueText" style="display: none">
+```<br/>
+{<br/>
+  "name": "${launcher.data.title}",<br/>
+  "path": "${launcher.data.title | dashify}",<br/>
+  "description": ""<br/>
+}<br/>
+```<br/>
+```<br/>
+{<br/>
+  "cmd": "${launcher.data.cmd}",<br/>
+  "title": "${launcher.data.title}",<br/>
+  "img": "${launcher.data.img}"<br/>
+}<br/>
+```
+</p>
+        </li>
+      </ol>
+
+      <p>After review the app launcher will be added to the registry after which it will be available to others</p>
+    </ai-dialog-body>
+
+    <ai-dialog-footer>
+      <button class="btn btn-primary" click.trigger="dialogController.close()">Close</button>
+    </ai-dialog-footer>
+  </ai-dialog>
+</template>

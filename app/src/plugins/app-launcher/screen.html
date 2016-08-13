@@ -31,8 +31,8 @@
         </ul>
       </div>
 
-      <div class="col-md-8">
-        <h3>${selectedLauncher.data.title}</h3>
+      <div class="col-md-8 launcher-detail">
+        <h3 class="launcher-title">${selectedLauncher.data.title}</h3>
         <p if.bind="selectedLauncher.description">${selectedLauncher.data.description}</p>
         <form validation-renderer="bootstrap-form" if.bind="selectedLauncher">
           <div class="form-group">
@@ -57,6 +57,7 @@
                    value.bind="selectedLauncher.data.cmd & validate">
           </div>
         </form>
+        <button class="btn btn-primary share-button" click.delegate="share(selectedLauncher)">Share this app launcher</button>
       </div>
     </div>
   </div>

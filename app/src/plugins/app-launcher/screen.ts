@@ -5,6 +5,8 @@ import {ValidationRules}      from 'aurelia-validatejs';
 import {ValidationController} from 'aurelia-validation';
 import {Notification}         from '../../shared/notification';
 import {RandomNumber}         from '../../shared/random-number';
+import {withModal}            from '../../shared/decorators';
+import {ShareModal}           from './share-modal';
 
 @inject(ApplicationState, NewInstance.of(ValidationController), Main, Notification)
 export class Screen {
@@ -90,6 +92,9 @@ export class Screen {
     await this.state._save();
     this.notification.success('Changes saved');
   }
+
+  @withModal(ShareModal, function (launcher) { return launcher })
+  share() {}
 
   goBack() {
     this.main.returnToPluginList();
