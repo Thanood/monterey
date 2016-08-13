@@ -77,7 +77,6 @@
   "devDependencies": {
     "jspm": "0.16.39",
     "aurelia-cli": "^0.13.6",
-    "electron-connect": "^0.4.2",
     "electron-debug": "^1.0.1",
     "electron-json-storage": "^2.0.0",
     "electron-prebuilt": "^1.2.6",
