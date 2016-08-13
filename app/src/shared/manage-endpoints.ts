@@ -3,15 +3,18 @@ import {DialogController}        from 'aurelia-dialog';
 import {ApplicationState}        from './application-state';
 import {ValidationRules}         from 'aurelia-validatejs';
 import {ValidationController}    from 'aurelia-validation';
+import {Notification}            from './notification';
 
-@inject(NewInstance.of(ValidationController), DialogController, ApplicationState)
+@inject(NewInstance.of(ValidationController), DialogController, ApplicationState, Notification)
 export class ManageEndpoints {
 
   tempState = {};
 
   constructor(private validation: ValidationController,
               private dialog: DialogController,
-              private state: ApplicationState) {}
+              private state: ApplicationState,
+              private notification: Notification) {}
+
   attached() {  
 
     Object.assign(this.tempState, this.state.endpoints);
@@ -24,15 +27,17 @@ export class ManageEndpoints {
     .on(this.tempState);
   }
 
-  submit() {
+  async submit() {
     if (this.validation.validate().length > 0) {
-      alert('There are validation errors');
+      this.notification.warning('There are validation errors');
       return;
     }
 
     Object.assign(this.state.endpoints, this.tempState);
 
-    this.state._save();
+    await this.state._save();
+
+    console.log(this.state);
 
     this.dialog.ok();
   }

@@ -1,7 +1,7 @@
 import 'fetch';
 import {HttpClient} from 'aurelia-fetch-client';
 import {ApplicationState} from './application-state';
-import {BindingEngine, autoinject} from 'aurelia-framework';
+import {autoinject} from 'aurelia-framework';
 
 @autoinject
 export class MontereyRegistries {
@@ -14,15 +14,18 @@ export class MontereyRegistries {
     appLaunchers: null
   };
 
-  constructor(state:ApplicationState, bindingEngine:BindingEngine) {
+  constructor(state: ApplicationState) {
     this.state = state;
-    this.client = new HttpClient();
-    this.refreshConfiguration();
   }
 
-  refreshConfiguration() {
-    // TODO: Reconfigure - need to get this to fire after the saved app state is loaded from the users storage (local storage etc) 
-    this.client.configure(config => config.withBaseUrl(this.state.endpoints.montereyRegistry));
+  getClient() {
+    if (this.client) {
+      return this.client;
+    }
+
+    this.client = new HttpClient();
+    this.client.configure(config => config.withBaseUrl(this.state.endpoints.montereyRegistry))
+    return this.client;
   }
 
   async getTemplates(): Promise<Array<any>> {
@@ -30,7 +33,7 @@ export class MontereyRegistries {
       return this.cache.templates;
     }
 
-    return this.client.fetch(`project-templates.json`)
+    return this.getClient().fetch(`project-templates.json`)
     .then(response => response.json())
     .then(data => { this.cache.templates = data.templates; return data.templates; });
   }
@@ -40,7 +43,7 @@ export class MontereyRegistries {
       return this.cache.gistrun;
     }
 
-    return this.client.fetch(`gistrun.json`)
+    return this.getClient().fetch(`gistrun.json`)
     .then(response => response.json())
     .then(data => { this.cache.gistrun = data; return data; });
   }
@@ -50,7 +53,7 @@ export class MontereyRegistries {
       return this.cache.gitbooks;
     }
 
-    return this.client.fetch(`gitbooks.json`)
+    return this.getClient().fetch(`gitbooks.json`)
     .then(response => response.json())
     .then(data => { this.cache.gitbooks = data; return data; });
   }
@@ -60,13 +63,13 @@ export class MontereyRegistries {
       return this.cache.appLaunchers;
     }
 
-    return this.client.fetch(`app-launchers.json`)
+    return this.getClient().fetch(`app-launchers.json`)
     .then(response => response.json())
     .then(data => { this.cache.appLaunchers = data; return data; });
   }
 
   async getAppLauncherData(platform, path) {
-    let data = await this.client.fetch(`launchers/${platform}/${path}/launcher.json`)
+    let data = await this.getClient().fetch(`launchers/${platform}/${path}/launcher.json`)
     .then(response => response.json())
     .then(json => {
       return json;
@@ -75,7 +78,7 @@ export class MontereyRegistries {
     // Get the icon as a blob
     let imagePath = `launchers/${platform}/${path}/${data.img}`;
     let imageBuffer;
-    let image = await this.client.fetch(imagePath);
+    let image = await this.getClient().fetch(imagePath);
     let blob = await image.blob();
 
     // Read the blob into an array buffer as a data URL
