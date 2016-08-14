@@ -4,7 +4,7 @@ const electron = require('electron');
 const storage = require('electron-json-storage');
 const app = electron.app;
 const Logger = require('./logger');
-const electronConnect = require('electron-connect');
+const electronConnect = require('../node_modules/electron-connect');
 const Menu = electron.Menu;
 const BrowserWindow = electron.BrowserWindow;
 let mainWindow;
