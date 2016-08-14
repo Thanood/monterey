@@ -45,6 +45,7 @@
   &.without-icon {
     p {
       margin: 0;
+      padding-top: 50px;
     }
   }
 
@@ -55,20 +56,23 @@
     }
 
     p {
+      padding-top: 17px;
       text-align: center;
     }
   }
 }
 
+// style when tile gets dragged
+.gu-transit > .default-tile {
+  background-color: #e6e6e6;
+}
+
 .plugin-title-container {
-  top: 0;
-  left: 0;
   height: 55px;
-  right: 0;
-  position: absolute;
   display: block;
   background-color: #f4f4f4;
-  box-shadow: -20px 0 14px 0 rgba(0, 0, 0, .1);
+  border-bottom: 5px solid rgba(0, 0, 0, .1);
+
   .plugin-title {
     color: #70519E;
     margin-top: 10px;
@@ -81,15 +85,7 @@
 
 .plugin-content-container {
   color: #646464;
-  top: 60px;
-  top: 85px;
-  left: 15px;
-  right: 15px;
-  position: absolute;
   display: block;
-}
-
-// style when tile gets dragged
-.gu-transit > .default-tile {
-  background-color: #e6e6e6;
+  padding-top: 5px;
+  padding-left: 20px;
 }
