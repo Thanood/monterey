@@ -16,11 +16,11 @@ install:
   - ps: Install-Product node 4.4.7 x64
   - git reset --hard HEAD
   - npm install gulp npm@next jspm@0.16.39 flatten-packages windows-build-tools --production -g
-  - npm install
+  - npm run setup
   - npm prune
-  - cd app
   - npm install
   - jspm install
+  - cd app
   - flatten-packages
   - cd ..
 
