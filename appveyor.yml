@@ -18,8 +18,6 @@ install:
   - npm install gulp npm@next jspm@0.16.39 flatten-packages windows-build-tools --production -g
   - npm run setup
   - npm prune
-  - npm install
-  - jspm install
   - cd app
   - flatten-packages
   - cd ..
