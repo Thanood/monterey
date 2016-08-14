@@ -10,6 +10,7 @@ import {Main}                   from '../../main/main';
 export class Browser {
   platform: string;
   project: Project;
+  global: boolean;
 
   @observable quickSearch;
   @observable showAllPlugins: boolean = false;
@@ -27,6 +28,7 @@ export class Browser {
 
   activate(model) {
     this.project = model.project;
+    this.global = model.global;
   }
 
   attached() {
@@ -73,7 +75,7 @@ export class Browser {
 
       // install the launcher
       try {
-        await this.manager.installLauncher(this.project, this.platform, launcher.path);
+        await this.manager.installLauncher(this.global ? undefined : this.project, this.platform, launcher.path);
         this.notification.success('App launcher installed');
       }
       catch (err) {

@@ -51,17 +51,18 @@ class Plugin extends BasePlugin {
   }
 
   async onNewSession(state) {
-    // let platform = OS.getPlatform();
+    console.log('onNewSession');
+    let platform = OS.getPlatform();
 
     // Install any default launchers
-    // let launchers = (<any>defaults).defaults[platform];
+    let launchers = (<any>defaults).defaults[platform];
 
-    // launchers.forEach(launcher => {
-    //   try {
-    //     this.manager.installLauncher(platform, launcher);
-    //   } catch (e) {
-    //     logger.error(e);
-    //   }
-    // });
+    launchers.forEach(launcher => {
+      try {
+        this.manager.installLauncher(undefined, platform, launcher);
+      } catch (e) {
+        logger.error(e);
+      }
+    });
   }
 }

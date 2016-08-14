@@ -12,6 +12,7 @@ import {Browser}              from './browser';
 export class AppLauncherEditor {
   model;
   @bindable project: Project;
+  @bindable global = true;
   selectedLauncher;
   launchers: Array<any>;
 
@@ -21,14 +22,14 @@ export class AppLauncherEditor {
   }
 
   attached() {
-    if (this.project && !this.project.appLaunchers) {
-      // this.project.appLaunchers = [];
+    if (!this.global && !this.project.appLaunchers) {
+      this.project.appLaunchers = [];
     }
-    if (!this.project && !this.state.appLaunchers) {
-      // this.state.appLaunchers = [];
+    if (this.global && !this.state.appLaunchers) {
+      this.state.appLaunchers = [];
     }
 
-    this.launchers = (this.project ? this.project.appLaunchers : this.state.appLaunchers);
+    this.launchers = (this.global ? this.state.appLaunchers : this.project.appLaunchers);
 
     this.selectFirst();
   }
@@ -76,7 +77,7 @@ export class AppLauncherEditor {
     return true;
   }
 
-  @withModal(Browser, function () { return { project: this.project }; })
+  @withModal(Browser, function () { return { project: this.project, global: this.global }; })
   openBrowser() {
     if (this.launchers.length > 0) {
       this.selectFirst();

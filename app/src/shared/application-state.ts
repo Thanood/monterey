@@ -7,7 +7,7 @@ export class ApplicationState {
   projects: Array<Project> = [];
   appLaunchers: Array<any> = [];
   endpoints = {
-    montereyRegistry: 'https://raw.githubusercontent.com/monterey-framework/registries/master/',
+    montereyRegistry: 'https://monterey-framework.github.io/registries/',
     npmRegistry: 'https://registry.npmjs.org/',
     githubApi: 'https://api.github.com/',
     github: 'https://github.com/'

@@ -17,10 +17,10 @@
     </ul>
     <div class="tab-content launcher-tabs">
       <div role="tabpanel" class="tab-pane active" id="global">
-        <app-launcher-editor if.bind="activeTab === 'Global'"></app-launcher-editor>
+        <app-launcher-editor project.bind="project" global.bind="true" if.bind="activeTab === 'Global'"></app-launcher-editor>
       </div>
       <div role="tabpanel" class="tab-pane" id="project">
-        <app-launcher-editor project.bind="project" if.bind="activeTab === 'Project-specific'"></app-launcher-editor>
+        <app-launcher-editor project.bind="project" global.bind="false" if.bind="activeTab === 'Project-specific'"></app-launcher-editor>
       </div>
     </div>
   </div>
