@@ -36,7 +36,7 @@ describe('PluginManager callbacks', () => {
   });
 
   it('all plugins get notified of evaluateProject', async (d) => {
-    let project = { path: '/my/project/path' };
+    let project = <any>{ path: '/my/project/path' };
     await pluginManager.evaluateProject(project);
 
     pluginManager.plugins.forEach(plugin => {
@@ -58,7 +58,7 @@ describe('PluginManager callbacks', () => {
   });
 
   it('all plugins get notified when new project gets added', async (d) => {
-    let project = { path: '/my/project/path' };
+    let project = <any>{ path: '/my/project/path' };
     await pluginManager.notifyOfAddedProject(project);
 
     pluginManager.plugins.forEach(plugin => {
@@ -69,18 +69,17 @@ describe('PluginManager callbacks', () => {
   });
 
   it('all plugins can provide tiles', async (d) => {
-    (<any>pluginManager.plugins[0].getTiles).and.returnValue([{ id: 1 }, { id: 2 }]);
+    (<any>pluginManager.plugins[0].getTiles).and.returnValue([{ id: 1, name: 'a' }, { id: 2, name: 'b' }]);
     (<any>pluginManager.plugins[1].getTiles).and.returnValue([]);
     (<any>pluginManager.plugins[2].getTiles).and.returnValue([]);
-    (<any>pluginManager.plugins[3].getTiles).and.returnValue([{ id: 3 }, { id: 4 }]);
-    (<any>pluginManager.plugins[4].getTiles).and.returnValue([{ id: 5 }, { id: 6 }]);
+    (<any>pluginManager.plugins[3].getTiles).and.returnValue([{ id: 3, name: 'c' }, { id: 4, name: 'd' }]);
+    (<any>pluginManager.plugins[4].getTiles).and.returnValue([{ id: 5, name: 'e' }, { id: 6, name: 'f' }]);
 
-    let project = { path: '/my/project/path' };
+    let project = <any>{ path: '/my/project/path' };
     try {
-      let tiles = await pluginManager.getTilesForPlugin(project, false);
+      let tiles = await pluginManager.getTilesForProject(project, false);
 
       expect(tiles.length).toBe(6);
-      tiles = tiles.sort((a, b) => b.id - a.id);
 
       for (let i = 1; i < tiles.length; i++) {
         expect(tiles.find(x => x.id === i)).not.toBeUndefined();
