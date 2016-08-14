@@ -1,10 +1,12 @@
-import {autoinject}          from 'aurelia-framework';
-import {PluginManager}       from '../../shared/plugin-manager';
-import {ApplicationState}    from '../../shared/application-state';
-import {BasePlugin}          from '../base-plugin';
-import * as defaults         from './defaults.json!';
-import {OS}                  from 'monterey-pal';
-import {LauncherManager}     from './launcher-manager';
+import {autoinject, LogManager} from 'aurelia-framework';
+import {PluginManager}          from '../../shared/plugin-manager';
+import {ApplicationState}       from '../../shared/application-state';
+import {BasePlugin}             from '../base-plugin';
+import * as defaults            from './defaults.json!';
+import {OS}                     from 'monterey-pal';
+import {LauncherManager}        from './launcher-manager';
+
+const logger = LogManager.getLogger('App launcher plugin');
 
 export function configure(aurelia) {
   let pluginManager = <PluginManager>aurelia.container.get(PluginManager);
@@ -15,9 +17,8 @@ export function configure(aurelia) {
 @autoinject()
 class Plugin extends BasePlugin {
 
-  manager:LauncherManager;
-
-  constructor(private state: ApplicationState, manager:LauncherManager) {
+  constructor(private state: ApplicationState, 
+              private manager: LauncherManager) {
     super();
     this.state = state;
     this.manager = manager;
@@ -48,7 +49,11 @@ class Plugin extends BasePlugin {
     let launchers = (<any>defaults).defaults[platform];
 
     launchers.forEach(launcher => {
-      this.manager.installLauncher(platform, launcher);
+      try {
+        this.manager.installLauncher(platform, launcher);
+      } catch (e) {
+        logger.error(e);
+      }
     });
   }
 }
