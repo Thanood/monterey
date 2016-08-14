@@ -10,6 +10,7 @@ export function configure(aurelia) {
 class Plugin extends BasePlugin {
   getTiles(project, showIrrelevant) {
     return [{
+      name: 'gistrun',
       viewModel: 'plugins/gist-run/tile'
     }];
   }

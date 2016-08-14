@@ -16,6 +16,7 @@ class Plugin extends BasePlugin {
     }
 
     return [{
+      name: 'webpack',
       model: { relevant: !!project.isUsingWebpack() },
       viewModel: 'plugins/webpack/tile'
     }];

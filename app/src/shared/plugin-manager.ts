@@ -66,6 +66,14 @@ export class PluginManager {
       .forEach(tile => tiles.push(tile));
     });
 
+    // enforce unique names for tiles
+    tiles.forEach(tile => {
+      if(!tile.name || tiles.filter(x => x.name === tile.name).length > 1) {
+        console.log(tile);
+        throw new Error('A tile must have a unique name');
+      }
+    })
+
     return tiles;
   }
 }
