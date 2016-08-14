@@ -14,5 +14,4 @@ class Plugin extends BasePlugin {
   async getTaskBarItems(project) {
     return ['plugins/terminal/task-bar'];
   }
-
 }

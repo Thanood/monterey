@@ -1,10 +1,10 @@
-/**
- * Created by vegar on 8/13/2016.
- */
+"use strict";
+
 /************************************************************************
  *  Rebuild native modules under app/node_modules
+ *  Necessary to compile pty.js which is used for the terminal
  ************************************************************************/
-var rebuildNative = ()=> {
+var rebuildNative = () => {
 
   //misc vars
   var installNodeHeaders = require('electron-rebuild').installNodeHeaders;
@@ -20,7 +20,7 @@ var rebuildNative = ()=> {
     .then((shouldBuild) => {
       if (!shouldBuild) return true;
 
-      let electronVersion = childProcess.execSync(`${pathToElectron} --version`, {
+      var electronVersion = childProcess.execSync(`${pathToElectron} --version`, {
         encoding: 'utf8',
       });
       electronVersion = electronVersion.match(/v(\d+\.\d+\.\d+)/)[1];
@@ -41,8 +41,7 @@ var rebuildNative = ()=> {
 /************************************************************************
  *  Install npm in root and under app && jspm install under app
  ************************************************************************/
-var firstInstall = ()=> {
-
+var firstInstall = () => {
   //mics vars
   var path = require("path");
   var spawn = require("child_process").spawn;
@@ -115,18 +114,13 @@ var firstInstall = ()=> {
 
 
   /************************************************************************
-   *  run it all
+   *  install NPM then install JSPM afterwards
    ************************************************************************/
-
   installNPM()
     .then(()=> {
-      return installJSPM()
-    })
-
-
+      return installJSPM();
+    });
 };
-
-console.log(process.argv[2])
 
 if (process.argv[2] === "-setup") {
   firstInstall();

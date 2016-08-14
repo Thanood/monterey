@@ -32,3 +32,4 @@
 /// <reference path="modules/aurelia-templating/index.d.ts" />
 /// <reference path="modules/aurelia-validatejs/index.d.ts" />
 /// <reference path="modules/aurelia-validation/index.d.ts" />
+/// <reference path="modules/dragula/index.d.ts" />

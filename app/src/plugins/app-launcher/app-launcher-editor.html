@@ -1,0 +1,34 @@
+<template>
+  <require from="./app-launcher-editor-detail"></require>
+
+  <button class="btn btn-primary" click.delegate="addNew()">Add app launcher</button>
+  <button class="btn btn-primary" click.delegate="remove()" disabled.bind="!selectedLauncher">Remove app launcher</button>
+  <button click.delegate="save()" class="btn btn-primary">Save</button>
+  <button click.delegate="openBrowser()" class="btn btn-primary">
+    <span class="glyphicon glyphicon-search"></span>
+    Get more...
+  </button>
+  <button class="btn btn-primary" click.delegate="share(selectedLauncher)" disabled.bind="!selectedLauncher">Share this app launcher</button>
+
+  <p show.bind="launchers.length === 0">There are no app launchers.</p>
+  
+  <div class="row" show.bind="launchers.length">
+    <div class="col-md-4">
+      <h3>Launchers:</h3>
+      <ul class="list-group">
+        <li class="list-group-item ${launcher.id === selectedLauncher.id ? 'selected': ''}"
+            repeat.for="launcher of launchers"
+            click.delegate="selectLauncher(launcher)">
+          <input type="checkbox" checked.bind="launcher.data.enabled" />
+          <span title.bind="launcher.data.title">
+            ${launcher.data.title}
+          </span>
+        </li>
+      </ul>
+    </div>
+
+    <div class="col-md-8 launcher-detail">
+      <app-launcher-editor-detail project.bind="project" launcher.bind="selectedLauncher"></app-launcher-editor-detail>
+    </div>
+  </div>
+</template>

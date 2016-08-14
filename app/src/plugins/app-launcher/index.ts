@@ -1,9 +1,13 @@
-import {autoinject}          from 'aurelia-framework';
-import {PluginManager}       from '../../shared/plugin-manager';
-import {ApplicationState}    from '../../shared/application-state';
-import {BasePlugin}          from '../base-plugin';
-import * as defaults         from './defaults.json!';
-import {OS}                  from 'monterey-pal';
+import {autoinject, LogManager} from 'aurelia-framework';
+import {PluginManager}          from '../../shared/plugin-manager';
+import {ApplicationState}       from '../../shared/application-state';
+import {Project}                from '../../shared/project';
+import {BasePlugin}             from '../base-plugin';
+import * as defaults            from './defaults.json!';
+import {OS}                     from 'monterey-pal';
+import {LauncherManager}        from './launcher-manager';
+
+const logger = LogManager.getLogger('App launcher plugin');
 
 export function configure(aurelia) {
   let pluginManager = <PluginManager>aurelia.container.get(PluginManager);
@@ -13,22 +17,32 @@ export function configure(aurelia) {
 
 @autoinject()
 class Plugin extends BasePlugin {
-  constructor(private state: ApplicationState) {
+
+  constructor(private state: ApplicationState, 
+              private manager: LauncherManager) {
     super();
     this.state = state;
+    this.manager = manager;
   }
 
-  getTiles(project, showIrrelevant) {
+  getTiles(project: Project, showIrrelevant) {
     let tiles = [{
+      name: 'app-launcher-editor',
       viewModel: 'plugins/app-launcher/editor-tile',
       model: null
     }];
 
-    this.state.appLaunchers.forEach(launcher => {
-      if (launcher.enabled) {
+    let launchers = (project.appLaunchers || []).concat(this.state.appLaunchers || []);
+
+    launchers.forEach(launcher => {
+      if (launcher.data.enabled) {
+        // how many launchers are there with the same title?
+        // needed to create a unique tile name
+        let launchersSameName = tiles.filter(x => x.name.startsWith(`app-launcher-${launcher.data.title}`)).length;
         tiles.push({
+          name: `app-launcher-${launcher.data.title}-${launchersSameName}`,
           viewModel: 'plugins/app-launcher/tile',
-          model: launcher
+          model: launcher.data
         });
       }
     });
@@ -37,27 +51,18 @@ class Plugin extends BasePlugin {
   }
 
   async onNewSession(state) {
+    console.log('onNewSession');
     let platform = OS.getPlatform();
 
-    let launchers = (<any>defaults).launchers;
-    let defaultLaunchers = [];
+    // Install any default launchers
+    let launchers = (<any>defaults).defaults[platform];
 
-    // only get launchers that are for this platform
     launchers.forEach(launcher => {
-      if (launcher.platforms.indexOf(platform) > -1) {
-        // automatically enable default launchers
-        if (launcher.default) {
-          launcher.enabled = true;
-        } else {
-          launcher.enabled = false;
-        }
-
-        defaultLaunchers.push(launcher);
+      try {
+        this.manager.installLauncher(undefined, platform, launcher);
+      } catch (e) {
+        logger.error(e);
       }
-    });
-
-     Object.assign(state, {
-      appLaunchers: defaultLaunchers
     });
   }
 }

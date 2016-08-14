@@ -58,13 +58,21 @@ export class PluginManager {
   /**
   * Collects an array of tiles by calling the getTiles function of every plugin
   */
-  getTilesForPlugin(project: Project, showIrrelevant: boolean) {
+  getTilesForProject(project: Project, showIrrelevant: boolean) {
     let tiles = [];
 
     this.plugins.forEach(plugin => {
       plugin.getTiles(project, showIrrelevant)
       .forEach(tile => tiles.push(tile));
     });
+
+    // enforce unique names for tiles
+    tiles.forEach(tile => {
+      if(!tile.name || tiles.filter(x => x.name === tile.name).length > 1) {
+        console.log(tile);
+        throw new Error('A tile must have a unique name');
+      }
+    })
 
     return tiles;
   }

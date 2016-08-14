@@ -59,15 +59,10 @@ export class Main {
     this._activePluginScreenModel = model;
     this._activePluginScreen = viewModelPath;
     this.pluginViewActivated = true;
-
   }
 
   returnToPluginList() {
-    if (this._activePluginScreenModel.beforeReturn) {
-      if (this._activePluginScreenModel.beforeReturn() === false) {
-        return;
-      }
-    }
+    this.refreshTiles();
     this._activePluginScreen = '';
     this.pluginViewActivated = false;
   }

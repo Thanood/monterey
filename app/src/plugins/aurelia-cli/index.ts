@@ -16,6 +16,7 @@ class Plugin extends BasePlugin {
     }
 
     return [{
+      name: 'aurelia-cli',
       model: { relevant: !!project.aureliaJSONPath },
       viewModel: 'plugins/aurelia-cli/tile'
     }];

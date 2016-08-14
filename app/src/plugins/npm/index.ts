@@ -19,6 +19,7 @@ class Plugin extends BasePlugin {
 
   getTiles(project, showIrrelevant) {
     return [{
+      name: 'npm',
       viewModel: 'plugins/npm/tile'
     }];
   }

@@ -22,6 +22,7 @@ class Plugin extends BasePlugin {
     }
 
     return [{
+      name: 'jspm',
       viewModel: 'plugins/jspm/tile',
       model: { relevant: project.isUsingJSPM(), project: project }
     }];

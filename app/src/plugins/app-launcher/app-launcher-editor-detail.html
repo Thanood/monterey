@@ -1,0 +1,27 @@
+<template>
+  <h3 class="launcher-title">${launcher.data.title}</h3>
+  <p show.bind="launcher.description">${launcher.data.description}</p>
+  <form validation-renderer="bootstrap-form">
+    <div class="form-group">
+      <label class="control-label" for="enabled">Enabled</label>
+      <input type="checkbox" id="enabled"
+              checked.bind="launcher.data.enabled">
+    </div>
+    <div class="form-group">
+      <label class="control-label" for="title">Title</label>
+      <input type="text" class="form-control" id="title"
+              value.bind="launcher.data.title">
+    </div>
+    <div class="form-group">
+      <label class="control-label" for="img">Icon</label>
+      <input type="text" class="form-control" id="img"
+              value.bind="launcher.data.img">
+    </div>
+    <div class="form-group">
+      <p>%path% = ${project.path}</p>
+      <label class="control-label" for="cmd">Cmd</label>
+      <input type="text" class="form-control" id="cmd"
+              value.bind="launcher.data.cmd">
+    </div>
+  </form>
+</template>

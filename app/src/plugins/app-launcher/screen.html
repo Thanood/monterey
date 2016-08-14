@@ -1,66 +1,27 @@
 <template>
-
+  <require from="./app-launcher-editor"></require>
 
   <div class="plugin-title-container">
+    <button class="returnToPluginListBtn btn btn-primary" click.delegate="goBack()">Back</button>
     <h1 class="plugin-title">App launcher</h1>
   </div>
   <div class="plugin-content-container">
-
-
-
     <p>
-      App launchers are configurable tiles that execute a cmd when clicked
+      App launchers are configurable tiles that execute a command when clicked
     </p>
 
-    <button class="btn btn-primary" click.delegate="addNew()">Add app launcher</button>
-    <button class="btn btn-primary" click.delegate="remove()">Remove app launcher</button>
-    <button click.delegate="save()" class="btn btn-primary">Save</button>
-
-    <div class="row">
-      <div class="col-md-4" if.bind="selectedLauncher">
-        <h3>Launchers:</h3>
-        <ul class="list-group">
-          <li class="list-group-item ${launcher.id == selectedLauncher.id ? 'selected': ''}"
-              repeat.for="launcher of state.appLaunchers"
-              click.delegate="selectLauncher(launcher)">
-            <input type="checkbox" checked.bind="launcher.enabled"/>
-          <span title.bind="launcher.title">
-            ${launcher.title}
-          </span>
-          </li>
-        </ul>
+    <!-- Nav tabs -->
+    <ul class="nav nav-tabs" role="tablist" ref="tabs">
+      <li role="presentation" class="active"><a href="#global" aria-controls="global" role="tab" data-toggle="tab">Global</a></li>
+      <li role="presentation"><a href="#project" aria-controls="project" role="tab" data-toggle="tab">Project-specific</a></li>
+    </ul>
+    <div class="tab-content launcher-tabs">
+      <div role="tabpanel" class="tab-pane active" id="global">
+        <app-launcher-editor project.bind="project" global.bind="true" if.bind="activeTab === 'Global'"></app-launcher-editor>
       </div>
-
-      <div class="col-md-8">
-        <h3>${selectedLauncher.title}</h3>
-        <p if.bind="selectedLauncher.description">${selectedLauncher.description}</p>
-        <form validation-renderer="bootstrap-form" if.bind="selectedLauncher">
-          <div class="form-group">
-            <label class="control-label" for="enabled">Enabled</label>
-            <input type="checkbox" id="enabled"
-                   checked.bind="selectedLauncher.enabled">
-          </div>
-          <div class="form-group">
-            <label class="control-label" for="title">Title</label>
-            <input type="text" class="form-control" id="title"
-                   value.bind="selectedLauncher.title & validate">
-          </div>
-          <div class="form-group">
-            <label class="control-label" for="img">Icon</label>
-            <input type="text" class="form-control" id="img"
-                   value.bind="selectedLauncher.img & validate">
-          </div>
-          <div class="form-group">
-            <p>%path% = ${project.path}</p>
-            <label class="control-label" for="cmd">Cmd</label>
-            <input type="text" class="form-control" id="cmd"
-                   value.bind="selectedLauncher.cmd & validate">
-          </div>
-        </form>
+      <div role="tabpanel" class="tab-pane" id="project">
+        <app-launcher-editor project.bind="project" global.bind="false" if.bind="activeTab === 'Project-specific'"></app-launcher-editor>
       </div>
     </div>
   </div>
-
-
-
 </template>
