@@ -34,6 +34,8 @@ declare module 'monterey-pal' {
       install(packages: any, error: any): Promise<void>;
       load(npmOptions: any, error: any): void;
       ls(npmOptions: any): void;
+      getConfig(setting: string): Promise<string>;
+      setConfig(setting: string, value: string): Promise<void>;
   };
   export const JSPM: {
       install(packages: any, options: any): Promise<void>;

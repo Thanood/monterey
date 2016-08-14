@@ -85,8 +85,6 @@ export class Tiles {
 
     this.selectedProject.tiles = tileNames;
 
-    console.log(tileNames);
-
     await this.state._save();
   }
 }

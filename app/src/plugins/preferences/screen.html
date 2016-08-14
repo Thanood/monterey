@@ -3,7 +3,8 @@
     <button class="returnToPluginListBtn btn btn-primary" click.delegate="goBack()">Back</button>
     <h1 class="plugin-title">Preferences</h1>
   </div>
-  <div class="plugin-content-container">
+  <i class="fa fa-spinner fa-spin fa-3x" if.bind="loading"></i>
+  <div class="plugin-content-container" if.bind="!loading">
     <form validation-renderer="bootstrap-form">
       <div class="form-group">
         <label class="control-label" for="title">Github credentials</label>
@@ -19,6 +20,19 @@
 
     <h3>Manage endpoints</h3>
     <button click.delegate="manageEndpoints()" class="btn btn-primary">Manage</button>
+
+    <hr />
+    <h3>NPM settings</h3>
+    <div class="form-group">
+      <label class="control-label" for="npmRegistry">NPM Registry</label>
+      <input type="text" class="form-control" id="npmRegistry"
+              value.bind="npmRegistry">
+    </div>
+    <div class="form-group">
+      <label class="control-label" for="enabled">Strict-SSL</label>
+      <input type="checkbox" id="enabled"
+              checked.bind="npmStrictSSL">
+    </div>
 
     <hr />
     
