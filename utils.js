@@ -75,17 +75,21 @@ var firstInstall = () => {
    ************************************************************************/
   var installNPM = () => {
     return new Promise((resolve, reject) => {
-      console.log("running NPM -> this will take a while!!!");
-
-      var monterey1 = spawnExec(npm, ["install"], montereyPath);
-      var monterey2 = spawnExec(npm, ["install"], montereyAppPath);
-
-      Promise.all([monterey1, monterey2]).then(values => {
-        console.log("NPM done");
-        resolve()
-      }).catch((err)=> {
-        reject(err)
-      })
+      console.log("running NPM -> main");
+      spawnExec(npm, ["install"], montereyPath)
+        .then(()=> {
+          console.log("running NPM -> app");
+          "use strict";
+          return spawnExec(npm, ["install"], montereyAppPath)
+        })
+        .then(()=> {
+          "use strict";
+          console.log("NPM done");
+          resolve()
+        })
+        .catch((err)=> {
+          reject(err)
+        });
     });
   }
 
