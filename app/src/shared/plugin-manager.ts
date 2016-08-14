@@ -58,7 +58,7 @@ export class PluginManager {
   /**
   * Collects an array of tiles by calling the getTiles function of every plugin
   */
-  getTilesForPlugin(project: Project, showIrrelevant: boolean) {
+  getTilesForProject(project: Project, showIrrelevant: boolean) {
     let tiles = [];
 
     this.plugins.forEach(plugin => {

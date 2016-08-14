@@ -40,7 +40,7 @@ export class Tiles {
     }
 
     // get a list of tiles to show from every plugin
-    this.pluginManager.getTilesForPlugin(this.selectedProject, this.showIrrelevant)
-    .forEach(plugin => this.tiles.push(plugin));
+    this.pluginManager.getTilesForProject(this.selectedProject, this.showIrrelevant)
+    .forEach(tile => this.tiles.push(tile));
   }
 }
