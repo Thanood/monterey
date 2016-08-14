@@ -33,14 +33,9 @@ addons:
 
 install:
 - nvm install 6
-- npm install electron-builder@5.17.0
-- npm install gulp jspm@0.16.39 -g
-- npm install
-- npm prune
-- cd app
-- npm install
-- jspm install
-- cd ..
+- npm install electron-builder@5.26.0
+- npm install gulp jspm@0.16.39 npm@next -g
+- npm run setup
 - chmod a+x travis.sh
 
 script: ./travis.sh
