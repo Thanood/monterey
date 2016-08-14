@@ -1,9 +1,10 @@
 <template>
   <h3 class="project-title" if.bind="selectedProject.name">${selectedProject.name}</h3>
 
-  <div class="row">
+  <div class="row" ref="dragContainer">
     <compose repeat.for="tile of tiles" 
              view-model="${tile.viewModel}"
+             id="${tile.name}"
              model.bind="{ project: selectedProject, model: tile.model }"
              click.delegate="executeTile(composeElement)"
              class="tile" compose.ref="composeElement">

@@ -15,6 +15,9 @@ export interface Project {
   configJsPath?: string;
   jspmDefinition?: string;
 
+  // array of tile names, allows for reordering of tiles
+  tiles?: Array<string>;
+
   // won't be save in session
   __meta__?: {
     taskrunner: {

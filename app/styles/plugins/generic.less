@@ -1,8 +1,11 @@
 .tile {
-  float: left;
-  margin: 10px;
+  margin: 5px;
   cursor: pointer;
   cursor: hand;
+  width: 120px;
+  height: 132px;
+  display: block;
+  float: left;
 }
 
 .row-tile {
@@ -26,10 +29,8 @@
   width: 120px;
   height: 132px;
   border: 3px solid #dfdfe1;
-  padding: 10px;
   text-align: center;
   vertical-align: middle;
-  display: table-cell;
 
   &.irrelevant {
     background: repeating-linear-gradient(
@@ -86,4 +87,9 @@
   right: 15px;
   position: absolute;
   display: block;
+}
+
+// style when tile gets dragged
+.gu-transit > .default-tile {
+  background-color: #e6e6e6;
 }

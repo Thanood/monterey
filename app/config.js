@@ -41,6 +41,7 @@ System.config({
     "aurelia-pal-browser": "npm:aurelia-pal-browser@1.0.0",
     "aurelia-polyfills": "npm:aurelia-polyfills@1.0.0",
     "aurelia-router": "npm:aurelia-router@1.0.2",
+    "aurelia-task-queue": "npm:aurelia-task-queue@1.0.0",
     "aurelia-templating-binding": "npm:aurelia-templating-binding@1.0.0",
     "aurelia-templating-resources": "npm:aurelia-templating-resources@1.0.0",
     "aurelia-templating-router": "npm:aurelia-templating-router@1.0.0",
@@ -52,6 +53,7 @@ System.config({
     "babel-runtime": "npm:babel-runtime@5.8.38",
     "bootstrap": "github:twbs/bootstrap@3.3.6",
     "core-js": "npm:core-js@2.4.1",
+    "dragula": "npm:dragula@3.7.1",
     "fetch": "github:github/fetch@1.0.0",
     "font-awesome": "npm:font-awesome@4.6.3",
     "jquery": "npm:jquery@2.2.4",
@@ -79,7 +81,7 @@ System.config({
       "path-browserify": "npm:path-browserify@0.0.0"
     },
     "github:jspm/nodelibs-process@0.1.2": {
-      "process": "npm:process@0.11.6"
+      "process": "npm:process@0.11.8"
     },
     "github:jspm/nodelibs-util@0.1.0": {
       "util": "npm:util@0.10.3"
@@ -254,11 +256,27 @@ System.config({
       "isarray": "npm:isarray@1.0.0",
       "process": "github:jspm/nodelibs-process@0.1.2"
     },
+    "npm:contra@1.9.4": {
+      "atoa": "npm:atoa@1.0.0",
+      "ticky": "npm:ticky@1.0.1"
+    },
     "npm:core-js@2.4.1": {
       "fs": "github:jspm/nodelibs-fs@0.1.2",
       "path": "github:jspm/nodelibs-path@0.1.0",
       "process": "github:jspm/nodelibs-process@0.1.2",
       "systemjs-json": "github:systemjs/plugin-json@0.1.2"
+    },
+    "npm:crossvent@1.5.4": {
+      "child_process": "github:jspm/nodelibs-child_process@0.1.0",
+      "custom-event": "npm:custom-event@1.0.0",
+      "fs": "github:jspm/nodelibs-fs@0.1.2",
+      "path": "github:jspm/nodelibs-path@0.1.0",
+      "process": "github:jspm/nodelibs-process@0.1.2",
+      "systemjs-json": "github:systemjs/plugin-json@0.1.2"
+    },
+    "npm:dragula@3.7.1": {
+      "contra": "npm:contra@1.9.4",
+      "crossvent": "npm:crossvent@1.5.4"
     },
     "npm:font-awesome@4.6.3": {
       "css": "github:systemjs/plugin-css@0.1.25"
@@ -269,7 +287,7 @@ System.config({
     "npm:path-browserify@0.0.0": {
       "process": "github:jspm/nodelibs-process@0.1.2"
     },
-    "npm:process@0.11.6": {
+    "npm:process@0.11.8": {
       "assert": "github:jspm/nodelibs-assert@0.1.0",
       "fs": "github:jspm/nodelibs-fs@0.1.2",
       "vm": "github:jspm/nodelibs-vm@0.1.0"
@@ -279,6 +297,9 @@ System.config({
       "process": "github:jspm/nodelibs-process@0.1.2"
     },
     "npm:semver@5.3.0": {
+      "process": "github:jspm/nodelibs-process@0.1.2"
+    },
+    "npm:ticky@1.0.1": {
       "process": "github:jspm/nodelibs-process@0.1.2"
     },
     "npm:util@0.10.3": {

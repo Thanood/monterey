@@ -59,7 +59,6 @@ export class Main {
     this._activePluginScreenModel = model;
     this._activePluginScreen = viewModelPath;
     this.pluginViewActivated = true;
-
   }
 
   returnToPluginList() {
