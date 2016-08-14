@@ -1,3 +1,5 @@
+"use strict";
+
 /************************************************************************
  *  Rebuild native modules under app/node_modules
  *  Necessary to compile pty.js which is used for the terminal
@@ -18,7 +20,7 @@ var rebuildNative = () => {
     .then((shouldBuild) => {
       if (!shouldBuild) return true;
 
-      let electronVersion = childProcess.execSync(`${pathToElectron} --version`, {
+      var electronVersion = childProcess.execSync(`${pathToElectron} --version`, {
         encoding: 'utf8',
       });
       electronVersion = electronVersion.match(/v(\d+\.\d+\.\d+)/)[1];
@@ -75,8 +77,8 @@ var firstInstall = () => {
     return new Promise((resolve, reject) => {
       console.log("running NPM -> this will take a while!!!");
 
-      let monterey1 = spawnExec(npm, ["install"], montereyPath);
-      let monterey2 = spawnExec(npm, ["install"], montereyAppPath);
+      var monterey1 = spawnExec(npm, ["install"], montereyPath);
+      var monterey2 = spawnExec(npm, ["install"], montereyAppPath);
 
       Promise.all([monterey1, monterey2]).then(values => {
         console.log("NPM done");
