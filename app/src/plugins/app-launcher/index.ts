@@ -1,6 +1,7 @@
 import {autoinject, LogManager} from 'aurelia-framework';
 import {PluginManager}          from '../../shared/plugin-manager';
 import {ApplicationState}       from '../../shared/application-state';
+import {Project}                from '../../shared/project';
 import {BasePlugin}             from '../base-plugin';
 import * as defaults            from './defaults.json!';
 import {OS}                     from 'monterey-pal';
@@ -24,14 +25,16 @@ class Plugin extends BasePlugin {
     this.manager = manager;
   }
 
-  getTiles(project, showIrrelevant) {
+  getTiles(project: Project, showIrrelevant) {
     let tiles = [{
       name: 'app-launcher-editor',
       viewModel: 'plugins/app-launcher/editor-tile',
       model: null
     }];
 
-    this.state.appLaunchers.forEach(launcher => {
+    let launchers = (project.appLaunchers || []).concat(this.state.appLaunchers || []);
+
+    launchers.forEach(launcher => {
       if (launcher.data.enabled) {
         // how many launchers are there with the same title?
         // needed to create a unique tile name
@@ -48,17 +51,17 @@ class Plugin extends BasePlugin {
   }
 
   async onNewSession(state) {
-    let platform = OS.getPlatform();
+    // let platform = OS.getPlatform();
 
     // Install any default launchers
-    let launchers = (<any>defaults).defaults[platform];
+    // let launchers = (<any>defaults).defaults[platform];
 
-    launchers.forEach(launcher => {
-      try {
-        this.manager.installLauncher(platform, launcher);
-      } catch (e) {
-        logger.error(e);
-      }
-    });
+    // launchers.forEach(launcher => {
+    //   try {
+    //     this.manager.installLauncher(platform, launcher);
+    //   } catch (e) {
+    //     logger.error(e);
+    //   }
+    // });
   }
 }

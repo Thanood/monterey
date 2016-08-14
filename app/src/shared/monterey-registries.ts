@@ -1,7 +1,8 @@
 import 'fetch';
-import {HttpClient} from 'aurelia-fetch-client';
+import {HttpClient}       from 'aurelia-fetch-client';
 import {ApplicationState} from './application-state';
-import {autoinject} from 'aurelia-framework';
+import {autoinject}       from 'aurelia-framework';
+import {RandomNumber}     from './random-number';
 
 @autoinject
 export class MontereyRegistries {
@@ -92,6 +93,11 @@ export class MontereyRegistries {
     fileReader.readAsDataURL(blob);
     await readerPromise;
 
-    return { data: data, image: imageBuffer, remoteImagePath: this.state.endpoints.montereyRegistry + imagePath };
+    return {
+      id: new RandomNumber().create(),
+      data: data, 
+      image: imageBuffer, 
+      remoteImagePath: this.state.endpoints.montereyRegistry + imagePath
+    };
   }
 }

@@ -1,20 +1,24 @@
 import {bindable, autoinject} from 'aurelia-framework';
 import {LauncherManager}      from './launcher-manager';
-import {Notification}         from '../../shared/notification';
+import {Project}              from '../../shared/project';
+import {Main}                 from '../../main/main';
 
 @autoinject()
 export class BrowserTile {
 
   @bindable launcher;
   @bindable platform;
+  @bindable install;
 
   dataLoaded: boolean = false;
   errors: string;
   icon: any;
+  selectedProject: Project;
 
   constructor(private manager: LauncherManager,
-              private notification: Notification) {
+              private main: Main) {
     this.manager = manager;
+    this.selectedProject = main.selectedProject;
   }
 
   async attached() {
@@ -28,21 +32,6 @@ export class BrowserTile {
       this.errors = err;
       this.dataLoaded = true;
       this.icon = 'images/monterey-logo.png';
-    }
-  }
-
-  async install() {
-    if(this.dataLoaded) {
-      if(this.errors) return;
-
-      // Do stuff
-      try {
-        await this.manager.installLauncher(this.platform, this.launcher.path);
-        this.notification.success('App launcher installed');
-      }
-      catch (err) {
-        alert(err.message);
-      } 
     }
   }
 }

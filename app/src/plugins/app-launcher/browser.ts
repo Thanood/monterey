@@ -1,12 +1,15 @@
 import {LauncherManager}        from './launcher-manager';
 import {observable, autoinject} from 'aurelia-framework';
+import {DialogController}       from 'aurelia-dialog';
+import {Notification}           from '../../shared/notification';
+import {Project}                from '../../shared/project';
 import {OS}                     from 'monterey-pal';
 import {Main}                   from '../../main/main';
 
 @autoinject
 export class Browser {
   platform: string;
-  platformDisplay: string;
+  project: Project;
 
   @observable quickSearch;
   @observable showAllPlugins: boolean = false;
@@ -15,20 +18,15 @@ export class Browser {
   rawData;
   data;
 
-  constructor(private manager: LauncherManager,
+  constructor(private dialogController: DialogController,
+              private manager: LauncherManager,
+              private notification: Notification,
               private main: Main) {
-    this.manager = manager;
     this.platform = OS.getPlatform();
-    this.platformDisplay = this.platform;
+  }
 
-    switch(this.platform) {
-      case 'win32':
-        this.platformDisplay = 'Windows';
-        break;
-      case 'darwin':
-        this.platformDisplay = 'Mac';
-        break;
-    }
+  activate(model) {
+    this.project = model.project;
   }
 
   attached() {
@@ -67,7 +65,42 @@ export class Browser {
     });
   }
 
+  
+
+  async install(tile, launcher) {
+    if(tile.dataLoaded) {
+      if(tile.errors) return;
+
+      // install the launcher
+      try {
+        await this.manager.installLauncher(this.project, this.platform, launcher.path);
+        this.notification.success('App launcher installed');
+      }
+      catch (err) {
+        console.log(err);
+        this.notification.error(`Failed to install app launcher: ${err.message}`);
+      } 
+    }
+  }
+
   goBack() {
     this.main.activateScreen('plugins/app-launcher/screen');
+  }
+}
+
+export class PlatformNameValueConverter {
+  toView(platform) {
+    let result: string;
+
+    switch(platform) {
+      case 'win32':
+        result = 'Windows';
+        break;
+      case 'darwin':
+        result = 'Mac';
+        break;
+    }
+
+    return result;
   }
 }

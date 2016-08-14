@@ -29,6 +29,8 @@ export interface Project {
 }
 
 export class Project {
+  appLaunchers: Array<any> = [];
+
   constructor(project = {}) {
     Object.assign(this, project);
   }

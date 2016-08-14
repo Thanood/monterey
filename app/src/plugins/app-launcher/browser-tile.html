@@ -12,7 +12,7 @@
         </div>
       </div>
       <div class="col-xs-4">
-        <button click.delegate="install()" class="btn install-btn btn-primary" disabled.bind="!dataLoaded || errors">Install</button>
+        <button click.delegate="install({ tile: $this, launcher: launcher})" class="btn install-btn btn-primary" disabled.bind="!dataLoaded || errors">Install</button>
       </div>
     </div>
   </div>

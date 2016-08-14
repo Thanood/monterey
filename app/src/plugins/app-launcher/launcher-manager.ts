@@ -1,5 +1,6 @@
-import {MontereyRegistries} from '../../shared/monterey-registries';
 import {autoinject}         from 'aurelia-framework';
+import {MontereyRegistries} from '../../shared/monterey-registries';
+import {Project}            from '../../shared/project';
 import {ApplicationState}   from '../../shared/application-state';
 import {FS}                 from 'monterey-pal';
 import {TaskManager}        from '../task-manager/task-manager';
@@ -12,12 +13,12 @@ export class LauncherManager {
               private taskManager: TaskManager) {
   }
 
-  // Gets launchers from the remote registry
+  // gets launchers from the remote registry
   async getList() {
     try {
       let result = await this.registry.getAppLaunchers();
 
-      let mapped:any = {};
+      let mapped: any = {};
       mapped.platforms = [];
 
       for(let prop in result) {
@@ -33,22 +34,24 @@ export class LauncherManager {
     }
   }
 
-  // Get a specific launcher
-  async getLauncher(platform, launcherPath) {
-      let result = await this.registry.getAppLauncherData(platform, launcherPath);
-      return result;
+  // get a specific launcher
+  async getLauncher(platform: string, launcherPath: string) {
+    let result = await this.registry.getAppLauncherData(platform, launcherPath);
+    return result;
   }
 
-  // Installs a launcher to the app state
-  installLauncher(platform, launcherPath) {
+  // installs a launcher to the app state
+  // project can be undefined, in which case the launcher is installed globally
+  installLauncher(project: Project | undefined, platform: string, launcherPath: string) {
     this.taskManager.addTask({
-      promise: this.tryInstallLauncherFromRemote(platform, launcherPath),
+      promise: this.tryInstallLauncherFromRemote(project, platform, launcherPath),
       title: `Installing launcher ${platform}/${launcherPath}`
     });        
   }
 
 
-  async tryInstallLauncherFromRemote(platform, launcherPath) {
+  // project can be undefined, in which case the launcher is installed globally
+  async tryInstallLauncherFromRemote(project: Project | undefined, platform: string, launcherPath: string) {
     try {
       let result = await this.getLauncher(platform, launcherPath);
 
@@ -67,7 +70,7 @@ export class LauncherManager {
       result.data.img = root + '/images/app-launcher/' + platform + '/' + launcherPath + '.png';
       result.data.enabled = true;
 
-      this.state.appLaunchers.push(result);
+      (project ? project.appLaunchers : this.state.appLaunchers).push(result);
 
       this.state._save();
     }

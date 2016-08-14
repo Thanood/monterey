@@ -4,9 +4,8 @@ import {Project}    from './project';
 export class ApplicationState {
 
   gitAuthorization: string;
-  appLaunchers = [];
   projects: Array<Project> = [];
-  
+  appLaunchers: Array<any> = [];
   endpoints = {
     montereyRegistry: 'https://raw.githubusercontent.com/monterey-framework/registries/master/',
     npmRegistry: 'https://registry.npmjs.org/',
