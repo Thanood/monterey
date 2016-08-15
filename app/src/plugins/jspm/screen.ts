@@ -128,7 +128,7 @@ export class Screen {
   }
 
   install(deps, jspmOptions = {}, withLoader = false) {
-    let task = this.common.install(deps, jspmOptions, withLoader);
+    let task = this.common.install(this.project, deps, jspmOptions, withLoader);
 
     this.dialogService.open({ viewModel: TaskManagerModal, model: { task: task }});
   }
