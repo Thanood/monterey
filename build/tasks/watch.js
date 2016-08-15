@@ -1,6 +1,8 @@
 var gulp = require('gulp');
 var paths = require('../paths');
 var yargs = require('yargs');
+var watch = require('gulp-watch');
+var runSequence = require('run-sequence');
 var argv = yargs.argv;
 var electron = require('electron-connect').server.create();
 var params;
@@ -10,34 +12,77 @@ var params;
 // reportChange method.
 gulp.task('watch', ['build'], function() {
   params = [argv.env ? `--env=${argv.env}` : '--env=development'];
-  reload = argv.manual ? false : true;
+  _reload = argv.manual ? false : true;
   electron.start(params);
 
-  gulp.watch(paths.source, ['build-system', reload]).on('change', reportChange);
-  gulp.watch(paths.json, ['build-json', reload]).on('change', reportChange);
-  gulp.watch('custom_typings/**/*.d.ts', ['build-system', reload]).on('change', reportChange);
-  gulp.watch('typings/**/*.d.ts', ['build-system', reload]).on('change', reportChange);
-  gulp.watch('app/index.js', restart).on('change', reportChange);
-  gulp.watch('app/index.html', restart).on('change', reportChange);
-  gulp.watch(paths.html, ['build-html', reload]).on('change', reportChange);
-  gulp.watch('app/styles/**/*.less', ['build-less', reload]).on('change', reportChange);
+  watch(paths.source, function () {
+    reportChange();
+    runSequence('build-system', function () {
+      reload();
+    });
+  });
+
+  watch(paths.json, function () {
+    reportChange();
+    runSequence('build-json', function () {
+      reload();
+    });
+  });
+
+  watch('custom_typings/**/*.d.ts', function () {
+    reportChange();
+    runSequence('build-system', function () {
+      reload();
+    });
+  });
+
+  watch('typings/**/*.d.ts', function () {
+    reportChange();
+    runSequence('build-system', function () {
+      reload();
+    });
+  });
+
+  watch('app/index.js', function () {
+    reportChange();
+    restart();
+  });
+
+  watch('app/index.html', function () {
+    reportChange();
+    restart();
+  });
+
+  watch(paths.html, function () {
+    reportChange();
+    runSequence('build-html', function () {
+      reload();
+    });
+  });
+
+  watch('app/styles/**/*.less', function () {
+    reportChange();
+    runSequence('build-less', function () {
+      reload();
+    });
+  });
 });
 
 // reloads only the browser window
 function reload() {
-  if (!reload) return;
+  if (!_reload) return;
   electron.reload();
 }
 
 // reloads the main process as well
 function restart() {
-  if (!reload) return;
+  if (!_reload) return;
   electron.restart(params);
 }
 
 // outputs changes to files to the console
 function reportChange(event) {
-  console.log('File ' + event.path + ' was ' + event.type + ', running tasks...');
+  console.log('File changed, running tasks...');
 }
 
 gulp.task('watch-r', function () { console.log('this is now the default (gulp watch)'); })
