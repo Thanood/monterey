@@ -22,5 +22,5 @@ gulp.task('watch-r', ['build'], function() {
   gulp.watch('app/index.js', electron.restart).on('change', reportChange);
   gulp.watch('app/index.html', electron.restart).on('change', reportChange);
   gulp.watch(paths.html, ['build-html', electron.reload]).on('change', reportChange);
-  gulp.watch('app/styles/**/*.less', ['build-less']).on('change', reportChange);
+  gulp.watch('app/styles/**/*.less', ['build-less', electron.reload]).on('change', reportChange);
 });
