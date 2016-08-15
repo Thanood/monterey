@@ -1,10 +1,11 @@
 var gulp = require('gulp');
 var paths = require('../paths');
+var path = require('path');
 var yargs = require('yargs');
 var watch = require('gulp-watch');
 var runSequence = require('run-sequence');
 var argv = yargs.argv;
-var electron = require('electron-connect').server.create();
+var electron = require('electron-connect').server.create({ spawnOpt: { cwd: path.join(__dirname, '..', '..', 'app') }});
 var params;
 
 // this task wil watch for changes

@@ -10,7 +10,9 @@ module.exports = class Logger {
     this.logBuffer = '';
     this.timeout = timer || 10000;
     this.deleteAfterDays = days || 5;
-    this.logFolder = path.join(__dirname, 'logs');
+
+    // even though the logger is unpacked (so it is in the app.asar.unpacked folder) the dirname is app.asar somehow
+    this.logFolder = path.join(__dirname.endsWith('app.asar') ? __dirname.replace('app.asar', 'app.asar.unpacked') : __dirname, 'logs');
     this.logFileName = this.getLogFileName();
     this.logFilePath = path.join(this.logFolder, this.logFileName);
 
@@ -28,34 +30,25 @@ module.exports = class Logger {
     return `${year}-${month}-${day}.csv`;
   }
 
-  // make sure that the folder and logfile exists
-  // if not, create them
+  // make sure that the logfile exists
+  // if not, create it
   verifyLogPathAndFile() {
-    console.log(`Making sure that the logfolder ('${this.logFolder}') exists`);
-    return this.fileOrFolderExists(this.logFolder)
+    return this.fileOrFolderExists(this.logFilePath)
     .then(exists => {
       if (!exists) {
-        return this.makeDir(this.logFolder);
+        // logfile did not exist, add csv headers to the file
+        // this also creates the file
+        return this.appendToFile(this.logFilePath, 'type;id;date;msg').then((err) => {
+          if (err) {
+            console.log(err)
+          }
+        });
       }
-    })
-    .then(() => {
-      return this.fileOrFolderExists(this.logFilePath)
-      .then(exists => {
-        if (!exists) {
-          // logfile did not exist, add csv headers to the file
-          // this also creates the file
-          return this.appendToFile(this.logFilePath, 'type;id;date;msg').then((err) => {
-            if (err) {
-              console.log(err)
-            }
-          });
-        }
-      });
     })
     .catch((e)=> {
       console.log('Error during verifyLogPathAndFile');
       console.log(e);
-    });
+    });;
   }
 
   // cleanup old log files
