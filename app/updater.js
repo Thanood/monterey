@@ -5,7 +5,7 @@ const BrowserWindowElectron = electron.BrowserWindow;
 const os = require('os');
 const WebContents = BrowserWindowElectron.WebContents;
 
-const UPDATE_SERVER_HOST = 'nuts.jeroenvinke.nl:8081'
+const UPDATE_SERVER_HOST = 'nuts.jeroenvinke.nl:443'
 
 module.exports = function update (window) {
   if (os.platform() !== 'darwin') {
