@@ -40,7 +40,7 @@
     "win": {
       "iconUrl": "https://i.imgur.com/bC47YNC.png"
     },
-    "osx": {
+    "mac": {
       "contents": [
         {
           "x": 410,

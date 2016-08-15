@@ -33,7 +33,7 @@ From inside the monterey folder:
 
 1. npm install --global --production windows-build-tools npm@next
 2. npm run setup
-3. gulp watch (manually reloading electron with ctrl+R is required) or gulp watch-r to automatically reload electron
+3. gulp watch (or gulp watch --manual if you want to reload manually. gulp watch --env=production (default environment is development))
 
 
 ### Working on the pal

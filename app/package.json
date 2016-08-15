@@ -74,12 +74,12 @@
     "pty.js": "https://github.com/Tyriar/pty.js/tarball/fffbf86eb9e8051b5b2be4ba9c7b07faa018ce8d"
   },
   "devDependencies": {
-    "jspm": "0.16.39",
     "aurelia-cli": "^0.13.6",
     "electron-debug": "^1.0.1",
     "electron-json-storage": "^2.0.0",
     "electron-remote": "git+https://git@github.com/monterey-framework/electron-remote.git",
     "fix-path": "^2.0.0",
+    "jspm": "0.16.39",
     "mv": "^2.1.1",
     "npm": "^3.8.6",
     "open": "0.0.5",
@@ -87,6 +87,7 @@
     "tree-kill": "^1.1.0",
     "unzip": "^0.1.11",
     "xterm": "git+https://github.com/sourcelair/xterm.js.git#b32a34b",
+    "yargs": "^4.8.1",
     "yauzl": "^2.6.0"
   }
 }

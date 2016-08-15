@@ -24,9 +24,7 @@ install:
 
 build_script:
   - gulp build-release
-  - gulp rename-index
   - npm run dist
-  - gulp rename-index-back
 
 
 test: off

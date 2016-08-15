@@ -1,20 +1,24 @@
 'use strict';
 
+const argv = require('yargs').argv;
+var environment = argv.env;
+
 const electron = require('electron');
-const storage = require('electron-json-storage');
 const app = electron.app;
-const Logger = require('./logger');
-const electronConnect = require('../node_modules/electron-connect');
 const Menu = electron.Menu;
 const BrowserWindow = electron.BrowserWindow;
-let mainWindow;
-const fixPath = require('fix-path');
+var mainWindow, client;
 
+// fix PATH environment variable on mac
+// https://github.com/monterey-framework/monterey/issues/100
+const fixPath = require('fix-path');
+fixPath();
+
+// activate the logger
+const Logger = require('./logger');
 var log = new Logger();
 log.activate();
 
-
-fixPath();
 
 app.commandLine.appendSwitch('enable-transparent-visuals');
 
@@ -25,45 +29,54 @@ app.on('window-all-closed', () => {
   }
 });
 
-app.on('ready', () => {
-  setApplicationMenu();
+const handleStartupEvent = require('./startuphandler.js');
+const update = require('./updater');
 
-  mainWindow = new BrowserWindow({
-    width: 1024,
-    height: 768,
-    icon: __dirname + '/images/monterey.ico'
+
+// handle any Squirrel event (installer events)
+if (isDev() || !handleStartupEvent()) {
+  app.on('ready', () => {
+
+    // set the menu
+    Menu.setApplicationMenu(Menu.buildFromTemplate(devMenuTemplate));
+
+    mainWindow = new BrowserWindow({
+      width: 1024,
+      height: 768,
+      icon: __dirname + '/images/monterey.ico'
+    });
+
+    // these global vars are used in monterey-pal-electron
+    global.mainWindow = mainWindow;
+    global.rootDir = __dirname;
+
+    mainWindow.loadURL(getIndex());
+
+    if (isDev()) {
+      const electronConnect = require('../node_modules/electron-connect');
+      client = electronConnect.client.create(mainWindow);
+    } else {
+      // check for updates
+      update(mainWindow);
+    }
+
+    // open anchors with target="_blank" in new browser window
+    mainWindow.webContents.on('new-window', function(e, url) {
+      e.preventDefault();
+      var open = require('open');
+      open(url);
+    });
+
+    // cleanup mainWindow variable on close event
+    mainWindow.on('closed', () => {
+      mainWindow = null;
+    });
   });
-
-  global.mainWindow = mainWindow;
-  global.rootDir = __dirname;
-
-  mainWindow.loadURL(`file://${__dirname}/index.html`);
-
-  var client = electronConnect.client.create(mainWindow);
-
-  mainWindow.webContents.on('did-finish-load', () => {
-    mainWindow.setTitle('Monterey');
-  });
-
-  mainWindow.webContents.on('new-window', function(e, url) {
-    e.preventDefault();
-    var open = require('open');
-    open(url);
-  });
-
-  mainWindow.on('closed', () => {
-    mainWindow = null;
-    client.sendMessage('closed');
-  });
-});
-
-let setApplicationMenu = function() {
-  Menu.setApplicationMenu(Menu.buildFromTemplate(devMenuTemplate));
-};
+}
 
 let devMenuTemplate = [
   {
-    label: "Application",
+    label: "Monterey",
     submenu: [
       { label: "Quit", accelerator: "Command+Q", click: function() { app.quit(); }}
     ]
@@ -97,16 +110,35 @@ let devMenuTemplate = [
     }, {
       label: 'Clear cache',
       click: function() {
+        if (!confirm('Are you sure? Monterey will start from scratch')) {
+          return;
+        }
+        const storage = require('electron-json-storage');
         storage.clear(function (err){});
-        BrowserWindow.getFocusedWindow().loadURL(`file://${__dirname}/index.html`);;
+        BrowserWindow.getFocusedWindow().loadURL(getIndex());
       },
-    }, {
-      label: 'Quit',
-      accelerator: 'CmdOrCtrl+Q',
-      click: function() {
-        app.quit();
-      }
     }
   ]
 }];
 
+function getIndex() {
+  return isDev() ? `file://${__dirname}/index.html` : `file://${__dirname}/index.prod.html`;
+}
+
+function confirm(message) {
+  var dialog = electron.dialog;
+  var choice = dialog.showMessageBox(
+          BrowserWindow.getFocusedWindow(),
+          {
+              type: 'question',
+              buttons: ['Yes', 'No'],
+              title: 'Confirm',
+              message: message
+          });
+
+  return choice === 0;
+}
+
+function isDev() {
+  return environment === 'development';
+}
