@@ -14,7 +14,25 @@ let setApplicationMenu = function() {
   Menu.setApplicationMenu(Menu.buildFromTemplate(devMenuTemplate));
 };
 
-let devMenuTemplate = [{
+let devMenuTemplate = [
+  {
+    label: "Application",
+    submenu: [
+      { label: "Quit", accelerator: "Command+Q", click: function() { app.quit(); }}
+    ]
+  }, 
+  {
+    label: "Edit",
+    submenu: [
+      { label: "Undo", accelerator: "CmdOrCtrl+Z", selector: "undo:", role: 'undo' },
+      { label: "Redo", accelerator: "Shift+CmdOrCtrl+Z", selector: "redo:", role: 'redo' },
+      { type: "separator" },
+      { label: "Cut", accelerator: "CmdOrCtrl+X", selector: "cut:", role: 'cut' },
+      { label: "Copy", accelerator: "CmdOrCtrl+C", selector: "copy:", role: 'copy' },
+      { label: "Paste", accelerator: "CmdOrCtrl+V", selector: "paste:", cole: 'paste' },
+      { label: "Select All", accelerator: "CmdOrCtrl+A", selector: "selectAll:", role: 'selectall' }
+    ]
+  }, {
   label: 'DevTools',
   submenu: [{
     label: 'Reload',
@@ -29,7 +47,7 @@ let devMenuTemplate = [{
       BrowserWindow.getFocusedWindow().toggleDevTools();
     }
   }, {
-    label: 'Clear session',
+    label: 'Clear cache',
     click: function() {
       storage.clear(function (err){});
       BrowserWindow.getFocusedWindow().loadURL(`file://${__dirname}/index.html`);

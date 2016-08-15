@@ -61,40 +61,52 @@ let setApplicationMenu = function() {
   Menu.setApplicationMenu(Menu.buildFromTemplate(devMenuTemplate));
 };
 
-let devMenuTemplate = [{
-  label: 'DevTools',
-  submenu: [{
-    label: 'Reload',
-    accelerator: 'CmdOrCtrl+R',
-    click: function() {
-      BrowserWindow.getFocusedWindow().webContents.reloadIgnoringCache();
+let devMenuTemplate = [
+  {
+    label: "Application",
+    submenu: [
+      { label: "Quit", accelerator: "Command+Q", click: function() { app.quit(); }}
+    ]
+  }, 
+  {
+    label: "Edit",
+    submenu: [
+      { label: "Undo", accelerator: "CmdOrCtrl+Z", selector: "undo:", role: 'undo' },
+      { label: "Redo", accelerator: "Shift+CmdOrCtrl+Z", selector: "redo:", role: 'redo' },
+      { type: "separator" },
+      { label: "Cut", accelerator: "CmdOrCtrl+X", selector: "cut:", role: 'cut' },
+      { label: "Copy", accelerator: "CmdOrCtrl+C", selector: "copy:", role: 'copy' },
+      { label: "Paste", accelerator: "CmdOrCtrl+V", selector: "paste:", cole: 'paste' },
+      { label: "Select All", accelerator: "CmdOrCtrl+A", selector: "selectAll:", role: 'selectall' }
+    ]
+  }, 
+  {
+    label: 'DevTools',
+    submenu: [{
+      label: 'Reload',
+      accelerator: 'CmdOrCtrl+R',
+      click: function() {
+        BrowserWindow.getFocusedWindow().webContents.reloadIgnoringCache();
+      }
+    }, {
+      label: 'Toggle DevTools',
+      accelerator: 'Alt+CmdOrCtrl+I',
+      click: function() {
+        BrowserWindow.getFocusedWindow().toggleDevTools();
+      }
+    }, {
+      label: 'Clear cache',
+      click: function() {
+        storage.clear(function (err){});
+        BrowserWindow.getFocusedWindow().loadURL(`file://${__dirname}/index.html`);;
+      },
+    }, {
+      label: 'Quit',
+      accelerator: 'CmdOrCtrl+Q',
+      click: function() {
+        app.quit();
+      }
     }
-  }, {
-    label: 'Toggle DevTools',
-    accelerator: 'Alt+CmdOrCtrl+I',
-    click: function() {
-      BrowserWindow.getFocusedWindow().toggleDevTools();
-    }
-  }, {
-    label: 'Navigate to root URL',
-    click: function() {
-      BrowserWindow.getFocusedWindow().loadURL(`file://${__dirname}/index.html`);;
-    }
-  }, {
-    label: 'Quit',
-    accelerator: 'CmdOrCtrl+Q',
-    click: function() {
-      app.quit();
-    }
-  }]
-}, {
-  label: 'Cache',
-  submenu: [{
-    label: 'Clear',
-    click: function() {
-      storage.clear(function (err){});
-      BrowserWindow.getFocusedWindow().loadURL(`file://${__dirname}/index.html`);;
-    }
-  }]
+  ]
 }];
 
