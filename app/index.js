@@ -6,6 +6,7 @@ var environment = argv.env;
 const electron = require('electron');
 const app = electron.app;
 const Menu = electron.Menu;
+const notify = require('./notify');
 const BrowserWindow = electron.BrowserWindow;
 var mainWindow, client;
 
@@ -56,12 +57,17 @@ if (isDev() || !handleStartupEvent()) {
     if (isDev()) {
       const electronConnect = require('../node_modules/electron-connect');
       client = electronConnect.client.create(mainWindow);
-    } else {
-      mainWindow.webContents.on('did-finish-load', () => {
+    }
+
+    let ipcMain = electron.ipcMain;
+    ipcMain.on('monterey-ready', () => {
+      if (!isDev()) {
         // check for updates
         update(mainWindow);
-      });
-    }
+      } else {
+        notify(false, 'info', 'updater', 'skipping auto update, development mode is active');
+      }
+    });
 
     // open anchors with target="_blank" in new browser window
     mainWindow.webContents.on('new-window', function(e, url) {

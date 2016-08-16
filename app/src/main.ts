@@ -30,7 +30,6 @@ export function configure(aurelia) {
   let errors = <Errors>aurelia.container.get(Errors);
   let notification = <Notification>aurelia.container.get(Notification);
 
-
   // the main process sends all messages to the renderer process via the ipcRenderer.
   // this way the render process is in control of what gets logged in the logfile and what's displayed on screen
   ELECTRON.getIpcRenderer().on('message', (event: string, visible: boolean, id: string, level: string, message: string) => {
@@ -67,5 +66,9 @@ export function configure(aurelia) {
   // so that aurelia-validation uses this renderer when validation-renderer="bootstrap-form" is put on a form
   aurelia.container.registerHandler('bootstrap-form', container => container.get(BootstrapFormValidationRenderer));
 
-  aurelia.start().then(() => aurelia.setRoot());
+  aurelia.start().then(() => aurelia.setRoot()).then(() => {
+    // Monterey has been loaded, let the main process know
+    // so that the main process can trigger the auto update process
+    ELECTRON.getIpcRenderer().send('monterey-ready');
+  });
 }
