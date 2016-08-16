@@ -1,5 +1,5 @@
-import {SESSION}    from 'monterey-pal';
-import {Project}    from './project';
+import {SESSION, FS} from 'monterey-pal';
+import {Project}     from './project';
 
 export class ApplicationState {
 
@@ -17,7 +17,7 @@ export class ApplicationState {
   * restores the application state from session
   */
   async _loadStateFromSession() {
-    Object.assign(this, await SESSION.get('state'));
+    Object.assign(this, await SESSION.get(this._getStateIdentifier()));
 
     for (let i = 0; i < this.projects.length; i++) {
       this.projects[i] = new Project(this.projects[i]);
@@ -25,14 +25,22 @@ export class ApplicationState {
   }
 
   async _isNew(): Promise<boolean> {
-    return !(await SESSION.has('state'));
+    return !(await SESSION.has(this._getStateIdentifier()));
   }
 
   /**
   * Persists the state to session
   */
   async _save() {
-    await SESSION.set('state', this._normalize(this));
+    await SESSION.set(this._getStateIdentifier(), this._normalize(this));
+  }
+
+  // by using the path as identifier we can have a different state for dev and actual use
+  _getStateIdentifier() {
+    let id = `state-${FS.getRootDir()}`;
+
+    // electron-json-storage does not handle special characters well
+    return id.replace(/[`~!@#$%^&*()_|+=?;:'",.<>\{\}\[\]\\\/]/gi, '');
   }
 
   // JSON.stringify does not take getter properties into account

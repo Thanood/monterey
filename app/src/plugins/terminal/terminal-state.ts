@@ -7,7 +7,6 @@ export class TerminalState {
   terminals: any;
   selectedTerminal: any;
   id: number = 1;
-  path: string;
   lastXtermInputLength: number = null;
   xterm;
   pty;
@@ -15,7 +14,6 @@ export class TerminalState {
   constructor(private main: Main) {
     this.terminals = [];
     this.selectedTerminal = {};
-    this.path = this.main.selectedProject.path;
     this.xterm = ELECTRON.getxTerm();
     this.pty = ELECTRON.getPty();
   }
@@ -67,10 +65,13 @@ export class TerminalState {
     let terminalView = this.createXterm();
     let cmd = OS.getPlatform() === 'win32' ? OS.getEnv(['comspec']) || 'cmd.exe' : OS.getEnv('SHELL') || 'sh';
 
+    
+    let path = this.main.selectedProject ? this.main.selectedProject.path : undefined;
+
     var ptyTerminal = this.pty.spawn(cmd, [], {
       name: 'xterm-color',
       env: OS.getEnv(),
-      cwd: this.path,
+      cwd: path,
       cols: terminalView.cols
     });
 

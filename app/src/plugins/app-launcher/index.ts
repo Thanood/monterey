@@ -51,7 +51,6 @@ class Plugin extends BasePlugin {
   }
 
   async onNewSession(state) {
-    console.log('onNewSession');
     let platform = OS.getPlatform();
 
     // Install any default launchers
