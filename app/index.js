@@ -33,6 +33,7 @@ const handleStartupEvent = require('./startuphandler.js');
 const update = require('./updater');
 
 
+
 // handle any Squirrel event (installer events)
 if (isDev() || !handleStartupEvent()) {
   app.on('ready', () => {
@@ -56,8 +57,10 @@ if (isDev() || !handleStartupEvent()) {
       const electronConnect = require('../node_modules/electron-connect');
       client = electronConnect.client.create(mainWindow);
     } else {
-      // check for updates
-      update(mainWindow);
+      mainWindow.webContents.on('did-finish-load', () => {
+        // check for updates
+        update(mainWindow);
+      });
     }
 
     // open anchors with target="_blank" in new browser window

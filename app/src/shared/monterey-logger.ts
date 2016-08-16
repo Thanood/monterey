@@ -17,6 +17,9 @@ export class MonteryLogAppender {
    * @param args Obj from logger
    */
   send(args: any) {
+    // don't log debug messages
+    if (args.type === 'debug') return;
+
     this.ipcRenderer.send('log-message', args);
   }
 

@@ -215,6 +215,7 @@ module.exports = class Logger {
     //event listener for logging
     ipcMain.on('log-message', (event, args) => {
       let type = args.type;
+
       let id = args.id;
       let msg = '';
 

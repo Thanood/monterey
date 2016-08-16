@@ -8,38 +8,35 @@ const WebContents = BrowserWindowElectron.WebContents;
 const UPDATE_SERVER_HOST = 'nuts.jeroenvinke.nl:443'
 
 module.exports = function update (window) {
-  if (os.platform() !== 'darwin') {
-    return
-  }
-
-  const version = app.getVersion()
+  const version = app.getVersion();
   autoUpdater.addListener('update-available', (event) => {
-    console.log('A new update is available')
-  })
+    notify(false, 'info', 'updater', 'A new update is available');
+  });
   autoUpdater.addListener('update-downloaded', (event, releaseNotes, releaseName, releaseDate, updateURL) => {
-    notify('A new update is ready to install', `Version ${releaseName} is downloaded and will be automatically installed on Quit`)
-  })
+    notify(true, 'success', 'updater', `Version ${releaseName} is downloaded and will be automatically installed on Quit`);
+  });
   autoUpdater.addListener('error', (error) => {
-    console.log(error)
-  })
+    notify(true, 'error', 'updater', error);
+  });
   autoUpdater.addListener('checking-for-update', (event) => {
-    console.log('checking-for-update')
-  })
+    notify(false, 'info', 'updater', 'checking-for-update');
+  });
   autoUpdater.addListener('update-not-available', () => {
-    console.log('update-not-available')
-  })
+    notify(false, 'info', 'updater', 'update-not-available');
+  });
   autoUpdater.setFeedURL(`https://${UPDATE_SERVER_HOST}/update/${os.platform()}_${os.arch()}/${version}`)
 
   window.webContents.once('did-frame-finish-load', (event) => {
-    autoUpdater.checkForUpdates()
-  })
+    autoUpdater.checkForUpdates();
+  });
 }
 
-function notify(title, message) {
-  let windows = BrowserWindowElectron.getAllWindows()
+function notify(visible, level, id, message) {
+  let windows = BrowserWindowElectron.getAllWindows();
   if (windows.length == 0) {
-    return
+    return;
   }
 
-  windows[0].webContents.send('notify', title, message)
+  // send this message to the ipcListener so the renderer process can handle it
+  windows[0].webContents.send('message', visible, level, id, message);
 }

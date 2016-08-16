@@ -12,5 +12,5 @@ release
 app/export
 /dist/
 *.asar
-app/logs
+app/logs/*.csv
 app/images/app-launcher
