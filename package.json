@@ -26,6 +26,7 @@
     "pack": "build --dir",
     "dist": "gulp clean-logs && build",
     "setup": "node utils -setup && node utils -rebuild-native",
+    "rebuild-native": "node utils -rebuild-native",
     "test-build": "gulp rename-index && build && gulp rename-index-back"
   },
   "directories": {
