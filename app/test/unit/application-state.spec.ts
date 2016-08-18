@@ -65,6 +65,7 @@ describe('ApplicationState object normalizer', () => {
 describe('ApplicationState _loadStateFromSession', () => {
   let applicationState: ApplicationState;
   let session;
+  let fs;
   let sessionState;
 
   beforeEach(() => {
@@ -72,7 +73,13 @@ describe('ApplicationState _loadStateFromSession', () => {
     session = {
       get: jasmine.createSpy('get').and.returnValue(sessionState)
     };
-    initializePAL((_fs, _session) => Object.assign(_session, session));
+    fs = {
+      getRootDir: () => 'C:\SomeDir'
+    };
+    initializePAL((_fs, _session) => {
+      Object.assign(_session, session);
+      Object.assign(_fs, fs);
+    });
     applicationState = new ApplicationState();
   });
 
@@ -125,6 +132,7 @@ describe('ApplicationState _isNew', () => {
 describe('ApplicationState _save', () => {
   let applicationState: ApplicationState;
   let session;
+  let fs;
   let sessionState;
 
   beforeEach(() => {
@@ -132,7 +140,13 @@ describe('ApplicationState _save', () => {
     session = {
       set: jasmine.createSpy('set')
     };
-    initializePAL((_fs, _session) => Object.assign(_session, session));
+    fs = {
+      getRootDir: () => 'C:\SomeDir'
+    };
+    initializePAL((_fs, _session) => {
+      Object.assign(_session, session);
+      Object.assign(_fs, fs);
+    });
     applicationState = new ApplicationState();
   });
 
@@ -151,7 +165,7 @@ describe('ApplicationState _save', () => {
 
     await applicationState._save();
 
-    expect(session.set).toHaveBeenCalledWith('state', normalized);
+    expect(session.set).toHaveBeenCalledWith('state-CSomeDir', normalized);
     d();
   });
 });

@@ -42,7 +42,6 @@
       "aurelia-v-grid": "github:aurelia-ui-toolkits/aurelia-v-grid@^0.1.0",
       "aurelia-validatejs": "npm:aurelia-validatejs@^0.6.0",
       "aurelia-validation": "npm:aurelia-validation@^0.10.0",
-      "babel-polyfill": "npm:babel-polyfill@^6.9.1",
       "bootstrap": "github:twbs/bootstrap@3.3.6",
       "dragula": "npm:dragula@^3.7.1",
       "fetch": "github:github/fetch@^1.0.0",
@@ -57,11 +56,7 @@
       "text": "github:systemjs/plugin-text@^0.0.3",
       "toastr": "github:CodeSeven/toastr@2.1.2"
     },
-    "devDependencies": {
-      "babel": "npm:babel-core@^5.8.24",
-      "babel-runtime": "npm:babel-runtime@^5.8.24",
-      "core-js": "npm:core-js@^2.4.0"
-    },
+    "devDependencies": {},
     "overrides": {
       "github:CodeSeven/toastr@2.1.2": {
         "map": {

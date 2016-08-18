@@ -1,12 +1,6 @@
 System.config({
   defaultJSExtensions: true,
-  transpiler: "babel",
-  babelOptions: {
-    "optional": [
-      "runtime",
-      "optimisation.modules.system"
-    ]
-  },
+  transpiler: false,
   paths: {
     "*": "dist/*",
     "github:*": "jspm_packages/github/*",
@@ -48,11 +42,7 @@ System.config({
     "aurelia-v-grid": "github:aurelia-ui-toolkits/aurelia-v-grid@0.1.0",
     "aurelia-validatejs": "npm:aurelia-validatejs@0.6.0",
     "aurelia-validation": "npm:aurelia-validation@0.10.1",
-    "babel": "npm:babel-core@5.8.38",
-    "babel-polyfill": "npm:babel-polyfill@6.9.1",
-    "babel-runtime": "npm:babel-runtime@5.8.38",
     "bootstrap": "github:twbs/bootstrap@3.3.6",
-    "core-js": "npm:core-js@2.4.1",
     "dragula": "npm:dragula@3.7.1",
     "fetch": "github:github/fetch@1.0.0",
     "font-awesome": "npm:font-awesome@4.6.3",
@@ -235,19 +225,6 @@ System.config({
       "aurelia-task-queue": "npm:aurelia-task-queue@1.0.0",
       "aurelia-templating": "npm:aurelia-templating@1.0.0"
     },
-    "npm:babel-polyfill@6.9.1": {
-      "babel-runtime": "npm:babel-runtime@6.11.6",
-      "core-js": "npm:core-js@2.4.1",
-      "process": "github:jspm/nodelibs-process@0.1.2",
-      "regenerator-runtime": "npm:regenerator-runtime@0.9.5"
-    },
-    "npm:babel-runtime@5.8.38": {
-      "process": "github:jspm/nodelibs-process@0.1.2"
-    },
-    "npm:babel-runtime@6.11.6": {
-      "core-js": "npm:core-js@2.4.1",
-      "regenerator-runtime": "npm:regenerator-runtime@0.9.5"
-    },
     "npm:buffer@3.6.0": {
       "base64-js": "npm:base64-js@0.0.8",
       "child_process": "github:jspm/nodelibs-child_process@0.1.0",
@@ -259,12 +236,6 @@ System.config({
     "npm:contra@1.9.4": {
       "atoa": "npm:atoa@1.0.0",
       "ticky": "npm:ticky@1.0.1"
-    },
-    "npm:core-js@2.4.1": {
-      "fs": "github:jspm/nodelibs-fs@0.1.2",
-      "path": "github:jspm/nodelibs-path@0.1.0",
-      "process": "github:jspm/nodelibs-process@0.1.2",
-      "systemjs-json": "github:systemjs/plugin-json@0.1.2"
     },
     "npm:crossvent@1.5.4": {
       "child_process": "github:jspm/nodelibs-child_process@0.1.0",
@@ -291,10 +262,6 @@ System.config({
       "assert": "github:jspm/nodelibs-assert@0.1.0",
       "fs": "github:jspm/nodelibs-fs@0.1.2",
       "vm": "github:jspm/nodelibs-vm@0.1.0"
-    },
-    "npm:regenerator-runtime@0.9.5": {
-      "path": "github:jspm/nodelibs-path@0.1.0",
-      "process": "github:jspm/nodelibs-process@0.1.2"
     },
     "npm:semver@5.3.0": {
       "process": "github:jspm/nodelibs-process@0.1.2"
