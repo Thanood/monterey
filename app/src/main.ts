@@ -2,6 +2,7 @@ import 'bootstrap';
 import {LogManager}                      from 'aurelia-framework';
 import {MonteryLogAppender}              from './shared/monterey-logger';
 import {BootstrapFormValidationRenderer} from './shared/bootstrap-validation-renderer';
+import {KendoAureliaDialogRenderer}      from './shared/kendo-aurelia-dialog-renderer';
 import {ApplicationState}                from './shared/application-state';
 import {Errors}                          from './plugins/errors/errors';
 import {Notification}                    from './shared/notification';
@@ -15,9 +16,9 @@ export function configure(aurelia) {
     .standardConfiguration()
     .developmentLogging()
     .plugin('aurelia-dialog', config => {
-      config.useDefaults();
-      config.settings.lock = true;
-      config.settings.centerHorizontalOnly = false;
+      config.useStandardResources();
+      config.useCSS('');
+      config.useRenderer(KendoAureliaDialogRenderer)
     })
     .plugin('aurelia-v-grid')
     .plugin('aurelia-validation')

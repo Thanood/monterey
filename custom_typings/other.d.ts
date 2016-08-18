@@ -22,3 +22,7 @@ declare module '*activities.json!' {
    export var gte: any;
    export var valid: any;
  }
+
+ declare module 'aurelia-dialog/renderer' {
+   export var Renderer: any;
+ }

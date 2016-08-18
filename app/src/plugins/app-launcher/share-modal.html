@@ -1,7 +1,6 @@
 <template>
-  <ai-dialog class="share-modal">
+  <ai-dialog class="share-modal" title="Share app launcher">
     <ai-dialog-body>
-      <h3>Share</h3>
       <p>We welcome anyone to share app launcher configurations that others may find useful.</p>
 
       <ol>
@@ -32,7 +31,9 @@
     </ai-dialog-body>
 
     <ai-dialog-footer>
-      <button class="btn btn-primary" click.trigger="dialogController.close()">Close</button>
+      <div class="align-right">
+        <button class="btn btn-primary" click.trigger="dialogController.close()">Close</button>
+      </div>
     </ai-dialog-footer>
   </ai-dialog>
 </template>

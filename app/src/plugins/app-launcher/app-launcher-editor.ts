@@ -77,7 +77,7 @@ export class AppLauncherEditor {
     return true;
   }
 
-  @withModal(Browser, function () { return { project: this.project, global: this.global }; })
+  @withModal(Browser, function () { return { project: this.project, global: this.global }; }, { height: 600 })
   openBrowser() {
     if (this.launchers.length > 0) {
       this.selectFirst();

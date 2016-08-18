@@ -28,8 +28,10 @@
     </ai-dialog-body>
 
     <ai-dialog-footer>
-      <button click.trigger="submit()">OK</button>
-      <button click.trigger="dialog.cancel()">Close</button>
+      <div class="align-right">
+        <button click.trigger="submit()">OK</button>
+        <button click.trigger="dialog.cancel()">Close</button>
+      </div>
     </ai-dialog-footer>
   </ai-dialog>
 </template>
