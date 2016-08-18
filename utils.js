@@ -14,7 +14,11 @@ var rebuildNative = () => {
   var childProcess = require('child_process');
   var path = require("path");
   var pathToElectron = path.join(__dirname, '/node_modules/electron-prebuilt/dist/electron');
+  console.log("Using electron for building:")
+  console.log(pathToElectron);
   var modulesPath = path.join(__dirname, '/app/node_modules');
+  console.log("Rebuilding native modules in:")
+  console.log(modulesPath)
 
   shouldRebuildNativeModules(pathToElectron)
     .then((shouldBuild) => {
