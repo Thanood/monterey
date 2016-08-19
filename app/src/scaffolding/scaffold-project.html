@@ -1,41 +1,39 @@
 <template>
   <require from="../shared/converters/limit-text-size"></require>
-  <ai-dialog class="scaffold-modal" title="Create new application">
-    <div style="height: 100%">
-      <ai-dialog-body>
-        <div class=col-md-4>
-          <h2>Project template</h2>
-          <div class="project-template-list">
-            <ul class="list-group">
-              <li class="list-group-item ${selectedTemplate.id === template.id ? 'selected': ''}"
-                  repeat.for="template of templates"
-                  title.bind="template.name"
-                  click.delegate="switchTemplate(template)">
-                ${template.name | limitTextSize: 40}
+  <ai-dialog class="scaffold-modal" title="Create new application" width="750">
+    <ai-dialog-body>
+      <div class=col-md-4>
+        <h2>Project template</h2>
+        <div class="project-template-list">
+          <ul class="list-group">
+            <li class="list-group-item ${selectedTemplate.id === template.id ? 'selected': ''}"
+                repeat.for="template of templates"
+                title.bind="template.name"
+                click.delegate="switchTemplate(template)">
+              ${template.name | limitTextSize: 40}
 
-                <i class="fa fa-arrow-right" show.bind="selectedTemplate.id === template.id"></i>
-              </li>
-            </ul>
-          </div>
+              <i class="fa fa-arrow-right" show.bind="selectedTemplate.id === template.id"></i>
+            </li>
+          </ul>
         </div>
+      </div>
 
 
-        <div class="col-md-8">
-          <h2 class="main-header-dialog">Create new application</h2>
-          <compose view-model.bind="workflow.currentStep.viewModel"
-                  model.bind="{ state: state, step: workflow.currentStep }"></compose>
-        </div>
-      </ai-dialog-body>
+      <div class="col-md-8">
+        <h2 class="main-header-dialog">Create new application</h2>
+        <compose view-model.bind="workflow.currentStep.viewModel"
+                model.bind="{ state: state, step: workflow.currentStep }"></compose>
+      </div>
+    </ai-dialog-body>
 
-      <ai-dialog-footer>
-        <div class="align-right">
-          <button class="btn btn-primary" click.trigger="close()" tabindex="3">Close</button>
-          <button class="btn btn-primary" click.trigger="workflow.previous()" if.bind="!workflow.isLast && !workflow.isFirst" tabindex="2">
-            Previous
-          </button>
-          <button class="btn btn-primary" click.delegate="next()" tabindex="1" if.bind="!workflow.isLast">Next</button>
-        </div>  
-      </ai-dialog-footer>
-    </div>
+    <ai-dialog-footer>
+      <div class="align-right">
+        <button class="btn btn-primary" click.trigger="close()" tabindex="3">Close</button>
+        <button class="btn btn-primary" click.trigger="workflow.previous()" if.bind="!workflow.isLast && !workflow.isFirst" tabindex="2">
+          Previous
+        </button>
+        <button class="btn btn-primary" click.delegate="next()" tabindex="1" if.bind="!workflow.isLast">Next</button>
+      </div>  
+    </ai-dialog-footer>
   </ai-dialog>
 </template>
