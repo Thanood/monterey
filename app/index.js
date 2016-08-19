@@ -24,36 +24,11 @@ log.activate();
 app.commandLine.appendSwitch('enable-transparent-visuals');
 
 
-// Quit when all windows are closed.
-// app.on('before-quit', (e) => {
-//   e.preventDefault();
-
-  // log.flushBuffer();
-
-  // var hasBeenQuit = false;
-  // let ipcMain = electron.ipcMain;
-  // ipcMain.on('monterey-close', () => {
-  //   hasBeenQuit = true;
-  //   console.log('Received monterey-close event, quitting now');
-  //   app.quit();
-  // });
-
-  // setTimeout(() => {
-  //   // if the renderer process did not emit monterey-close after an interval, then kill
-  //   //
-  //   if (!hasBeenQuit) {
-  //     app.quit();
-  //   }
-  // }, 5000);
-
-//   if (mainWindow) {
-//     console.log('sent');
-//   let windows = BrowserWindow.getAllWindows();
-//     windows[0].webContents.send('monterey-clean-exit'); 
-//   } else {
-//     console.log('!mainWindow');
-//   }
-// });
+// flush the log buffer before quit
+app.on('before-quit', (e) => {
+  log.flushBuffer();
+  app.quit();
+});
 
 const handleStartupEvent = require('./startuphandler.js');
 const update = require('./updater');
@@ -101,14 +76,8 @@ if (isDev() || !handleStartupEvent()) {
       open(url);
     });
 
-    //  app.on('before-quit', function (e) {
-    //     e.preventDefault();
-    //     mainWindow.hide();
-    // });
-
     // cleanup mainWindow variable on close event
     mainWindow.on('closed', (e) => {
-      console.log('closed, setting mainWindow to null');
       mainWindow = null;
     });
   });
