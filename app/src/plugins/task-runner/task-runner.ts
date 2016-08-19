@@ -93,11 +93,11 @@ export class TaskRunner {
   }
 
   getService(project: Project) {
-    if (this.selectedProject.isUsingGulp()) {
+    if (project.isUsingGulp()) {
       return this.container.get(GulpService);
-    } else if (this.selectedProject.isUsingAureliaCLI()) {
+    } else if (project.isUsingAureliaCLI()) {
       return this.container.get(AureliaCLIService);
-    } else if (this.selectedProject.isUsingWebpack()) {
+    } else if (project.isUsingWebpack()) {
       return this.container.get(WebpackService);
     }
   }
