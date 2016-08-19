@@ -1,10 +1,12 @@
-import {autoinject}         from 'aurelia-framework';
-import {PluginManager}      from './plugin-manager';
-import {ApplicationState}   from './application-state';
-import {FS}                 from 'monterey-pal';
-import {Project}            from './project';
-import {Notification}       from './notification';
-import {EventAggregator}    from 'aurelia-event-aggregator';
+import {autoinject, LogManager} from 'aurelia-framework';
+import {PluginManager}          from './plugin-manager';
+import {ApplicationState}       from './application-state';
+import {FS}                     from 'monterey-pal';
+import {Project}                from './project';
+import {Notification}           from './notification';
+import {EventAggregator}        from 'aurelia-event-aggregator';
+
+const logger = LogManager.getLogger('App launcher plugin');
 
 @autoinject()
 export class ProjectManager {
@@ -42,11 +44,13 @@ export class ProjectManager {
 
     if (!projectObj.packageJSONPath) {
       this.notification.error('location of package.json was not found, the project will not be added to Monterey');
+      logger.error('location of package.json was not found, the project will not be added to Monterey');
       return false;
     }
 
     if (!projectObj.name) {
       this.notification.error('project name was not found, the project will not be added to Monterey');
+      logger.error('project name was not found, the project will not be added to Monterey');
       return false;
     }
 
@@ -99,6 +103,7 @@ export class ProjectManager {
     if (removeProjects.length > 0) {
       let projectNames = removeProjects.map(i => i.project.name).join(', ');
       this.notification.warning(`The following projects were removed/relocated and will be removed from Monterey:\r\n ${projectNames}`);
+      logger.warning(`The following projects were removed/relocated and will be removed from Monterey:\r\n ${projectNames}`);
 
       removeProjects.forEach(r => {
         let index = this.state.projects.indexOf(r);
