@@ -27,7 +27,6 @@ app.commandLine.appendSwitch('enable-transparent-visuals');
 // flush the log buffer before quit
 app.on('before-quit', (e) => {
   log.flushBuffer();
-  app.quit();
 });
 
 const handleStartupEvent = require('./startuphandler.js');

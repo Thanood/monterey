@@ -2,6 +2,8 @@ import * as moment              from 'moment';
 import {autoinject, observable} from 'aurelia-framework';
 import {TaskManager}            from './task-manager';
 import {DialogController}       from 'aurelia-dialog';
+import {withModal}              from '../../shared/decorators';
+import {TRexDialog}             from './components/t-rex-dialog';
 import {Task}                   from './task';
 
 @autoinject()
@@ -35,6 +37,9 @@ export class TaskManagerModal {
   selectedTaskChanged() {
     this.updateElapsed();
   }
+  
+  @withModal(TRexDialog, null, { modal: false })
+  trex() {}
 
   updateElapsed() {
     if (this.selectedTask && !this.selectedTask.finished) {

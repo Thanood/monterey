@@ -1,0 +1,15 @@
+<template>
+  <ai-dialog class="scaffold-modal" title="T-rex" width="750">
+    <ai-dialog-body>
+      <p>Click below and press space to start</p>
+      <iframe src="http://wayou.github.io/t-rex-runner/" width="732" height="300">
+      </iframe>
+    </ai-dialog-body>
+
+    <ai-dialog-footer>
+      <div class="align-right">
+        <button class="btn btn-primary" click.trigger="dialog.close()">Close</button>
+      </div>  
+    </ai-dialog-footer>
+  </ai-dialog>
+</template>
