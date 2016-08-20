@@ -2,7 +2,7 @@ import {autoinject}         from 'aurelia-framework';
 import {MontereyRegistries} from '../../shared/monterey-registries';
 import {Project}            from '../../shared/project';
 import {ApplicationState}   from '../../shared/application-state';
-import {FS}                 from 'monterey-pal';
+import {FS, ELECTRON}       from 'monterey-pal';
 import {TaskManager}        from '../task-manager/task-manager';
 
 @autoinject
@@ -55,7 +55,7 @@ export class LauncherManager {
     try {
       let result = await this.getLauncher(platform, launcherPath);
 
-      let root = FS.getRootDir();
+      let root = ELECTRON.getPath('userData');
       let imgFolder = FS.join(root, '/images/app-launcher/', platform, '/');
 
       // create folder structure where the image of the app-launcher will be downloaded to

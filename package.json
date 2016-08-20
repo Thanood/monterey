@@ -35,10 +35,6 @@
   "build": {
     "appId": "monterey",
     "app-category-type": "monterey",
-    "asar": {
-      "unpackDir": "{app/logs,logs}",
-      "unpack": "{app/logger.js,logger.js}"
-    },
     "win": {
       "iconUrl": "https://i.imgur.com/bC47YNC.png"
     },

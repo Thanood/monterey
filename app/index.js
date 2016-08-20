@@ -1,7 +1,7 @@
 'use strict';
 
 const argv = require('yargs').argv;
-var environment = argv.env;
+var environment = argv.env || 'production';
 
 const electron = require('electron');
 const app = electron.app;
@@ -17,7 +17,7 @@ fixPath();
 
 // activate the logger
 const Logger = require('./logger');
-var log = new Logger();
+var log = new Logger(app);
 log.activate();
 
 
@@ -50,6 +50,8 @@ if (isDev() || !handleStartupEvent()) {
     // these global vars are used in monterey-pal-electron
     global.mainWindow = mainWindow;
     global.rootDir = __dirname;
+    global.app = app;
+    global.environment = environment;
 
     mainWindow.loadURL(getIndex());
 

@@ -5,14 +5,14 @@ const path = require('path');
 
 module.exports = class Logger {
 
-  constructor(timer, days) {
+  constructor(app, timer, days) {
     console.log("Starting Monterey logger");
     this.logBuffer = '';
     this.timeout = timer || 10000;
     this.deleteAfterDays = days || 5;
 
     // even though the logger is unpacked (so it is in the app.asar.unpacked folder) the dirname is app.asar somehow
-    this.logFolder = path.join(__dirname.endsWith('app.asar') ? __dirname.replace('app.asar', 'app.asar.unpacked') : __dirname, 'logs');
+    this.logFolder = path.join(app.getPath('userData'), 'logs')
     this.logFileName = this.getLogFileName();
     this.logFilePath = path.join(this.logFolder, this.logFileName);
 
@@ -33,22 +33,30 @@ module.exports = class Logger {
   // make sure that the logfile exists
   // if not, create it
   verifyLogPathAndFile() {
-    return this.fileOrFolderExists(this.logFilePath)
+    return this.fileOrFolderExists(this.logFolder)
     .then(exists => {
       if (!exists) {
-        // logfile did not exist, add csv headers to the file
-        // this also creates the file
-        return this.appendToFile(this.logFilePath, 'type;id;date;msg').then((err) => {
-          if (err) {
-            console.log(err)
-          }
-        });
+        return this.makeDir(this.logFolder)
       }
+    })
+    .then(() => {
+      return this.fileOrFolderExists(this.logFilePath)
+      .then(exists => {
+        if (!exists) {
+          // logfile did not exist, add csv headers to the file
+          // this also creates the file
+          return this.appendToFile(this.logFilePath, 'type;id;date;msg').then((err) => {
+            if (err) {
+              console.log(err)
+            }
+          });
+        }
+      });
     })
     .catch((e)=> {
       console.log('Error during verifyLogPathAndFile');
       console.log(e);
-    });;
+    });
   }
 
   // cleanup old log files

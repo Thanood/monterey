@@ -44,7 +44,7 @@ gulp.task('watch', ['build'], function() {
     });
   });
 
-  watch('app/*.js', function () {
+  watch('app/!(config).js', function () {
     reportChange();
     restart();
   });

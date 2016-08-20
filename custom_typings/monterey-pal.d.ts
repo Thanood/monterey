@@ -29,6 +29,7 @@ declare module 'monterey-pal' {
       set(key: any, value: any): void;
       clear(): void;
       has(key: any): void;
+      getEnv(): string;
   };
   export const NPM: {
       install(packages: any, error: any): Promise<void>;
@@ -65,5 +66,6 @@ declare module 'monterey-pal' {
     getIpcRenderer(): any;
     getxTerm(): any;
     getPty(): any;
+    getPath(name): string;
   }
 }
