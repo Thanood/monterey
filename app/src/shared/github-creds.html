@@ -1,6 +1,6 @@
 <template>
   <require from="./converters/moment"></require>
-  <ai-dialog class="github-creds-modal">
+  <ai-dialog class="github-creds-modal" width="700" height="450">
     <ai-dialog-body>
       <h2>GitHub access</h2>
       <p>Monterey makes extensive use of the Github API. Unfortunately GitHub rate limites requests when no authentication is provided.</p>
@@ -23,8 +23,8 @@
 
     <ai-dialog-footer>
       <div class="align-right">
-        <button click.trigger="submit()">OK</button>
-        <button click.trigger="dialog.cancel()">Close</button>
+        <button class="btn btn-primary" click.trigger="submit()">OK</button>
+        <button class="btn btn-primary" click.trigger="dialog.cancel()">Close</button>
       </div>
     </ai-dialog-footer>
   </ai-dialog>

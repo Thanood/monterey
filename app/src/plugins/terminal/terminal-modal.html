@@ -1,8 +1,8 @@
 <template>
   <require from="../../../node_modules/xterm/src/xterm.css"></require>
-  <ai-dialog class="terminal-modal">
+  <ai-dialog class="terminal-modal" width="900" height="500">
     <ai-dialog-body>
-      <div class="left-side">
+      <div class="left-side col-md-4">
         <h2 class="title">Terminals</h2>
         <div class="row">
           <div class="task-list">
@@ -17,7 +17,7 @@
           </div>
         </div>
       </div>
-      <div class="right-side">
+      <div class="right-side col-md-8">
         <h2 class="title"><div contenteditable="true" blur.trigger="updateTitle($event)">${terminalState.selectedTerminal.name ? terminalState.selectedTerminal.name:"none"}</div></h2>
         <div
           repeat.for="terminal of terminalState.terminals">

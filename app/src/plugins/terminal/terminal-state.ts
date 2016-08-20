@@ -1,6 +1,6 @@
-import {Main}               from '../../main/main';
-import {autoinject}         from 'aurelia-framework';
-import {ELECTRON, OS}           from 'monterey-pal';
+import {Main}         from '../../main/main';
+import {autoinject}   from 'aurelia-framework';
+import {ELECTRON, OS} from 'monterey-pal';
 
 @autoinject()
 export class TerminalState {
