@@ -5,7 +5,6 @@ export function configure(aurelia) {
   aurelia.feature('plugins/aurelia-cli');
   aurelia.feature('plugins/gulp');
   aurelia.feature('plugins/webpack');
-  aurelia.feature('plugins/task-runner');
   aurelia.feature('plugins/project-info');
   aurelia.feature('plugins/preferences');
   aurelia.feature('plugins/gist-run');

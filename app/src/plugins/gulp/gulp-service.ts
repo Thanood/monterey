@@ -2,10 +2,9 @@ import {autoinject}           from 'aurelia-framework';
 import {OS, FS}               from 'monterey-pal';
 import {ApplicationState}     from '../../shared/application-state';
 import {Project, ProjectTask} from '../../shared/project';
-import {TaskRunnerService} from '../task-runner/task-runner';
 
 @autoinject()
-export class GulpService implements TaskRunnerService {
+export class GulpService {
   title  = 'Gulp';
 
   constructor(private state: ApplicationState) {}

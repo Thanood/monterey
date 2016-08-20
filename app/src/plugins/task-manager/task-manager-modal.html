@@ -1,11 +1,15 @@
 <template>
+  <require from="../../shared/tree-list/tree-list"></require>
   <require from="../../shared/converters/moment"></require>
 
-  <ai-dialog class="task-manager-modal">
+  <ai-dialog class="task-manager-modal" width="800">
     <ai-dialog-body>
 
       <div class="left-side">
-        <h2 class="title">Tasks</h2>
+        <tree-list repeat.for="node of taskTree" class="top-level" on-select.delegate="selectedNode = $event.detail" node.bind="node"></tree-list>
+
+        ${selectedNode.name}
+        <!--<h2 class="title">Tasks</h2>
         <table>
           <tr>
             <td style="width: 50px;">Show</td>
@@ -36,12 +40,12 @@
               </li>
             </ul>
           </div>
-        </div>
+        </div>-->
       </div>
 
 
       <div class="right-side" if.bind="selectedTask">
-        <h3 class="title" style="margin: 0">${selectedTask.title}</h3>
+        <!--<h3 class="title" style="margin: 0">${selectedTask.title}</h3>
         <p>
            <b>Started on:</b> ${selectedTask.start | moment:'LTS'}<br/>
            <b>Finished on:</b> ${selectedTask.end | moment:'LTS'}<br/>
@@ -57,12 +61,12 @@
           <li style="color: white; list-style-type: none" repeat.for="log of selectedTask.logs">
             ${log.message}
           </li>
-        </ul>
+        </ul>-->
       </div>
 
-      <div class="right-side" if.bind="tasks.length === 0 && !selectedTask">
+      <!--<div class="right-side" if.bind="tasks.length === 0 && !selectedTask">
         <p>There are no tasks</p>
-      </div>
+      </div>-->
 
       <div style="clear: both"></div>
     </ai-dialog-body>

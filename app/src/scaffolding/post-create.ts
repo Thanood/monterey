@@ -8,7 +8,7 @@ import {Project}              from '../shared/project';
 import {TaskManagerModal}     from '../plugins/task-manager/task-manager-modal';
 import {Common as CommonNPM}  from '../plugins/npm/common';
 import {Common as CommonJSPM} from '../plugins/jspm/common';
-import {TaskRunner}           from '../plugins/task-runner/task-runner';
+// import {TaskRunner}           from '../plugins/task-runner/task-runner';
 
 @autoinject()
 export class PostCreate {
@@ -20,7 +20,7 @@ export class PostCreate {
   constructor(private projectManager: ProjectManager,
               private dialogService: DialogService,
               private notification: Notification,
-              private taskRunner: TaskRunner,
+              // private taskRunner: TaskRunner,
               private commonNPM: CommonNPM,
               private commonJSPM: CommonJSPM) {}
 
@@ -145,26 +145,26 @@ export class PostCreate {
       });
     }
 
-    if (checkedActions.find(x => x.name === 'start cli')) {
-      promise = promise.then(async () => {
-        let service = this.taskRunner.getService(this.project);
-        await this.taskRunner._loadTasks(this.project, this.project.__meta__.taskrunner, service, false);
-        let tasks = this.project.__meta__.taskrunner.tasks;
-        let cmd = tasks.find(x => x.parameters.length === 2 && x.parameters[0] === 'run' && x.parameters[1] === '--watch');
+    // if (checkedActions.find(x => x.name === 'start cli')) {
+    //   promise = promise.then(async () => {
+    //     let service = this.taskRunner.getService(this.project);
+    //     await this.taskRunner._loadTasks(this.project, this.project.__meta__.taskrunner, service, false);
+    //     let tasks = this.project.__meta__.taskrunner.tasks;
+    //     let cmd = tasks.find(x => x.parameters.length === 2 && x.parameters[0] === 'run' && x.parameters[1] === '--watch');
 
-        this.taskRunner.run(cmd, this.project, service);
-      });
-    }
+    //     this.taskRunner.run(cmd, this.project, service);
+    //   });
+    // }
 
-    if (checkedActions.find(x => x.name === 'start gulp')) {
-      promise = promise.then(async () => {
-        let service = this.taskRunner.getService(this.project);
-        await this.taskRunner._loadTasks(this.project, this.project.__meta__.taskrunner, service, false);
-        let cmd = this.project.__meta__.taskrunner.tasks.find(x => x.parameters[0] === 'watch');
+    // if (checkedActions.find(x => x.name === 'start gulp')) {
+    //   promise = promise.then(async () => {
+    //     let service = this.taskRunner.getService(this.project);
+    //     await this.taskRunner._loadTasks(this.project, this.project.__meta__.taskrunner, service, false);
+    //     let cmd = this.project.__meta__.taskrunner.tasks.find(x => x.parameters[0] === 'watch');
 
-        this.taskRunner.run(cmd, this.project, service);
-      });
-    }
+    //     this.taskRunner.run(cmd, this.project, service);
+    //   });
+    // }
 
     if (checkedActions.length > 0) {
       this.notification.success('Monterey will now execute all actions. The progress can be followed through the task manager (in the taskbar)');

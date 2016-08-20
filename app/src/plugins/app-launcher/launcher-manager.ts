@@ -43,10 +43,11 @@ export class LauncherManager {
   // installs a launcher to the app state
   // project can be undefined, in which case the launcher is installed globally
   installLauncher(project: Project | undefined, platform: string, launcherPath: string) {
-    this.taskManager.addTask({
-      promise: this.tryInstallLauncherFromRemote(project, platform, launcherPath),
-      title: `Installing launcher ${platform}/${launcherPath}`
-    });        
+    // TODO: Enable this again
+    // this.taskManager.addTask({
+    //   promise: this.tryInstallLauncherFromRemote(project, platform, launcherPath),
+    //   title: `Installing launcher ${platform}/${launcherPath}`
+    // });        
   }
 
 

@@ -39,7 +39,9 @@ export class Common {
 
     task.promise = promise;
 
-    this.taskManager.addTask(task);
+    
+    // TODO: Enable this again
+    // this.taskManager.addTask(task);
 
     return task;
   }

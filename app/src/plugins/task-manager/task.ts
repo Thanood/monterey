@@ -1,3 +1,5 @@
+import {Project} from '../../shared/project';
+
 export interface Task {
   promise: Promise<any>;
   title: string;
@@ -7,6 +9,7 @@ export interface Task {
   logs?: Array<LogMessage>;
   finished?: boolean;
   elapsed?: string;
+  project?: Project;
 }
 
 export interface LogMessage {

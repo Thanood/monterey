@@ -1,0 +1,12 @@
+<template>
+  <ul show.bind="node.visible" style="list-style-type: none;">
+    <li>
+      <div click.delegate="nodeClicked(node)" class="${node.selected ? 'selected' : ''}">
+        <span class="${node.icon}"></span>
+        <span>${node.name}</span>
+      </div>
+
+      <tree-list repeat.for="child of node.children" node.bind="child"></tree-list>
+    </li>
+  </ul>
+</template>
