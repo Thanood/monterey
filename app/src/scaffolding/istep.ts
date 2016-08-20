@@ -17,4 +17,6 @@ export interface IStep {
   // this property to pass the created project to the modal
   // which returns the project when the modal is closed
   project?: Project;
+
+  closeBtnText: string;
 }

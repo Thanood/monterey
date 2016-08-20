@@ -85,6 +85,8 @@ export class PostCreate {
     //     value: 'Atom'
     //   }]
     // });
+
+    this.updateCloseBtnText();
   }
 
   async addProject() {
@@ -99,6 +101,7 @@ export class PostCreate {
   }
 
   onCheck(action: Action) {
+
     // can't do anything without npm install first
     if (action.name === 'npm install') {
       if (!action.checked) {
@@ -110,6 +113,12 @@ export class PostCreate {
         this.notification.warning('It is necessary to install NPM dependencies before anything else can be done');
       }
     }
+
+    this.updateCloseBtnText();
+  }
+
+  updateCloseBtnText() {
+    this.step.closeBtnText = this.actions.filter(x => x.checked).length > 0 ? 'Start' : 'Close';
   }
 
   async execute() {

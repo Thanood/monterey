@@ -31,7 +31,7 @@
 
     <ai-dialog-footer>
       <div class="align-right">
-        <button class="btn btn-primary" click.trigger="close()" tabindex="3">Close</button>
+        <button class="btn btn-primary" click.trigger="close()" tabindex="3">${workflow.currentStep.closeBtnText || 'Close'}</button>
         <button class="btn btn-primary" click.trigger="workflow.previous()" if.bind="!workflow.isLast && !workflow.isFirst" tabindex="2">
           Previous
         </button>
