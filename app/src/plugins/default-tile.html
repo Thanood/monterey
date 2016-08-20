@@ -4,7 +4,7 @@
   <div class="default-tile with-icon ${relevant === false ? 'irrelevant' : 'relevant'}"
        if.bind="img">
     <p title.bind="title">
-      ${title | limitTextSize: 26}
+      ${title | limitTextSize: 13}
     </p>
     <img src.bind="img" alt="Error loading image" />
   </div>
@@ -12,7 +12,7 @@
   <div class="default-tile without-icon ${relevant=== false ? 'irrelevant' : 'relevant'}"
        if.bind="!img">
     <p title.bind="title">
-      ${title | limitTextSize: 26}
+      ${title | limitTextSize: 13}
     </p>
   </div>
 </template>
