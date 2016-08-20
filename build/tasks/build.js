@@ -46,8 +46,10 @@ gulp.task('build-html', function() {
 
 gulp.task('build-less', function() {
   return gulp.src(paths.less)
+    .pipe(sourcemaps.init())
     .pipe(plumber({errorHandler: notify.onError('Error: <%= error.message %>')}))
     .pipe(less())
+    .pipe(sourcemaps.write('./'))
     .pipe(gulp.dest(paths.styles));
 });
 

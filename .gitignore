@@ -8,6 +8,7 @@ build/reports
 coverage
 test/e2e/dist
 app/styles/styles.css
+app/styles/styles.css.map
 release
 app/export
 /dist/
