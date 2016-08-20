@@ -12,14 +12,11 @@ export class ScaffoldProject {
   workflow: Workflow;
   @bindable selectedTemplate: ProjectTemplate;
   templates: Array<ProjectTemplate> = [];
+  loading = false;
 
   constructor(private dialog: DialogController,
               private projectManager: ProjectManager,
               private registries: MontereyRegistries) {
-  }
-
-  async activate() {
-    await this.fillTemplateList();
   }
 
   async fillTemplateList() {
@@ -57,8 +54,11 @@ export class ScaffoldProject {
     });
   }
 
-  attached() {
+  async attached() {
+    this.loading = true;
+    await this.fillTemplateList();
     this.selectedTemplate = this.templates[0];
+    this.loading = false;
   }
 
   async next() {
