@@ -5,7 +5,8 @@ import {FS}                   from 'monterey-pal';
 import {ProjectManager}       from '../shared/project-manager';
 import {Notification}         from '../shared/notification';
 import {Project}              from '../shared/project';
-import {TaskManagerModal}     from '../plugins/task-manager/task-manager-modal';
+import {TaskManager}          from '../plugins/task-manager/task-manager';
+import {Task}                 from '../plugins/task-manager/task';
 import {Common as CommonNPM}  from '../plugins/npm/common';
 import {Common as CommonJSPM} from '../plugins/jspm/common';
 // import {TaskRunner}           from '../plugins/task-runner/task-runner';
@@ -21,6 +22,7 @@ export class PostCreate {
               private dialogService: DialogService,
               private notification: Notification,
               // private taskRunner: TaskRunner,
+              private taskManager: TaskManager,
               private commonNPM: CommonNPM,
               private commonJSPM: CommonJSPM) {}
 
@@ -122,27 +124,17 @@ export class PostCreate {
   }
 
   async execute() {
-    let promise = new Promise(resolve => resolve());
-
     let checkedActions = this.actions.filter(x => x.checked);
-
-    console.log(checkedActions);
+    let task: Task;
+    
     if (checkedActions.find(x => x.name === 'npm install')) {
-      promise = promise.then(() => {
-        console.log('running npm install');
-        let task = this.commonNPM.installNPMDependencies(this.project);
-
-        return task.promise;
-      });
+      task = this.commonNPM.installNPMDependencies(this.project);
     }
 
     if (checkedActions.find(x => x.name === 'jspm install')) {
-      promise = promise.then(() => {
-        console.log('running jspm install');
-        let task = this.commonJSPM.install(this.project, true, { lock: true }, true);
-
-        return task.promise;
-      });
+      let t = this.commonJSPM.install(this.project, true, { lock: true }, true);
+      task.queue.push(t);
+      task = t;
     }
 
     // if (checkedActions.find(x => x.name === 'start cli')) {
@@ -170,10 +162,10 @@ export class PostCreate {
       this.notification.success('Monterey will now execute all actions. The progress can be followed through the task manager (in the taskbar)');
     }
 
-    promise = promise.then(() => {
-      console.log('all done');
-      this.notification.success(`Ran all tasks for project "${this.project.name}"`);
-    });
+    // promise = promise.then(() => {
+    //   console.log('all done');
+    //   this.notification.success(`Ran all tasks for project "${this.project.name}"`);
+    // });
 
     return {
       goToNextStep: true

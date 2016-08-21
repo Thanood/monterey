@@ -5,14 +5,15 @@ var yargs = require('yargs');
 var watch = require('gulp-watch');
 var runSequence = require('run-sequence');
 var argv = yargs.argv;
-var electron = require('electron-connect').server.create({ spawnOpt: { cwd: path.join(__dirname, '..', '..', 'app') }});
+var electron = require('electron-connect').server.create({ spawnOpt: { env: ['NODE_DEBUG'], cwd: path.join(__dirname, '..', '..', 'app') }});
 var params;
 
 // this task wil watch for changes
 // to js, html, and css files and call the
 // reportChange method.
 gulp.task('watch', ['build'], function() {
-  params = [argv.env ? `--env=${argv.env}` : '--env=development'];
+  params = [argv.env ? `--env=${argv.env}` : '--env=development', 'NODE_DEBUG=true'];
+  params
   _reload = argv.manual ? false : true;
   electron.start(params);
 

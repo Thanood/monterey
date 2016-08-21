@@ -1,7 +1,8 @@
-import {OS, FS} from 'monterey-pal';
+import {OS, FS}               from 'monterey-pal';
 import {Project, ProjectTask} from '../../shared/project';
+import {TaskRunnerService}    from '../../shared/task-runner-service';
 
-export class WebpackService {
+export class WebpackService implements TaskRunnerService {
   title  = 'Webpack';
 
   async getTasks(project: Project, useCache: boolean): Promise<Array<ProjectTask>> {

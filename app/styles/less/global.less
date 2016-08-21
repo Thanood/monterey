@@ -367,6 +367,12 @@ tree-list {
           line-height: 30px;
         }
 
+        i {
+          float: right;
+          padding-top: 7px;
+          padding-right: 2px;
+        }
+
         .glyphicon {
           width: 16px;
           height: 15px;
@@ -374,14 +380,15 @@ tree-list {
       }
     }
   }
-}
 
-tree-list.top-level {
-  > ul {
-    > li {
-      padding-left: 0;
-      > div {
-        background-color: #dfdfe1;
+  
+  > tree-node {
+    > ul {
+      > li {
+        padding-left: 0;
+        > div {
+          background-color: #dfdfe1;
+        }
       }
     }
   }

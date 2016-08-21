@@ -8,6 +8,7 @@ const app = electron.app;
 const Menu = electron.Menu;
 const notify = require('./notify');
 const BrowserWindow = electron.BrowserWindow;
+const path = require('path');
 var mainWindow, client;
 
 // fix PATH environment variable on mac
@@ -52,6 +53,7 @@ if (isDev() || !handleStartupEvent()) {
     global.rootDir = __dirname;
     global.app = app;
     global.environment = environment;
+    global.node_modules = path.join(__dirname, 'node_modules');
 
     mainWindow.loadURL(getIndex());
 

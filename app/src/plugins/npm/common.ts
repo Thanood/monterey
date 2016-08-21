@@ -11,37 +11,32 @@ export class Common {
   }
 
   installNPMDependencies(project: Project, deps = [], estimation = 'This could take minutes to complete') {
-    let task = <Task>{
-      title: `npm install of '${project.name}'`,
-      estimation: estimation,
-      logs: [],
-      promise: null
+    let task = new Task(project, 'NPM install');
+    task.estimation = estimation;
+    task.execute = () => {
+      let promise = NPM.install(deps, {
+        npmOptions: {
+          workingDirectory: FS.getFolderPath(project.packageJSONPath)
+        },
+        logCallback: (message) => {
+          // npm outputs many messages, too many to show
+          // so we remove any other silly/verbose/info/http messages before adding a new one
+          let clearLevels = ['silly', 'verbose', 'info', 'http'];
+          if (clearLevels.indexOf(message.level) > -1) {
+            let toRemove = task.logs.filter(x => clearLevels.indexOf(x.level) > -1);
+            for (let i = 0; i < toRemove.length; i++) {
+              let index = task.logs.indexOf(toRemove[i]);
+              task.logs.splice(index, 1);
+            }
+          }
+          this.taskManager.addTaskLog(task, message.message, message.level);
+        }
+      });
+
+      return promise;
     };
 
-    let promise = NPM.install(deps, {
-      npmOptions: {
-        workingDirectory: FS.getFolderPath(project.packageJSONPath)
-      },
-      logCallback: (message) => {
-        // npm outputs many messages, too many to show
-        // so we remove any other silly/verbose/info/http messages before adding a new one
-        let clearLevels = ['silly', 'verbose', 'info', 'http'];
-        if (clearLevels.indexOf(message.level) > -1) {
-          let toRemove = task.logs.filter(x => clearLevels.indexOf(x.level) > -1);
-          for (let i = 0; i < toRemove.length; i++) {
-            let index = task.logs.indexOf(toRemove[i]);
-            task.logs.splice(index, 1);
-          }
-        }
-        this.taskManager.addTaskLog(task, message.message, message.level);
-      }
-    });
-
-    task.promise = promise;
-
-    
-    // TODO: Enable this again
-    // this.taskManager.addTask(task);
+    this.taskManager.addTask(project, task);
 
     return task;
   }

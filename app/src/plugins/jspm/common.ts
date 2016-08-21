@@ -19,32 +19,29 @@ export class Common {
       workingDirectory: workingDirectory
     });
 
-    let task = <Task>{
-      title: `jspm install of '${project.name}'`,
-      estimation: 'This usually takes about a minute to complete',
-      logs: [],
-      promise: null
-    };
+    let task = new Task(project, 'JSPM install');
+    task.estimation = 'This usually takes about a minute to complete';
 
-    let promise = JSPM.install(deps, {
-      project: project,
-      jspmOptions: jspmOptions,
-      logCallback: (message) => {
-        this.taskManager.addTaskLog(task, message.message);
+    task.execute = () => {
+      console.log('EXECUTE');
+      let promise = JSPM.install(deps, {
+        project: project,
+        jspmOptions: jspmOptions,
+        logCallback: (message) => {
+          this.taskManager.addTaskLog(task, message.message);
+        }
+      });
+
+      if (withLoader) {
+        promise = promise.then(() => this.downloadLoader(project, (message) => {
+          this.taskManager.addTaskLog(task, message.message);
+        }));
       }
-    });
 
-    if (withLoader) {
-      promise = promise.then(() => this.downloadLoader(project, (message) => {
-        this.taskManager.addTaskLog(task, message.message);
-      }));
+      return promise;
     }
 
-    task.promise = promise;
-
-    
-    // TODO: Enable this again
-    // this.taskManager.addTask(task);
+    this.taskManager.addTask(project, task);
 
     return task;
   }

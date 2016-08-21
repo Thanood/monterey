@@ -59,6 +59,7 @@ export class Project {
 }
 
 export interface ProjectTask {
+  id?: number;
   command: string;
   parameters: Array<string>;
 }

@@ -1,63 +1,88 @@
-import * as moment              from 'moment';
-import {autoinject, observable} from 'aurelia-framework';
-import {TaskManager}            from './task-manager';
-import {DialogController}       from 'aurelia-dialog';
-import {withModal}              from '../../shared/decorators';
-import {TRexDialog}             from './components/t-rex-dialog';
-import {ApplicationState}       from '../../shared/application-state';
-import {Task}                   from './task';
-import {TreeListNode}           from '../../shared/tree-list/tree-list-node';
+import * as moment                     from 'moment';
+import {autoinject, observable}        from 'aurelia-framework';
+import {DialogController}              from 'aurelia-dialog';
+import {EventAggregator, Subscription} from 'aurelia-event-aggregator';
+import {TaskManager}                   from './task-manager';
+import {TRexDialog}                    from './components/t-rex-dialog';
+import {Task}                          from './task';
+import {withModal}                     from '../../shared/decorators';
+import {ApplicationState}              from '../../shared/application-state';
+import {TreeListNode}                  from '../../shared/tree-list/tree-list-node';
+import {Project}                       from '../../shared/project';
 
 @autoinject()
 export class TaskManagerModal {
-  @observable selectedTask: Task;
+  @observable selectedNode: TreeListNode;
+
+  selectedTask: Task;
+  selectedProject: Project;
+  @observable showFinished = true;
+  subscriptions: Array<Subscription> = [];
+
   model: { task: Task };
 
   taskTree: Array<TreeListNode>;
 
   constructor(private dialogController: DialogController,
               private taskManager: TaskManager,
+              private ea: EventAggregator,
               private state: ApplicationState) {
+    this.subscriptions.push(this.ea.subscribe('TaskStarted', () => this.updateTree()));
+    this.subscriptions.push(this.ea.subscribe('TaskAdded', () => this.updateTree()));
+    this.subscriptions.push(this.ea.subscribe('TaskFinished', () => this.updateTree()));
   }
 
   activate(model) {
     this.model = model;
 
-    this.taskManager.addTask(this.state.projects[0], {
-      title: 'NPM install',
-      promise: new Promise(r => setTimeout(() => r(), 5000))
-    });
-    this.taskManager.addTask(this.state.projects[0], {
-      title: 'JSPM install',
-      promise: new Promise(r => setTimeout(() => r(), 5000))
-    });
-    this.taskManager.addTask(this.state.projects[0], {
-      title: 'gulp watch',
-      promise: new Promise(r => setTimeout(() => r(), 5000))
-    });
+    this.updateTree();
+  }
 
-    
-    this.taskManager.addTask(this.state.projects[1], {
-      title: 'NPM install',
-      promise: new Promise(r => setTimeout(() => r(), 5000))
-    });
-    this.taskManager.addTask(this.state.projects[1], {
-      title: 'au run --watch',
-      promise: new Promise(r => setTimeout(() => r(), 5000))
-    });
-
+  updateTree() {
     this.taskTree = [];
+
+    let selectedTask = this.selectedTask;
+    let selectedProject = this.selectedProject;
 
     this.state.projects.forEach(proj => {
       let childNodes = [];
       proj.__meta__.taskmanager.tasks.forEach(task => {
-        let taskNode = new TreeListNode(task.title)
-        taskNode.data = task;
-        childNodes.push(taskNode);
+        if (!task.end || this.showFinished) {
+          let taskNode = new TreeListNode(`${task.title} (${task.status})`)
+          taskNode.data = { task: task };
+
+          if (task === selectedTask) {
+            taskNode.selected = true;
+          }
+
+          childNodes.push(taskNode);
+        }
       });
-      this.taskTree.push(new TreeListNode(proj.name, childNodes));
+
+      let projNode = new TreeListNode(proj.name, childNodes);
+      projNode.data = { project: proj };
+      projNode.bold = true;
+
+      if (proj === selectedProject) {
+        projNode.selected = true;
+      }
+
+      this.taskTree.push(projNode);
     });
-    console.log(this.taskTree);
+  }
+
+  selectedNodeChanged() {
+    if (this.selectedNode.data.project) {
+      this.selectedProject = this.selectedNode.data.project;
+      this.selectedTask = null;
+    } else {
+      this.selectedTask = this.selectedNode.data.task;
+      this.selectedProject = null;
+    }
+  }
+
+  showFinishedChanged() {
+    this.updateTree();
   }
 
   // attached() {
@@ -68,27 +93,6 @@ export class TaskManagerModal {
   //   }
   // }
 
-  // selectedTaskChanged() {
-  //   this.updateElapsed();
-  // }
-  
   @withModal(TRexDialog, null, { modal: false })
   trex() {}
-
-  // this.interval = setInterval(() => this.updateElapsed(), 1000);
-  // updateElapsed() {
-  //   if (this.selectedTask && !this.selectedTask.finished) {
-  //     let endDate;
-  //     if (this.selectedTask.end) {
-  //       endDate = this.selectedTask.end;
-  //     } else {
-  //       endDate = new Date();
-  //     }
-  //     this.selectedTask.elapsed = `${moment(endDate).diff(this.selectedTask.start, 'seconds')} seconds`;
-  //   }
-  // }
-
-  // detached() {
-  //   clearInterval(this.interval);
-  // }
 }

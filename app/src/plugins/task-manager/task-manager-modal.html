@@ -1,72 +1,24 @@
 <template>
   <require from="../../shared/tree-list/tree-list"></require>
-  <require from="../../shared/converters/moment"></require>
+  <require from="./task-detail"></require>
+  <require from="./project-detail"></require>
 
-  <ai-dialog class="task-manager-modal" width="800">
+  <ai-dialog class="task-manager-modal" width="860" height="600">
     <ai-dialog-body>
 
-      <div class="left-side">
-        <tree-list repeat.for="node of taskTree" class="top-level" on-select.delegate="selectedNode = $event.detail" node.bind="node"></tree-list>
-
-        ${selectedNode.name}
-        <!--<h2 class="title">Tasks</h2>
-        <table>
-          <tr>
-            <td style="width: 50px;">Show</td>
-            <td>
-              <label style="font-weight: normal">
-                <input type="radio" checked.bind="filter" value="running" checked/> Running tasks (${taskManager.runningTasks.length})
-              </label>
-            </td>
-          </tr>
-          <tr>
-            <td></td>
-            <td>
-              <label style="font-weight: normal">
-                <input type="radio" checked.bind="filter" value="all"/> All tasks (${taskManager.allTasks.length})
-              </label>
-            </td>
-          </tr>
-        </table>
-
-
-        <div class="row">
-          <div class="task-list">
-            <ul class="list-group">
-              <li class="list-group-item ${task.id == selectedTask.id ? 'selected': ''}"
-                  repeat.for="task of tasks"
-                  click.delegate="selectedTask = task">
-                ${task.title}
-              </li>
-            </ul>
-          </div>
-        </div>-->
+      <div class="left-side col-md-4">
+        <label><input type="checkbox" checked.bind="showFinished"> Show finished</label>
+        <tree-list tree.bind="taskTree" selected-node.two-way="selectedNode"></tree-list>
       </div>
 
 
-      <div class="right-side" if.bind="selectedTask">
-        <!--<h3 class="title" style="margin: 0">${selectedTask.title}</h3>
-        <p>
-           <b>Started on:</b> ${selectedTask.start | moment:'LTS'}<br/>
-           <b>Finished on:</b> ${selectedTask.end | moment:'LTS'}<br/>
-           <b>Running for:</b> ${selectedTask.elapsed}<br/>
-           <b>Estimation:</b> ${selectedTask.estimation}
-        </p>
-
-        <hr style="margin: 0">
-
-        <h4 style="margin: 0">Output</h4>
-
-        <ul class="logs">
-          <li style="color: white; list-style-type: none" repeat.for="log of selectedTask.logs">
-            ${log.message}
-          </li>
-        </ul>-->
+      <div class="right-side col-md-8" if.bind="selectedTask">
+        <task-detail task.bind="selectedTask"></task-detail>
       </div>
-
-      <!--<div class="right-side" if.bind="tasks.length === 0 && !selectedTask">
-        <p>There are no tasks</p>
-      </div>-->
+      
+      <div class="right-side col-md-8" if.bind="selectedProject">
+        <project-detail project.bind="selectedProject"></project-detail>
+      </div>
 
       <div style="clear: both"></div>
     </ai-dialog-body>

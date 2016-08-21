@@ -6,6 +6,7 @@ export class TreeListNode {
   expanded: boolean;
   data: any;
   selected = false;
+  bold = false;
 
   constructor(name: string, children?: Array<TreeListNode>){
     this.name = name;

@@ -1,0 +1,15 @@
+<template>
+  <h3 class="title" style="margin: 0">${project.name}</h3>
+  <p>Start a new task: </p>
+
+  <ul class="list-group" style="width: 200px; max-height: 400px; overflow: auto;">
+    <li class="list-group-item ${task === selectedTask ? 'selected' : ''}" 
+        click.delegate="selectedTask = task" 
+        dblclick.delegate="startTask(task)"
+        repeat.for="task of tasks">
+        ${task.command} ${task.parameters.join(' ')}
+    </li>
+  </ul>
+  <p show.bind="false">${selectedTask.command}</p>
+  <button class="btn btn-primary" click.delegate="startTask()">Start this task</button>
+</template>

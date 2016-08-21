@@ -1,21 +1,24 @@
-import {bindable, inject, Parent} from 'aurelia-framework';
+import {bindable, children} from 'aurelia-framework';
+import {TreeNode} from './tree-node';
 import {TreeListNode} from './tree-list-node';
 
-@inject(Element)
 export class TreeList {
-  @bindable node: TreeListNode = null;
-
-  constructor(private element: Element) {
-  }
+  @bindable tree : Array<TreeListNode>;
+  @bindable selectedNode: TreeListNode;
 
   nodeClicked(node: TreeListNode) {
-    this.node.toggleNode();
+
+    this.tree.forEach(node => this.deselect(node));
+    this.selectedNode = node;
 
     node.selected = true;
+  }
 
-    this.element.dispatchEvent(new CustomEvent('on-select', {
-      bubbles: true,
-      detail: node
-    }));
+  deselect(node: TreeListNode) {
+    if (node.children.length > 0) {
+      node.children.forEach(node => this.deselect(node));
+    }
+
+    node.selected = false;
   }
 }
