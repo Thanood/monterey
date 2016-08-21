@@ -4,6 +4,7 @@ import {Project}            from '../../shared/project';
 import {ApplicationState}   from '../../shared/application-state';
 import {FS, ELECTRON}       from 'monterey-pal';
 import {TaskManager}        from '../task-manager/task-manager';
+import {Task}               from '../task-manager/task';
 
 @autoinject
 export class LauncherManager {
@@ -41,13 +42,8 @@ export class LauncherManager {
   }
 
   // installs a launcher to the app state
-  // project can be undefined, in which case the launcher is installed globally
-  installLauncher(project: Project | undefined, platform: string, launcherPath: string) {
-    // TODO: Enable this again
-    // this.taskManager.addTask({
-    //   promise: this.tryInstallLauncherFromRemote(project, platform, launcherPath),
-    //   title: `Installing launcher ${platform}/${launcherPath}`
-    // });        
+  async installLauncher(project: Project | undefined, platform: string, launcherPath: string) {
+    await this.tryInstallLauncherFromRemote(project, platform, launcherPath);   
   }
 
 
@@ -73,7 +69,7 @@ export class LauncherManager {
 
       (project ? project.appLaunchers : this.state.appLaunchers).push(result);
 
-      this.state._save();
+      await this.state._save();
     }
     catch(err) {
       throw new Error(`Failed to install ${platform}/${launcherPath} launcher: ${err.message}`);

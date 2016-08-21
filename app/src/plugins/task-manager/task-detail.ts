@@ -15,12 +15,12 @@ export class TaskDetail {
     this.updateElapsed();
   }
 
-  taskCHanged() {
+  taskChanged() {
     this.updateElapsed();
   }
 
   updateElapsed() {
-    if (this.task && !this.task.finished) {
+    if (this.task) {
       let endDate;
       if (this.task.end) {
         endDate = this.task.end;

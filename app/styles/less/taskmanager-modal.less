@@ -12,6 +12,39 @@
       vertical-align: middle;
       border-bottom: 1px solid rgba(0, 0, 0, .12);
     }
+
+    tree-list {
+      > tree-node {
+        > ul {
+          > li {
+            padding-left: 0;
+            > div {
+              font-size: 18px !important;
+              border-bottom: 2px solid gray;
+              background-color: #dfdfe1 !important;
+            }
+          }
+        }
+      }
+
+      tree-node {
+        ul {
+          li {
+            div {
+              // border-bottom: 1px solid;
+              color: #777;
+              font-size: 16px;
+              letter-spacing: .4px;
+              background-color: #ECECED;
+
+              &.selected {
+                color: #EC2685;
+              }
+            }
+          }
+        }
+      }
+    }
   }
 
   .right-side {

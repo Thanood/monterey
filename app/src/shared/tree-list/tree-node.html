@@ -1,11 +1,9 @@
 <template>
   <ul show.bind="node.visible" style="list-style-type: none;">
     <li>
-      <div click.delegate="nodeClicked($event, node)" class="${node.selected ? 'selected' : ''}">
+      <div click.delegate="nodeClicked($event, node)" title.bind="node.title" class="${node.selected ? 'selected' : ''}">
         <span class="${node.icon}"></span>
         <span css="${node.bold ? 'font-weight: bold' : ''}">${node.name}</span>
-
-        <i class="fa fa-arrow-right" show.bind="node.selected"></i>
       </div>
 
       <tree-node repeat.for="child of node.children" node.bind="child"></tree-node>

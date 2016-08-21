@@ -23,7 +23,6 @@ export class Common {
     task.estimation = 'This usually takes about a minute to complete';
 
     task.execute = () => {
-      console.log('EXECUTE');
       let promise = JSPM.install(deps, {
         project: project,
         jspmOptions: jspmOptions,

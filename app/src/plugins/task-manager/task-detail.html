@@ -2,18 +2,21 @@
   <require from="../../shared/converters/moment"></require>
 
   <h3 class="title" style="margin: 0">${task.title} (${task.project.name})</h3>
-  <button if.bind="task.cancelable && !task.end" class="btn btn-primary" click.delegate="cancelTask(task)">Cancel this task</button>
+  <button if.bind="task.cancelable && !task.finished" class="btn btn-primary" click.delegate="cancelTask(task)">Cancel this task</button>
   <p>
     <span>
+      <b>Status:</b> ${task.status}<br/>
+    </span>
+    <span show.bind="task.start">
       <b>Started on:</b> ${task.start | moment:'LTS'}<br/>
     </span>
     <span show.bind="task.end">
       <b>Finished on:</b> ${task.end | moment:'LTS'}<br/>
     </span>
-    <span>
+    <span show.bind="task.start">
       <b>${task.end ? 'Ran' : 'Running'} for:</b> ${task.elapsed}<br/>
     </span>
-    <span show.bind="!task.end && task.estimation">
+    <span show.bind="task.start && !task.end && task.estimation">
       <b>Estimation:</b> ${task.estimation}
     </span>
   </p>

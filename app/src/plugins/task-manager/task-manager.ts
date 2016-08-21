@@ -9,22 +9,10 @@ import {Errors}                 from '../errors/errors';
 
 const logger = LogManager.getLogger('TaskManager');
 
-/* Usage:
-let task = {
-  // some promise that eventually resolves
-  promise: new Promise(resolve => {
-    setTimeout(() => resolve(), 10000);
-  }),
-  // a description of what is happening
-  title: 'baz'
-};
-this.taskManager.addTask(task);
-
-// at some point, log a message specifically for this task
-this.taskManager.addTaskLog(task, 'something happened');
-*/
 @autoinject()
 export class TaskManager {
+
+  tasks: Array<Task> = [];
 
   constructor(private ea: EventAggregator,
               private errors: Errors) {
@@ -36,7 +24,6 @@ export class TaskManager {
     }
 
     task.id = new RandomNumber().create();
-    task.start = new Date();
     task.status = 'queued';
     task.project = project;
     if (!task.logs) {
@@ -44,11 +31,13 @@ export class TaskManager {
     }
 
     project.__meta__.taskmanager.tasks.push(task);
+    this.tasks.push(task);
     
     this.ea.publish('TaskAdded', { project: task.project, task: task });
   }
 
   startTask(task: Task) {
+    task.start = new Date();
     task.status = 'running';
     
     this.ea.publish('TaskStarted', { project: task.project, task: task });
@@ -65,12 +54,6 @@ export class TaskManager {
       logger.error(e);
       this.errors.add(e);
       this.finishTask(task);
-      this.ea.publish('TaskFinished', { error: true, project: task.project, task: task });
-    })
-    .then(() => {
-      if (task.queue && task.queue.length > 0) {
-        task.queue.forEach(t => this.startTask(t));
-      }
     });
   }
 
@@ -86,6 +69,22 @@ export class TaskManager {
       task.status = 'finished';
     }
     task.end = new Date();
+    task.finished = true;
+
+    this.startDependingTasks(task);
+
+    let index = this.tasks.indexOf(task);
+    this.tasks.splice(index, 1);
+
+    this.ea.publish('TaskFinished', { error: true, project: task.project, task: task });
+  }
+
+  startDependingTasks(task: Task) {
+    this.tasks.forEach(t => {
+      if (t.dependsOn === task) {
+        this.startTask(t);
+      }
+    })
   }
 
   cancelTask(task: Task) {
@@ -93,9 +92,16 @@ export class TaskManager {
       throw new Error('This task cannot be cancelled');
     }
 
+    // if the task has never started then it shouldn't have an end date
+    if (task.start) {
+      task.end = new Date();
+    }
+
     this.addTaskLog(task, '-----CANCELLED BY USER-----');
     task.status = 'cancelled by user';
-    task.end = new Date();
+    task.finished = true;
     task.cancel(task);
+
+    this.ea.publish('TaskFinished', { project: task.project, task: task });
   }
 }

@@ -3,9 +3,8 @@
   <require from="./task-detail"></require>
   <require from="./project-detail"></require>
 
-  <ai-dialog class="task-manager-modal" width="860" height="600">
+  <ai-dialog class="task-manager-modal" title="Task manager" width="860" height="600">
     <ai-dialog-body>
-
       <div class="left-side col-md-4">
         <label><input type="checkbox" checked.bind="showFinished"> Show finished</label>
         <tree-list tree.bind="taskTree" selected-node.two-way="selectedNode"></tree-list>
@@ -18,6 +17,15 @@
       
       <div class="right-side col-md-8" if.bind="selectedProject">
         <project-detail project.bind="selectedProject"></project-detail>
+      </div>
+
+      <div class="right-side col-md-8" if.bind="!selectedTask && !selectedProject">
+        <p>
+          <h3>Task manager</h3>
+          The task manager keeps track of everything that Monterey is doing. <br/>
+          From here you can also launch new tasks such as "gulp watch" or "au run --watch". 
+          Select a project from the left side of the screen to see what tasks can be started. 
+        </p>
       </div>
 
       <div style="clear: both"></div>

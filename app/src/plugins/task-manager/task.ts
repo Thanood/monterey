@@ -13,7 +13,7 @@ export class Task implements Task {
   estimation?: string;
   meta?: any;
   promise: Promise<any>;
-  queue?: Array<Task> = [];
+  dependsOn?: Task;
 
   constructor(public project: Project,
               public title: string, 

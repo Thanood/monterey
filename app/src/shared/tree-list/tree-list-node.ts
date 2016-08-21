@@ -8,6 +8,11 @@ export class TreeListNode {
   selected = false;
   bold = false;
 
+  /**
+   * This is visible when keeping the cursor on the treenode
+   */
+  title: string;
+
   constructor(name: string, children?: Array<TreeListNode>){
     this.name = name;
     this.children = children || [];
