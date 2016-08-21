@@ -5,10 +5,12 @@ import {FS}                   from 'monterey-pal';
 import {ProjectManager}       from '../shared/project-manager';
 import {Notification}         from '../shared/notification';
 import {Project}              from '../shared/project';
+import {TaskManager}          from '../plugins/task-manager/task-manager';
 import {TaskManagerModal}     from '../plugins/task-manager/task-manager-modal';
+import {Task}                 from '../plugins/task-manager/task';
 import {Common as CommonNPM}  from '../plugins/npm/common';
 import {Common as CommonJSPM} from '../plugins/jspm/common';
-import {TaskRunner}           from '../plugins/task-runner/task-runner';
+import {TaskRunner}           from '../plugins/task-manager/task-runner';
 
 @autoinject()
 export class PostCreate {
@@ -16,11 +18,13 @@ export class PostCreate {
   step: IStep;
   actions: Array<Action> = [];
   project: Project;
+  tasks: Array<Task> = [];
 
   constructor(private projectManager: ProjectManager,
               private dialogService: DialogService,
               private notification: Notification,
               private taskRunner: TaskRunner,
+              private taskManager: TaskManager,
               private commonNPM: CommonNPM,
               private commonJSPM: CommonJSPM) {}
 
@@ -74,18 +78,6 @@ export class PostCreate {
       });
     }
 
-    // this.actions.push({
-    //   display: 'open project in',
-    //   checked: true,
-    //   options: [{
-    //     name: 'Visual Studio Code',
-    //     value: 'Visual Studio'
-    //   }, {
-    //     name: 'Atom',
-    //     value: 'Atom'
-    //   }]
-    // });
-
     this.updateCloseBtnText();
   }
 
@@ -122,62 +114,60 @@ export class PostCreate {
   }
 
   async execute() {
-    let promise = new Promise(resolve => resolve());
-
     let checkedActions = this.actions.filter(x => x.checked);
-
-    console.log(checkedActions);
+    this.tasks = [];
+    
     if (checkedActions.find(x => x.name === 'npm install')) {
-      promise = promise.then(() => {
-        console.log('running npm install');
-        let task = this.commonNPM.installNPMDependencies(this.project);
-
-        return task.promise;
-      });
+      this.tasks.push(this.commonNPM.installNPMDependencies(this.project));
     }
 
     if (checkedActions.find(x => x.name === 'jspm install')) {
-      promise = promise.then(() => {
-        console.log('running jspm install');
-        let task = this.commonJSPM.install(this.project, true, { lock: true }, true);
-
-        return task.promise;
-      });
+      let t = this.commonJSPM.install(this.project, true, { lock: true }, true);
+      t.dependsOn = this.tasks[this.tasks.length - 1];
+      this.tasks.push(t);
     }
 
     if (checkedActions.find(x => x.name === 'start cli')) {
-      promise = promise.then(async () => {
-        let service = this.taskRunner.getService(this.project);
-        await this.taskRunner._loadTasks(this.project, this.project.__meta__.taskrunner, service, false);
-        let tasks = this.project.__meta__.taskrunner.tasks;
-        let cmd = tasks.find(x => x.parameters.length === 2 && x.parameters[0] === 'run' && x.parameters[1] === '--watch');
-
-        this.taskRunner.run(cmd, this.project, service);
-      });
+      this.tasks.push(this.loadTasks());
+      this.tasks.push(this.runProjectTask('au run --watch'));
     }
 
     if (checkedActions.find(x => x.name === 'start gulp')) {
-      promise = promise.then(async () => {
-        let service = this.taskRunner.getService(this.project);
-        await this.taskRunner._loadTasks(this.project, this.project.__meta__.taskrunner, service, false);
-        let cmd = this.project.__meta__.taskrunner.tasks.find(x => x.parameters[0] === 'watch');
-
-        this.taskRunner.run(cmd, this.project, service);
-      });
+      this.tasks.push(this.loadTasks());
+      this.tasks.push(this.runProjectTask('gulp watch'));
     }
 
-    if (checkedActions.length > 0) {
-      this.notification.success('Monterey will now execute all actions. The progress can be followed through the task manager (in the taskbar)');
+    if (checkedActions.find(x => x.name === 'start webpack')) {
+      this.tasks.push(this.loadTasks());
+      this.tasks.push(this.runProjectTask('npm start'));
     }
 
-    promise = promise.then(() => {
-      console.log('all done');
-      this.notification.success(`Ran all tasks for project "${this.project.name}"`);
-    });
+    if (this.tasks.length > 0) {
+      this.notification.success('Monterey will now execute all actions. The progress can be followed through the task manager');
+
+      this.taskManager.startTask(this.tasks[0]);
+      this.dialogService.open({ viewModel: TaskManagerModal })
+    }
 
     return {
       goToNextStep: true
     };
+  }
+
+  // loads tasks like `gulp watch` or `au run --watch`
+  // needed before running such task
+  loadTasks() {
+    let t = new Task(this.project, 'Loading project tasks', () => this.taskRunner.load(this.project, false));
+    t.dependsOn = this.tasks[this.tasks.length - 1];
+    this.taskManager.addTask(this.project, t);
+    return t;
+  } 
+
+  runProjectTask(command: string) {
+    let t = this.taskRunner.runByCmd(this.project, command);
+    t.dependsOn = this.tasks[this.tasks.length - 1];
+    this.taskManager.addTask(this.project, t);
+    return t;
   }
 
   async previous() {

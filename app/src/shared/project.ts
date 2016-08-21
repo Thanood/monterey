@@ -1,3 +1,5 @@
+import {Task} from '../plugins/task-manager/task';
+
 export interface Project {
   packageJSONPath?: string;
   name?: string;
@@ -19,11 +21,9 @@ export interface Project {
   tiles?: Array<string>;
 
   // won't be save in session
-  __meta__?: {
-    taskrunner: {
-      selectedTask?: Task,
-      tasks?: Array<Task>,
-      runningTasks?: Array<Task>
+  __meta__: {
+    taskmanager: {
+      tasks: Array<Task>
     }
   };
 }
@@ -33,6 +33,12 @@ export class Project {
 
   constructor(project = {}) {
     Object.assign(this, project);
+
+    this.__meta__ = {
+      taskmanager: {
+        tasks: []
+      }
+    };
   }
 
   isUsingGulp() {
@@ -53,6 +59,7 @@ export class Project {
 }
 
 export interface ProjectTask {
+  id?: number;
   command: string;
   parameters: Array<string>;
 }

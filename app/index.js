@@ -5,9 +5,11 @@ var environment = argv.env || 'production';
 
 const electron = require('electron');
 const app = electron.app;
+const shell = electron.shell;
 const Menu = electron.Menu;
 const notify = require('./notify');
 const BrowserWindow = electron.BrowserWindow;
+const path = require('path');
 var mainWindow, client;
 
 // fix PATH environment variable on mac
@@ -16,8 +18,9 @@ const fixPath = require('fix-path');
 fixPath();
 
 // activate the logger
+const logFolder = path.join(app.getPath('userData'), 'logs');
 const Logger = require('./logger');
-var log = new Logger(app);
+var log = new Logger(logFolder, app);
 log.activate();
 
 
@@ -52,6 +55,8 @@ if (isDev() || !handleStartupEvent()) {
     global.rootDir = __dirname;
     global.app = app;
     global.environment = environment;
+    global.logFolder = logFolder;
+    global.node_modules = path.join(__dirname, 'node_modules');
 
     mainWindow.loadURL(getIndex());
 
@@ -116,6 +121,11 @@ let devMenuTemplate = [
       accelerator: 'Alt+CmdOrCtrl+I',
       click: function() {
         BrowserWindow.getFocusedWindow().toggleDevTools();
+      }
+    }, {
+      label: 'Logs',
+      click: function() {
+        shell.showItemInFolder(logFolder);
       }
     }, {
       label: 'Clear cache',

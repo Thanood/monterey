@@ -66,6 +66,7 @@ declare module 'monterey-pal' {
     getIpcRenderer(): any;
     getxTerm(): any;
     getPty(): any;
-    getPath(name): string;
+    getPath(name: string): string;
+    getGlobal(name: string): any;
   }
 }

@@ -1,12 +1,24 @@
-export interface Task {
-  promise: Promise<any>;
-  title: string;
+import {Project} from '../../shared/project';
+
+export class Task implements Task {
+  logs = [];
+  cancelable = false;
   id?: number;
   start?: Date;
   end?: Date;
-  logs?: Array<LogMessage>;
   finished?: boolean;
   elapsed?: string;
+  status?: string;
+  cancel?: (task: Task) => Promise<void>;
+  estimation?: string;
+  meta?: any;
+  promise: Promise<any>;
+  dependsOn?: Task;
+
+  constructor(public project: Project,
+              public title: string, 
+              public execute?: () => Promise<any>) {
+  }
 }
 
 export interface LogMessage {
