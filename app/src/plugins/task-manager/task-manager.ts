@@ -58,7 +58,7 @@ export class TaskManager {
   }
 
   addTaskLog(task: Task, text: string, level?: string) {
-    task.logs.unshift({
+    task.logs.push({
       message: `[${moment().format('LTS')}] ${level ? `[${level}]` : ''} ${text}`,
       level: level
     });

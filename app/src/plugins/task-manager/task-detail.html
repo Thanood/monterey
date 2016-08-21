@@ -1,5 +1,6 @@
 <template>
   <require from="../../shared/converters/moment"></require>
+  <require from="./components/logger"></require>
 
   <h3 class="title" style="margin: 0">${task.title} (${task.project.name})</h3>
   <button if.bind="task.cancelable && !task.finished" class="btn btn-primary" click.delegate="cancelTask(task)">Cancel this task</button>
@@ -25,9 +26,5 @@
 
   <h4 style="margin: 0">Output</h4>
 
-  <ul class="logs">
-    <li style="color: white; list-style-type: none" repeat.for="log of task.logs">
-      ${log.message}
-    </li>
-  </ul>
+  <logger logs.bind="task.logs"></logger>
 </template>
