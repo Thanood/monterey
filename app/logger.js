@@ -5,14 +5,13 @@ const path = require('path');
 
 module.exports = class Logger {
 
-  constructor(app, timer, days) {
+  constructor(logFolder, app, timer, days) {
     console.log("Starting Monterey logger");
     this.logBuffer = '';
     this.timeout = timer || 10000;
     this.deleteAfterDays = days || 5;
 
-    // even though the logger is unpacked (so it is in the app.asar.unpacked folder) the dirname is app.asar somehow
-    this.logFolder = path.join(app.getPath('userData'), 'logs')
+    this.logFolder = logFolder;
     this.logFileName = this.getLogFileName();
     this.logFilePath = path.join(this.logFolder, this.logFileName);
 
