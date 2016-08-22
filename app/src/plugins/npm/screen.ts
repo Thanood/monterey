@@ -52,6 +52,8 @@ export class Screen {
   installAll() {
     let task = this.common.installNPMDependencies(this.project);
 
+    this.taskManager.startTask(task);
+
     this.dialogService.open({ viewModel: TaskManagerModal, model: { task: task }});
   }
 
