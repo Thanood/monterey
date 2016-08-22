@@ -10,6 +10,8 @@ export class ApplicationState {
   gitAuthorization: string;
   projects: Array<Project> = [];
   appLaunchers: Array<any> = [];
+  // used to restore the selected project after restart
+  selectedProjectPath: string;
   endpoints = {
     montereyRegistry: 'https://monterey-framework.github.io/registries/',
     npmRegistry: 'https://registry.npmjs.org/',

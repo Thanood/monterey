@@ -18,7 +18,7 @@ export class GlobalExceptionHandler {
       let logger = LogManager.getLogger('global exception');
       console.log(event);
       if (event.reason) {
-        errors.add({message: event.reason.message});
+        errors.add({message: event.reason.message, stack: event.reason.stack });
       }
       logger.error(event);
     });

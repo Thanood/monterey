@@ -27,8 +27,17 @@ export class ProjectList {
 
   attached() {
     setTimeout(() => {
-      // select first row
-      this.select(0);
+      // has a project been selected in a previous session?
+      // if so, select this project again
+      if (this.state.selectedProjectPath) {
+        let index = this.state.projects.findIndex(x => x.path === this.state.selectedProjectPath);
+        if (index > -1) {
+          this.select(index);
+        }
+      } else {
+        // select first row
+        this.select(0);
+      }
     });
   }
 
@@ -64,6 +73,8 @@ export class ProjectList {
     // allow for the binding to Main to be updated
     // as parts of monterey get the selected project from Main
     setTimeout(() => this.ea.publish('SelectedProjectChanged', this.selectedProject), 100);
+    this.state.selectedProjectPath = this.selectedProject.path;
+    this.state._save();
   }
 
   detached() {
