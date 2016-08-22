@@ -14,7 +14,7 @@ export class JSPMDetection {
 
       logger.info('package.json has jspm section');
 
-      await this.findJspmVersion(project, packageJSON);
+      this.findJspmVersion(project, packageJSON);
 
       let jspm016Path = this.getJspm016Path(project, packageJSON);
       let jspm017Path = this.getJspm017Path(project, packageJSON);
@@ -32,7 +32,7 @@ export class JSPMDetection {
           project.jspmDefinition = '^0.16.0';
           logger.info(`jspm 0.16 detected`);
         } else if (await FS.fileExists(jspm017Path)) {
-          project.configJsPath = jspm016Path;
+          project.configJsPath = jspm017Path;
           project.jspmVersion = '^0.17.0';
           project.jspmDefinition = '^0.17.0';
           logger.info(`jspm 0.17 detected`);
@@ -52,7 +52,7 @@ export class JSPMDetection {
   }
 
   getJspm016Path(project, packageJSON) {
-    let baseURL = '.';
+    let baseURL = '';
     if (packageJSON.jspm.directories && packageJSON.jspm.directories.baseURL) {
       baseURL = packageJSON.jspm.directories.baseURL;
     }
@@ -68,7 +68,7 @@ export class JSPMDetection {
     return FS.join(project.path, baseURL, 'jspm.config.js');
   }
 
-  async findJspmVersion(project, packageJSON) {
+  findJspmVersion(project, packageJSON) {
     let jspmDefinition = (packageJSON.dependencies && packageJSON.dependencies.jspm) || (packageJSON.devDependencies && packageJSON.devDependencies.jspm);
     let jspmVersion = null;
     if (jspmDefinition) {

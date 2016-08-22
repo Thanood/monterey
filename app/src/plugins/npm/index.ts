@@ -14,7 +14,7 @@ export function configure(aurelia) {
 }
 
 @autoinject()
-class Plugin extends BasePlugin {
+export class Plugin extends BasePlugin {
 
   constructor(private common: Common) {
     super();
@@ -61,8 +61,12 @@ class Plugin extends BasePlugin {
     return project;
   }
 
+  alert(msg) {
+    alert(msg);
+  }
+
   async manuallyLocatePackageJSON(project) {
-    alert('Unable to find package.json, please point Monterey to package.json');
+    this.alert('Unable to find package.json, please point Monterey to package.json');
     let paths = await FS.showOpenDialog({
       title: 'Please select your package.JSON file',
       properties: ['openFile'],

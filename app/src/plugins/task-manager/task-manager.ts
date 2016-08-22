@@ -45,15 +45,14 @@ export class TaskManager {
     return task.execute().then((result) => {
       this.addTaskLog(task, '-----FINISHED-----');
         
-      this.finishTask(task);
-      this.ea.publish('TaskFinished', { error: false, project: task.project, task: task });
+      this.finishTask(task, false);
       return result;
     }).catch((e) => {
       this.addTaskLog(task, '-----FINISHED WITH ERROR-----');
       this.addTaskLog(task, e.message);
       logger.error(e);
       this.errors.add(e);
-      this.finishTask(task);
+      this.finishTask(task, true);
     });
   }
 
@@ -64,11 +63,16 @@ export class TaskManager {
     });
   }
 
-  finishTask(task: Task) {
+  finishTask(task: Task, errorred = false) {
     if (task.status !== 'cancelled by user') {
       task.status = 'finished';
     }
-    task.end = new Date();
+
+    // if the task has never started then it shouldn't have an end date
+    if (task.start) {
+      task.end = new Date();
+    }
+
     task.finished = true;
 
     this.startDependingTasks(task);
@@ -76,7 +80,7 @@ export class TaskManager {
     let index = this.tasks.indexOf(task);
     this.tasks.splice(index, 1);
 
-    this.ea.publish('TaskFinished', { error: true, project: task.project, task: task });
+    this.ea.publish('TaskFinished', { error: errorred, project: task.project, task: task });
   }
 
   startDependingTasks(task: Task) {
@@ -92,16 +96,12 @@ export class TaskManager {
       throw new Error('This task cannot be cancelled');
     }
 
-    // if the task has never started then it shouldn't have an end date
-    if (task.start) {
-      task.end = new Date();
-    }
-
     this.addTaskLog(task, '-----CANCELLED BY USER-----');
     task.status = 'cancelled by user';
-    task.finished = true;
-    task.cancel(task);
-
-    this.ea.publish('TaskFinished', { project: task.project, task: task });
+    
+    return task.cancel(task)
+    .then(() => {
+      this.finishTask(task);
+    });
   }
 }

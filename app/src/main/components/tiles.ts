@@ -68,6 +68,8 @@ export class Tiles {
     // render tiles on the screen
     tiles.forEach(tile => this.tiles.push(tile));
 
+    // after aurelia has finished adding the tiles on the screen,
+    // initialize dragula for drag and drop support
     this.taskQueue.queueTask(() => {
       this.drake = dragula([this.dragContainer], {
         moves: el => {

@@ -4,10 +4,10 @@ declare module 'monterey-pal' {
       install(model: any): void;
   };
   export const FS: {
-      readFile(filePath: any): string;
+      readFile(filePath: any): Promise<string>;
       fileExists(p: string): Promise<boolean>;
       folderExists(p: string): Promise<boolean>;
-      showOpenDialog(config: any): string[];
+      showOpenDialog(config: any): Promise<string[]>;
       normalize(path: any): string;
       writeFile(path: any, content: any): void;
       getDirName(p: any): string;

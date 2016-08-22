@@ -1,121 +1,244 @@
 import {TaskManager} from '../../src/plugins/task-manager/task-manager';
 import {Task} from '../../src/plugins/task-manager/task';
+import {Project} from '../../src/shared/project';
 
-describe('TaskManager addTask', () => {
+describe('TaskManager', () => {
   let taskManager: TaskManager;
+  let ea;
+  let errors;
 
   beforeEach(() => {
-    taskManager = new TaskManager();
+    ea = { publish: jasmine.createSpy('publish'), subscribe: jasmine.createSpy('subscribe') };
+    errors = { add: () => {} };
+    taskManager = new TaskManager(ea, errors);
   });
 
-  it('creates task id and sets startdate', () => {
-    let task = <Task>{
-      title: 'foo',
-      promise: new Promise(resolve => resolve())
-    };
-    taskManager.addTask(task);
+  it ('addTask expects execution function and title', () => {
+    let project = new Project();
+    let task = new Task(project, null);
+    expect(() => taskManager.addTask(project, task)).toThrow(new Error('task execute function and title are required'));
 
+    
+    task = new Task(project, 'something');
+    expect(() => taskManager.addTask(project, task)).toThrow(new Error('task execute function and title are required'));
+  });
+
+  it ('addTask assigns id and status (queued)', () => {
+    let project = new Project();
+    let task = new Task(project, 'jspm install', () => Promise.resolve());
+
+    taskManager.addTask(project, task);
+    
     expect(task.id).not.toBeUndefined();
+    expect(task.status).toBe('queued');
+  });
+
+  it ('addTask pushes task on projects meta property', () => {
+    let project = new Project();
+    let task = new Task(project, 'jspm install', () => Promise.resolve());
+
+    taskManager.addTask(project, task);
+    
+    expect(project.__meta__.taskmanager.tasks.length).toBe(1);
+    expect(project.__meta__.taskmanager.tasks[0]).toBe(task);
+    
+    // the taskmanager should keep track of running tasks in order to start dependency tasks
+    expect(taskManager.tasks.length).toBe(1);
+    expect(taskManager.tasks[0]).toBe(task);
+  });
+
+  it ('addTask publishes TaskAdded event', () => {
+    let project = new Project();
+    let task = new Task(project, 'jspm install', () => Promise.resolve());
+
+    taskManager.addTask(project, task);
+    
+    expect(ea.publish).toHaveBeenCalledWith('TaskAdded', { project: project, task: task });
+  });
+
+  it ('startTask updates status to "running"', () => {
+    let project = new Project();
+    let task = new Task(project, 'jspm install', () => Promise.resolve());
+
+    taskManager.addTask(project, task);
+    taskManager.startTask(task);
+
+    expect(task.status).toBe('running');
+  });
+
+  it ('startTask sets start date', () => {
+    let project = new Project();
+    let task = new Task(project, 'jspm install', () => Promise.resolve());
+
+    taskManager.addTask(project, task);
+    taskManager.startTask(task);
+
     expect(task.start).not.toBeUndefined();
   });
 
-  it('addTaskLog adds log to the start of the logs array', () => {
-    let task = <Task>{
-      title: 'foo',
-      promise: new Promise(resolve => resolve())
-    };
-    taskManager.addTask(task);
+  it ('startTask publishes TaskStarted event', () => {
+    let project = new Project();
+    let task = new Task(project, 'jspm install', () => Promise.resolve());
 
-    taskManager.addTaskLog(task, 'logMessage1');
-    taskManager.addTaskLog(task, 'logMessage2');
-    taskManager.addTaskLog(task, 'logMessage3');
-
-    expect(task.logs[0].message.indexOf('logMessage3') >= -1).toBe(true);
-    expect(task.logs[1].message.indexOf('logMessage2') >= -1).toBe(true);
-    expect(task.logs[2].message.indexOf('logMessage1') >= -1).toBe(true);
+    taskManager.addTask(project, task);
+    taskManager.startTask(task);
+    
+    expect(ea.publish).toHaveBeenCalledWith('TaskStarted', { project: project, task: task });
   });
 
-  it('finishTask sets end date and removes task from runningTasks array', () => {
-    let task = <Task>{
-      title: 'foo',
-      promise: new Promise(resolve => resolve())
-    };
-    taskManager.addTask(task);
+  it ('startTask executes the executor function of the task', () => {
+    let project = new Project();
+    let executor = jasmine.createSpy('executor').and.returnValue(Promise.resolve());
+    let task = new Task(project, 'jspm install', executor);
 
-    taskManager.finishTask(task);
-    expect(task.end).not.toBeUndefined();
-    expect(taskManager.runningTasks.length).toBe(0);
+    taskManager.addTask(project, task);
+    taskManager.startTask(task);
+    
+    expect(executor).toHaveBeenCalled();
   });
 
-  it('adds new tasks to the front of the runningTasks and allTasks array', () => {
-    taskManager.runningTasks.push({});
-    taskManager.allTasks.push({});
+  it ('finished log message gets added after task has finished', (r) => {
+    let project = new Project();
+    let task = new Task(project, 'jspm install', () => Promise.resolve());
 
-    let task = <Task>{
-      title: 'foo',
-      promise: new Promise(resolve => resolve())
-    };
-    taskManager.addTask(task);
+    spyOn(taskManager, 'addTaskLog');
 
-    expect(taskManager.runningTasks.indexOf(task)).toBe(0);
-    expect(taskManager.allTasks.indexOf(task)).toBe(0);
+    taskManager.addTask(project, task);
+    taskManager.startTask(task)
+    .then(() => {
+      expect(taskManager.addTaskLog).toHaveBeenCalled();
+      r();
+    });    
   });
 
+  it ('error gets added to the log if task fails', (r) => {
+    let project = new Project();
+    let task = new Task(project, 'jspm install', () => Promise.reject(new Error('something failed')));
 
+    spyOn(taskManager, 'addTaskLog');
 
-  it('calls finishTask when promise resolves', (d) => {
-    let spy = spyOn(taskManager, 'finishTask');
-    let _resolve;
-    let task = <Task>{
-      title: 'foo',
-      promise: new Promise(resolve => _resolve = resolve)
-    };
-    let p = taskManager.addTask(task);
+    taskManager.addTask(project, task);
+    taskManager.startTask(task)
+    .then(() => {
+      expect(taskManager.addTaskLog).toHaveBeenCalledWith(task, 'something failed');
+      r();
+    });    
+  });
 
-    p.then(() => {
-      expect(spy).toHaveBeenCalled()
-      d();
+  it ('publishes TaskFinished', (r) => {
+    let project = new Project();
+    let task = new Task(project, 'jspm install', () => Promise.resolve());
+
+    taskManager.addTask(project, task);
+    taskManager.startTask(task)
+    .then(() => {
+      expect(ea.publish).toHaveBeenCalledWith('TaskFinished', { error: false, project: project, task: task });
+      r();
+    });    
+  });
+
+  it ('publishes TaskFinished (with error true)', (r) => {
+    let project = new Project();
+    let task = new Task(project, 'jspm install', () => Promise.reject(new Error('something failed')));
+
+    taskManager.addTask(project, task);
+    taskManager.startTask(task)
+    .then(() => { 
+      expect(ea.publish).toHaveBeenCalled();
+      expect(ea.publish).toHaveBeenCalledWith('TaskFinished', { error: true, project: project, task: task });
+      r();
+    });    
+  });
+
+  it ('removes task from local tasks array when finished', (r) => {
+    let project = new Project();
+    let task = new Task(project, 'jspm install', () => Promise.reject(new Error('something failed')));
+
+    taskManager.addTask(project, task);
+    taskManager.startTask(task)
+    .then(() => {
+      expect(taskManager.tasks.length).toBe(0);
+      r();
+    });    
+  });
+
+  it ('sets finished to true and sets end date when task has finished', (r) => {
+    let project = new Project();
+    let task = new Task(project, 'jspm install', () => Promise.reject(new Error('something failed')));
+
+    taskManager.addTask(project, task);
+    taskManager.startTask(task)
+    .then(() => {
+      expect(task.end).not.toBeUndefined();
+      expect(task.finished).toBe(true);
+      r();
+    });    
+  });
+
+  it ('sets status to finished after completing a task', (r) => {
+    let project = new Project();
+    let task = new Task(project, 'jspm install', () => Promise.resolve());
+
+    taskManager.addTask(project, task);
+    taskManager.startTask(task)
+    .then(() => {
+      expect(task.status).toBe('finished');
+      r();
+    });    
+  });
+
+  it ('sets status to "cancelled by user" after user cancelled the task', (r) => {
+    let project = new Project();
+    let task = new Task(project, 'jspm install', () => Promise.resolve());
+    task.cancelable = true;
+    task.cancel = () => Promise.resolve();
+
+    taskManager.addTask(project, task);
+    taskManager.cancelTask(task)
+    .then(() => {
+      expect(task.status).toBe('cancelled by user');
+      r();
     });
-
-    _resolve();
   });
 
+  it ('only sets end date on cancel when the task has been started', (r) => {
+    let project = new Project();
+    let task = new Task(project, 'jspm install', () => Promise.resolve());
+    task.cancelable = true;
+    task.cancel = () => Promise.resolve();
 
-
-  it('logs success when promise gets resolved', (d) => {
-    let spy = spyOn(taskManager, 'finishTask');
-    let _resolve;
-    let task = <Task>{
-      title: 'foo',
-      promise: new Promise((resolve, reject) => _resolve = resolve)
-    };
-    let p = taskManager.addTask(task);
-
-    p.then(() => {
-      expect(task.logs[0].message.indexOf('-----FINISHED-----') > -1).toBe(true);
-      d();
+    taskManager.addTask(project, task);
+    taskManager.cancelTask(task)
+    .then(() => {
+      expect(task.end).toBeUndefined();
+      r();
     });
-
-    _resolve();
   });
 
+  it ('throws error when uncancelable task is cancelled', () => {
+    let project = new Project();
+    let task = new Task(project, 'jspm install', () => Promise.resolve());
+    task.cancelable = false;
 
+    taskManager.addTask(project, task);
+    expect(() => taskManager.cancelTask(task)).toThrow(new Error('This task cannot be cancelled'));
+  });
 
-  it('logs error when promise gets rejected', (d) => {
-    let spy = spyOn(taskManager, 'finishTask');
-    let _reject;
-    let task = <Task>{
-      title: 'foo',
-      promise: new Promise((resolve, reject) => _reject = reject)
-    };
-    let p = taskManager.addTask(task);
+  it ('depending tasks get started after task finished', (r) => {
+    let project = new Project();
+    let _resolveTask2;
+    let task1 = new Task(project, 'npm install', () => Promise.resolve());
+    let task2 = new Task(project, 'jspm install', () => new Promise(r => _resolveTask2 = r));
+    task2.dependsOn = task1;
 
-    p.then(() => {
-      expect(task.logs[0].message.indexOf('FOO BAR ERROR') > -1).toBe(true);
-      expect(task.logs[1].message.indexOf('-----FINISHED WITH ERROR-----') > -1).toBe(true);
-      d();
-    });
+    taskManager.addTask(project, task1);
+    taskManager.addTask(project, task2);
 
-    _reject(new Error('FOO BAR ERROR'));
+    taskManager.startTask(task1)
+    .then(() => {
+      expect(task2.status).toBe('running');
+      _resolveTask2();
+      r();
+    });    
   });
 });

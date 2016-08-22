@@ -21,7 +21,7 @@ export class TaskRunner {
 
   _cancel(task: Task) {
     return () => {
-      return task.meta.service.cancelTask(task.meta.process) 
+      return (<TaskRunnerService>task.meta.service).cancelTask(task.meta.process) 
     };
   }
 

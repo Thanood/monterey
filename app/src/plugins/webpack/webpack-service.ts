@@ -17,7 +17,7 @@ export class WebpackService implements TaskRunnerService {
   }
 
   cancelTask(process) {
-    OS.kill(process);
+    return OS.kill(process);
   }
 
   getTaskBarStyle(runningTasks: number) {

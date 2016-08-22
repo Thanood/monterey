@@ -5,7 +5,7 @@ import {WebpackService} from '../plugins/webpack/webpack-service';
 import {AureliaCLIService} from '../plugins/aurelia-cli/aurelia-cli-service';
 
 export interface TaskRunnerService {
-  cancelTask(process);
+  cancelTask(process): Promise<void>;
   runTask(project: Project, task: ProjectTask, stdout, stderr);
   getTasks(project: Project, useCache: boolean): Promise<Array<ProjectTask>>;
 }

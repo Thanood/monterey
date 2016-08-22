@@ -1,17 +1,13 @@
-import {bindable, autoinject, BindingEngine, Disposable} from 'aurelia-framework';
+import {bindable} from 'aurelia-framework';
 
-@autoinject()
 export class Logger {
-  @bindable logs;
+  @bindable logs = [];
   logsDiv: Element;
-  subscription: Disposable;
+  timeout;
 
-  constructor(private bindingEngine: BindingEngine) {
-  }
-
-  bind() {
-    this.subscription = this.bindingEngine.collectionObserver(this.logs)
-      .subscribe(() => this.scrollDown());
+  attached() {
+    this.timeout = setInterval(() => this.scrollDown(), 300);
+    this._scrollDown();
   }
 
   scrollDown() {
@@ -19,10 +15,14 @@ export class Logger {
 
     // we don't want to scroll down automatically if the user has scrolled up
     if (this.logsDiv.scrollHeight - this.logsDiv.scrollTop < 350)
-      this.logsDiv.scrollTop = this.logsDiv.scrollHeight;
+      this._scrollDown();
+  }
+
+  _scrollDown() {
+    this.logsDiv.scrollTop = this.logsDiv.scrollHeight;
   }
 
   detached() {
-    this.subscription.dispose();
+    clearTimeout(this.timeout);
   }
 }

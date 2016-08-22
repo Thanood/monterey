@@ -13,7 +13,7 @@ export function configure(aurelia) {
   pluginManager.registerPlugin(aurelia.container.get(Plugin));
 }
 
-class Plugin extends BasePlugin {
+export class Plugin extends BasePlugin {
   getTiles(project: Project, showIrrelevant) {
     if (!showIrrelevant && !project.aureliaJSONPath) {
       return [];
