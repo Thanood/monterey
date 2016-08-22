@@ -19,6 +19,7 @@ export class Screen {
 
   constructor(private common: Common,
               private analyzer: Analyzer,
+              private taskManager: TaskManager,
               private dialogService: DialogService,
               private notification: Notification,
               private main: Main) {
@@ -65,6 +66,8 @@ export class Screen {
     }
 
     let task = this.common.installNPMDependencies(this.project, deps, 'This could take 30 seconds or more to complete');
+
+    this.taskManager.startTask(task);
 
     this.dialogService.open({ viewModel: TaskManagerModal, model: { task: task }});
   }
