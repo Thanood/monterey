@@ -1,4 +1,5 @@
 import {autoinject, LogManager} from 'aurelia-framework';
+import {Logger}                 from 'aurelia-logging';
 import {PluginManager}          from './plugin-manager';
 import {ApplicationState}       from './application-state';
 import {FS}                     from 'monterey-pal';
@@ -6,7 +7,7 @@ import {Project}                from './project';
 import {Notification}           from './notification';
 import {EventAggregator}        from 'aurelia-event-aggregator';
 
-const logger = LogManager.getLogger('App launcher plugin');
+const logger = <Logger>LogManager.getLogger('App launcher plugin');
 
 @autoinject()
 export class ProjectManager {
@@ -103,7 +104,7 @@ export class ProjectManager {
     if (removeProjects.length > 0) {
       let projectNames = removeProjects.map(i => i.project.name).join(', ');
       this.notification.warning(`The following projects were removed/relocated and will be removed from Monterey:\r\n ${projectNames}`);
-      logger.warning(`The following projects were removed/relocated and will be removed from Monterey:\r\n ${projectNames}`);
+      logger.warn(`The following projects were removed/relocated and will be removed from Monterey:\r\n ${projectNames}`);
 
       removeProjects.forEach(r => {
         let index = this.state.projects.indexOf(r);
