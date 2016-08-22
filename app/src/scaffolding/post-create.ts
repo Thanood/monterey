@@ -1,16 +1,19 @@
-import {autoinject}           from 'aurelia-framework';
-import {DialogService}        from 'aurelia-dialog';
-import {IStep}                from './istep';
-import {FS}                   from 'monterey-pal';
-import {ProjectManager}       from '../shared/project-manager';
-import {Notification}         from '../shared/notification';
-import {Project}              from '../shared/project';
-import {TaskManager}          from '../plugins/task-manager/task-manager';
-import {TaskManagerModal}     from '../plugins/task-manager/task-manager-modal';
-import {Task}                 from '../plugins/task-manager/task';
-import {Common as CommonNPM}  from '../plugins/npm/common';
-import {Common as CommonJSPM} from '../plugins/jspm/common';
-import {TaskRunner}           from '../plugins/task-manager/task-runner';
+import {autoinject, LogManager} from 'aurelia-framework';
+import {Logger}                 from 'aurelia-logging';
+import {DialogService}          from 'aurelia-dialog';
+import {IStep}                  from './istep';
+import {FS}                     from 'monterey-pal';
+import {ProjectManager}         from '../shared/project-manager';
+import {Notification}           from '../shared/notification';
+import {Project}                from '../shared/project';
+import {TaskManager}            from '../plugins/task-manager/task-manager';
+import {TaskManagerModal}       from '../plugins/task-manager/task-manager-modal';
+import {Task}                   from '../plugins/task-manager/task';
+import {Common as CommonNPM}    from '../plugins/npm/common';
+import {Common as CommonJSPM}   from '../plugins/jspm/common';
+import {TaskRunner}             from '../plugins/task-manager/task-runner';
+
+const logger = <Logger>LogManager.getLogger('PostCreate');
 
 @autoinject()
 export class PostCreate {
@@ -144,6 +147,7 @@ export class PostCreate {
 
     if (this.tasks.length > 0) {
       this.notification.success('Monterey will now execute all actions. The progress can be followed through the task manager');
+      logger.info(`${checkedActions.length} (${checkedActions.map(x => x.display).join(', ')}) were checked`);
 
       this.taskManager.startTask(this.tasks[0]);
       this.dialogService.open({ viewModel: TaskManagerModal })

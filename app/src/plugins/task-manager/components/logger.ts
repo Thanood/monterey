@@ -15,6 +15,8 @@ export class Logger {
   }
 
   scrollDown() {
+    if (!this.logsDiv) return;
+
     // we don't want to scroll down automatically if the user has scrolled up
     if (this.logsDiv.scrollHeight - this.logsDiv.scrollTop < 350)
       this.logsDiv.scrollTop = this.logsDiv.scrollHeight;

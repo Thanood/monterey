@@ -7,7 +7,7 @@ import {Project}                from './project';
 import {Notification}           from './notification';
 import {EventAggregator}        from 'aurelia-event-aggregator';
 
-const logger = <Logger>LogManager.getLogger('App launcher plugin');
+const logger = <Logger>LogManager.getLogger('project-manager');
 
 @autoinject()
 export class ProjectManager {
@@ -64,6 +64,7 @@ export class ProjectManager {
     await this.state._save();
 
     this.ea.publish('ProjectAdded', project);
+    logger.info('Project added');
 
     return project;
   }
@@ -78,6 +79,7 @@ export class ProjectManager {
     await this.state._save();
 
     this.ea.publish('ProjectRemoved', project);
+    logger.info('Project removed');
   }
 
   /**

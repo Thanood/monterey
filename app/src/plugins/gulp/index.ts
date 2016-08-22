@@ -2,6 +2,10 @@ import {PluginManager} from '../../shared/plugin-manager';
 import {BasePlugin}    from '../base-plugin';
 import {FS}            from 'monterey-pal';
 import {Project}       from '../../shared/project';
+import {LogManager}    from 'aurelia-framework';
+import {Logger}        from 'aurelia-logging';
+
+const logger = <Logger>LogManager.getLogger('gulp-plugin');
 
 export function configure(aurelia) {
   let pluginManager = <PluginManager>aurelia.container.get(PluginManager);
@@ -34,8 +38,13 @@ class Plugin extends BasePlugin {
     for (let i = 0; i < lookupPaths.length; i++) {
       if (await FS.fileExists(lookupPaths[i])) {
         project.gulpfile = lookupPaths[i];
+        logger.info(`gulp file found: ${project.gulpfile}`);
       }
     };
+
+    if (!project.gulpfile) {
+      logger.info(`did not find gulpfile`);
+    }
   }
 
   async getProjectInfoSections(project: Project) {

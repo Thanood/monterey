@@ -1,9 +1,10 @@
 import {LogManager, autoinject}   from 'aurelia-framework';
+import {Logger}                   from 'aurelia-logging';
 import {AURELIACLI}               from 'monterey-pal';
 import {IStep}                    from '../istep';
 import {Notification}             from '../../shared/notification';
 
-const logger = LogManager.getLogger('project-manager');
+const logger = <Logger>LogManager.getLogger('project-manager');
 
 @autoinject()
 export class Run {
@@ -31,8 +32,9 @@ export class Run {
       try {
         // aurelia cli can't handle circular structures so we remove the
         // workflow from the state we set in activities.js
-
         this.state.workflow = null;
+
+        logger.info(`creating aurelia-cli project: ${JSON.stringify(this.state)}`);
 
         await AURELIACLI.create(this.state);
         this.finished = true;

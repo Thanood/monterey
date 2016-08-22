@@ -2,6 +2,10 @@ import {PluginManager} from '../../shared/plugin-manager';
 import {BasePlugin}    from '../base-plugin';
 import {FS}            from 'monterey-pal';
 import {Project}       from '../../shared/project';
+import {LogManager}    from 'aurelia-framework';
+import {Logger}        from 'aurelia-logging';
+
+const logger = <Logger>LogManager.getLogger('webpack-plugin');
 
 export function configure(aurelia) {
   let pluginManager = <PluginManager>aurelia.container.get(PluginManager);
@@ -30,8 +34,13 @@ class Plugin extends BasePlugin {
     for (let i = 0; i < lookupPaths.length; i++) {
       if (await FS.fileExists(lookupPaths[i])) {
         project.webpackConfigPath = lookupPaths[i];
+        logger.info(`webpack.config.js found: ${project.webpackConfigPath}`);
       }
     };
+
+    if (!project.webpackConfigPath) {
+      logger.info(`did not find webpack.config.js`);
+    }
   }
 
   async getProjectInfoSections(project: Project) {

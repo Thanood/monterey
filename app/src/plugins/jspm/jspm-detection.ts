@@ -1,5 +1,9 @@
-import {FS}      from 'monterey-pal';
-import {Project} from '../../shared/project';
+import {LogManager} from 'aurelia-framework';
+import {Logger}     from 'aurelia-logging';
+import {FS}         from 'monterey-pal';
+import {Project}    from '../../shared/project';
+
+const logger = <Logger>LogManager.getLogger('jspm-detection');
 
 export class JSPMDetection {
   async findJspmConfig(project: Project) {
@@ -8,10 +12,15 @@ export class JSPMDetection {
 
     if (packageJSON.jspm) {
 
+      logger.info('package.json has jspm section');
+
       await this.findJspmVersion(project, packageJSON);
 
       let jspm016Path = this.getJspm016Path(project, packageJSON);
       let jspm017Path = this.getJspm017Path(project, packageJSON);
+
+      logger.info(`jspm016Path: ${jspm016Path}`);
+      logger.info(`jspm017Path: ${jspm017Path}`);
 
       // we were unable to find JSPM in the devDependencies section of package.json
       // so we're just going to look for a config.js or a jspm.config.js
@@ -21,10 +30,12 @@ export class JSPMDetection {
           project.configJsPath = jspm016Path;
           project.jspmVersion = '^0.16.0';
           project.jspmDefinition = '^0.16.0';
+          logger.info(`jspm 0.16 detected`);
         } else if (await FS.fileExists(jspm017Path)) {
           project.configJsPath = jspm016Path;
           project.jspmVersion = '^0.17.0';
           project.jspmDefinition = '^0.17.0';
+          logger.info(`jspm 0.17 detected`);
         }
       } else {
         let major = parseInt(project.jspmVersion.split('.')[0], 10);

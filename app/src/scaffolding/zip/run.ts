@@ -3,9 +3,9 @@ import {FS}                     from 'monterey-pal';
 import {GithubAPI}              from '../../shared/github-api';
 import {IStep}                  from '../istep';
 import {Notification}           from '../../shared/notification';
+import {Logger}                 from 'aurelia-logging';
 
-
-const logger = LogManager.getLogger('zip-scaffolder');
+const logger = <Logger>LogManager.getLogger('zip-scaffolder');
 
 @autoinject()
 export class Run {
@@ -40,6 +40,9 @@ export class Run {
   attached() {
     this.promise = new Promise(async (resolve, reject) => {
       try {
+        
+        logger.info(`creating zip project: ${JSON.stringify(this.state)}`);
+
         let url;
         let subDir;
         let projectDir = FS.join(this.state.path, this.state.name);
@@ -74,7 +77,7 @@ export class Run {
           FS.cleanupTemp();
           this.logs.push('Cleaned up temp files and folders');
         } catch (e) {
-          logger.info('Did not finish cleanup of temp folder: ', e);
+          logger.info('Did not finish cleanup of temp folder: ' + e.message);
         }
       }
     });

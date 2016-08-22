@@ -1,10 +1,13 @@
-import {autoinject}         from 'aurelia-framework';
-import {MontereyRegistries} from '../../shared/monterey-registries';
-import {Project}            from '../../shared/project';
-import {ApplicationState}   from '../../shared/application-state';
-import {FS, ELECTRON}       from 'monterey-pal';
-import {TaskManager}        from '../task-manager/task-manager';
-import {Task}               from '../task-manager/task';
+import {autoinject, LogManager} from 'aurelia-framework';
+import {Logger}                 from 'aurelia-logging';
+import {MontereyRegistries}     from '../../shared/monterey-registries';
+import {Project}                from '../../shared/project';
+import {ApplicationState}       from '../../shared/application-state';
+import {FS, ELECTRON}           from 'monterey-pal';
+import {TaskManager}            from '../task-manager/task-manager';
+import {Task}                   from '../task-manager/task';
+
+const logger = <Logger>LogManager.getLogger('launcher-manager');
 
 @autoinject
 export class LauncherManager {
@@ -57,7 +60,10 @@ export class LauncherManager {
 
       // create folder structure where the image of the app-launcher will be downloaded to
       if (!(await FS.folderExists(imgFolder))) {
+        logger.info(`folder ${imgFolder} does not exist, creating it`);
         await FS.createFolder(imgFolder);
+      } else {
+        logger.info(`folder ${imgFolder} already exists`);
       }
 
       let imgSrc = result.remoteImagePath;
@@ -65,6 +71,7 @@ export class LauncherManager {
       let file = await FS.downloadFile(imgSrc, imgTarget);
 
       result.data.img = root + '/images/app-launcher/' + platform + '/' + launcherPath + '.png';
+      logger.info(`img path: ${result.data.img}`);
       result.data.enabled = true;
 
       (project ? project.appLaunchers : this.state.appLaunchers).push(result);

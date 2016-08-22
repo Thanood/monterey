@@ -1,5 +1,9 @@
-import {SESSION, FS} from 'monterey-pal';
-import {Project}     from './project';
+import {LogManager}             from 'aurelia-framework';
+import {Logger}                 from 'aurelia-logging';
+import {SESSION, FS}            from 'monterey-pal';
+import {Project}                from './project';
+
+const logger = <Logger>LogManager.getLogger('application-state');
 
 export class ApplicationState {
 
@@ -33,6 +37,7 @@ export class ApplicationState {
   */
   async _save() {
     await SESSION.set(this._getStateIdentifier(), this._normalize(this));
+    logger.info('State saved');
   }
 
   // by using the path as identifier we can have a different state for dev and actual use

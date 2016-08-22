@@ -1,8 +1,11 @@
-import {autoinject}    from 'aurelia-framework';
-import {PluginManager} from '../../shared/plugin-manager';
-import {FS}            from 'monterey-pal';
-import {BasePlugin}    from '../base-plugin';
-import {Common}        from './common';
+import {autoinject, LogManager} from 'aurelia-framework';
+import {Logger}                 from 'aurelia-logging';
+import {PluginManager}          from '../../shared/plugin-manager';
+import {FS}                     from 'monterey-pal';
+import {BasePlugin}             from '../base-plugin';
+import {Common}                 from './common';
+
+const logger = <Logger>LogManager.getLogger('npm-plugin');
 
 export function configure(aurelia) {
   let pluginManager = <PluginManager>aurelia.container.get(PluginManager);
@@ -42,12 +45,16 @@ class Plugin extends BasePlugin {
     for (let i = 0; i < pathsToTry.length; i++) {
       if (await this.tryLocatePackageJSON(project, pathsToTry[i])) {
         found = true;
+        logger.info(`found package.json at ${pathsToTry[i]}`);
       }
     }
 
     if (!found) {
       if (await this.manuallyLocatePackageJSON(project)) {
         found = true;
+        logger.info(`found package.json manually: ${project.packageJSONPath}`);
+      } else {
+        logger.info('user did not select package.json manually');
       }
     }
 

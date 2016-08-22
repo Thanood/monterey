@@ -1,6 +1,9 @@
-import {OS} from 'monterey-pal';
-import {useView, autoinject} from 'aurelia-framework';
-import {Notification}        from '../../shared/notification';
+import {useView, autoinject, LogManager} from 'aurelia-framework';
+import {OS}           from 'monterey-pal';
+import {Logger}       from 'aurelia-logging';
+import {Notification} from '../../shared/notification';
+
+const logger = <Logger>LogManager.getLogger('app-launcher');
 
 @useView('plugins/default-tile.html')
 @autoinject()
@@ -25,6 +28,8 @@ export class AppLauncher {
 
     this.cmd = this.cmd.replace(/%path%/g, this.project.path);
 
+    logger.info(`going to run cmd: "${this.cmd}", ${this.useShell ? 'with shell' : 'without shell'}`);
+
     try {
       if(this.useShell) {
         OS.openItem(this.cmd);
@@ -33,7 +38,6 @@ export class AppLauncher {
       }
     } catch (e) {
       this.notification.error(`error executing cmd: ${e.message}`);
-      console.log(e);
     }
   }
 }

@@ -44,7 +44,7 @@ module.exports = class Logger {
         if (!exists) {
           // logfile did not exist, add csv headers to the file
           // this also creates the file
-          return this.appendToFile(this.logFilePath, 'type;id;date;msg').then((err) => {
+          return this.appendToFile(this.logFilePath, 'type,id,date,msg').then((err) => {
             if (err) {
               console.log(err)
             }
@@ -208,7 +208,7 @@ module.exports = class Logger {
 
   writeToBuffer(type, id, msg) {
   // convert to csv line format
-    let result = `${type};${id};${new Date().toISOString()};${msg}\r\n`;
+    let result = `"${type}","${id}","${new Date().toISOString()}","${msg}"\r\n`;
 
     // append to buffer
     this.logBuffer = this.logBuffer + result;
