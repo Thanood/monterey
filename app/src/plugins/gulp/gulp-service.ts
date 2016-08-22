@@ -35,8 +35,20 @@ export class GulpService implements TaskRunnerService {
 
   runTask(project: Project, task: ProjectTask, stdout, stderr) {
     let gulpFileDir = FS.getFolderPath(project.gulpfile);
-    let result = OS.spawn(OS.getPlatform() === 'win32' ? 'gulp.cmd' : 'gulp', task.parameters, { cwd:  gulpFileDir }, out => stdout(out), err => stderr(err));
+    let cmd = OS.getPlatform() === 'win32' ? 'gulp.cmd' : 'gulp';
+    let result = OS.spawn(cmd, task.parameters, { cwd:  gulpFileDir }, out => {
+      this.tryGetPort(project, out);
+      stdout(out);
+    }, err => stderr(err));
     return result;
+  }
+
+  // parse the output, try and find what url the project is running under
+  tryGetPort(project: Project, text: string) {
+    let matches = text.match(/Local: (.*)\s/);
+    if (matches && matches.length === 2) {
+      project.__meta__.url = matches[1];
+    }
   }
 
   cancelTask(process) {

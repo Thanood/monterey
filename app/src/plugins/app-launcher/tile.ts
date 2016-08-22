@@ -1,6 +1,7 @@
 import {useView, autoinject, LogManager} from 'aurelia-framework';
 import {OS}           from 'monterey-pal';
 import {Logger}       from 'aurelia-logging';
+import {Project}      from '../../shared/project';
 import {Notification} from '../../shared/notification';
 
 const logger = <Logger>LogManager.getLogger('app-launcher');
@@ -8,7 +9,7 @@ const logger = <Logger>LogManager.getLogger('app-launcher');
 @useView('plugins/default-tile.html')
 @autoinject()
 export class AppLauncher {
-  project;
+  project: Project;
   cmd: string;
   useShell: boolean;
 
@@ -27,6 +28,7 @@ export class AppLauncher {
     }
 
     this.cmd = this.cmd.replace(/%path%/g, this.project.path);
+    this.cmd = this.cmd.replace(/%url%/g, this.project.__meta__.url || 'http://localhost:9000');
 
     logger.info(`going to run cmd: "${this.cmd}", ${this.useShell ? 'with shell' : 'without shell'}`);
 

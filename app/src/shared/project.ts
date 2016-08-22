@@ -21,11 +21,7 @@ export interface Project {
   tiles?: Array<string>;
 
   // won't be save in session
-  __meta__: {
-    taskmanager: {
-      tasks: Array<Task>
-    }
-  };
+  __meta__: any;
 }
 
 export class Project {

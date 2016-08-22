@@ -1,6 +1,6 @@
 {
   "defaults": { 
-    "win32": ["windows-explorer", "windows-cmd-prompt"],
-    "darwin": []
+    "win32": ["windows-explorer", "windows-cmd-prompt", "chrome"],
+    "darwin": ["finder", "chrome"]
   }
 }

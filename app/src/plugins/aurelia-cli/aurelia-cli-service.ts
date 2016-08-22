@@ -13,8 +13,22 @@ export class AureliaCLIService implements TaskRunnerService {
   }
 
   runTask(project: Project, task: ProjectTask, stdout, stderr) {
-    let result = OS.spawn(OS.getPlatform() === 'win32' ? `${task.command}.cmd` : task.command, task.parameters, { cwd:  project.path }, out => stdout(out), err => stderr(err));
+    // Application Available At: http://localhost:9000
+    let cmd = OS.getPlatform() === 'win32' ? `${task.command}.cmd` : task.command;
+
+    let result = OS.spawn(cmd, task.parameters, { cwd:  project.path }, out => {
+      this.tryGetPort(project, out);
+      stdout(out);
+    }, err => stderr(err));
     return result;
+  }
+
+  // parse the output, try and find what url the project is running under
+  tryGetPort(project: Project, text: string) {
+    let matches = text.match(/Application Available At: (.*)/);
+    if (matches && matches.length === 2) {
+      project.__meta__.url = matches[1];
+    }
   }
 
   cancelTask(process) {
