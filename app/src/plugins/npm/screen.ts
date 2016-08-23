@@ -22,7 +22,7 @@ export class Screen {
               private taskManager: TaskManager,
               private dialogService: DialogService,
               private notification: Notification,
-              private main: Main) {
+              private main: Main) { 
   }
 
   activate(model) {

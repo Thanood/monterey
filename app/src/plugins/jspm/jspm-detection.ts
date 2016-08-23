@@ -1,12 +1,25 @@
-import {LogManager} from 'aurelia-framework';
-import {Logger}     from 'aurelia-logging';
-import {FS}         from 'monterey-pal';
-import {Project}    from '../../shared/project';
+import {LogManager, autoinject} from 'aurelia-framework';
+import {Logger}            from 'aurelia-logging';
+import {DialogService}     from 'aurelia-dialog';
+import {FS}                from 'monterey-pal';
+import {ApplicationState}  from '../../shared/application-state';
+import {FileSelectorModal} from '../../shared/file-selector-modal/file-selector-modal';
+import {Project}           from '../../shared/project';
 
 const logger = <Logger>LogManager.getLogger('jspm-detection');
 
+@autoinject()
 export class JSPMDetection {
+
+  constructor(private dialogService: DialogService,
+              private state: ApplicationState) {}
+
   async findJspmConfig(project: Project) {
+    if (!project.packageJSONPath) {
+      // no package.json? no jspm
+      return;
+    }
+
     let packageJSON = JSON.parse(await FS.readFile(project.packageJSONPath));
     let configJs = null;
 
@@ -79,6 +92,31 @@ export class JSPMDetection {
       }
       project.jspmDefinition = jspmDefinition;
       project.jspmVersion = jspmVersion;
+    }
+  }
+
+  async manualDetection(project: Project) {
+    let result = await this.dialogService.open({ 
+      viewModel: FileSelectorModal, 
+      model: { 
+        description: 'In order to enable JSPM features, please select the config.js or jspm.config.js file',
+        expectedFileName: 'config.js/jspm.config.js',
+        filters: [
+          { name: 'Javascript', extensions: ['js'] }
+        ]
+      }
+    });
+
+    if (!result.wasCancelled) {
+      if (result.output.endsWith('jspm.config.js')) {
+        project.jspmVersion = '^0.17.0';
+        project.configJsPath = result.output;
+      } else if (result.output.endsWith('config.js')) {
+        project.jspmVersion = '^0.16.0';
+        project.configJsPath = result.output;
+      }
+
+      await this.state._save();
     }
   }
 }

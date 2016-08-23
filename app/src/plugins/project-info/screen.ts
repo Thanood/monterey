@@ -64,7 +64,6 @@ export class Screen {
   loadInfo() {
     this.items.push({ key: 'Project name', value: this.project.name });
     this.items.push({ key: 'Project path:', value: this.project.path });
-    this.items.push({ key: 'Package.json path:', value: this.project.packageJSONPath });
     this.items.push({ key: 'NodeJS:', value: OS.getNodeVersion() });
     this.items.push({ key: 'NPM:', value: OS.getNPMVersion() });
     this.items.push({ key: 'Electron:', value: OS.getElectronVersion() });

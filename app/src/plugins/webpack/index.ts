@@ -1,11 +1,8 @@
-import {PluginManager} from '../../shared/plugin-manager';
-import {BasePlugin}    from '../base-plugin';
-import {FS}            from 'monterey-pal';
-import {Project}       from '../../shared/project';
-import {LogManager}    from 'aurelia-framework';
-import {Logger}        from 'aurelia-logging';
-
-const logger = <Logger>LogManager.getLogger('webpack-plugin');
+import {autoinject} from 'aurelia-framework';
+import {PluginManager}    from '../../shared/plugin-manager';
+import {WebpackDetection} from './webpack-detection';
+import {BasePlugin}       from '../base-plugin';
+import {Project}          from '../../shared/project';
 
 export function configure(aurelia) {
   let pluginManager = <PluginManager>aurelia.container.get(PluginManager);
@@ -13,7 +10,12 @@ export function configure(aurelia) {
   pluginManager.registerPlugin(aurelia.container.get(Plugin));
 }
 
+@autoinject()
 export class Plugin extends BasePlugin {
+  constructor(private webpackDetection: WebpackDetection) {
+    super();
+  }
+
   getTiles(project: Project, showIrrelevant) {
     if (!showIrrelevant && !project.isUsingWebpack()) {
       return [];
@@ -27,20 +29,7 @@ export class Plugin extends BasePlugin {
   }
 
   async evaluateProject(project: Project) {
-    let lookupPaths = [
-      FS.join(project.path, 'webpack.config.js')
-    ];
-
-    for (let i = 0; i < lookupPaths.length; i++) {
-      if (await FS.fileExists(lookupPaths[i])) {
-        project.webpackConfigPath = lookupPaths[i];
-        logger.info(`webpack.config.js found: ${project.webpackConfigPath}`);
-      }
-    };
-
-    if (!project.webpackConfigPath) {
-      logger.info(`did not find webpack.config.js`);
-    }
+    await this.webpackDetection.findWebpackConfig(project);
   }
 
   async getProjectInfoSections(project: Project) {

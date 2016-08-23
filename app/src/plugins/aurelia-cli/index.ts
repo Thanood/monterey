@@ -1,9 +1,10 @@
-import {PluginManager} from '../../shared/plugin-manager';
-import {BasePlugin}    from '../base-plugin';
-import {FS}            from 'monterey-pal';
-import {Project}       from '../../shared/project';
-import {LogManager}    from 'aurelia-framework';
-import {Logger}        from 'aurelia-logging';
+import {autoinject, LogManager} from 'aurelia-framework';
+import {Logger}              from 'aurelia-logging';
+import {FS}                  from 'monterey-pal';
+import {BasePlugin}          from '../base-plugin';
+import {AureliaCLIDetection} from './aurelia-cli-detection';
+import {PluginManager}       from '../../shared/plugin-manager';
+import {Project}             from '../../shared/project';
 
 const logger = <Logger>LogManager.getLogger('aurelia-cli-plugin');
 
@@ -13,7 +14,12 @@ export function configure(aurelia) {
   pluginManager.registerPlugin(aurelia.container.get(Plugin));
 }
 
+@autoinject()
 export class Plugin extends BasePlugin {
+  constructor(private aureliaCLIDetection: AureliaCLIDetection) {
+    super();
+  }
+
   getTiles(project: Project, showIrrelevant) {
     if (!showIrrelevant && !project.aureliaJSONPath) {
       return [];
@@ -27,20 +33,7 @@ export class Plugin extends BasePlugin {
   }
 
   async evaluateProject(project: Project) {
-    let lookupPaths = [
-      FS.join(project.path, 'aurelia_project', 'aurelia.json')
-    ];
-
-    for (let i = 0; i < lookupPaths.length; i++) {
-      if (await FS.fileExists(lookupPaths[i])) {
-        project.aureliaJSONPath = lookupPaths[i];
-        logger.info(`aurelia.json found: ${project.aureliaJSONPath}`);
-      }
-    };
-
-    if (!project.aureliaJSONPath) {
-      logger.info(`did not find aurelia.json file`);
-    }
+    await this.aureliaCLIDetection.findAureliaJSONConfig(project);
   }
 
   async getProjectInfoSections(project) {

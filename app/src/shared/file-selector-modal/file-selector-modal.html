@@ -1,0 +1,29 @@
+<template>
+  <ai-dialog title="Locate ${expectedFileName}" width="600" height="430">
+    <ai-dialog-body>
+      <p>
+        ${description}
+      </p>
+
+      <form validation-renderer="bootstrap-form">
+        <div class="form-group">
+          <input type="text"
+                class="form-control"
+                style="display: inline; width: 445px;"
+                id="file"
+                disabled="disabled"
+                value.bind="selectedFilePath & validate">
+          <button click.delegate="browser()" class="btn btn-primary">Select ${expectedFileName}</button>
+        </div>
+      </form>
+
+    </ai-dialog-body>
+
+    <ai-dialog-footer>
+      <div class="align-right">
+        <button class="btn btn-primary" click.trigger="ok()">OK</button>
+        <button class="btn btn-primary" click.trigger="dialogController.close()">Close</button>
+      </div>
+    </ai-dialog-footer>
+  </ai-dialog>
+</template>
