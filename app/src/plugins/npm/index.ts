@@ -32,7 +32,7 @@ export class Plugin extends BasePlugin {
   }
 
   async evaluateProject(project: Project) {
-    this.npmDetection.findPackageJSON(project);
+    await this.npmDetection.findPackageJSON(project);
   }
 
   async getProjectInfoSections(project: Project) {

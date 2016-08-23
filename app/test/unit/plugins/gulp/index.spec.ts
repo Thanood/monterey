@@ -1,6 +1,8 @@
 import {Plugin}        from '../../../../src/plugins/gulp/index';
 import {Project}       from '../../../../src/shared/project';
+import {Container}     from 'aurelia-framework';
 import {initializePAL, FS} from 'monterey-pal';
+import '../../setup';
 
 describe('Gulp plugin', () => {
   let plugin: Plugin;
@@ -13,7 +15,7 @@ describe('Gulp plugin', () => {
       let splice = split.splice(0, split.length - 1);
       return splice.join('/');
     };
-    plugin = new Plugin();
+    plugin = new Container().get(Plugin);
   });
 
   let paths = [

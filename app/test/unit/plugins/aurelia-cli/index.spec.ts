@@ -1,6 +1,8 @@
 import {Plugin}        from '../../../../src/plugins/aurelia-cli/index';
 import {Project}       from '../../../../src/shared/project';
+import {Container}     from 'aurelia-framework';
 import {initializePAL, FS} from 'monterey-pal';
+import '../../setup';
 
 describe('Aurelia-cli plugin', () => {
   let plugin: Plugin;
@@ -8,7 +10,7 @@ describe('Aurelia-cli plugin', () => {
 
   beforeEach(() => {
     FS.join = (...args) => Array.prototype.slice.call(args).join('/')
-    plugin = new Plugin();
+    plugin = new Container().get(Plugin);
   });
 
   it('finds aurelia.json file automatically', (r) => {

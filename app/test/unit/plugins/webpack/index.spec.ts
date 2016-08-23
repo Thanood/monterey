@@ -1,6 +1,8 @@
 import {Plugin}        from '../../../../src/plugins/webpack/index';
 import {Project}       from '../../../../src/shared/project';
 import {initializePAL, FS} from 'monterey-pal';
+import {Container}     from 'aurelia-framework';
+import '../../setup';
 
 describe('Webpack plugin', () => {
   let plugin: Plugin;
@@ -8,7 +10,7 @@ describe('Webpack plugin', () => {
 
   beforeEach(() => {
     FS.join = (...args) => Array.prototype.slice.call(args).join('/')
-    plugin = new Plugin();
+    plugin = new Container().get(Plugin);
   });
 
   it('finds webpack.config.js automatically', (r) => {

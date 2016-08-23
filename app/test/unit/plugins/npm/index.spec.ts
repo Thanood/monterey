@@ -1,6 +1,8 @@
 import {Plugin}        from '../../../../src/plugins/npm/index';
 import {Project}       from '../../../../src/shared/project';
 import {initializePAL, FS} from 'monterey-pal';
+import {Container}     from 'aurelia-framework';
+import '../../setup';
 
 describe('NPM plugin', () => {
   let plugin: Plugin;
@@ -14,8 +16,7 @@ describe('NPM plugin', () => {
       return splice.join('/');
     };
     FS.normalize = (path: string) => path;
-    plugin = new Plugin(null);
-    spyOn(plugin, 'alert');
+    plugin = new Container().get(Plugin);
   });
 
   let paths = [
