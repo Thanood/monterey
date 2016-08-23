@@ -1,5 +1,5 @@
 import {DialogService} from 'aurelia-dialog';
-import {Container}     from 'aurelia-dependency-injection';
+import {Container}     from 'aurelia-framework';
 
 /**
 * the withModal decorator can decorate a method and will show a modal before the method gets executed

@@ -1,6 +1,6 @@
-import {TaskManager} from '../../src/plugins/task-manager/task-manager';
-import {Task} from '../../src/plugins/task-manager/task';
-import {Project} from '../../src/shared/project';
+import {TaskManager} from '../../../../src/plugins/task-manager/task-manager';
+import {Task} from '../../../../src/plugins/task-manager/task';
+import {Project} from '../../../../src/shared/project';
 
 describe('TaskManager', () => {
   let taskManager: TaskManager;
@@ -240,5 +240,23 @@ describe('TaskManager', () => {
       _resolveTask2();
       r();
     });    
+  });
+
+  it ('creates correct log messages', () => {
+    let task = new Task(new Project(), 'some task');
+    taskManager.addTaskLog(task, 'foo', 'warn');
+    let now = moment().format('HH:mm:ss');
+    expect(task.logs[0].message).toBe(`[${now}] [warn] foo`);
+
+    taskManager.addTaskLog(task, 'foo');
+    now = moment().format('HH:mm:ss');
+    expect(task.logs[1].message).toBe(`[${now}] foo`);
+  });
+
+  it ('log messages only get timestamp if message does not have timestamp already', () => {
+    let task = new Task(new Project(), 'some task');
+    taskManager.addTaskLog(task, '[25:80:90] foo');
+    let now = moment().format('LTS');
+    expect(task.logs[0].message).toBe(`[25:80:90] foo`);
   });
 });

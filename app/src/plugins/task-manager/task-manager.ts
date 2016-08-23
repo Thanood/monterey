@@ -57,8 +57,15 @@ export class TaskManager {
   }
 
   addTaskLog(task: Task, text: string, level?: string) {
+    let hasTimestamp = text.match(/^\[(.*)\]/);
+    if (level) {
+      text = `[${level}] ${text}`;
+    }
+    if (!hasTimestamp) {
+      text = `[${moment().format('HH:mm:ss')}] ${text}`;
+    }
     task.logs.push({
-      message: `[${moment().format('LTS')}] ${level ? `[${level}]` : ''} ${text}`,
+      message: text,
       level: level
     });
   }
