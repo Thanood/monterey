@@ -28,7 +28,11 @@ export class TaskManagerModal {
               private ea: EventAggregator,
               private state: ApplicationState) {
     // we need to update the tree when tasks are added, started and finished
-    this.subscriptions.push(this.ea.subscribe('TaskStarted', () => this.updateTree()));
+    this.subscriptions.push(this.ea.subscribe('TaskStarted', (obj) => {
+      this.selectedTask = obj.task;
+      this.selectedProject = null;
+      this.updateTree();
+    }));
     this.subscriptions.push(this.ea.subscribe('TaskAdded', () => this.updateTree()));
     this.subscriptions.push(this.ea.subscribe('TaskFinished', () => this.updateTree()));
   }
@@ -36,14 +40,15 @@ export class TaskManagerModal {
   activate(model) {
     this.model = model;
 
+    if (this.model && this.model.task) {
+      this.selectedTask = this.model.task;
+    }
+
     this.updateTree();
   }
 
   updateTree() {
      let tree = [];
-
-    let selectedTask = this.selectedTask;
-    let selectedProject = this.selectedProject;
 
     // projects have tasks
     // so here we generate a tree of TreeListNode
@@ -71,7 +76,7 @@ export class TaskManagerModal {
           taskNode.data = { task: task };
 
           // recover selection
-          if (task === selectedTask) {
+          if (task === this.selectedTask) {
             taskNode.selected = true;
           }
 
@@ -84,8 +89,12 @@ export class TaskManagerModal {
       projNode.data = { project: proj };
       projNode.bold = true;
 
-      // recover selection
-      if (proj === selectedProject) {
+      let newTaskNode = new TreeListNode('Start new task');
+      newTaskNode.data = { project: proj };
+      newTaskNode.icon = 'glyphicon glyphicon-plus';
+      projNode.children.push(newTaskNode);
+
+      if (proj === this.selectedProject) {
         projNode.selected = true;
       }
 
@@ -94,18 +103,19 @@ export class TaskManagerModal {
   
     // we can probably sort this in a better way
     // for example, running processes should take priority over finished processes
-    tree.sort((a: TreeListNode, b: TreeListNode) => b.children.length - a.children.length);
+    tree.sort((a: TreeListNode, b: TreeListNode) => b.children.map(x => x.data).length - a.children.map(x => x.data).length);
 
     this.taskTree = tree;
   }
 
   selectedNodeChanged() {
+    this.selectedTask = null;
+    this.selectedProject = null;
+
     if (this.selectedNode.data.project) {
       this.selectedProject = this.selectedNode.data.project;
-      this.selectedTask = null;
-    } else {
+    } else if(this.selectedNode.data.task) {
       this.selectedTask = this.selectedNode.data.task;
-      this.selectedProject = null;
     }
   }
 
@@ -115,4 +125,8 @@ export class TaskManagerModal {
 
   @withModal(TRexDialog, null, { modal: false })
   trex() {}
+
+  detached() {
+    this.subscriptions.forEach(subscription => subscription.dispose());
+  }
 }
