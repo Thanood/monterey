@@ -22,18 +22,8 @@ More screenshots [here](http://imgur.com/a/MNjG0)
 3. Run the installer
 4. Open Monterey
 
-### How to develop Monterey
-Suggested folder structure:
-- monterey
-   - monterey
-   - monterey-pal
-   - monterey-pal-electron
-
-From inside the monterey folder:
-
-1. npm install --global --production windows-build-tools npm@next
-2. npm run setup
-3. gulp watch (or gulp watch --manual if you want to reload manually. gulp watch --env=production (default environment is development))
+### Monterey technical documentation
+Please refer to [this gitbook](https://aurelia-ui-toolkits.gitbooks.io/monterey-technical-documentation/content/) for the technical documentation of Monterey, where [this chapter](https://aurelia-ui-toolkits.gitbooks.io/monterey-technical-documentation/content/cloning_and_running.html) explains how to set up Monterey for development.
 
 
 ### Working on the pal
