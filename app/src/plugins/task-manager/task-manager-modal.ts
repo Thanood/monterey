@@ -84,7 +84,7 @@ export class TaskManagerModal {
         }
       });
 
-      let projNode = new TreeListNode(proj.name.length > 25 ? proj.name.slice(0, 25) + '...' : proj.name, childNodes);
+      let projNode = new TreeListNode(proj.name.length > 15 ? proj.name.slice(0, 15) + '...' : proj.name, childNodes);
       projNode.title = proj.name;
       projNode.data = { project: proj };
       projNode.bold = true;

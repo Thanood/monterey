@@ -146,11 +146,10 @@ export class PostCreate {
     }
 
     if (this.tasks.length > 0) {
-      this.notification.success('Monterey will now execute all actions. The progress can be followed through the task manager');
       logger.info(`${checkedActions.length} (${checkedActions.map(x => x.display).join(', ')}) were checked`);
 
       this.taskManager.startTask(this.tasks[0]);
-      this.dialogService.open({ viewModel: TaskManagerModal })
+      this.dialogService.open({ viewModel: TaskManagerModal, model: { task: this.tasks[0] } })
     }
 
     return {
