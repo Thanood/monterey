@@ -52,6 +52,10 @@ export class Project {
   isUsingJSPM() {
     return !!(this.configJsPath && this.jspmVersion);
   }
+
+  isUsingNPM() {
+    return !!this.packageJSONPath;
+  }
 }
 
 export interface ProjectTask {

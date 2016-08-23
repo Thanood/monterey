@@ -169,6 +169,12 @@ describe('ProjectManager addProject', () => {
         });
       })
     };
+    initializePAL((fs) => {
+      fs.getDirName = (path) => {
+        let split = path.split('/');
+        return split[split.length - 1];
+      }
+    });
     sut = new ProjectManager(pluginManager, state, notification, ea);
   });
 
@@ -181,27 +187,13 @@ describe('ProjectManager addProject', () => {
     expect(pluginManager.evaluateProject).toHaveBeenCalledWith(project);
   });
 
-  it('expects a PackageJSONPath', async (d) => {
-    let project = {
-      path: ''
+  it('sets project name to folder path if all else fails', async (d) => {
+    let project = <any>{
+      path: 'C:/test'
     };
     let result = await sut.addProject(project);
 
-    expect(notification.error).toHaveBeenCalledWith('location of package.json was not found, the project will not be added to Monterey');
-    expect(result).toBe(false);
-
-    d();
-  });
-
-  it('expects a name', async (d) => {
-    let project = {
-      path: '',
-      packageJSONPath: 'C:/test/package.json'
-    };
-    let result = await sut.addProject(project);
-
-    expect(notification.error).toHaveBeenCalledWith('project name was not found, the project will not be added to Monterey');
-    expect(result).toBe(false);
+    expect(project.name).toBe('test');
 
     d();
   });
@@ -268,7 +260,7 @@ describe('ProjectManager verifyProjectsExistence', () => {
     };
     sut = new ProjectManager(null, state, notification, ea);
     fs = {
-      fileExists: jasmine.createSpy('fileExists').and.callFake(param => {
+      folderExists: jasmine.createSpy('folderExists').and.callFake(param => {
         return new Promise(resolve => {
           if (param === '/existing') resolve(true);
           if (param === '/nonexisting') resolve(false);
@@ -281,15 +273,15 @@ describe('ProjectManager verifyProjectsExistence', () => {
   it('removes projects of whose package.json doesn\'t exist anymore', async (d) => {
 
     state.projects = [{
-      packageJSONPath: '/existing'
+      path: '/existing'
     }, {
-      packageJSONPath: '/nonexisting'
+      path: '/nonexisting'
     }];
 
     await sut.verifyProjectsExistence();
 
     expect(state.projects.length).toBe(1);
-    expect(state.projects.find(p => p.packageJSONPath === '/nonexisting')).toBe(undefined);
+    expect(state.projects.find(p => p.path === '/nonexisting')).toBe(undefined);
 
     d();
   });
@@ -297,9 +289,9 @@ describe('ProjectManager verifyProjectsExistence', () => {
   it('persists changes to session', async (d) => {
 
     state.projects = [{
-      packageJSONPath: '/existing'
+      path: '/existing'
     }, {
-      packageJSONPath: '/nonexisting'
+      path: '/nonexisting'
     }];
 
     await sut.verifyProjectsExistence();
@@ -310,7 +302,7 @@ describe('ProjectManager verifyProjectsExistence', () => {
     state._save.calls.reset();
 
     state.projects = [{
-      packageJSONPath: '/existing'
+      path: '/existing'
     }];
 
     await sut.verifyProjectsExistence();
@@ -323,13 +315,13 @@ describe('ProjectManager verifyProjectsExistence', () => {
   it('warns user that projects have been removed', async (d) => {
     state.projects = [{
       name: 'foo',
-      packageJSONPath: '/existing'
+      path: '/existing'
     }, {
       name: 'bar',
-      packageJSONPath: '/nonexisting'
+      path: '/nonexisting'
     }, {
       name: 'baz',
-      packageJSONPath: '/nonexisting'
+      path: '/nonexisting'
     }];
 
     await sut.verifyProjectsExistence();

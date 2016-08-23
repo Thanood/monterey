@@ -1,7 +1,8 @@
 import {autoinject, LogManager} from 'aurelia-framework';
 import {Logger}                 from 'aurelia-logging';
-import {PluginManager}          from '../../shared/plugin-manager';
 import {FS}                     from 'monterey-pal';
+import {Project}                from '../../shared/project';
+import {PluginManager}          from '../../shared/plugin-manager';
 import {BasePlugin}             from '../base-plugin';
 import {Common}                 from './common';
 
@@ -20,9 +21,14 @@ export class Plugin extends BasePlugin {
     super();
   }
 
-  getTiles(project, showIrrelevant) {
+  getTiles(project: Project, showIrrelevant: boolean) {
+    if (!showIrrelevant && !project.isUsingNPM()) {
+      return [];
+    }
+
     return [{
       name: 'npm',
+      model: { relevant: project.isUsingNPM() },
       viewModel: 'plugins/npm/tile'
     }];
   }
@@ -50,12 +56,7 @@ export class Plugin extends BasePlugin {
     }
 
     if (!found) {
-      if (await this.manuallyLocatePackageJSON(project)) {
-        found = true;
-        logger.info(`found package.json manually: ${project.packageJSONPath}`);
-      } else {
-        logger.info('user did not select package.json manually');
-      }
+      logger.info(`did not find package.json`);
     }
 
     return project;
@@ -65,23 +66,23 @@ export class Plugin extends BasePlugin {
     alert(msg);
   }
 
-  async manuallyLocatePackageJSON(project) {
-    this.alert('Unable to find package.json, please point Monterey to package.json');
-    let paths = await FS.showOpenDialog({
-      title: 'Please select your package.JSON file',
-      properties: ['openFile'],
-      defaultPath: project.path,
-      filters: [
-        {name: 'package', extensions: ['json']}
-      ]
-    });
+  // async manuallyLocatePackageJSON(project) {
+  //   this.alert('Unable to find package.json, please point Monterey to package.json');
+  //   let paths = await FS.showOpenDialog({
+  //     title: 'Please select your package.JSON file',
+  //     properties: ['openFile'],
+  //     defaultPath: project.path,
+  //     filters: [
+  //       {name: 'package', extensions: ['json']}
+  //     ]
+  //   });
 
-    if (paths && paths.length > 0) {
-      return await this.tryLocatePackageJSON(project, paths[0]);
-    }
+  //   if (paths && paths.length > 0) {
+  //     return await this.tryLocatePackageJSON(project, paths[0]);
+  //   }
 
-    return false;
-  }
+  //   return false;
+  // }
 
   async tryLocatePackageJSON(project, p) {
     if (await FS.fileExists(p)) {

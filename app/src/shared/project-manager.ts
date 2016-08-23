@@ -43,16 +43,8 @@ export class ProjectManager {
     // have all plugins evaluate the project
     projectObj = await this.pluginManager.evaluateProject(projectObj);
 
-    if (!projectObj.packageJSONPath) {
-      this.notification.error('location of package.json was not found, the project will not be added to Monterey');
-      logger.error('location of package.json was not found, the project will not be added to Monterey');
-      return false;
-    }
-
     if (!projectObj.name) {
-      this.notification.error('project name was not found, the project will not be added to Monterey');
-      logger.error('project name was not found, the project will not be added to Monterey');
-      return false;
+      projectObj.name = FS.getDirName(projectObj.path);
     }
 
     let project = new Project(projectObj);
@@ -91,7 +83,7 @@ export class ProjectManager {
     let promises = [];
 
     this.state.projects.forEach(project => {
-      promises.push(FS.fileExists(project.packageJSONPath)
+      promises.push(FS.folderExists(project.path)
         .then(exists => {
           return {
             project: project,

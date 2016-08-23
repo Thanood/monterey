@@ -46,29 +46,6 @@ describe('NPM plugin', () => {
     })
   }
 
-  it ('asks user for package.json file if it is not automatically found', (r) => {
-    let project = new Project();
-    project.path = 'C:/dir/my-project';
-
-    FS.showOpenDialog = async (config) => {
-      // user selected this file
-      return Promise.resolve(['C:/dir/my-project/some/difficult/folder/structure/package.json']);
-    };
-    FS.readFile = async (path: string) => '{ }';
-    FS.fileExists = async (path) => {
-      if (path === 'C:/dir/my-project/some/difficult/folder/structure/package.json') {
-        return true;
-      }
-      return false;
-    };
-
-    plugin.evaluateProject(project)
-    .then(() => {
-      expect(project.packageJSONPath).toBe('C:/dir/my-project/some/difficult/folder/structure/package.json');
-      r();
-    }).catch(e => r.fail(e));
-  });
-
   it('takes the project name out of package.json', (r) => {
     let project = new Project();
     project.path = 'c:/dir/my-project';
