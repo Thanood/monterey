@@ -24,37 +24,3 @@ More screenshots [here](http://imgur.com/a/MNjG0)
 
 ### Monterey technical documentation
 Please refer to [this gitbook](https://aurelia-ui-toolkits.gitbooks.io/monterey-technical-documentation/content/) for the technical documentation of Monterey, where [this chapter](https://aurelia-ui-toolkits.gitbooks.io/monterey-technical-documentation/content/cloning_and_running.html) explains how to set up Monterey for development.
-
-
-### Working on the pal
-**Note that this step is not immediately required in order to work on Monterey**
-
-Check out [this tool](https://github.com/vegarringdal/montery-dev) which automates the process defined below.
-
-Make sure that you have run `npm install` and `jspm install` for both `monterey-pal` as well as `monterey-pal-electron`.
-
-From inside monterey's `app` folder:
-
-```
-cd ../../monterey-pal
-gulp build
-jspm link github:monterey-framework/monterey-pal -y
-cd ../monterey-pal-electron
-gulp build
-jspm link github:monterey-framework/monterey-pal-electron -y
-cd ../monterey/app
-jspm install monterey-pal=github:monterey-framework/monterey-pal --link -y
-jspm install monterey-pal-electron=github:monterey-framework/monterey-pal-electron --link -y
-```
-
-Note, these commands should be executed after every change in monterey-pal or monterey-pal-electron
-
-^^^^ it may be necessary to change the version number of monterey-pal and monterey-pal-electron to whatever is in the package.json of monterey-pal and monterey-pal-electron
-
-
-In order to unlink both monterey-pal and monterey-pal-electron the following commands can be used:
-
-```
-jspm install monterey-pal=github:monterey-framework/monterey-pal --unlink
-jspm install monterey-pal-electron=github:monterey-framework/monterey-pal-electron --unlink
-```
