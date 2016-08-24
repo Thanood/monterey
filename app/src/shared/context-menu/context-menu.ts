@@ -98,7 +98,7 @@ export class ContextMenu {
   }
 
   detach(element: Element) {
-    element.removeEventListener('contextmenu');
+    element.removeEventListener('contextmenu', <any>this.onContextMenu);
   }
 }
 

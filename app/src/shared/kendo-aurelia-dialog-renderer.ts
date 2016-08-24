@@ -53,6 +53,10 @@ export class KendoAureliaDialogRenderer implements Renderer {
      * @returns Promise A promise that resolves when the dialog has been hidden.
      */
   hideDialog(dialogController: any) {
+
+    dialogController.slot.detached();
+    dialogController.slot.unbind();
+
     let kendoWindow = jQuery(dialogController.slot.anchor).data('kendoWindow');
 
     kendoWindow.destroy();
