@@ -7,7 +7,9 @@ import {TRexDialog}                    from './components/t-rex-dialog';
 import {Task}                          from './task';
 import {withModal}                     from '../../shared/decorators';
 import {ApplicationState}              from '../../shared/application-state';
+import {TreeNode}                      from '../../shared/tree-list/tree-node';
 import {TreeListNode}                  from '../../shared/tree-list/tree-list-node';
+import {ContextMenu}                   from '../../shared/context-menu/context-menu';
 import {Project}                       from '../../shared/project';
 
 @autoinject()
@@ -15,6 +17,7 @@ export class TaskManagerModal {
   @observable selectedNode: TreeListNode;
 
   selectedTask: Task;
+  taskTreeElement: Element;
   selectedProject: Project;
   @observable showFinished = true;
   subscriptions: Array<Subscription> = [];
@@ -25,6 +28,7 @@ export class TaskManagerModal {
 
   constructor(private dialogController: DialogController,
               private taskManager: TaskManager,
+              private contextMenu: ContextMenu,
               private ea: EventAggregator,
               private state: ApplicationState) {
     // we need to update the tree when tasks are added, started and finished
@@ -49,6 +53,32 @@ export class TaskManagerModal {
     }
 
     this.updateTree();
+  }
+
+  attached() {
+    this.contextMenu.attach(this.taskTreeElement, (builder, clickedElement) => this.contextMenuActivated(builder, clickedElement));
+  }
+
+  contextMenuActivated(builder, clickedElement) {
+    let treeNode = $(clickedElement).closest('tree-node')[0];
+    let treeListNode = <TreeListNode>(<any>treeNode).au.controller.viewModel.node;
+    
+    if (!treeListNode.data.task) {
+      return;
+    }
+
+    let task = <Task>treeListNode.data.task;
+    if (task.finished) {
+      return;
+    }
+
+    builder.addItem({ title: 'Cancel', onClick: () => {
+      if (task.cancelable) {
+        this.taskManager.cancelTask(task);
+      } else {
+        alert('This task cannot be cancelled');
+      }
+    }});
   }
 
   updateTree() {
@@ -94,6 +124,7 @@ export class TaskManagerModal {
       projNode.bold = true;
 
       let newTaskNode = new TreeListNode('Start new task');
+      projNode.title = 'Start new task';
       newTaskNode.data = { project: proj };
       newTaskNode.icon = 'glyphicon glyphicon-plus';
       projNode.children.push(newTaskNode);

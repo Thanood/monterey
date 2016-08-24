@@ -1,0 +1,10 @@
+<template>
+    <ul>
+        <li repeat.for="item of menu.items" click.trigger="itemClicked($event, item)" class="menu-item ${item.separator ? 'separator' : 'no-separator'}">
+            <i class="${item.icon}" if.bind="item.icon"></i>
+            <i if.bind="!item.icon && !item.separator"></i>
+            <p if.bind="!item.separator">${item.title}</p>
+            <hr if.bind="item.separator"/>
+        </li>
+    </ul>
+</template>

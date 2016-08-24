@@ -285,8 +285,8 @@ ai-dialog ai-dialog-footer .align-right {
   width: 120px;
   height: 132px;
   border: 3px solid #dfdfe1;
-  text-align: center;
   vertical-align: middle;
+  text-align: center;
 
   &.irrelevant {
     background: repeating-linear-gradient(
@@ -297,9 +297,9 @@ ai-dialog ai-dialog-footer .align-right {
       #d0d0d0 20px
     );
   }
-
+ 
   &.without-icon {
-    p {
+    > p {
       margin: 0;
       padding-top: 50px;
     }
@@ -311,7 +311,7 @@ ai-dialog ai-dialog-footer .align-right {
       height: 50px;
     }
 
-    p {
+    > p {
       padding-top: 17px;
       text-align: center;
     }
