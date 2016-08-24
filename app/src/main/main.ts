@@ -39,9 +39,9 @@ export class Main {
     await this.projectManager.removeProject(this.selectedProject);
 
     if (this.projectManager.state.projects.length > 0) {
-      this.selectedProject = this.projectManager.state.projects[0];
+      this.selectedProject.set(this.projectManager.state.projects[0]);
     } else {
-      this.selectedProject = null;
+      this.selectedProject.set(null);
     }
   }
 
