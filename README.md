@@ -12,6 +12,8 @@ Monterey is an extensible application that provides a graphical user interface f
 
 More screenshots [here](http://imgur.com/a/MNjG0)
 
+### User manual
+The user manual can be found [here](https://aurelia-ui-toolkits.gitbooks.io/monterey-user-manual/content/)
 
 ### How to install and use Monterey
 1. Go to the [latest release](https://github.com/monterey-framework/monterey/releases/latest) page
