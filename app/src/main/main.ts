@@ -28,7 +28,7 @@ export class Main {
   }
 
   async removeProject() {
-    if (!this.selectedProject) {
+    if (!this.selectedProject.current) {
       return;
     }
 
@@ -36,7 +36,7 @@ export class Main {
       return;
     }
 
-    await this.projectManager.removeProject(this.selectedProject);
+    await this.projectManager.removeProject(this.selectedProject.current);
 
     if (this.projectManager.state.projects.length > 0) {
       this.selectedProject.set(this.projectManager.state.projects[0]);
