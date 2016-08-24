@@ -1,17 +1,21 @@
 import {autoinject}       from 'aurelia-framework';
 import {PluginManager}    from '../../shared/plugin-manager';
-import {EventAggregator, Subscription}  from 'aurelia-event-aggregator';
+import {SelectedProject}  from '../../shared/selected-project';
 
 @autoinject()
 export class TaskBar {
-  subscription: Subscription;
+  subscriptions: Array<any> = [];
   items: Array<string> = [];
 
   constructor(private pluginManager: PluginManager,
-              private ea: EventAggregator) {
-    this.subscription = this.ea.subscribe('SelectedProjectChanged', (project) => {
+              private selectedProject: SelectedProject) {
+    this.subscriptions.push(selectedProject.onChange((project) => {
       this.updateTaskBar(project);
-    });
+    }));
+
+    if (this.selectedProject.current) {
+      this.updateTaskBar(this.selectedProject.current);
+    }
   }
 
   async updateTaskBar(project) {
@@ -19,6 +23,6 @@ export class TaskBar {
   }
 
   detached() {
-    this.subscription.dispose();
+    this.subscriptions.forEach(sub => sub.dispose());
   }
 }

@@ -1,6 +1,6 @@
-import {Main}         from '../../main/main';
-import {autoinject}   from 'aurelia-framework';
-import {ELECTRON, OS} from 'monterey-pal';
+import {SelectedProject} from '../../shared/selected-project';
+import {autoinject}      from 'aurelia-framework';
+import {ELECTRON, OS}    from 'monterey-pal';
 
 @autoinject()
 export class TerminalState {
@@ -11,7 +11,7 @@ export class TerminalState {
   xterm;
   pty;
 
-  constructor(private main: Main) {
+  constructor(private selectedProject: SelectedProject) {
     this.terminals = [];
     this.selectedTerminal = {};
     this.xterm = ELECTRON.getxTerm();
@@ -66,7 +66,7 @@ export class TerminalState {
     let cmd = OS.getPlatform() === 'win32' ? OS.getEnv(['comspec']) || 'cmd.exe' : OS.getEnv('SHELL') || 'sh';
 
     
-    let path = this.main.selectedProject ? this.main.selectedProject.path : undefined;
+    let path = this.selectedProject.current ? this.selectedProject.current.path : undefined;
 
     var ptyTerminal = this.pty.spawn(cmd, [], {
       name: 'xterm-color',

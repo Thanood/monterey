@@ -1,4 +1,4 @@
-import {bindable, autoinject} from 'aurelia-framework';
+import {bindable, autoinject}     from 'aurelia-framework';
 import {LauncherManager}      from './launcher-manager';
 import {Project}              from '../../shared/project';
 import {Main}                 from '../../main/main';
@@ -13,12 +13,8 @@ export class BrowserTile {
   dataLoaded: boolean = false;
   errors: string;
   icon: any;
-  selectedProject: Project;
 
-  constructor(private manager: LauncherManager,
-              private main: Main) {
-    this.manager = manager;
-    this.selectedProject = main.selectedProject;
+  constructor(private manager: LauncherManager) {
   }
 
   async attached() {

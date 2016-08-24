@@ -1,0 +1,28 @@
+import {autoinject}       from 'aurelia-framework';
+import {Project}          from './project';
+import {ApplicationState} from './application-state';
+
+@autoinject()
+export class SelectedProject {
+  current: Project;
+  callbacks: Array<(project: Project) => void> = [];
+
+  constructor(private state: ApplicationState) {}
+
+  onChange(callback: (project: Project) => void) {
+    this.callbacks.push(callback);
+    return {
+      dispose: () => {
+        this.callbacks.splice(this.callbacks.indexOf(callback), 1);
+      }
+    };
+  }
+
+  set(project: Project) {
+    this.current = project;
+    this.callbacks.forEach(cb => cb(this.current));
+    
+    this.state.selectedProjectPath = this.current.path;
+    this.state._save();
+  }
+}

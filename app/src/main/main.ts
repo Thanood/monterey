@@ -2,6 +2,7 @@ import {autoinject, singleton} from 'aurelia-framework';
 import {withModal}         from '../shared/decorators';
 import {ProjectFinder}     from '../shared/project-finder';
 import {ProjectManager}    from '../shared/project-manager';
+import {SelectedProject}   from '../shared/selected-project';
 import {TaskManager}       from '../plugins/task-manager/task-manager';
 import {ScaffoldProject}   from '../scaffolding/scaffold-project';
 import {Tiles}             from './components/tiles';
@@ -11,7 +12,6 @@ import {Project}           from '../shared/project';
 @singleton()
 export class Main {
 
-  selectedProject: Project;
   _activePluginScreenModel;
   _activePluginScreen: string;
   tilesVM: Tiles;
@@ -19,6 +19,7 @@ export class Main {
 
   constructor(private projectFinder: ProjectFinder,
               private projectManager: ProjectManager,
+              private selectedProject: SelectedProject,
               private taskManager: TaskManager) {
   }
 

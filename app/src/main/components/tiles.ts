@@ -2,25 +2,26 @@ import {autoinject, bindable} from 'aurelia-framework';
 import {PluginManager}        from '../../shared/plugin-manager';
 import {Project}              from '../../shared/project';
 import {ApplicationState}     from '../../shared/application-state';
+import {SelectedProject}      from '../../shared/selected-project';
 import * as dragula           from 'dragula';
 import {TaskQueue}            from 'aurelia-task-queue';
 
 @autoinject()
 export class Tiles {
-  @bindable selectedProject: Project;
   tiles = [];
   dragContainer: Element;
   drake: any;
+  subscriptions: Array<any> = [];
   @bindable showIrrelevant = false;
 
   constructor(private pluginManager: PluginManager,
               private taskQueue: TaskQueue,
+              private selectedProject: SelectedProject,
               private state: ApplicationState,
               private element: Element) {
-  }
-
-  selectedProjectChanged() {
-    this.refreshTiles();
+    this.subscriptions.push(selectedProject.onChange((project) => {
+      this.refreshTiles();
+    }));
   }
 
   showIrrelevantChanged() {
@@ -48,18 +49,18 @@ export class Tiles {
     }
 
     // we're done if no project has been selected
-    if (!this.selectedProject) {
+    if (!this.selectedProject.current) {
       return;
     }
 
     // get a list of tiles to show from every plugin
-    let tiles = this.pluginManager.getTilesForProject(this.selectedProject, this.showIrrelevant);
+    let tiles = this.pluginManager.getTilesForProject(this.selectedProject.current, this.showIrrelevant);
 
     // apply sorting to the tiles based on the array of tile names defined in the project
-    if (this.selectedProject.tiles) {
+    if (this.selectedProject.current.tiles) {
       tiles.sort((a, b) => {
-        let indexA = this.selectedProject.tiles.indexOf(a.name);
-        let indexB = this.selectedProject.tiles.indexOf(b.name);
+        let indexA = this.selectedProject.current.tiles.indexOf(a.name);
+        let indexB = this.selectedProject.current.tiles.indexOf(b.name);
         if (indexA === -1 || indexB === -1) return -1;
         return indexA > indexB ? 1 : -1;
       });
@@ -85,8 +86,12 @@ export class Tiles {
 
     let tileNames = composes.map(elem => elem.id);
 
-    this.selectedProject.tiles = tileNames;
+    this.selectedProject.current.tiles = tileNames;
 
     await this.state._save();
+  }
+
+  detached() {
+    this.subscriptions.forEach(sub => sub.dispose());
   }
 }

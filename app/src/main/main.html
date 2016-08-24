@@ -13,12 +13,12 @@
           <button class="main-button" click.delegate="removeProject()">Remove</button>
         </div>
       </div>
-      <project-list selected-project.two-way="selectedProject" disabled.bind="_activePluginScreen"></project-list>
+      <project-list disabled.bind="_activePluginScreen"></project-list>
     </div>
 
     <div class="right ${pluginViewActivated ? 'right-plugin-view':''}">
       <!-- list of tiles -->
-      <tiles show.bind="!_activePluginScreen && selectedProject" view-model.ref="tilesVM" selected-project.bind="selectedProject"></tiles>
+      <tiles show.bind="!_activePluginScreen && selectedProject.current" view-model.ref="tilesVM"></tiles>
 
       <!-- Plugins can tell compose to render a screen -->
       <compose show.bind="_activePluginScreen" model.bind="_activePluginScreenModel"
