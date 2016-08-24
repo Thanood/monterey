@@ -53,7 +53,7 @@ export class Main {
   activateScreen(viewModelPath, model = null) {
     if (!model) {
       model = {
-        selectedProject: this.selectedProject
+        selectedProject: this.selectedProject.current
       };
     }
 
