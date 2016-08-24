@@ -36,6 +36,10 @@ export class ProjectDetail {
       } catch (e) {
         this.error = `Failed to load tasks for this project (${e.message}). Did you install the npm modules?`;
       }
+
+      if (this.tasks.length === 0) {
+        this.error = `Did not find any tasks`;
+      }
     } else {
       this.service = null;
       this.tasks = [];

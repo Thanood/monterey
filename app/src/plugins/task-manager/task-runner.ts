@@ -44,7 +44,11 @@ export class TaskRunner {
 
   async load(project: Project, withCache: boolean = true) {
     let service = <TaskRunnerService>this.taskRunnerServiceLocator.get(project);
-    return await service.getTasks(project, withCache);
+    if (service) {
+      return await service.getTasks(project, withCache);
+    } else {
+      return [];
+    }
   }
 
   runByCmd(project: Project, command: string) {

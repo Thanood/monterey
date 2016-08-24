@@ -1,6 +1,7 @@
-import {autoinject, bindable} from 'aurelia-framework';
-import {withModal}        from '../../shared/decorators';
+import {autoinject, bindable}          from 'aurelia-framework';
 import {EventAggregator, Subscription} from 'aurelia-event-aggregator';
+import {withModal}        from '../../shared/decorators';
+import {SelectedProject}  from '../../shared/selected-project';
 import {TaskManager}      from './task-manager';
 import {TaskManagerModal} from './task-manager-modal';
 
@@ -8,15 +9,13 @@ import {TaskManagerModal} from './task-manager-modal';
 export class TaskBar {
   subscriptions: Array<Subscription> = [];
 
-  @withModal(TaskManagerModal)
-  showTasks() {}
-
   @bindable running: number = 0;
   @bindable queued: number = 0;
   busy: boolean;
   taskManagerText: string = 'Task Manager';
 
-  constructor(private ea: EventAggregator) {}
+  constructor(private ea: EventAggregator,
+              private selectedProject: SelectedProject) {}
 
   attached() {
     this.subscriptions.push(this.ea.subscribe('TaskStarted', () => {
@@ -25,6 +24,9 @@ export class TaskBar {
     this.subscriptions.push(this.ea.subscribe('TaskAdded', () => this.queued ++));
     this.subscriptions.push(this.ea.subscribe('TaskFinished', () => this.running --));
   }
+
+  @withModal(TaskManagerModal, function () { return { project: this.selectedProject.current }; })
+  showTasks() {}
 
   propertyChanged() {
     let text = 'Task manager';

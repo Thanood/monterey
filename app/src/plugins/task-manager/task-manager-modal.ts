@@ -19,7 +19,7 @@ export class TaskManagerModal {
   @observable showFinished = true;
   subscriptions: Array<Subscription> = [];
 
-  model: { task: Task };
+  model: { task: Task, project: Project };
 
   taskTree: Array<TreeListNode>;
 
@@ -40,8 +40,12 @@ export class TaskManagerModal {
   activate(model) {
     this.model = model;
 
-    if (this.model && this.model.task) {
-      this.selectedTask = this.model.task;
+    if (this.model) {
+      if (this.model.task) {
+        this.selectedTask = this.model.task;
+      } else if (this.model.project) {
+        this.selectedProject = this.model.project;
+      }
     }
 
     this.updateTree();

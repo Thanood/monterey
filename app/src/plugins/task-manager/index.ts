@@ -11,4 +11,10 @@ class Plugin extends BasePlugin {
   async getTaskBarItems(project) {
     return ['plugins/task-manager/task-bar'];
   }
+  getTiles(project, showIrrelevant) {
+    return [{
+      name: 'Taskmanager',
+      viewModel: 'plugins/task-manager/tile'
+    }];
+  }
 }
