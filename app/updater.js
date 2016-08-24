@@ -27,7 +27,7 @@ module.exports = function update (window) {
     notify(false, 'info', 'updater', 'update-not-available');
   });
 
-  let feedURL = `https://${UPDATE_SERVER_HOST}/update/${os.platform()}_${os.arch()}/${version}`;
+  let feedURL = `https://${UPDATE_SERVER_HOST}/update/${os.platform()}/`;
   notify(false, 'info', 'updater', `using update feed url: ${feedURL}`);
   autoUpdater.setFeedURL(feedURL);
 
