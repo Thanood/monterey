@@ -43,11 +43,12 @@ module.exports = function(config) {
     },
     files: [
       'app/test/unit/setup.ts',
+      'app/test/unit/**/*.spec.ts',
       'app/test/unit/*.spec.ts'
     ],
     exclude: [],
     preprocessors: { },
-    reporters: ['progress'],
+    reporters: ['mocha'],
     port: 9876,
     colors: true,
     logLevel: config.LOG_INFO,
