@@ -162,6 +162,7 @@ export class TaskManagerModal {
   trex() {}
 
   detached() {
+    this.contextMenu.detach(this.taskTreeElement);
     this.subscriptions.forEach(subscription => subscription.dispose());
   }
 }
