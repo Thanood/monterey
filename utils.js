@@ -37,7 +37,7 @@ var rebuildNative = () => {
     })
     .catch((e) => {
       console.error("Building modules didn't work!");
-      console.error(e);
+      console.error(e.message);
     });
 };
 
