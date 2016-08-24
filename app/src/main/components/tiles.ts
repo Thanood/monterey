@@ -44,9 +44,7 @@ export class Tiles {
     }
 
     // remove all tiles from the screen
-    for (let i = this.tiles.length - 1; i >= 0; i--) {
-      this.tiles.splice(i, 1);
-    }
+    this.tiles.splice(0);
 
     // we're done if no project has been selected
     if (!this.selectedProject.current) {
