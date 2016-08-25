@@ -23,7 +23,7 @@ export function configure(aurelia) {
     .plugin('aurelia-v-grid')
     .plugin('aurelia-validation')
     .plugin('aurelia-validatejs')
-    .feature('shared/context-menu')
+    .plugin('context-menu')
     .feature('landing')
     .feature('main')
     .feature('scaffolding')

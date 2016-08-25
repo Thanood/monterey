@@ -9,7 +9,7 @@ import {withModal}                     from '../../shared/decorators';
 import {ApplicationState}              from '../../shared/application-state';
 import {TreeNode}                      from '../../shared/tree-list/tree-node';
 import {TreeListNode}                  from '../../shared/tree-list/tree-list-node';
-import {ContextMenu}                   from '../../shared/context-menu/context-menu';
+import {ContextMenu}                   from 'context-menu/context-menu'; 
 import {Project}                       from '../../shared/project';
 import {Notification}                  from '../../shared/notification';
 

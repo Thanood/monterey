@@ -46,6 +46,7 @@ System.config({
     "aurelia-validatejs": "npm:aurelia-validatejs@0.6.0",
     "aurelia-validation": "npm:aurelia-validation@0.10.1",
     "bootstrap": "github:twbs/bootstrap@3.3.6",
+    "context-menu": "github:monterey-framework/context-menu@1.0.0",
     "css": "github:systemjs/plugin-css@0.1.27",
     "dragula": "npm:dragula@3.7.1",
     "fetch": "github:github/fetch@1.0.0",
@@ -82,6 +83,11 @@ System.config({
     },
     "github:jspm/nodelibs-vm@0.1.0": {
       "vm-browserify": "npm:vm-browserify@0.0.4"
+    },
+    "github:monterey-framework/context-menu@1.0.0": {
+      "aurelia-binding": "npm:aurelia-binding@1.0.1",
+      "aurelia-dependency-injection": "npm:aurelia-dependency-injection@1.0.0",
+      "aurelia-templating": "npm:aurelia-templating@1.0.0"
     },
     "github:twbs/bootstrap@3.3.6": {
       "jquery": "npm:jquery@2.2.4"

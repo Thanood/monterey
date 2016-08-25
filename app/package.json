@@ -46,6 +46,7 @@
       "aurelia-validatejs": "npm:aurelia-validatejs@^0.6.0",
       "aurelia-validation": "npm:aurelia-validation@^0.10.0",
       "bootstrap": "github:twbs/bootstrap@3.3.6",
+      "context-menu": "github:monterey-framework/context-menu@^1.0.0",
       "css": "github:systemjs/plugin-css@^0.1.27",
       "dragula": "npm:dragula@^3.7.1",
       "fetch": "github:github/fetch@^1.0.0",
