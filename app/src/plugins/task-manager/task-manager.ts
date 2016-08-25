@@ -74,6 +74,10 @@ export class TaskManager {
       });
     }
 
+    if (text.match(/^\[(.*)\] $/)) {
+      return;
+    }
+
     let parts = text.split('\n');
     parts.forEach(part => addLog(task, part, level));
   }

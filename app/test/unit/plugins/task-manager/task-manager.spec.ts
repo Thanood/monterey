@@ -280,5 +280,9 @@ describe('TaskManager', () => {
     task.logs.splice(0);
     taskManager.addTaskLog(task, 'some msg\n\n\n');
     expect(task.logs.length).toBe(1);
+    
+    task.logs.splice(0);
+    taskManager.addTaskLog(task, '[14:05:23] ');
+    expect(task.logs.length).toBe(0);
   });
 });
