@@ -7,6 +7,7 @@ export class Task implements Task {
   start?: Date;
   end?: Date;
   finished?: boolean;
+  description?: string;
   elapsed?: string;
   status?: string;
   stop?: (task: Task) => Promise<void>;

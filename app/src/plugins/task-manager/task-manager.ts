@@ -88,6 +88,7 @@ export class TaskManager {
       task.end = new Date();
     }
 
+    task.description = null;
     task.finished = true;
 
     this.startDependingTasks(task);

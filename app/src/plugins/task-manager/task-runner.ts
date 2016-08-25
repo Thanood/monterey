@@ -28,7 +28,7 @@ export class TaskRunner {
 
   _executor(service: TaskRunnerService, task: Task, project: Project, projTask: ProjectTask) {
     return () => {
-      let result = service.runTask(project, projTask, stdout => {
+      let result = service.runTask(project, projTask, task, stdout => {
         this.taskManager.addTaskLog(task, stdout);
       }, stderr => {
         this.taskManager.addTaskLog(task, stderr);

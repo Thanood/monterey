@@ -2,6 +2,7 @@ import {autoinject}           from 'aurelia-framework';
 import {OS, FS}               from 'monterey-pal';
 import {ApplicationState}     from '../../shared/application-state';
 import {Project, ProjectTask} from '../../shared/project';
+import {Task}                 from '../task-manager/task';
 import {TaskRunnerService}    from '../../shared/task-runner-service';
 
 @autoinject()
@@ -33,21 +34,23 @@ export class GulpService implements TaskRunnerService {
     return commands;
   }
 
-  runTask(project: Project, task: ProjectTask, stdout, stderr) {
+  runTask(project: Project, projectTask: ProjectTask, task: Task, stdout, stderr) {
     let gulpFileDir = FS.getFolderPath(project.gulpfile);
     let cmd = OS.getPlatform() === 'win32' ? 'gulp.cmd' : 'gulp';
-    let result = OS.spawn(cmd, task.parameters, { cwd:  gulpFileDir }, out => {
-      this.tryGetPort(project, out);
+    let result = OS.spawn(cmd, projectTask.parameters, { cwd:  gulpFileDir }, out => {
+      this.tryGetPort(project, out, task);
       stdout(out);
     }, err => stderr(err));
     return result;
   }
 
   // parse the output, try and find what url the project is running under
-  tryGetPort(project: Project, text: string) {
+  tryGetPort(project: Project, text: string, task: Task) {
     let matches = text.match(/Local: (.*)\s/);
     if (matches && matches.length === 2) {
       project.__meta__.url = matches[1];
+      task.estimation = null;
+      task.description = `Project running at <a href="${project.__meta__.url}" target="_blank">${project.__meta__.url}</a>`;
     }
   }
 
