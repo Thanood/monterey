@@ -3,7 +3,7 @@
   <require from="./components/logger"></require>
 
   <h3 class="title" style="margin: 0">${task.title} (${task.project.name})</h3>
-  <button if.bind="task.cancelable && !task.finished" class="btn btn-primary" click.delegate="cancelTask(task)">Cancel this task</button>
+  <button if.bind="task.stoppable && !task.finished" class="btn btn-primary" click.delegate="stopTask(task)">End task</button>
   <p>
     <span>
       <b>Status:</b> ${task.status}<br/>

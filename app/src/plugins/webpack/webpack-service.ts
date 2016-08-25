@@ -28,7 +28,7 @@ export class WebpackService implements TaskRunnerService {
     }
   }
 
-  cancelTask(process) {
+  stopTask(process) {
     return OS.kill(process);
   }
 

@@ -72,11 +72,11 @@ export class TaskManagerModal {
       return;
     }
 
-    builder.addItem({ title: 'Cancel', onClick: () => {
-      if (task.cancelable) {
-        this.taskManager.cancelTask(task);
+    builder.addItem({ title: 'End task', onClick: () => {
+      if (task.stoppable) {
+        this.taskManager.stopTask(task);
       } else {
-        alert('This task cannot be cancelled');
+        alert('This task cannot be stopped');
       }
     }});
   }

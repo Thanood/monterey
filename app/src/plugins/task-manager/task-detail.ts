@@ -31,8 +31,8 @@ export class TaskDetail {
     }
   }
 
-  cancelTask(task: Task) {
-    this.taskManager.cancelTask(task);
+  stopTask(task: Task) {
+    this.taskManager.stopTask(task);
   }
 
   detached() {

@@ -190,13 +190,13 @@ describe('TaskManager', () => {
   it ('sets status to "cancelled by user" after user cancelled the task', (r) => {
     let project = new Project();
     let task = new Task(project, 'jspm install', () => Promise.resolve());
-    task.cancelable = true;
-    task.cancel = () => Promise.resolve();
+    task.stoppable = true;
+    task.stop = () => Promise.resolve();
 
     taskManager.addTask(project, task);
-    taskManager.cancelTask(task)
+    taskManager.stopTask(task)
     .then(() => {
-      expect(task.status).toBe('cancelled by user');
+      expect(task.status).toBe('stopped by user');
       r();
     });
   });
@@ -204,24 +204,24 @@ describe('TaskManager', () => {
   it ('only sets end date on cancel when the task has been started', (r) => {
     let project = new Project();
     let task = new Task(project, 'jspm install', () => Promise.resolve());
-    task.cancelable = true;
-    task.cancel = () => Promise.resolve();
+    task.stoppable = true;
+    task.stop = () => Promise.resolve();
 
     taskManager.addTask(project, task);
-    taskManager.cancelTask(task)
+    taskManager.stopTask(task)
     .then(() => {
       expect(task.end).toBeUndefined();
       r();
     });
   });
 
-  it ('throws error when uncancelable task is cancelled', () => {
+  it ('throws error when unstoppable task is cancelled', () => {
     let project = new Project();
     let task = new Task(project, 'jspm install', () => Promise.resolve());
-    task.cancelable = false;
+    task.stoppable = false;
 
     taskManager.addTask(project, task);
-    expect(() => taskManager.cancelTask(task)).toThrow(new Error('This task cannot be cancelled'));
+    expect(() => taskManager.stopTask(task)).toThrow(new Error('This task cannot be cancelled'));
   });
 
   it ('depending tasks get started after task finished', (r) => {

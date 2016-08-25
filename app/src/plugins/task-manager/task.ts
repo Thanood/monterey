@@ -2,14 +2,14 @@ import {Project} from '../../shared/project';
 
 export class Task implements Task {
   logs = [];
-  cancelable = false;
+  stoppable = false;
   id?: number;
   start?: Date;
   end?: Date;
   finished?: boolean;
   elapsed?: string;
   status?: string;
-  cancel?: (task: Task) => Promise<void>;
+  stop?: (task: Task) => Promise<void>;
   estimation?: string;
   meta?: any;
   promise: Promise<any>;

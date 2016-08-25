@@ -31,7 +31,7 @@ export class AureliaCLIService implements TaskRunnerService {
     }
   }
 
-  cancelTask(process) {
+  stopTask(process) {
     return OS.kill(process);
   }
 

@@ -79,7 +79,7 @@ export class TaskManager {
   }
 
   finishTask(task: Task, errorred = false) {
-    if (task.status !== 'cancelled by user') {
+    if (task.status !== 'stopped by user') {
       task.status = 'finished';
     }
 
@@ -106,15 +106,15 @@ export class TaskManager {
     })
   }
 
-  cancelTask(task: Task) {
-    if (!task.cancelable) {
+  stopTask(task: Task) {
+    if (!task.stoppable) {
       throw new Error('This task cannot be cancelled');
     }
 
-    this.addTaskLog(task, '-----CANCELLED BY USER-----');
-    task.status = 'cancelled by user';
+    this.addTaskLog(task, '-----STOPPED BY USER-----');
+    task.status = 'stopped by user';
     
-    return task.cancel(task)
+    return task.stop(task)
     .then(() => {
       this.finishTask(task);
     });

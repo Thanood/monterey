@@ -13,15 +13,16 @@ export class TaskRunner {
     let task = new Task(project, `${projTask.command} ${projTask.parameters.join(' ')}`);
     
     task.execute = this._executor(service, task, project, projTask);
-    task.cancelable = true;
-    task.cancel = this._cancel(task);
+    task.stoppable = true;
+    task.stop = this._stop(task);
 
     return task;
   }
 
-  _cancel(task: Task) {
+  _stop(task: Task) {
     return () => {
-      return (<TaskRunnerService>task.meta.service).cancelTask(task.meta.process) 
+      let service = <TaskRunnerService>(task.meta.service);
+      return service.stopTask(task.meta.process) 
     };
   }
 
@@ -66,8 +67,8 @@ export class TaskRunner {
 
       return this._executor(service, task, project, projTask)();
     };
-    task.cancelable = true;
-    task.cancel = this._cancel(task);
+    task.stoppable = true;
+    task.stop = this._stop(task);
 
     return task;
   }

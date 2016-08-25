@@ -51,7 +51,7 @@ export class GulpService implements TaskRunnerService {
     }
   }
 
-  cancelTask(process) {
+  stopTask(process) {
     return OS.kill(process);
   }
 
