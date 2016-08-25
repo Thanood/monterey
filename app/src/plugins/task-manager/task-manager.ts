@@ -57,17 +57,25 @@ export class TaskManager {
   }
 
   addTaskLog(task: Task, text: string, level?: string) {
-    let hasTimestamp = text.match(/^\[(.*)\]/);
-    if (level) {
-      text = `[${level}] ${text}`;
+    function addLog(task: Task, text: string, level?: string) {
+      text = text.trim();
+      if (!text) return;
+
+      let hasTimestamp = text.match(/^\[(.*)\]/);
+      if (level) {
+        text = `[${level}] ${text}`;
+      }
+      if (!hasTimestamp) {
+        text = `[${moment().format('HH:mm:ss')}] ${text}`;
+      }
+      task.logs.push({
+        message: text,
+        level: level
+      });
     }
-    if (!hasTimestamp) {
-      text = `[${moment().format('HH:mm:ss')}] ${text}`;
-    }
-    task.logs.push({
-      message: text,
-      level: level
-    });
+
+    let parts = text.split('\n');
+    parts.forEach(part => addLog(task, part, level));
   }
 
   finishTask(task: Task, errorred = false) {

@@ -259,4 +259,26 @@ describe('TaskManager', () => {
     let now = moment().format('LTS');
     expect(task.logs[0].message).toBe(`[25:80:90] foo`);
   });
+
+  it ('logs are split on new lines', () => {
+    let task = new Task(new Project(), 'some task');
+    taskManager.addTaskLog(task, 'foo\r\nbar');
+    let now = moment().format('HH:mm:ss');
+    expect(task.logs.length).toBe(2);
+    expect(task.logs[0].message).toBe(`[${now}] foo`);
+    expect(task.logs[1].message).toBe(`[${now}] bar`);
+  });
+
+  it ('empty log messages are ignored', () => {
+    let task = new Task(new Project(), 'some task');
+    taskManager.addTaskLog(task, '');
+    expect(task.logs.length).toBe(0);
+
+    taskManager.addTaskLog(task, 'some msg\n');
+    expect(task.logs.length).toBe(1);
+    
+    task.logs.splice(0);
+    taskManager.addTaskLog(task, 'some msg\n\n\n');
+    expect(task.logs.length).toBe(1);
+  });
 });
