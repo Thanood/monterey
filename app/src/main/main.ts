@@ -46,11 +46,11 @@ export class Main {
   }
 
   @withModal(ScaffoldProject)
-  createProject(proj) {
-    this.selectedProject = proj;
+  createProject(proj: Project) {
+    this.selectedProject.set(proj);
   }
 
-  activateScreen(viewModelPath, model = null) {
+  activateScreen(viewModelPath: string, model = null) {
     if (!model) {
       model = {
         selectedProject: this.selectedProject.current

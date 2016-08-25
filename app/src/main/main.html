@@ -18,7 +18,7 @@
 
     <div class="right ${pluginViewActivated ? 'right-plugin-view':''}">
       <!-- list of tiles -->
-      <tiles show.bind="!_activePluginScreen" view-model.ref="tilesVM"></tiles>
+      <tiles show.bind="!_activePluginScreen && selectedProject.current" view-model.ref="tilesVM"></tiles>
 
       <!-- Plugins can tell compose to render a screen -->
       <compose show.bind="_activePluginScreen" model.bind="_activePluginScreenModel"
