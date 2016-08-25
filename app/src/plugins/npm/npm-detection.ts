@@ -48,16 +48,34 @@ export class NPMDetection {
         // check if the name of the project is equal to the name mentioned in package.json
         if (packageJSON.name !== project.name) {
           // if not, update package.json to use the project name and persist this to the filesystem
-          packageJSON.name = project.name;
+          packageJSON.name = this.normalizePackageName(project.name);
           await FS.writeFile(project.packageJSONPath, JSON.stringify(packageJSON, null, 4));
         }
+      } else {
+        project.name = packageJSON.name;
       }
-
-      project.name = packageJSON.name;
+      
       return true;
     }
 
     return false;
+  }
+
+  // https://docs.npmjs.com/files/package.json#name        
+  normalizePackageName(name: string) {
+    name = name.replace(/\s/, '-');
+    if (name[0] === '.' || name[0] === '_') {
+      name = name.slice(1, name.length);
+    }
+    name = name.replace(/~/, '');
+
+    if (name.length > 214) {
+      name = name.slice(0, 214);
+    }
+
+    name = name.toLowerCase();
+
+    return name;
   }
 
   async getPackageJSON(project) {

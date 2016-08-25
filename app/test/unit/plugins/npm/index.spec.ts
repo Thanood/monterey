@@ -92,4 +92,83 @@ describe('NPM plugin', () => {
       r();
     }).catch(e => r.fail(e))
   });
+
+
+  // https://docs.npmjs.com/files/package.json#name        
+  let invalidNames = [
+    // too long (also has uppercase letters)
+    {
+      name: 'zWv39S0MLeiFH6CZWHJLhCIxYPljTaj8FS835ZGnQK35j82sIp8kxrmqClxWbhCUTqwiK34UAP4tEeBfY6lsvxMq7Hgj21qUTBhBbI9aPUFSpcZ6ZnEXWPSUTGOyPFA3sizcCqe7swTzpKikZLfr2tSoy3m4XL6aQDtIMRuOFo9v6IgxuZ9qMpDFw1IrSj1OL2yBcjA2yHk6luJwc8SfJuUDlkfaZpfEPabXLRwzvbhVDMZQ4g5fLXAJyA',
+      expected: 'zwv39s0mleifh6czwhjlhcixypljtaj8fs835zgnqk35j82sip8kxrmqclxwbhcutqwik34uap4teebfy6lsvxmq7hgj21qutbhbbi9apufspcz6znexwpsutgoypfa3sizccqe7swtzpkikzlfr2tsoy3m4xl6aqdtimruofo9v6igxuz9qmpdfw1irsj1ol2ybcja2yhk6lujwc8sfju'
+    },
+    
+    // starts with dot
+    {
+      name: '.my-project',
+      expected: 'my-project'
+    },
+
+    // starts with underscore
+    {
+      name: '_my-project',
+      expected: 'my-project',
+    },    
+
+    // has dot but not at the start
+    {
+      name: 'my.project',
+      expected: 'my.project'
+    },
+
+    // has underscore but not at the start
+    {
+      name: 'my_project',
+      expected: 'my_project',
+    },
+
+    // Uppercased letters
+    {
+      name: 'MY-PROJECT',
+      expected: 'my-project',
+    },
+
+    // non URL safe characters,
+    {
+      name: 'my project',
+      expected: 'my-project',
+    },
+    {
+      name: '~my-project',
+      expected: 'my-project',
+    }
+  ];
+
+  invalidNames.forEach(invalidName => {
+    it(`writes only valid package names to package.json (${invalidName.name})`, (r) => {
+        let project = new Project();
+        project.path = 'c:/dir/my-project';
+        project.name = invalidName.name;
+
+        FS.showOpenDialog = async (config) => Promise.resolve([]);
+        FS.readFile = async (path: string) => '{ "name": "my-project-name" }';
+        let writeFileSpy = jasmine.createSpy('writeFile').and.returnValue(Promise.resolve());;
+        FS.writeFile = writeFileSpy;
+        FS.fileExists = async (path) => {
+          if (path === 'c:/dir/my-project/package.json') {
+            return true;
+          }
+          return false;
+        };
+
+        plugin.evaluateProject(project)
+        .then(() => {
+          expect(writeFileSpy).toHaveBeenCalled();
+          expect(writeFileSpy.calls.argsFor(0)[0]).toBe('c:/dir/my-project/package.json');
+          expect(JSON.parse(writeFileSpy.calls.argsFor(0)[1]).name).toBe(invalidName.expected);
+          
+          r();
+        }).catch(e => r.fail(e))
+      });
+  });
+  
 });

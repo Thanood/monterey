@@ -270,7 +270,7 @@ describe('ProjectManager verifyProjectsExistence', () => {
     initializePAL((_fs) => Object.assign(_fs, fs));
   });
 
-  it('removes projects of whose package.json doesn\'t exist anymore', async (d) => {
+  it('removes projects where the folder doesn\'t exist anymore', async (d) => {
 
     state.projects = [{
       path: '/existing'
