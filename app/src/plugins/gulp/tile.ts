@@ -1,7 +1,7 @@
 import {autoinject, useView} from 'aurelia-framework';
 import {Main}                from '../../main/main';
 import {Project}             from '../../shared/project';
-import {GulpDetection}       from './gulp-detection';
+import {Detection}           from './detection';
 
 @useView('plugins/default-tile.html')
 @autoinject()
@@ -11,7 +11,7 @@ export class Tile {
   project: Project;
 
   constructor(private main: Main,
-              private gulpDetection: GulpDetection) {
+              private detection: Detection) {
     this.title = 'Gulp';
     this.img = 'images/gulp.png';
   }
@@ -23,7 +23,7 @@ export class Tile {
 
   async onClick() {
     if (!this.project.isUsingGulp()) {
-      await this.gulpDetection.manualDetection(this.project);
+      await this.detection.manualDetection(this.project);
     }
     
     if (this.project.isUsingGulp()) {

@@ -9,7 +9,7 @@ import {Project}           from '../../shared/project';
 const logger = <Logger>LogManager.getLogger('gulp-detection');
 
 @autoinject()
-export class GulpDetection {
+export class Detection {
 
   constructor(private dialogService: DialogService,
               private state: ApplicationState) {}

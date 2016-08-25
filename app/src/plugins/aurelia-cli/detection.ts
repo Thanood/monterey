@@ -9,7 +9,7 @@ import {Project}           from '../../shared/project';
 const logger = <Logger>LogManager.getLogger('aurelia-cli-detection');
 
 @autoinject()
-export class AureliaCLIDetection {
+export class Detection {
 
   constructor(private dialogService: DialogService,
               private state: ApplicationState) {}

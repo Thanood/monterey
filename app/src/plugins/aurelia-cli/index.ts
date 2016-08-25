@@ -1,10 +1,10 @@
 import {autoinject, LogManager} from 'aurelia-framework';
-import {Logger}              from 'aurelia-logging';
-import {FS}                  from 'monterey-pal';
-import {BasePlugin}          from '../base-plugin';
-import {AureliaCLIDetection} from './aurelia-cli-detection';
-import {PluginManager}       from '../../shared/plugin-manager';
-import {Project}             from '../../shared/project';
+import {Logger}                 from 'aurelia-logging';
+import {FS}                     from 'monterey-pal';
+import {BasePlugin}             from '../base-plugin';
+import {Detection}              from './detection';
+import {PluginManager}          from '../../shared/plugin-manager';
+import {Project}                from '../../shared/project';
 
 const logger = <Logger>LogManager.getLogger('aurelia-cli-plugin');
 
@@ -16,7 +16,7 @@ export function configure(aurelia) {
 
 @autoinject()
 export class Plugin extends BasePlugin {
-  constructor(private aureliaCLIDetection: AureliaCLIDetection) {
+  constructor(private detection: Detection) {
     super();
   }
 
@@ -33,7 +33,7 @@ export class Plugin extends BasePlugin {
   }
 
   async evaluateProject(project: Project) {
-    await this.aureliaCLIDetection.findAureliaJSONConfig(project);
+    await this.detection.findAureliaJSONConfig(project);
   }
 
   async getProjectInfoSections(project) {

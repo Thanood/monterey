@@ -1,6 +1,6 @@
 import {autoinject, useView} from 'aurelia-framework';
 import {Main}                from '../../main/main';
-import {AureliaCLIDetection} from './aurelia-cli-detection';
+import {Detection}           from './detection';
 import {Project}             from '../../shared/project';
 
 @useView('plugins/default-tile.html')
@@ -11,7 +11,7 @@ export class Tile {
   project: Project;
 
   constructor(private main: Main,
-              private aureliaCLIDetection: AureliaCLIDetection) {
+              private detection: Detection) {
     this.title = 'Aurelia-CLI';
     this.img = 'images/aurelia-icon-128x128.png';
   }
@@ -23,7 +23,7 @@ export class Tile {
 
   async onClick() {
     if (!this.project.isUsingAureliaCLI()) {
-      await this.aureliaCLIDetection.manualDetection(this.project);
+      await this.detection.manualDetection(this.project);
     }
     
     if (this.project.isUsingAureliaCLI()) {

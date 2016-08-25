@@ -1,20 +1,19 @@
 import {OS, FS}               from 'monterey-pal';
-import {Project, ProjectTask} from '../../shared/project';
+import {Project}              from '../../shared/project';
 import {Task}                 from '../task-manager/task';
-import {TaskRunnerService}    from '../../shared/task-runner-service';
+import {CommandRunnerService} from '../task-manager/command-runner-service';
+import {Command}              from '../task-manager/command';
 
-export class WebpackService implements TaskRunnerService {
-  title  = 'Webpack';
-
-  async getTasks(project: Project, useCache: boolean): Promise<Array<ProjectTask>> {
+export class CommandService implements CommandRunnerService {
+  async getCommands(project: Project, useCache: boolean): Promise<Array<Command>> {
     return [
       { command: 'npm', parameters: ['start'] }
     ];
   }
 
-  runTask(project: Project, projectTask: ProjectTask, task: Task, stdout, stderr) {
-    let cmd = OS.getPlatform() === 'win32' ? `${projectTask.command}.cmd` : projectTask.command;
-    let result = OS.spawn(cmd, projectTask.parameters, { cwd:  project.path }, out => {
+  runCommand(project: Project, command: Command, task: Task, stdout, stderr) {
+    let cmd = OS.getPlatform() === 'win32' ? `${command.command}.cmd` : command.command;
+    let result = OS.spawn(cmd, command.parameters, { cwd:  project.path }, out => {
       this.tryGetPort(project, out, task);
       stdout(out);
     }, err => stderr(err));
@@ -31,14 +30,7 @@ export class WebpackService implements TaskRunnerService {
     }
   }
 
-  stopTask(process) {
+  stopCommand(process) {
     return OS.kill(process);
-  }
-
-  getTaskBarStyle(runningTasks: number) {
-    return {
-      title: runningTasks > 0 ? `Webpack (${runningTasks})` : 'Webpack',
-      img: 'images/webpack-25x25.png'
-    };
   }
 }

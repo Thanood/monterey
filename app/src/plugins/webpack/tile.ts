@@ -1,7 +1,7 @@
 import {autoinject, useView} from 'aurelia-framework';
 import {Main}                from '../../main/main';
 import {Project}             from '../../shared/project';
-import {WebpackDetection}    from './webpack-detection';
+import {Detection}           from './detection';
 
 @useView('plugins/default-tile.html')
 @autoinject()
@@ -11,7 +11,7 @@ export class Tile {
   project: Project;
 
   constructor(private main: Main,
-              private webpackDetection: WebpackDetection) {
+              private detection: Detection) {
     this.title = 'Webpack';
     this.img = 'images/webpack.png';
   }
@@ -23,7 +23,7 @@ export class Tile {
 
   async onClick() {
     if (!this.project.isUsingWebpack()) {
-      await this.webpackDetection.manualDetection(this.project);
+      await this.detection.manualDetection(this.project);
     }
     
     if (this.project.isUsingWebpack()) {

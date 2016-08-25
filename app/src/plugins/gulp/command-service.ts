@@ -1,17 +1,16 @@
 import {autoinject}           from 'aurelia-framework';
 import {OS, FS}               from 'monterey-pal';
 import {ApplicationState}     from '../../shared/application-state';
-import {Project, ProjectTask} from '../../shared/project';
+import {Project}              from '../../shared/project';
+import {CommandRunnerService} from '../task-manager/command-runner-service';
 import {Task}                 from '../task-manager/task';
-import {TaskRunnerService}    from '../../shared/task-runner-service';
+import {Command}              from '../task-manager/command';
 
 @autoinject()
-export class GulpService implements TaskRunnerService {
-  title  = 'Gulp';
-
+export class CommandService implements CommandRunnerService {
   constructor(private state: ApplicationState) {}
 
-  async getTasks(project: Project, useCache: boolean = true): Promise<Array<ProjectTask>> {
+  async getCommands(project: Project, useCache: boolean = true): Promise<Array<Command>> {
     let tasks;
     if (useCache && project.gulptasks) {
       tasks = project.gulptasks;
@@ -25,7 +24,7 @@ export class GulpService implements TaskRunnerService {
       await this.state._save();
     }
 
-    let commands: Array<ProjectTask> = [];
+    let commands: Array<Command> = [];
 
     tasks.forEach(task => {
       commands.push({ command: 'gulp', parameters: [task] });
@@ -34,10 +33,10 @@ export class GulpService implements TaskRunnerService {
     return commands;
   }
 
-  runTask(project: Project, projectTask: ProjectTask, task: Task, stdout, stderr) {
+  runCommand(project: Project, command: Command, task: Task, stdout, stderr) {
     let gulpFileDir = FS.getFolderPath(project.gulpfile);
     let cmd = OS.getPlatform() === 'win32' ? 'gulp.cmd' : 'gulp';
-    let result = OS.spawn(cmd, projectTask.parameters, { cwd:  gulpFileDir }, out => {
+    let result = OS.spawn(cmd, command.parameters, { cwd:  gulpFileDir }, out => {
       this.tryGetPort(project, out, task);
       stdout(out);
     }, err => stderr(err));
@@ -54,14 +53,7 @@ export class GulpService implements TaskRunnerService {
     }
   }
 
-  stopTask(process) {
+  stopCommand(process) {
     return OS.kill(process);
-  }
-
-  getTaskBarStyle(runningTasks: number) {
-    return {
-      title: runningTasks > 0 ? `Gulp (${runningTasks})` : 'Gulp',
-      img: 'images/gulp-25x25.png'
-    };
   }
 }

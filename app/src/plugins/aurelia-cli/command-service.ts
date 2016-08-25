@@ -1,23 +1,22 @@
 import {OS, FS}               from 'monterey-pal';
-import {Project, ProjectTask} from '../../shared/project';
-import {TaskRunnerService}    from '../../shared/task-runner-service';
+import {Project}              from '../../shared/project';
+import {CommandRunnerService} from '../task-manager/command-runner-service';
 import {Task}                 from '../task-manager/task';
+import {Command}              from '../task-manager/command';
 
-export class AureliaCLIService implements TaskRunnerService {
-  title  = 'Aurelia-CLI';
-
-  async getTasks(project: Project, useCache: boolean): Promise<Array<ProjectTask>> {
+export class CommandService implements CommandRunnerService {
+  async getCommands(project: Project, useCache: boolean): Promise<Array<Command>> {
     return [
       { command: 'au', parameters: ['run', '--watch'] },
       { command: 'au', parameters: ['run'] }
     ];
   }
 
-  runTask(project: Project, projectTask: ProjectTask, task: Task, stdout, stderr) {
+  runCommand(project: Project, command: Command, task: Task, stdout, stderr) {
     // Application Available At: http://localhost:9000
-    let cmd = OS.getPlatform() === 'win32' ? `${projectTask.command}.cmd` : projectTask.command;
+    let cmd = OS.getPlatform() === 'win32' ? `${command.command}.cmd` : command.command;
 
-    let result = OS.spawn(cmd, projectTask.parameters, { cwd:  project.path }, out => {
+    let result = OS.spawn(cmd, command.parameters, { cwd:  project.path }, out => {
       this.tryGetPort(project, out, task);
       stdout(out);
     }, err => stderr(err));
@@ -34,14 +33,7 @@ export class AureliaCLIService implements TaskRunnerService {
     }
   }
 
-  stopTask(process) {
+  stopCommand(process) {
     return OS.kill(process);
-  }
-
-  getTaskBarStyle(runningTasks: number) {
-    return {
-      title: runningTasks > 0 ? `Aurelia-CLI (${runningTasks})` : 'Aurelia-CLI',
-      img: 'images/aurelia-25x25.png'
-    };
   }
 }

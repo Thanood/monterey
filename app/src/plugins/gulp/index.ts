@@ -1,7 +1,7 @@
 import {autoinject}    from 'aurelia-framework';
 import {PluginManager} from '../../shared/plugin-manager';
 import {BasePlugin}    from '../base-plugin';
-import {GulpDetection} from './gulp-detection';
+import {Detection}     from './detection';
 import {Project}       from '../../shared/project';
 
 export function configure(aurelia) {
@@ -12,7 +12,7 @@ export function configure(aurelia) {
 
 @autoinject()
 export class Plugin extends BasePlugin {
-  constructor(private gulpDetection: GulpDetection) {
+  constructor(private detection: Detection) {
     super();
   }
 
@@ -29,7 +29,7 @@ export class Plugin extends BasePlugin {
   }
 
   async evaluateProject(project: Project) {
-    await this.gulpDetection.findGulpConfig(project);
+    await this.detection.findGulpConfig(project);
   }
 
   async getProjectInfoSections(project: Project) {

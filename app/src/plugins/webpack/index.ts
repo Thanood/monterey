@@ -1,6 +1,6 @@
-import {autoinject} from 'aurelia-framework';
+import {autoinject}       from 'aurelia-framework';
 import {PluginManager}    from '../../shared/plugin-manager';
-import {WebpackDetection} from './webpack-detection';
+import {Detection}        from './detection';
 import {BasePlugin}       from '../base-plugin';
 import {Project}          from '../../shared/project';
 
@@ -12,7 +12,7 @@ export function configure(aurelia) {
 
 @autoinject()
 export class Plugin extends BasePlugin {
-  constructor(private webpackDetection: WebpackDetection) {
+  constructor(private detection: Detection) {
     super();
   }
 
@@ -29,7 +29,7 @@ export class Plugin extends BasePlugin {
   }
 
   async evaluateProject(project: Project) {
-    await this.webpackDetection.findWebpackConfig(project);
+    await this.detection.findWebpackConfig(project);
   }
 
   async getProjectInfoSections(project: Project) {

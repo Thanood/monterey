@@ -11,7 +11,7 @@ import {TaskManagerModal}       from '../plugins/task-manager/task-manager-modal
 import {Task}                   from '../plugins/task-manager/task';
 import {Common as CommonNPM}    from '../plugins/npm/common';
 import {Common as CommonJSPM}   from '../plugins/jspm/common';
-import {TaskRunner}             from '../plugins/task-manager/task-runner';
+import {CommandRunner}          from '../plugins/task-manager/command-runner';
 
 const logger = <Logger>LogManager.getLogger('PostCreate');
 
@@ -26,7 +26,7 @@ export class PostCreate {
   constructor(private projectManager: ProjectManager,
               private dialogService: DialogService,
               private notification: Notification,
-              private taskRunner: TaskRunner,
+              private commandRunner: CommandRunner,
               private taskManager: TaskManager,
               private commonNPM: CommonNPM,
               private commonJSPM: CommonJSPM) {}
@@ -132,17 +132,17 @@ export class PostCreate {
 
     if (checkedActions.find(x => x.name === 'start cli')) {
       this.tasks.push(this.loadTasks());
-      this.tasks.push(this.runProjectTask('au run --watch'));
+      this.tasks.push(this.runCommand('au run --watch'));
     }
 
     if (checkedActions.find(x => x.name === 'start gulp')) {
       this.tasks.push(this.loadTasks());
-      this.tasks.push(this.runProjectTask('gulp watch'));
+      this.tasks.push(this.runCommand('gulp watch'));
     }
 
     if (checkedActions.find(x => x.name === 'start webpack')) {
       this.tasks.push(this.loadTasks());
-      this.tasks.push(this.runProjectTask('npm start'));
+      this.tasks.push(this.runCommand('npm start'));
     }
 
     if (this.tasks.length > 0) {
@@ -160,14 +160,14 @@ export class PostCreate {
   // loads tasks like `gulp watch` or `au run --watch`
   // needed before running such task
   loadTasks() {
-    let t = new Task(this.project, 'Loading project tasks', () => this.taskRunner.load(this.project, false));
+    let t = new Task(this.project, 'Loading project tasks', () => this.commandRunner.load(this.project, false));
     t.dependsOn = this.tasks[this.tasks.length - 1];
     this.taskManager.addTask(this.project, t);
     return t;
   } 
 
-  runProjectTask(command: string) {
-    let t = this.taskRunner.runByCmd(this.project, command);
+  runCommand(command: string) {
+    let t = this.commandRunner.runByCmd(this.project, command);
     t.dependsOn = this.tasks[this.tasks.length - 1];
     this.taskManager.addTask(this.project, t);
     return t;

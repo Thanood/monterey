@@ -57,19 +57,3 @@ export class Project {
     return !!this.packageJSONPath;
   }
 }
-
-export interface ProjectTask {
-  id?: number;
-  command: string;
-  parameters: Array<string>;
-}
-
-export interface Task {
-  id: number;
-  name: string;
-  running: boolean;
-  process: any;
-  command: string;
-  parameters: Array<string>;
-  logs: Array<{ message: string }>;
-}

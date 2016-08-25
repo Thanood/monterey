@@ -9,7 +9,7 @@ import {Project}           from '../../shared/project';
 const logger = <Logger>LogManager.getLogger('webpack-detection');
 
 @autoinject()
-export class WebpackDetection {
+export class Detection {
 
   constructor(private dialogService: DialogService,
               private state: ApplicationState) {}
