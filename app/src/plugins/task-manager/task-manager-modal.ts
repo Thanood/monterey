@@ -124,7 +124,7 @@ export class TaskManagerModal {
       projNode.bold = true;
 
       let newTaskNode = new TreeListNode('Start new task');
-      projNode.title = 'Start new task';
+      newTaskNode.title = 'Start new task';
       newTaskNode.data = { project: proj };
       newTaskNode.icon = 'glyphicon glyphicon-plus';
       projNode.children.push(newTaskNode);
