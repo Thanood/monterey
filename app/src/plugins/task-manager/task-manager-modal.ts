@@ -11,6 +11,7 @@ import {TreeNode}                      from '../../shared/tree-list/tree-node';
 import {TreeListNode}                  from '../../shared/tree-list/tree-list-node';
 import {ContextMenu}                   from '../../shared/context-menu/context-menu';
 import {Project}                       from '../../shared/project';
+import {Notification}                  from '../../shared/notification';
 
 @autoinject()
 export class TaskManagerModal {
@@ -29,6 +30,7 @@ export class TaskManagerModal {
   constructor(private dialogController: DialogController,
               private taskManager: TaskManager,
               private contextMenu: ContextMenu,
+              private notification: Notification,
               private ea: EventAggregator,
               private state: ApplicationState) {
     // we need to update the tree when tasks are added, started and finished
@@ -68,16 +70,18 @@ export class TaskManagerModal {
     }
 
     let task = <Task>treeListNode.data.task;
-    if (task.finished) {
-      return;
-    }
-
     builder.addItem({ title: 'End task', onClick: () => {
-      if (task.stoppable) {
-        this.taskManager.stopTask(task);
-      } else {
-        alert('This task cannot be stopped');
+      if (task.finished) {
+        this.notification.error('This task has already finished');
+        return;
       }
+
+      if (!task.stoppable) {
+        this.notification.error('This task cannot be stopped');
+        return;
+      }
+      
+      this.taskManager.stopTask(task);
     }});
   }
 
@@ -100,7 +104,7 @@ export class TaskManagerModal {
             case 'queued':
               taskNode.icon = 'glyphicon glyphicon-pause';
             break;
-            case 'cancelled by user':
+            case 'stopped by user':
               taskNode.icon = 'glyphicon glyphicon-remove';
             break;
             case 'finished':
