@@ -41,6 +41,8 @@ export class TaskManager {
     task.status = 'running';
     
     this.ea.publish('TaskStarted', { project: task.project, task: task });
+  
+    this.addTaskLog(task, '-----STARTED-----');
 
     return task.execute().then((result) => {
       this.addTaskLog(task, '-----FINISHED-----');

@@ -59,14 +59,14 @@ export class CommandRunner {
     
     task.execute = async () => {
       let commands = await this.load(project, true);
-      let command;
+      let foundCommand;
       commands.forEach(command => {
         if (`${command.command} ${command.parameters.join(' ')}` === cmd) {
-          command = task;
+          foundCommand = command;
         }
       });
 
-      return this._executor(service, task, project, command)();
+      return this._executor(service, task, project, foundCommand)();
     };
     task.stoppable = true;
     task.stop = this._stop(task);

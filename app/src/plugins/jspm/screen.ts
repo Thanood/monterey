@@ -41,8 +41,8 @@ export class Screen {
       return;
     }
 
-    if (!(await JSPM.isJspmInstalled(this.project.path))) {
-      this.notification.error(`JSPM is not installed (tried to find ${this.project.path}). Did you install all npm modules?`);
+    if (!(await JSPM.isJspmInstalled(this.project.packageJSONPath))) {
+      this.notification.error(`JSPM is not installed (tried to find ${FS.getFolderPath(this.project.packageJSONPath)}\node_modules\jspm\jspm.js). Did you install all npm modules?`);
       return;
     }
 

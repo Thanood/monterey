@@ -105,8 +105,10 @@ export class Analyzer {
             // some github repositories have no releases
             if (tags.length > 0) {
               tags = tags.map(i => i.name).sort(semver.compare);
-
-              m.latest = this.normalizeTag(tags[tags.length - 1]);
+              let tag = tags[tags.length - 1];
+              if (tag) {
+                m.latest = this.normalizeTag(tag);
+              }
             } else {
               m.latest = 'no releases';
             }
@@ -114,7 +116,11 @@ export class Analyzer {
       } else if (m.isNPM) {
         // use npm api to get the latest version of npm packages
         promise = this.npmAPI.getLatest(m.package)
-          .then(tag => m.latest = this.normalizeTag(tag));
+          .then(tag => {
+            if (tag) {
+              m.latest = this.normalizeTag(tag)
+            }
+          });
       }
 
       if (promise) {
