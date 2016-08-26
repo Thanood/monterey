@@ -77,7 +77,7 @@
     "aurelia-cli": "^0.13.6",
     "electron-debug": "^1.0.1",
     "electron-json-storage": "^2.0.0",
-    "electron-remote": "git+https://git@github.com/monterey-framework/electron-remote.git",
+    "electron-remote": "git+https://git@github.com/monterey-framework/electron-remote.git#0.5.12",
     "fix-path": "^2.0.0",
     "jquery": "^1.12.3",
     "jspm": "0.16.39",
