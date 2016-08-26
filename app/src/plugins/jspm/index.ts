@@ -1,8 +1,10 @@
+import {autoinject}    from 'aurelia-framework';
 import {PluginManager} from '../../shared/plugin-manager';
+import {Project}       from '../../shared/project';
+import {Task}          from '../task-manager/task';
 import {BasePlugin}    from '../base-plugin';
 import {JSPMDetection} from './jspm-detection';
-import {Project}       from '../../shared/project';
-import {autoinject}    from 'aurelia-framework';
+import {Common}        from './common';
 
 export function configure(aurelia) {
   let pluginManager = <PluginManager>aurelia.container.get(PluginManager);
@@ -11,8 +13,9 @@ export function configure(aurelia) {
 }
 
 @autoinject()
-class Plugin extends BasePlugin {
-  constructor(private jspmDetection: JSPMDetection) {
+export class Plugin extends BasePlugin {
+  constructor(private jspmDetection: JSPMDetection,
+              private common: Common) {
     super();
   }
 
@@ -39,5 +42,13 @@ class Plugin extends BasePlugin {
       return [{ viewModel: 'plugins/jspm/project-info' }];
     }
     return [];
+  }
+
+  async getPostInstallTasks(project: Project): Promise<Array<Task>> {
+    if (project.isUsingJSPM()) {
+      return [
+        this.common.install(project, true, { lock: true }, true)
+      ];
+    }
   }
 }

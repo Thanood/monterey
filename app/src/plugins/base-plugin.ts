@@ -31,4 +31,8 @@ export class BasePlugin {
   async getTaskBarItems(project) {
     return [];
   }
+
+  async getPostInstallTasks(project) {
+    return [];
+  }
 }

@@ -103,13 +103,15 @@ describe('ProjectManager addProjectByWizardState', () => {
     sut.addProjectByWizardState({
       installNPM: true,
       path: 'c:/some/dir',
-      name: 'foo'
+      name: 'foo',
+      __meta__: {}
     });
 
     expect(addProjectSpy).toHaveBeenCalledWith({
       installNPM: true,
       path: 'c:/some/dir',
-      name: 'foo'
+      name: 'foo',
+      __meta__: {}
     });
   });
 });

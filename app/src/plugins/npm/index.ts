@@ -1,6 +1,7 @@
 import {autoinject}    from 'aurelia-framework';
 import {Project}       from '../../shared/project';
 import {PluginManager} from '../../shared/plugin-manager';
+import {Task}          from '../task-manager/task';
 import {NPMDetection}  from './npm-detection';
 import {BasePlugin}    from '../base-plugin';
 import {Common}        from './common';
@@ -40,5 +41,13 @@ export class Plugin extends BasePlugin {
       return [{ viewModel: 'plugins/npm/project-info' }];
     }
     return [];
+  }
+
+  async getPostInstallTasks(project: Project): Promise<Array<Task>> {
+    if (project.isUsingNPM()) {
+      return [
+        this.common.installNPMDependencies(project)
+      ];
+    }
   }
 }

@@ -1,15 +1,8 @@
-import {autoinject}  from 'aurelia-framework';
 import {NPM, FS}     from 'monterey-pal';
-import {TaskManager} from '../../plugins/task-manager/task-manager';
 import {Task}        from '../../plugins/task-manager/task';
 import {Project}     from '../../shared/project';
 
-@autoinject()
 export class Common {
-
-  constructor(private taskManager: TaskManager) {
-  }
-
   installNPMDependencies(project: Project, deps = [], estimation = 'This could take minutes to complete') {
     let task = new Task(project, 'NPM install');
     task.estimation = estimation;
@@ -29,14 +22,12 @@ export class Common {
               task.logs.splice(index, 1);
             }
           }
-          this.taskManager.addTaskLog(task, message.message, message.level);
+          task.addTaskLog(message.message, message.level);
         }
       });
 
       return promise;
     };
-
-    this.taskManager.addTask(project, task);
 
     return task;
   }

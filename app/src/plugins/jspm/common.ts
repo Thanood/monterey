@@ -1,13 +1,8 @@
-import {autoinject}       from 'aurelia-framework';
 import {JSPM, FS}         from 'monterey-pal';
-import {TaskManager}      from '../../plugins/task-manager/task-manager';
 import {Task}             from '../../plugins/task-manager/task';
 import {Project}          from '../../shared/project';
 
-@autoinject()
 export class Common {
-
-  constructor(private taskManager: TaskManager) {}
 
   install(project: Project, deps, jspmOptions = null, withLoader = false) {
 
@@ -27,20 +22,18 @@ export class Common {
         project: project,
         jspmOptions: jspmOptions,
         logCallback: (message) => {
-          this.taskManager.addTaskLog(task, message.message);
+          task.addTaskLog(message.message);
         }
       });
 
       if (withLoader) {
         promise = promise.then(() => this.downloadLoader(project, (message) => {
-          this.taskManager.addTaskLog(task, message.message);
+          task.addTaskLog(message.message);
         }));
       }
 
       return promise;
     }
-
-    this.taskManager.addTask(project, task);
 
     return task;
   }

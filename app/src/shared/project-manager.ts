@@ -32,7 +32,8 @@ export class ProjectManager {
     return await this.addProject({
         installNPM: state.installNPM,
         path: state.path,
-        name: state.name
+        name: state.name,
+        __meta__: state.__meta__
     });
   }
 

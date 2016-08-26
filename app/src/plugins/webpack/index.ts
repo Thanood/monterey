@@ -3,6 +3,8 @@ import {PluginManager}    from '../../shared/plugin-manager';
 import {Detection}        from './detection';
 import {BasePlugin}       from '../base-plugin';
 import {Project}          from '../../shared/project';
+import {Task}             from '../task-manager/task';
+import {CommandRunner}    from '../task-manager/command-runner';
 
 export function configure(aurelia) {
   let pluginManager = <PluginManager>aurelia.container.get(PluginManager);
@@ -12,7 +14,8 @@ export function configure(aurelia) {
 
 @autoinject()
 export class Plugin extends BasePlugin {
-  constructor(private detection: Detection) {
+  constructor(private detection: Detection,
+              private commandRunner: CommandRunner) {
     super();
   }
 
@@ -37,5 +40,17 @@ export class Plugin extends BasePlugin {
       return [{ viewModel: 'plugins/webpack/project-info' }];
     }
     return [];
+  }
+
+  async getPostInstallTasks(project: Project): Promise<Array<Task>> {
+    if (!project.isUsingWebpack()) return;
+    
+    let tasks = [];
+
+    tasks.push(new Task(project, 'Loading project tasks', () => this.commandRunner.load(project, false)));
+
+    tasks.push(this.commandRunner.runByCmd(project, 'npm start'));
+
+    return tasks;
   }
 }

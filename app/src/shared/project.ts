@@ -27,14 +27,17 @@ export interface Project {
 export class Project {
   appLaunchers?: Array<any> = [];
 
-  constructor(project = {}) {
+  constructor(project = {}) {    
     Object.assign(this, project);
 
-    this.__meta__ = {
-      taskmanager: {
+    if (!this.__meta__) {
+      this.__meta__ = {};
+    }
+    if (!this.__meta__.taskmanager) {
+      this.__meta__.taskmanager = {
         tasks: []
-      }
-    };
+      };
+    }
   }
 
   isUsingGulp() {

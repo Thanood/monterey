@@ -1,6 +1,7 @@
-import {BasePlugin}       from '../plugins/base-plugin';
-import {Project}          from './project';
-import {ApplicationState} from './application-state';
+import {BasePlugin}         from '../plugins/base-plugin';
+import {Project}            from './project';
+import {Task}               from '../plugins/task-manager/task';
+import {ApplicationState}   from './application-state';
 
 export class PluginManager {
 
@@ -42,6 +43,20 @@ export class PluginManager {
     let items = await this.call('getTaskBarItems', project);
     return items;
   }
+
+  async getPostInstallTasks(project: Project): Promise<Array<Task>> {
+    let items = await this.call('getPostInstallTasks', project);
+
+    await this.sortPostInstallTasks(items);
+
+    return items;
+  }
+
+  async sortPostInstallTasks(tasks: Array<Task>): Promise<Array<Task>> {
+    let items = await this.call('sortPostInstallTasks', tasks);
+    return items;
+  }
+ 
 
   /**
    * Call a function on all plugins
