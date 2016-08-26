@@ -1,4 +1,3 @@
-import 'moment';
 import {Task}                   from './task';
 import {LogManager, autoinject} from 'aurelia-framework';
 import {EventAggregator}        from 'aurelia-event-aggregator';
@@ -6,6 +5,7 @@ import {RandomNumber}           from '../../shared/random-number';
 import {Project}                from '../../shared/project';
 import {ApplicationState}       from '../../shared/application-state';
 import {Errors}                 from '../errors/errors';
+import * as moment              from 'moment';
 
 const logger = LogManager.getLogger('TaskManager');
 
@@ -32,6 +32,8 @@ export class TaskManager {
 
     project.__meta__.taskmanager.tasks.push(task);
     this.tasks.push(task);
+
+    logger.info(`queued '${task.title}' for project '${project.name}'`);
     
     this.ea.publish('TaskAdded', { project: task.project, task: task });
   }
@@ -41,20 +43,26 @@ export class TaskManager {
     task.status = 'running';
     
     this.ea.publish('TaskStarted', { project: task.project, task: task });
+
+    logger.info(`started '${task.title}' for project '${task.project.name}'`);
   
     this.addTaskLog(task, '-----STARTED-----');
 
     return task.execute().then((result) => {
       this.addTaskLog(task, '-----FINISHED-----');
         
+      logger.info(`task '${task.title}' for project '${task.project.name}' finished without error`);
       this.finishTask(task, false);
       return result;
     }).catch((e) => {
       this.addTaskLog(task, '-----FINISHED WITH ERROR-----');
       this.addTaskLog(task, e.message);
-      logger.error(e);
-      this.errors.add(e);
+      this.errors.add(e); 
       this.finishTask(task, true);
+      
+      let timeItTook = `${moment(task.end).diff(task.start, 'seconds')} seconds`;
+      logger.info(`task '${task.title}' for project '${task.project.name}' finished with error (after it ran for ${timeItTook})`);
+      logger.error(e);
     });
   }
 
@@ -118,6 +126,7 @@ export class TaskManager {
       throw new Error('This task cannot be cancelled');
     }
 
+    logger.info(`task '${task.title}' for project '${task.project.name}' was cancelled by user`);
     this.addTaskLog(task, '-----STOPPED BY USER-----');
     task.status = 'stopped by user';
     

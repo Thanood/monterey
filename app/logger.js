@@ -207,6 +207,8 @@ module.exports = class Logger {
   }
 
   writeToBuffer(type, id, msg) {
+    msg = msg.replace(/\r?\n|\r/g, '');
+
   // convert to csv line format
     let result = `"${type}","${id}","${new Date().toISOString()}","${msg}"\r\n`;
 
@@ -224,17 +226,7 @@ module.exports = class Logger {
       let type = args.type;
 
       let id = args.id;
-      let msg = '';
-
-      //parse the message to string
-      if (args.msg.length !== undefined) {
-        args.msg.forEach((e) => {
-          if (typeof (e) === 'object') {
-            e = JSON.stringify(e);
-          }
-          msg = msg + e;
-        })
-      }
+      let msg = args.msg;
 
       this.writeToBuffer(type, id, msg);
     });

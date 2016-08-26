@@ -1,4 +1,3 @@
-import * as moment                     from 'moment';
 import {autoinject, observable}        from 'aurelia-framework';
 import {DialogController}              from 'aurelia-dialog';
 import {EventAggregator, Subscription} from 'aurelia-event-aggregator';

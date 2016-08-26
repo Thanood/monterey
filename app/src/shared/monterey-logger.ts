@@ -16,11 +16,31 @@ export class MonteryLogAppender {
    *
    * @param args Obj from logger
    */
-  send(args: any) {
+  send(logger: Logger, level: string, parameters: any[]) {
     // don't log debug messages
-    if (args.type === 'debug') return;
+    if (level === 'debug') return;
 
-    this.ipcRenderer.send('log-message', args);
+    let msg = '';
+
+    if (parameters && parameters.length > 0) {
+      parameters.forEach(param => {
+        if (param.message && param.stack) {
+         msg = param.message + '   '  + param.stack;
+        } else if (typeof param === 'string') {
+          msg = msg + '   '  + param;       
+        } else {
+          msg = msg + '   '  + JSON.stringify(param);
+        }
+      });
+    }
+
+    let logMsg = {
+      id: logger.id,
+      type: level,
+      msg: msg
+    };
+
+    this.ipcRenderer.send('log-message', logMsg);
   }
 
   /**
@@ -30,11 +50,8 @@ export class MonteryLogAppender {
    * @param rest The data to log.
    */
   debug(logger: Logger, ...rest: any[]): void {
-    this.send({
-      type: 'debug',
-      id: logger.id,
-      msg: rest
-    });
+    let args = Array.prototype.slice.call(rest);
+    this.send(logger, 'debug', args);
   }
 
   /**
@@ -44,11 +61,8 @@ export class MonteryLogAppender {
    * @param rest The data to log.
    */
   info(logger: Logger, ...rest: any[]): void {
-    this.send({
-      type: 'info',
-      id: logger.id,
-      msg: rest
-    });
+    let args = Array.prototype.slice.call(rest);
+    this.send(logger, 'info', args);
   }
 
   /**
@@ -58,11 +72,8 @@ export class MonteryLogAppender {
    * @param rest The data to log.
    */
   warn(logger: Logger, ...rest: any[]): void {
-    this.send({
-      type: 'warn',
-      id: logger.id,
-      msg: rest
-    });
+    let args = Array.prototype.slice.call(rest);
+    this.send(logger, 'warn', args);
   }
 
   /**
@@ -72,10 +83,7 @@ export class MonteryLogAppender {
    * @param rest The data to log.
    */
   error(logger: Logger, ...rest: any[]): void {
-    this.send({
-      type: 'error',
-      id: logger.id,
-      msg: rest
-    });
+    let args = Array.prototype.slice.call(rest);
+    this.send(logger, 'error', args);
   }
 }
