@@ -107,8 +107,14 @@ export class TaskManager {
     logger.info(`task '${task.title}' for project '${task.project.name}' was cancelled by user`);
     this.addTaskLog(task, '-----STOPPED BY USER-----');
     task.status = 'stopped by user';
+
+    let promise = Promise.resolve();
+
+    if (task.start) {
+      promise = task.stop(task);
+    }
     
-    return task.stop(task)
+    return promise
     .then(() => {
       this.finishTask(task);
     });

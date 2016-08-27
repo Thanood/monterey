@@ -71,6 +71,8 @@ export class Screen {
 
     let task = this.common.installNPMDependencies(this.project, deps, 'This could take 30 seconds or more to complete');
 
+    this.taskManager.addTask(this.project, task);
+
     this.taskManager.startTask(task);
 
     this.dialogService.open({ viewModel: TaskManagerModal, model: { task: task }});
