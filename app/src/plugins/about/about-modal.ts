@@ -17,5 +17,7 @@ export class AboutModal {
     this.montereyVersion = packageJSON.version;
     this.nodeJSVersion = OS.getNodeVersion();
     this.electronVersion = OS.getElectronVersion();
+
+    throw new Error('some error')
   }
 }

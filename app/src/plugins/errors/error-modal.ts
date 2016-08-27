@@ -10,13 +10,26 @@ export class ErrorModal {
 
   constructor(private dialogController: DialogController,
               private notification: Notification,
-              private errors: Errors) {}
+              public errors: Errors) {}
 
   attached() {
     this.initializeClipboard();
 
     if (this.errors.errors.length > 0) {
       this.selectedError = this.errors.errors[0];
+    }
+  }
+
+  clearError() {
+    if (this.selectedError) {
+      let index = this.errors.errors.indexOf(this.selectedError);
+      this.errors.errors.splice(index, 1);
+
+      if (this.errors.errors.length > 0) {
+        this.selectedError = this.errors.errors[0];
+      } else {
+        this.selectedError = undefined;
+      }
     }
   }
 

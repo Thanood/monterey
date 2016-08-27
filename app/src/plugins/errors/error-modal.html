@@ -19,11 +19,16 @@
         <p class="title">${selectedError.message | limitTextSize: 50}</p>
         <div>
           <button class="btn btn-primary copy-btn">Copy to clipboard</button>
+          <button class="btn btn-primary" click.delegate="clearError()">Clear error</button>
         </div>
         <div class="stacktrace">
           <p>${selectedError.message}</p>
           <p>${selectedError.stack}</p>
         </div>
+      </div>
+
+      <div class="right-side" show.bind="errors.errors.length === 0">
+        <p>There were no errors</p>
       </div>
     </ai-dialog-body>
 
