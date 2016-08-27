@@ -1,7 +1,7 @@
 import {ErrorModal} from '../../../../src/plugins/errors/error-modal';
 import {Container} from 'aurelia-framework';
 
-describe('TaskManager taskbar', () => {
+describe('Error modal', () => {
   let sut: ErrorModal;
   let container: Container;
 
