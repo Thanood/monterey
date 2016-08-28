@@ -1,15 +1,16 @@
 import {inject, NewInstance}  from 'aurelia-framework';
+import {EventAggregator}      from 'aurelia-event-aggregator';
+import {NPM, SESSION}         from 'monterey-pal';
+import {ValidationRules}      from 'aurelia-validatejs';
+import {ValidationController} from 'aurelia-validation';
 import {ApplicationState}     from '../../shared/application-state';
 import {withModal}            from '../../shared/decorators';
 import {GithubCreds}          from '../../shared/github-creds';
 import {ManageEndpoints}      from '../../shared/manage-endpoints';
-import {NPM, SESSION}         from 'monterey-pal';
-import {ValidationRules}      from 'aurelia-validatejs';
-import {ValidationController} from 'aurelia-validation';
 import {Notification}         from '../../shared/notification';
 import {Main}                 from '../../main/main';
 
-@inject(ApplicationState, NewInstance.of(ValidationController), Notification, Main)
+@inject(ApplicationState, NewInstance.of(ValidationController), Notification, Main, EventAggregator)
 export class Screen {
   npmRegistry: string;
   _npmRegistry: string;
@@ -21,7 +22,8 @@ export class Screen {
   constructor(private state: ApplicationState,
               private validation: ValidationController,
               private notification: Notification,
-              private main: Main) {
+              private main: Main,
+              private ea: EventAggregator) {
   }
 
   async attached() {
@@ -69,6 +71,8 @@ export class Screen {
 
     await this.state._save();
     this.notification.success('Changes saved');
+
+    this.ea.publish('SettingsChanged');
 
     this.loading = false;
   }
