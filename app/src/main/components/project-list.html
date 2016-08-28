@@ -8,7 +8,7 @@
     v-collection.bind="state.projects"
     v-grid-context.two-way="projectGrid"
     v-row-onclick.delegate="projectClicked($event.detail)">
-    <v-grid-col col-width="300" col-header-name="My projects" col-field="name" col-sort="name" col-filter="name|*|onKeyDown">
+    <v-grid-row-repeat>
       <v-header-template>
         <p class="vgrid-label-bottom project-list-header" v-sort="name">My projects</p>
          <span class="glyphicon glyphicon-search vgrid-header-input-search-icon" aria-hidden="true"></span><input v-header-menu="name" class="vgrid-header-input-bottom" v-filter="name|*|onKeyDown">
@@ -16,6 +16,6 @@
       <v-row-template>
         <input readonly v-key-move class="vgrid-row-input" v-observe-field="index" value.bind="rowRef.name">
       </v-row-template>
-    </v-grid-col>
+    </v-grid-row-repeat>
   </v-grid>
 </template>

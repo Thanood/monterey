@@ -28,14 +28,11 @@
   height: 100%;
 
   .left {
+    position: relative;
     background-color: #ECECED;
     padding-left: 0;
     padding-right: 0;
     flex: 0 0 auto;
-    // position: absolute;
-    // top: 0;
-    // bottom: 0;
-    // left: 0;
     z-index: 5;
     width: 300px;
     overflow: hidden;
@@ -52,7 +49,6 @@
     .main-button-group {
       height: 44px;
       width: 100%;
-      // position: absolute;
       display: block;
 
       .main-button {
@@ -90,12 +86,11 @@
     }
 
     .projectList {
-      // position: absolute;
-      // bottom: @taskbarHeight;
-      // top: 0;
-      // left: 0;
-      // right: 0;
-
+      position: absolute;
+      bottom: @taskbarHeight;
+      top: 100px;
+      left: 0;
+      right: 0;
       .vGrid {
         background-color: transparent !important;
         border: 0 !important;
@@ -136,6 +131,13 @@
       min-height: 36px;
       text-align: center;
       font-weight: 400;
+
+      .vGrid-glyphicon-sort-asc{
+        right:15px;
+      }
+      .vGrid-glyphicon-sort-desc{
+        right:15px;
+      }
     }
 
     h1 {
@@ -151,11 +153,6 @@
 
   .right {
     flex: 1 1 auto;
-    // position: fixed;
-    // top: 0;
-    // left: 300px;
-    // right: 0;
-    // bottom: @taskbarHeight;
     overflow: auto;
 
     .title {
@@ -182,13 +179,6 @@
 
   .right-plugin-view{
     left: 0;
-  }
-  project-list {
-    // position: absolute;
-    // bottom: 0;
-    // top: 100px;
-    // left: 0;
-    // right: 0;
   }
 }
 
