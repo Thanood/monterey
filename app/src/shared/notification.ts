@@ -12,7 +12,7 @@ export class Notification {
   error(message: string, title: string = undefined, overrides: ToastrOptions = undefined) {
     if (!overrides) {
       overrides = {
-        showDuration: 10000,
+        showDuration: 20000,
         closeButton: true
       };
     }

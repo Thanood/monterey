@@ -18,6 +18,8 @@ import {Plugin as CLIPlugin}     from '../plugins/aurelia-cli/index';
 import {Plugin as GulpPlugin}    from '../plugins/gulp/index';
 import {Plugin as WebpackPlugin} from '../plugins/webpack/index';
 import {Plugin as TypingsPlugin} from '../plugins/typings/index';
+import {Plugin as DotNetPlugin}  from '../plugins/dotnet/index';
+
 import {BasePlugin}              from '../plugins/base-plugin';
 
 const logger = <Logger>LogManager.getLogger('PostCreate');
@@ -51,7 +53,7 @@ export class PostCreate {
   async determineActions() {
 
     // in this order the actions will be showed
-    let plugins = [NPMPlugin, TypingsPlugin, JSPMPlugin, WebpackPlugin, GulpPlugin, CLIPlugin];
+    let plugins = [NPMPlugin, TypingsPlugin, DotNetPlugin, JSPMPlugin, WebpackPlugin, GulpPlugin, CLIPlugin];
     let actions = [];
 
     for (let x = 0; x < plugins.length; x++) {
@@ -155,10 +157,6 @@ export class PostCreate {
     return {
       goToPreviousStep: true
     };
-  }
-
-  sortByTitle(arr, titles) {
-    return arr.sort((a, b) => titles.indexOf(a.title) - titles.indexOf(b.title));
   }
 }
 

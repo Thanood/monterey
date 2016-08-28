@@ -12,6 +12,7 @@ export interface Project {
   aureliaJSONPath?: string;
   webpackConfigPath?: string;
   typingsJSONPath?: string;
+  projectJSONPath?: string;
 
   jspmVersion?: string;
   configJsPath?: string;
@@ -62,5 +63,9 @@ export class Project {
 
   isUsingTypings() {
     return !!this.typingsJSONPath;
+  }
+
+  isUsingDotnetCore() {
+    return !!this.projectJSONPath;
   }
 }
