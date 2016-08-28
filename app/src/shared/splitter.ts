@@ -9,6 +9,8 @@ export class Splitter {
   constructor(private element: Element) {}
 
   attached() {
+    if (!this.handle) return;
+  
     if (!this.handle.classList.contains('splitter')) {
       this.handle.classList.add('splitter');
     }

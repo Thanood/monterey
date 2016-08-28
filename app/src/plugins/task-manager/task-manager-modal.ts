@@ -96,7 +96,7 @@ export class TaskManagerModal {
       let childNodes = [];
       proj.__meta__.taskmanager.tasks.forEach(task => {
         if (!task.finished || this.showFinished) {
-          let taskNode = new TreeListNode(task.title.length > 20 ? task.title.slice(0,20) + '...' : task.title);
+          let taskNode = new TreeListNode(task.title);
           taskNode.title = task.title;
           switch(task.status) {
             case 'running':
@@ -123,7 +123,7 @@ export class TaskManagerModal {
         }
       });
 
-      let projNode = new TreeListNode(proj.name.length > 15 ? proj.name.slice(0, 15) + '...' : proj.name, childNodes);
+      let projNode = new TreeListNode(proj.name, childNodes);
       projNode.title = proj.name;
       projNode.data = { project: proj };
       projNode.bold = true;

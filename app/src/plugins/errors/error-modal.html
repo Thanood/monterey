@@ -1,19 +1,22 @@
 <template>
   <require from="../../shared/converters/limit-text-size"></require>
+  <require from="../../shared/splitter"></require>
 
-  <ai-dialog class="error-modal" width="730" height="470">
+  <ai-dialog class="error-modal" title="Errors" width="730" height="470">
     <ai-dialog-body>
-      <div class="left-side">
+      <div class="left-side" splitter="handle.bind: splitter">
         <div class="error-list">
           <ul class="list-group">
             <li class="list-group-item ${selectedError.id === error.id ? 'selected': ''}"
                 repeat.for="error of errors.errors"
                 click.delegate="selectedError = error">
-              ${error.message | limitTextSize: 20}
+              <p>${error.message}</p>
             </li>
           </ul>
         </div>
       </div>
+
+      <div ref="splitter"></div>
 
       <div class="right-side" show.bind="selectedError">
         <p class="title">${selectedError.message | limitTextSize: 50}</p>
