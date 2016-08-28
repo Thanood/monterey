@@ -7,13 +7,13 @@ import {Command}              from '../task-manager/command';
 export class CommandService implements CommandRunnerService {
   async getCommands(project: Project, useCache: boolean): Promise<Array<Command>> {
     return [
-      { command: 'npm', parameters: ['start'] }
+      { command: 'npm', args: ['start'] }
     ];
   }
 
   runCommand(project: Project, command: Command, task: Task, stdout, stderr) {
     let cmd = OS.getPlatform() === 'win32' ? `${command.command}.cmd` : command.command;
-    let result = OS.spawn(cmd, command.parameters, { cwd:  project.path }, out => {
+    let result = OS.spawn(cmd, command.args, { cwd:  project.path }, out => {
       this.tryGetPort(project, out, task);
       stdout(out);
     }, err => stderr(err));

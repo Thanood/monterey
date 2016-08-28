@@ -5,13 +5,17 @@ import {Task}                                 from './task';
 import {Command}                              from './command';
 import {Project}                              from '../../shared/project';
 
+
+/**
+ * The CommandRunner creates a Task from a Command ('gulp watch')
+ */
 @autoinject()
 export class CommandRunner {
   constructor(private locator: ServiceLocator,
               private taskManager: TaskManager) {}
   run(project: Project, command: Command) {
     let service = this.locator.get(project);
-    let task = new Task(project, `${command.command} ${command.parameters.join(' ')}`);
+    let task = new Task(project, `${command.command} ${command.args.join(' ')}`);
     
     task.execute = this._executor(service, task, project, command);
     task.stoppable = true;
@@ -44,7 +48,7 @@ export class CommandRunner {
     };
   }
 
-  async load(project: Project, withCache: boolean = true) {
+  async load(project: Project, withCache: boolean = true): Promise<Array<Command>> {
     let service = <CommandRunnerService>this.locator.get(project);
     if (service) {
       return await service.getCommands(project, withCache);
@@ -61,7 +65,7 @@ export class CommandRunner {
       let commands = await this.load(project, true);
       let foundCommand;
       commands.forEach(command => {
-        if (`${command.command} ${command.parameters.join(' ')}` === cmd) {
+        if (`${command.command} ${command.args.join(' ')}` === cmd) {
           foundCommand = command;
         }
       });

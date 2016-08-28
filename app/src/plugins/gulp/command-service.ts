@@ -27,7 +27,7 @@ export class CommandService implements CommandRunnerService {
     let commands: Array<Command> = [];
 
     tasks.forEach(task => {
-      commands.push({ command: 'gulp', parameters: [task] });
+      commands.push({ command: 'gulp', args: [task] });
     });
 
     return commands;
@@ -36,7 +36,7 @@ export class CommandService implements CommandRunnerService {
   runCommand(project: Project, command: Command, task: Task, stdout, stderr) {
     let gulpFileDir = FS.getFolderPath(project.gulpfile);
     let cmd = OS.getPlatform() === 'win32' ? 'gulp.cmd' : 'gulp';
-    let result = OS.spawn(cmd, command.parameters, { cwd:  gulpFileDir }, out => {
+    let result = OS.spawn(cmd, command.args, { cwd:  gulpFileDir }, out => {
       this.tryGetPort(project, out, task);
       stdout(out);
     }, err => stderr(err));

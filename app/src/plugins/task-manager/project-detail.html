@@ -14,7 +14,7 @@
           click.delegate="selectedTask = task" 
           dblclick.delegate="startTask(task)"
           repeat.for="task of tasks">
-          ${task.command} ${task.parameters.join(' ')}
+          <p>${task.command} ${task.args.join(' ')}</p>
       </li>
     </ul>
     <p show.bind="false">${selectedTask.command}</p>

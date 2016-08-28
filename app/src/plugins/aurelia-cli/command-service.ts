@@ -7,8 +7,8 @@ import {Command}              from '../task-manager/command';
 export class CommandService implements CommandRunnerService {
   async getCommands(project: Project, useCache: boolean): Promise<Array<Command>> {
     return [
-      { command: 'au', parameters: ['run', '--watch'] },
-      { command: 'au', parameters: ['run'] }
+      { command: 'au', args: ['run', '--watch'] },
+      { command: 'au', args: ['run'] }
     ];
   }
 
@@ -16,7 +16,7 @@ export class CommandService implements CommandRunnerService {
     // Application Available At: http://localhost:9000
     let cmd = OS.getPlatform() === 'win32' ? `${command.command}.cmd` : command.command;
 
-    let result = OS.spawn(cmd, command.parameters, { cwd:  project.path }, out => {
+    let result = OS.spawn(cmd, command.args, { cwd:  project.path }, out => {
       this.tryGetPort(project, out, task);
       stdout(out);
     }, err => stderr(err));

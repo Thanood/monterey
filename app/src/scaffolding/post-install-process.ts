@@ -1,5 +1,4 @@
-export interface PostInstallProcess {
-  description: string;
-  command: string;
-  args: Array<string>;
+import {Command} from '../plugins/task-manager/command';
+
+export interface PostInstallProcess extends Command {
 }

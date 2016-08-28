@@ -1,5 +1,6 @@
 export interface Command {
   id?: number;
+  description?: string;
   command: string;
-  parameters: Array<string>;
+  args: Array<string>;
 }
