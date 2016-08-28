@@ -142,7 +142,7 @@ let devMenuTemplate = [
 }];
 
 function getIndex() {
-  return isDev() ? `file://${__dirname}/index.html` : `file://${__dirname}/index.prod.html`;
+  return `file://${__dirname}/index.html`;
 }
 
 function confirm(message) {
