@@ -1,10 +1,11 @@
 <template>
   <require from="./components/project-list"></require>
   <require from="./components/tiles"></require>
+  <require from="../shared/splitter"></require>
   <require from="../plugins/task-bar/task-bar"></require>
 
   <div class="main">
-    <div class="left ${pluginViewActivated ? 'left-plugin-view':''}">
+    <div class="left ${pluginViewActivated ? 'left-plugin-view':''}" splitter="handle.bind: splitter">
       <div class="top">
         <h1 class="main-header" style="text-align:center">Monterey</h1>
         <div class="main-button-group">
@@ -15,6 +16,8 @@
       </div>
       <project-list disabled.bind="_activePluginScreen"></project-list>
     </div>
+
+    <div ref="splitter"></div>
 
     <div class="right ${pluginViewActivated ? 'right-plugin-view':''}">
       <!-- list of tiles -->
