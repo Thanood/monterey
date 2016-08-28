@@ -1,11 +1,13 @@
 <template>
   <require from="../shared/converters/limit-text-size"></require>
+  <require from="../shared/splitter"></require>
+
   <ai-dialog class="scaffold-modal" title="Create new application" width="750">
     <ai-dialog-body>
       
       <i class="fa fa-spinner fa-spin" if.bind="loading"></i>
 
-      <div class="col-md-4" if.bind="!loading">
+      <div class="left-side" if.bind="!loading" splitter="handle.bind: splitter">
         <h2>Project template</h2>
         <div class="project-template-list">
           <ul class="list-group">
@@ -13,7 +15,7 @@
                 repeat.for="template of templates"
                 title.bind="template.name"
                 click.delegate="switchTemplate(template)">
-              ${template.name | limitTextSize: 40}
+              <p>${template.name | limitTextSize: 40}</p>
 
               <i class="fa fa-arrow-right" show.bind="selectedTemplate.id === template.id"></i>
             </li>
@@ -21,8 +23,9 @@
         </div>
       </div>
 
+      <div ref="splitter"></div>
 
-      <div class="col-md-8" if.bind="!loading">
+      <div class="right-side" if.bind="!loading">
         <h2 class="main-header-dialog">Create new application</h2>
         <compose view-model.bind="workflow.currentStep.viewModel"
                 model.bind="{ state: state, step: workflow.currentStep }"></compose>
