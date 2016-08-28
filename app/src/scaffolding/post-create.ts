@@ -60,7 +60,10 @@ export class PostCreate {
     }
 
     // remove undefined
-    actions = actions.filter(x => x); 
+    actions = actions.filter(x => x);
+    
+    // remove duplicates
+    actions = this.removeDuplicateActions(actions);
 
     // check all by default
     actions.forEach(action => action.checked = true);
@@ -68,6 +71,18 @@ export class PostCreate {
     this.actions = actions;
 
     this.updateCloseBtnText();
+  }
+
+  removeDuplicateActions(actions: Array<Task>) {
+    let filtered = [];
+
+    actions.forEach(action => {
+      if (filtered.findIndex(x => x.title === action.title) === -1) {
+        filtered.push(action);
+      }
+    })
+
+    return filtered;
   }
 
   async addProject() {
