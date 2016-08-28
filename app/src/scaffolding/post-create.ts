@@ -17,6 +17,7 @@ import {Plugin as NPMPlugin}     from '../plugins/npm/index';
 import {Plugin as CLIPlugin}     from '../plugins/aurelia-cli/index';
 import {Plugin as GulpPlugin}    from '../plugins/gulp/index';
 import {Plugin as WebpackPlugin} from '../plugins/webpack/index';
+import {Plugin as TypingsPlugin} from '../plugins/typings/index';
 import {BasePlugin}              from '../plugins/base-plugin';
 
 const logger = <Logger>LogManager.getLogger('PostCreate');
@@ -50,7 +51,7 @@ export class PostCreate {
   async determineActions() {
 
     // in this order the actions will be showed
-    let plugins = [NPMPlugin, JSPMPlugin, WebpackPlugin, GulpPlugin, CLIPlugin];
+    let plugins = [NPMPlugin, TypingsPlugin, JSPMPlugin, WebpackPlugin, GulpPlugin, CLIPlugin];
     let actions = [];
 
     for (let x = 0; x < plugins.length; x++) {
@@ -81,19 +82,6 @@ export class PostCreate {
   }
 
   onCheck(action: Task) {
-
-    // can't do anything without npm install first
-    // if (action.name === 'npm install') {
-    //   if (!action.checked) {
-    //     this.actions.forEach(x => x.checked = false);
-    //   }
-    // } else {
-    //   if (!this.actions.find(x => x.name === 'npm install').checked) {
-    //     action.checked = false;
-    //     this.notification.warning('It is necessary to install NPM dependencies before anything else can be done');
-    //   }
-    // }
-
     // uncheck all actions below this one
     if (!(<any>action).checked) {
       let index = this.actions.indexOf(action);
@@ -143,62 +131,10 @@ export class PostCreate {
       this.dialogService.open({ viewModel: TaskManagerModal, model: { task: checked[0] } });
     }
 
-    
-    // let checkedActions = this.actions.filter(x => x.checked);
-    // this.tasks = [];
-    
-    // if (checkedActions.find(x => x.name === 'npm install')) {
-    //   this.tasks.push(this.commonNPM.installNPMDependencies(this.project));
-    // }
-
-    // if (checkedActions.find(x => x.name === 'jspm install')) {
-    //   let t = this.commonJSPM.install(this.project, true, { lock: true }, true);
-    //   t.dependsOn = this.tasks[this.tasks.length - 1];
-    //   this.tasks.push(t);
-    // }
-
-    // if (checkedActions.find(x => x.name === 'start cli')) {
-    //   this.tasks.push(this.loadTasks());
-    //   this.tasks.push(this.runCommand('au run --watch'));
-    // }
-
-    // if (checkedActions.find(x => x.name === 'start gulp')) {
-    //   this.tasks.push(this.loadTasks());
-    //   this.tasks.push(this.runCommand('gulp watch'));
-    // }
-
-    // if (checkedActions.find(x => x.name === 'start webpack')) {
-    //   this.tasks.push(this.loadTasks());
-    //   this.tasks.push(this.runCommand('npm start'));
-    // }
-
-    // if (this.tasks.length > 0) {
-    //   logger.info(`${checkedActions.length} (${checkedActions.map(x => x.display).join(', ')}) were checked`);
-
-    //   this.taskManager.startTask(this.tasks[0]);
-    //   this.dialogService.open({ viewModel: TaskManagerModal, model: { task: this.tasks[0] } })
-    // }
-
     return {
       goToNextStep: true
     };
   }
-
-  // loads tasks like `gulp watch` or `au run --watch`
-  // needed before running such task
-  // loadTasks() {
-  //   let t = new Task(this.project, 'Loading project tasks', () => this.commandRunner.load(this.project, false));
-  //   t.dependsOn = this.tasks[this.tasks.length - 1];
-  //   this.taskManager.addTask(this.project, t);
-  //   return t;
-  // } 
-
-  // runCommand(command: string) {
-  //   let t = this.commandRunner.runByCmd(this.project, command);
-  //   t.dependsOn = this.tasks[this.tasks.length - 1];
-  //   this.taskManager.addTask(this.project, t);
-  //   return t;
-  // }
 
   async previous() {
     return {

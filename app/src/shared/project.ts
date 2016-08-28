@@ -10,8 +10,8 @@ export interface Project {
   gulptasks?: Array<string>;
 
   aureliaJSONPath?: string;
-
   webpackConfigPath?: string;
+  typingsJSONPath?: string;
 
   jspmVersion?: string;
   configJsPath?: string;
@@ -58,5 +58,9 @@ export class Project {
 
   isUsingNPM() {
     return !!this.packageJSONPath;
+  }
+
+  isUsingTypings() {
+    return !!this.typingsJSONPath;
   }
 }
