@@ -49,39 +49,26 @@
     .main-button-group {
       height: 44px;
       width: 100%;
-      display: block;
+      display: flex;
 
       .main-button {
         display: block;
-        position: relative;
-        top: 0;
-        left: 0;
-        float: left;
         height: 100%;
         width: 33.33%;
         background: #FFF;
         color: #70519E;
         border: 0;
-        -webkit-box-orient: horizontal;
-        -webkit-box-direction: normal;
         font-size: 16px;
         line-height: 25px;
-        letter-spacing: .4px;
         text-align: center;
         white-space: nowrap;
-        vertical-align: middle;
-        border-left: 1px solid rgb(230, 230, 230);;
-        justify-content: center;
-        outline: 0;
+        border-left: 1px solid rgb(230, 230, 230);
       }
 
       .main-button:active, .main-button:hover {
         color: #FFF;
         background-image: -webkit-radial-gradient(49% 0 circle, #C632AC 0, #8A2979 100%);
         background-image: radial-gradient(circle at 49% 0, #C632AC 0, #8A2979 100%);
-      }
-      .main-button:active{
-        outline: 1;
       }
     }
 
@@ -150,6 +137,14 @@
   .right {
     flex: 1 1 auto;
     overflow: auto;
+
+    &.plugin-view-active {
+      position: absolute;
+      left: 0;
+      top: 0;
+      right: 0;
+      bottom: @taskbarHeight;
+    }
 
     .title {
       margin-left: 10px;

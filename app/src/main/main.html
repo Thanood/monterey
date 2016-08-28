@@ -19,7 +19,7 @@
 
     <div ref="splitter" show.bind="!pluginViewActivated"></div>
 
-    <div class="right ${pluginViewActivated ? 'right-plugin-view':''}">
+    <div class="right ${pluginViewActivated ? 'plugin-view-active' : ''}">
       <!-- list of tiles -->
       <tiles show.bind="!_activePluginScreen && selectedProject.current" view-model.ref="tilesVM"></tiles>
 
