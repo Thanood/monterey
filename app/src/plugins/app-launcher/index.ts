@@ -56,12 +56,14 @@ class Plugin extends BasePlugin {
     // Install any default launchers
     let launchers = (<any>defaults).defaults[platform];
 
-    launchers.forEach(launcher => {
-      try {
-        this.manager.installLauncher(undefined, platform, launcher);
-      } catch (e) {
-        logger.error(e);
-      }
-    });
+    if (launchers) {
+      launchers.forEach(launcher => {
+        try {
+          this.manager.installLauncher(undefined, platform, launcher);
+        } catch (e) {
+          logger.error(e);
+        }
+      });
+    }
   }
 }

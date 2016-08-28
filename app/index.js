@@ -114,13 +114,13 @@ let devMenuTemplate = [
       label: 'Reload',
       accelerator: 'CmdOrCtrl+R',
       click: function() {
-        BrowserWindow.getFocusedWindow().webContents.reloadIgnoringCache();
+        mainWindow.webContents.reloadIgnoringCache();
       }
     }, {
       label: 'Toggle DevTools',
       accelerator: 'Alt+CmdOrCtrl+I',
       click: function() {
-        BrowserWindow.getFocusedWindow().toggleDevTools();
+        mainWindow.toggleDevTools();
       }
     }, {
       label: 'Logs',
@@ -135,7 +135,7 @@ let devMenuTemplate = [
         }
         const storage = require('electron-json-storage');
         storage.clear(function (err){});
-        BrowserWindow.getFocusedWindow().loadURL(getIndex());
+        mainWindow.loadURL(getIndex());
       },
     }
   ]
@@ -148,7 +148,7 @@ function getIndex() {
 function confirm(message) {
   var dialog = electron.dialog;
   var choice = dialog.showMessageBox(
-          BrowserWindow.getFocusedWindow(),
+          mainWindow,
           {
               type: 'question',
               buttons: ['Yes', 'No'],
