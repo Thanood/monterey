@@ -10,6 +10,7 @@ export class ApplicationState {
   gitAuthorization: string;
   projects: Array<Project> = [];
   appLaunchers: Array<any> = [];
+  developmentToolsVisible: boolean;
   // used to restore the selected project after restart
   selectedProjectPath: string;
   endpoints = {

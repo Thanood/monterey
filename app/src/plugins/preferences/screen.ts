@@ -3,7 +3,7 @@ import {ApplicationState}     from '../../shared/application-state';
 import {withModal}            from '../../shared/decorators';
 import {GithubCreds}          from '../../shared/github-creds';
 import {ManageEndpoints}      from '../../shared/manage-endpoints';
-import {NPM}                  from 'monterey-pal';
+import {NPM, SESSION}         from 'monterey-pal';
 import {ValidationRules}      from 'aurelia-validatejs';
 import {ValidationController} from 'aurelia-validation';
 import {Notification}         from '../../shared/notification';
@@ -15,6 +15,7 @@ export class Screen {
   _npmRegistry: string;
   npmStrictSSL: boolean;
   _npmStrictSSL: boolean;
+  development: boolean;
   loading: boolean;
 
   constructor(private state: ApplicationState,
@@ -25,6 +26,8 @@ export class Screen {
 
   async attached() {
     this.loading = true;
+
+    this.development = SESSION.getEnv() === 'development';
 
     await this.load();
     

@@ -35,6 +35,17 @@
     </div>
 
     <hr />
+
+    <div if.bind="development">
+      <h3>Development</h3>
+      <div class="form-group">
+        <label class="control-label" for="developmentToolsVisible">Show development tools?</label>
+        <input type="checkbox" id="developmentToolsVisible"
+                checked.bind="state.developmentToolsVisible">
+      </div>
+    </div>
+
+    <hr />
     
     <button click.delegate="save()" class="btn btn-primary">Save</button>
   </div>
