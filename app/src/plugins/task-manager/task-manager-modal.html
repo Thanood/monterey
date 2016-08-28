@@ -1,25 +1,27 @@
 <template>
   <require from="../../shared/tree-list/tree-list"></require>
+  <require from="../../shared/splitter"></require>
   <require from="./task-detail"></require>
   <require from="./project-detail"></require>
 
   <ai-dialog class="task-manager-modal" title="Task manager" width="860" height="600">
     <ai-dialog-body>
-      <div class="left-side col-md-4">
+      <div splitter="handle.bind: splitter" class="left-side">
         <label><input type="checkbox" checked.bind="showFinished"> Show finished</label>
         <tree-list tree.bind="taskTree" ref="taskTreeElement" selected-node.two-way="selectedNode"></tree-list>
       </div>
 
+      <div ref="splitter"></div>
 
-      <div class="right-side col-md-8" if.bind="selectedTask">
+      <div class="right-side" if.bind="selectedTask">
         <task-detail task.bind="selectedTask"></task-detail>
       </div>
       
-      <div class="right-side col-md-8" if.bind="selectedProject">
+      <div class="right-side" if.bind="selectedProject">
         <project-detail project.bind="selectedProject"></project-detail>
       </div>
 
-      <div class="right-side col-md-8" if.bind="!selectedTask && !selectedProject">
+      <div class="right-side" if.bind="!selectedTask && !selectedProject">
         <p>
           <h3>Task manager</h3>
           The task manager keeps track of everything that Monterey is doing. <br/>
@@ -28,7 +30,7 @@
         </p>
       </div>
 
-      <div style="clear: both"></div>
+      <!--<div style="clear: both"></div>-->
     </ai-dialog-body>
 
     <ai-dialog-footer>

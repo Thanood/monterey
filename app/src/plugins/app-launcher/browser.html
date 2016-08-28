@@ -1,5 +1,5 @@
 <template>
-  <require from="./browser-tile"></require>
+  <require from="./launcher-item"></require>
 
   <ai-dialog class="app-launcher-browser-modal" title="Browse launchers">
     <ai-dialog-body>
@@ -17,7 +17,7 @@
       </div>
       <div repeat.for="platform of data.platforms" show.bind="data.launchers[platform].length > 0">
         <h1>${platform | platformName}</h1>
-        <browser-tile install.call='install(tile, launcher)' repeat.for="launcher of data.launchers[platform]" launcher.bind="launcher" platform.bind="platform"></browser-tile>
+        <launcher-item install.call='install(tile, launcher)' repeat.for="launcher of data.launchers[platform]" launcher.bind="launcher" platform.bind="platform"></launcher-item>
       </div>
     </ai-dialog-body>
 

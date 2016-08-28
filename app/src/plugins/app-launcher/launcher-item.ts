@@ -1,10 +1,10 @@
-import {bindable, autoinject}     from 'aurelia-framework';
+import {bindable, autoinject} from 'aurelia-framework';
 import {LauncherManager}      from './launcher-manager';
 import {Project}              from '../../shared/project';
 import {Main}                 from '../../main/main';
 
 @autoinject()
-export class BrowserTile {
+export class LauncherItem {
 
   @bindable launcher;
   @bindable platform;

@@ -1,17 +1,15 @@
 .task-manager-modal {
+  ai-dialog-body {
+    display: flex;
+    flex-direction: row;
+  }
+
   .left-side {
     height: 100%;
     overflow: auto;
-    float: left;
+    width: 250px;
+    flex: 0 0 auto;
     border-right: 1px solid #dfdfe1;
-
-    .title {
-      color: #70519E;
-      letter-spacing: .4px;
-      white-space: nowrap;
-      vertical-align: middle;
-      border-bottom: 1px solid rgba(0, 0, 0, .12);
-    }
 
     tree-list {
       > tree-node {
@@ -31,7 +29,6 @@
         ul {
           li {
             div {
-              // border-bottom: 1px solid;
               color: #777;
               font-size: 16px;
               letter-spacing: .4px;
@@ -49,42 +46,14 @@
 
   .right-side {
     height: 53px;
-    float: left;
+    flex: 1 1 auto;
 
     .title {
-      color: #70519E;
-      letter-spacing: .4px;
-      white-space: normal;
-      vertical-align: middle;
-      text-transform: capitalize;
       border-bottom: 1px solid rgba(0, 0, 0, .12);
     }
   }
 
-  .task-detail {
-    float: left;
-    width: 417px;
-    margin-left: 20px;
-    padding-left: 10px;
-    height: 300px;
-  }
-
   .logs {
     height: 274px;
-  }
-
-  .task-list, .error-list {
-    width: 250px;
-
-    .list-group {
-      max-height: 300px;
-      overflow: auto;
-    }
-  }
-
-  .list-group-item {
-    &.finished {
-      background-color: #dbfdda;
-    }
   }
 }

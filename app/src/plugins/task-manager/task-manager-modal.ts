@@ -18,6 +18,8 @@ export class TaskManagerModal {
 
   selectedTask: Task;
   taskTreeElement: Element;
+  splitter: Element;
+  left: Element;
   selectedProject: Project;
   @observable showFinished = true;
   subscriptions: Array<Subscription> = [];
