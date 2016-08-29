@@ -3,7 +3,6 @@ import {CommandRunnerService} from './command-runner-service';
 import {Notification}         from '../../shared/notification';
 import {Project}              from '../../shared/project';
 import {ApplicationState}     from '../../shared/application-state';
-import {PluginManager}        from '../../shared/plugin-manager';
 import {CommandRunner}        from './command-runner';
 import {Command}              from './command';
 import {TaskManager}          from './task-manager';
@@ -14,10 +13,11 @@ export class TaskRunner {
   @bindable project: Project;
   categories: Array<Category> = [];
   favorites: Array<Favorite> = [];
+  favoriteTab: Element;
+  favoriteTabBody: Element;
   loading: boolean;
   
   constructor(private taskManager: TaskManager,
-              private pluginManager: PluginManager,
               private commandRunner: CommandRunner,
               private state: ApplicationState,
               private notification: Notification) {}
@@ -39,8 +39,14 @@ export class TaskRunner {
         'gulp watch',
         'au run --watch',
         'npm run',
+        'dotnet restore',
         'gulp prepare-release'
       ];
+    }
+
+    if (this.favoriteTab) {
+      $(this.favoriteTab).tab('show');
+      $(this.favoriteTab).show();
     }
 
     this.load();
@@ -49,9 +55,9 @@ export class TaskRunner {
   async load() {
     if (this.project) {
       this.loading = true;
-      let services = await this.pluginManager.getCommandServices(this.project);
 
       let categories: Array<Category> = [];
+      let services = await this.commandRunner.getServices(this.project);
 
       services.forEach(service => categories.push({
         title: service.title,

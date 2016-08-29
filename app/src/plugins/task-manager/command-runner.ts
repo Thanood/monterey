@@ -1,22 +1,23 @@
-import {autoinject}                           from 'aurelia-framework';
-import {CommandRunnerService, ServiceLocator} from './command-runner-service';
-import {TaskManager}                          from './task-manager';
-import {Task}                                 from './task';
-import {Command}                              from './command';
-import {Project}                              from '../../shared/project';
+import {autoinject}           from 'aurelia-framework';
+import {CommandRunnerService} from './command-runner-service';
+import {TaskManager}          from './task-manager';
+import {Task}                 from './task';
+import {Command}              from './command';
+import {Project}              from '../../shared/project';
+import {PluginManager}        from '../../shared/plugin-manager';
 
 /**
  * The CommandRunner creates a Task from a Command ('gulp watch')
  */
 @autoinject()
 export class CommandRunner {
-  constructor(private locator: ServiceLocator,
-              private taskManager: TaskManager) {}
+  constructor(private taskManager: TaskManager, 
+              private pluginManager: PluginManager) {}
+
   run(project: Project, command: Command) {
-    let service = this.locator.get(project);
     let task = new Task(project, `${command.command} ${command.args.join(' ')}`);
     
-    task.execute = this._executor(service, task, project, command);
+    task.execute = this._executor(task, project, command);
     task.stoppable = true;
     task.stop = this._stop(task);
 
@@ -30,16 +31,16 @@ export class CommandRunner {
     };
   }
 
-  _executor(service: CommandRunnerService, task: Task, project: Project, command: Command) {
+  _executor(task: Task, project: Project, command: Command) {
     return () => {
-      let result = service.runCommand(project, command, task, stdout => {
+      let result = command.service.runCommand(project, command, task, stdout => {
         this.taskManager.addTaskLog(task, stdout);
       }, stderr => {
         this.taskManager.addTaskLog(task, stderr);
       });
       
       task.meta = {
-        service: service,
+        service: command.service,
         process: result.process
       };
 
@@ -47,21 +48,27 @@ export class CommandRunner {
     };
   }
 
-  async load(project: Project, withCache: boolean = true): Promise<Array<Command>> {
-    let service = <CommandRunnerService>this.locator.get(project);
-    if (service) {
-      return await service.getCommands(project, withCache);
-    } else {
-      return [];
+  async getCommands(project: Project, withCache: boolean = true): Promise<Array<Command>> {
+    let services = await this.getServices(project);
+    let commands = [];
+
+    for (let x = 0; x < services.length; x++) {
+      commands.concat(await services[x].getCommands(project, withCache));
     }
+    
+    return commands;
+  }
+
+  async getServices(project: Project) {
+    let services = await this.pluginManager.getCommandServices(project);
+    return services;
   }
 
   runByCmd(project: Project, cmd: string) {
-    let service = <CommandRunnerService>this.locator.get(project);
     let task = new Task(project, cmd);
     
     task.execute = async () => {
-      let commands = await this.load(project, true);
+      let commands = await this.getCommands(project, true);
       let foundCommand;
       commands.forEach(command => {
         if (`${command.command} ${command.args.join(' ')}` === cmd) {
@@ -69,7 +76,7 @@ export class CommandRunner {
         }
       });
 
-      return this._executor(service, task, project, foundCommand)();
+      return this._executor(task, project, foundCommand)();
     };
     task.stoppable = true;
     task.stop = this._stop(task);

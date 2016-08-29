@@ -9,13 +9,14 @@ export class CommandService implements CommandRunnerService {
 
   async getCommands(project: Project, useCache: boolean): Promise<Array<Command>> {
     return [
-      { command: 'dotnet', args: ['restore'] },
-      { command: 'dotnet', args: ['run'] }
+      { command: 'dotnet', args: ['restore'], service: this },
+      { command: 'dotnet', args: ['run'], service: this }
     ];
   }
 
   runCommand(project: Project, command: Command, task: Task, stdout, stderr) {
-    let result = OS.spawn(command.command, command.args, { cwd:  project.path }, out => {
+    let projJSONdir = FS.getFolderPath(project.projectJSONPath);
+    let result = OS.spawn(command.command, command.args, { cwd:  projJSONdir }, out => {
       this.tryGetPort(project, out, task);
       stdout(out);
     }, err => stderr(err));

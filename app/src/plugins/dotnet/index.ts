@@ -95,26 +95,17 @@ export class Plugin extends BasePlugin {
       }
 
       if (!dotnetInstalled) return;
+      
+      let t = new Task(project, 'fetch tasks', () => this.commandRunner.getCommands(project, false));
+      workflow.phases.environment.addStep(new Step('fetch tasks', 'fetch tasks', t));
 
       if (!workflow.phases.environment.stepExists('dotnet restore')) {
-        let dotnetRestore = new Task(project).fromPostInstallProcess({
-          description: 'dotnet restore',
-          command: 'dotnet',
-          args: ['restore']
-        });
-
-        workflow.phases.environment.addStep(new Step('dotnet restore', 'dotnet restore', dotnetRestore));
+        workflow.phases.environment.addStep(new Step('dotnet restore', 'dotnet restore', this.commandRunner.runByCmd(project, 'dotnet restore')));
       }
 
       
       if (!workflow.phases.run.stepExists('dotnet run')) {
-        let dotnetRun = new Task(project).fromPostInstallProcess({
-          description: 'dotnet run',
-          command: 'dotnet',
-          args: ['run']
-        });
-
-        workflow.phases.run.addStep(new Step('dotnet run', 'dotnet run', dotnetRun));
+        workflow.phases.environment.addStep(new Step('dotnet run', 'dotnet run', this.commandRunner.runByCmd(project, 'dotnet run')));
       }
     }
   }

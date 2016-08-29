@@ -9,8 +9,8 @@ export class CommandService implements CommandRunnerService {
 
   async getCommands(project: Project, useCache: boolean): Promise<Array<Command>> {
     return [
-      { command: 'au', args: ['run', '--watch'] },
-      { command: 'au', args: ['run'] }
+      { command: 'au', args: ['run', '--watch'], service: this },
+      { command: 'au', args: ['run'], service: this }
     ];
   }
 
