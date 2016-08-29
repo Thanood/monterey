@@ -1,18 +1,15 @@
+import {Project} from '../shared/project';
+
+/**
+ * A plugin is a component that can be used via a tile or a button in the menubar.
+ * API: https://aurelia-ui-toolkits.gitbooks.io/monterey-technical-documentation/content/plugin_system.html#34-plugin-api
+ */
 export class BasePlugin {
-  // a plugin can override this function
-  // this function is called whenever a project gets opened in monterey
-  // and allows plugin to provide information about a project
-  // for example, the JSPM plugin can look for a config.js and let monterey
-  // know that the project is a JSPM project
-  async evaluateProject(project) {
+  async evaluateProject(project: Project) {
     return project;
   }
 
-
-  // whenever a project gets selected monterey will ask all plugins
-  // if they want to add tiles to the screen
-  // the getTiles() function can return an array of tiles
-  getTiles(project, showIrrelevant = false): Array<any> {
+  getTiles(project: Project, showIrrelevant = false): Array<any> {
     return [];
   }
 
@@ -20,19 +17,23 @@ export class BasePlugin {
     return state;
   }
 
-  async onProjectAdd(project) {
+  async onProjectAdd(project: Project) {
     return project;
   }
 
-  async getProjectInfoSections(project) {
+  async getProjectInfoSections(project: Project) {
     return [];
   }
 
-  async getTaskBarItems(project) {
+  async getTaskBarItems(project: Project) {
     return [];
   }
 
-  async resolvePostInstallWorkflow(project, workflow, pass: number) {
+  async resolvePostInstallWorkflow(project: Project, workflow, pass: number) {
     return workflow;
+  }
+
+  async getCommandServices(project: Project): Promise<Array<any>> {
+    return [];
   }
 }

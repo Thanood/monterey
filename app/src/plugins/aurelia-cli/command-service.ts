@@ -5,6 +5,8 @@ import {Task}                 from '../task-manager/task';
 import {Command}              from '../task-manager/command';
 
 export class CommandService implements CommandRunnerService {
+  title = 'Aurelia-CLI';
+
   async getCommands(project: Project, useCache: boolean): Promise<Array<Command>> {
     return [
       { command: 'au', args: ['run', '--watch'] },

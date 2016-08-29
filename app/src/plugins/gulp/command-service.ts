@@ -8,6 +8,8 @@ import {Command}              from '../task-manager/command';
 
 @autoinject()
 export class CommandService implements CommandRunnerService {
+  title = 'Gulp';
+
   constructor(private state: ApplicationState) {}
 
   async getCommands(project: Project, useCache: boolean = true): Promise<Array<Command>> {

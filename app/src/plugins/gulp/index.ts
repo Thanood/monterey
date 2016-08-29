@@ -7,6 +7,8 @@ import {Task}          from '../task-manager/task';
 import {Workflow}      from '../../project-installation/workflow';
 import {Step}          from '../../project-installation/step';
 import {CommandRunner} from '../task-manager/command-runner';
+import {CommandService} from './command-service';
+import {CommandRunnerService} from '../task-manager/command-runner-service';
 
 export function configure(aurelia) {
   let pluginManager = <PluginManager>aurelia.container.get(PluginManager);
@@ -52,5 +54,11 @@ export class Plugin extends BasePlugin {
       workflow.phases.run.addStep(new Step('fetch tasks', 'fetch tasks', t));
       workflow.phases.run.addStep(new Step('gulp watch', 'gulp watch', this.commandRunner.runByCmd(project, 'gulp watch')));
     }
+  }
+
+  async getCommandServices(project: Project): Promise<Array<any>> {
+    if (!project.isUsingGulp()) return;
+
+    return [CommandService];
   }
 }

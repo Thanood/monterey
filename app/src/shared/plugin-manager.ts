@@ -1,12 +1,17 @@
-import {BasePlugin}         from '../plugins/base-plugin';
-import {Project}            from './project';
-import {Task}               from '../plugins/task-manager/task';
-import {ApplicationState}   from './application-state';
-import {Workflow}           from '../project-installation/workflow';
+import {autoinject, Container} from 'aurelia-framework';
+import {BasePlugin}            from '../plugins/base-plugin';
+import {Project}               from './project';
+import {Task}                  from '../plugins/task-manager/task';
+import {ApplicationState}      from './application-state';
+import {Workflow}              from '../project-installation/workflow';
+import {CommandRunnerService}  from '../plugins/task-manager/command-runner-service';
 
+@autoinject()
 export class PluginManager {
 
   plugins: Array<BasePlugin> = [];
+
+  constructor(private container: Container) {}
 
   /**
   * At application startup all plugins must register themselves with the PluginManager
@@ -43,6 +48,14 @@ export class PluginManager {
   async getTaskBarItems(project: Project): Promise<Array<string>> {
     let items = await this.call('getTaskBarItems', project);
     return items;
+  }
+
+  async getCommandServices(project: Project): Promise<Array<CommandRunnerService>> {
+    let items = await this.call('getCommandServices', project);
+
+    let services = items.filter(x => !!x).map(x => this.container.get(x));
+
+    return services;
   }
 
   /**

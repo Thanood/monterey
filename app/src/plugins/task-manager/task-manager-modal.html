@@ -2,7 +2,7 @@
   <require from="../../shared/tree-list/tree-list"></require>
   <require from="../../shared/splitter"></require>
   <require from="./task-detail"></require>
-  <require from="./project-detail"></require>
+  <require from="./task-runner"></require>
 
   <ai-dialog class="task-manager-modal" title="Task manager" width="860" height="600">
     <ai-dialog-body>
@@ -18,7 +18,7 @@
       </div>
       
       <div class="right-side" if.bind="selectedProject">
-        <project-detail project.bind="selectedProject"></project-detail>
+        <task-runner project.bind="selectedProject"></task-runner>
       </div>
 
       <div class="right-side" if.bind="!selectedTask && !selectedProject">

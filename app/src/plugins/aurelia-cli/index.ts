@@ -9,6 +9,7 @@ import {Workflow}               from '../../project-installation/workflow';
 import {Step}                   from '../../project-installation/step';
 import {PluginManager}          from '../../shared/plugin-manager';
 import {Project}                from '../../shared/project';
+import {CommandService}         from './command-service';
 
 const logger = <Logger>LogManager.getLogger('aurelia-cli-plugin');
 
@@ -56,5 +57,11 @@ export class Plugin extends BasePlugin {
       workflow.phases.run.addStep(new Step('fetch tasks', 'fetch tasks', t));
       workflow.phases.run.addStep(new Step('au run --watch', 'au run --watch', this.commandRunner.runByCmd(project, 'au run --watch')));
     }
+  }
+
+  async getCommandServices(project: Project): Promise<Array<any>> {
+    if (!project.isUsingAureliaCLI()) return;
+
+    return [CommandService];
   }
 }

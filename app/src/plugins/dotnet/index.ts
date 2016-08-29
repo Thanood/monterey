@@ -10,6 +10,7 @@ import {Step}          from '../../project-installation/step';
 import {Errors}        from '../errors/errors';
 import {Task}          from '../task-manager/task';
 import {CommandRunner} from '../task-manager/command-runner';
+import {CommandService} from './command-service';
 import {OS, FS}        from 'monterey-pal';
 
 const logger = <Logger>LogManager.getLogger('dotnet plugin');
@@ -116,5 +117,11 @@ export class Plugin extends BasePlugin {
         workflow.phases.run.addStep(new Step('dotnet run', 'dotnet run', dotnetRun));
       }
     }
+  }
+
+  async getCommandServices(project: Project): Promise<Array<any>> {
+    if (!project.isUsingDotnetCore()) return;
+
+    return [CommandService];
   }
 }

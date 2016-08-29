@@ -7,6 +7,7 @@ import {Task}             from '../task-manager/task';
 import {Workflow}         from '../../project-installation/workflow';
 import {Step}             from '../../project-installation/step';
 import {CommandRunner}    from '../task-manager/command-runner';
+import {CommandService}   from './command-service';
 
 export function configure(aurelia) {
   let pluginManager = <PluginManager>aurelia.container.get(PluginManager);
@@ -52,5 +53,11 @@ export class Plugin extends BasePlugin {
       workflow.phases.run.addStep(new Step('fetch tasks', 'fetch tasks', t));
       workflow.phases.run.addStep(new Step('npm run', 'npm run', this.commandRunner.runByCmd(project, 'npm run')));
     }
+  }
+
+  async getCommandServices(project: Project): Promise<Array<any>> {
+    if (!project.isUsingWebpack()) return;
+
+    return [CommandService];
   }
 }

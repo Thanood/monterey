@@ -125,6 +125,7 @@ export class TaskManagerModal {
 
       let projNode = new TreeListNode(proj.name, childNodes);
       projNode.title = proj.name;
+      projNode.icon = 'glyphicon glyphicon-menu-down';
       projNode.data = { project: proj };
       projNode.bold = true;
 
