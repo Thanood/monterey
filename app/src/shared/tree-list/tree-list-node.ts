@@ -40,10 +40,10 @@ export class TreeListNode {
     this.expanded = !this.expanded;
 
     if(this.expanded === true){
-      this.icon = 'glyphicon glyphicon-menu-down';
+      this.icon = 'glyphicon glyphicon-menu-right';
     }
     else{
-      this.icon = 'glyphicon glyphicon-menu-right';
+      this.icon = 'glyphicon glyphicon-menu-down';
     }
   }
 }

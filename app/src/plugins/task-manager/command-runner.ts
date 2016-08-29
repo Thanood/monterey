@@ -53,7 +53,7 @@ export class CommandRunner {
     let commands = [];
 
     for (let x = 0; x < services.length; x++) {
-      commands.concat(await services[x].getCommands(project, withCache));
+      commands = commands.concat(await services[x].getCommands(project, withCache));
     }
     
     return commands;
@@ -75,6 +75,10 @@ export class CommandRunner {
           foundCommand = command;
         }
       });
+
+      if (!foundCommand) {
+        throw new Error(`did not find command ${cmd}`);
+      }
 
       return this._executor(task, project, foundCommand)();
     };

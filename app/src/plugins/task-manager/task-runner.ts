@@ -92,6 +92,8 @@ export class TaskRunner {
   }
 
   async loadCommands(category: Category, useCache: boolean) {
+    category.commands.splice(0);
+    category.selectedCommand = null;
     category.error = '';
     category.loading = true;
     category.selectedCommand = null;

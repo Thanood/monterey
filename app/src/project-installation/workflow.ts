@@ -17,7 +17,7 @@ export class Workflow {
   //   - gulp watch
   phases = {
     dependencies: new Phase('install dependencies'),
-    environment: new Phase('setup environment'),
+    environment: new Phase('setup the environment'),
     run: new Phase('start the project')
   };
 }
