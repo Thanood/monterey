@@ -1,6 +1,8 @@
 import {autoinject}    from 'aurelia-framework';
 import {Project}       from '../../shared/project';
 import {PluginManager} from '../../shared/plugin-manager';
+import {Workflow}      from '../../project-installation/workflow';
+import {Step}          from '../../project-installation/step';
 import {Task}          from '../task-manager/task';
 import {NPMDetection}  from './npm-detection';
 import {BasePlugin}    from '../base-plugin';
@@ -43,11 +45,11 @@ export class Plugin extends BasePlugin {
     return [];
   }
 
-  async getPostInstallTasks(project: Project): Promise<Array<Task>> {
-    if (project.isUsingNPM()) {
-      return [
-        this.common.installNPMDependencies(project)
-      ];
+  async resolvePostInstallWorkflow(project: Project, workflow: Workflow) {
+    if (!project.isUsingNPM()) return;
+
+    if (!workflow.phases.dependencies.stepExists('npm install')) {
+      workflow.phases.dependencies.addStep(new Step('npm install', 'npm install', this.common.installNPMDependencies(project)));
     }
   }
 }

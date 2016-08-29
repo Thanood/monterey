@@ -5,6 +5,8 @@ import {BasePlugin}             from '../base-plugin';
 import {Detection}              from './detection';
 import {Task}                   from '../task-manager/task';
 import {CommandRunner}          from '../task-manager/command-runner';
+import {Workflow}               from '../../project-installation/workflow';
+import {Step}                   from '../../project-installation/step';
 import {PluginManager}          from '../../shared/plugin-manager';
 import {Project}                from '../../shared/project';
 
@@ -46,24 +48,13 @@ export class Plugin extends BasePlugin {
     return [];
   }
 
-  async getPostInstallTasks(project: Project): Promise<Array<Task>> {
+  async resolvePostInstallWorkflow(project: Project, workflow: Workflow) {
     if (!project.isUsingAureliaCLI()) return;
 
-    // the cliProject property gets set by the scaffolding wizard
-    // so if this is truthy then we know the project was recently scaffolded
-    if (!project.__meta__.cliProject) return;
-    
-    let postInstallProcesses = project.__meta__.cliProject.postInstallProcesses || [];
-    let tasks = [];
-
-    postInstallProcesses.forEach(proc => {
-      tasks.push(new Task(project).fromPostInstallProcess(proc));
-    });
-    
-    tasks.push(new Task(project, 'Loading project tasks', () => this.commandRunner.load(project, false)));
-
-    tasks.push(this.commandRunner.runByCmd(project, 'au run --watch'));
-
-    return tasks;
+    if (!workflow.phases.run.stepExists('au run --watch')) {
+      let t = new Task(project, 'fetch tasks', () => this.commandRunner.load(project, false));
+      workflow.phases.run.addStep(new Step('fetch tasks', 'fetch tasks', t));
+      workflow.phases.run.addStep(new Step('au run --watch', 'au run --watch', this.commandRunner.runByCmd(project, 'au run --watch')));
+    }
   }
 }

@@ -1,6 +1,8 @@
 import {PluginManager} from '../../src/shared/plugin-manager';
 import {BasePlugin}    from '../../src/plugins/base-plugin';
 import {ApplicationState} from '../../src/shared/application-state';
+import {Project}          from '../../src/shared/project';
+import {Workflow}         from '../../src/project-installation/workflow';
 
 describe('PluginManager', () => {
   let pluginManager: PluginManager;
@@ -89,5 +91,46 @@ describe('PluginManager callbacks', () => {
     } catch(e) {
       d.fail(e);
     }
+  });
+});
+
+
+describe('PluginManager post install workflow resolver', () => {
+  let pluginManager: PluginManager;
+  let plugin1: BasePlugin;
+  let plugin2: BasePlugin;
+
+  beforeEach(() => {
+    pluginManager = new PluginManager();
+    
+    plugin1 = new BasePlugin();
+    plugin2 = new BasePlugin();
+  
+    pluginManager.registerPlugin(plugin1);
+    pluginManager.registerPlugin(plugin2);
+  });
+
+  it ('calls all plugins to resolve the workflow', async (r) => {
+    plugin1.resolvePostInstallWorkflow = jasmine.createSpy('resolvePostInstallWorkflow');
+    plugin2.resolvePostInstallWorkflow = jasmine.createSpy('resolvePostInstallWorkflow');
+
+    let workflow = new Workflow();
+    let project = new Project();
+    await pluginManager.resolvePostInstallWorkflow(project, workflow);
+
+    expect(plugin1.resolvePostInstallWorkflow).toHaveBeenCalled();
+    expect(plugin2.resolvePostInstallWorkflow).toHaveBeenCalled();
+    r();
+  });
+
+  it('does multiple passes so that dependencies in the workflow can be resolved', async (r) => {
+    plugin1.resolvePostInstallWorkflow = jasmine.createSpy('resolvePostInstallWorkflow');
+
+    let workflow = new Workflow();
+    let project = new Project();
+    await pluginManager.resolvePostInstallWorkflow(project, workflow);
+
+    expect((<jasmine.Spy>plugin1.resolvePostInstallWorkflow).calls.count()).toBe(3);
+    r();
   });
 });

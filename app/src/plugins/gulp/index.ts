@@ -4,6 +4,8 @@ import {BasePlugin}    from '../base-plugin';
 import {Detection}     from './detection';
 import {Project}       from '../../shared/project';
 import {Task}          from '../task-manager/task';
+import {Workflow}      from '../../project-installation/workflow';
+import {Step}          from '../../project-installation/step';
 import {CommandRunner} from '../task-manager/command-runner';
 
 export function configure(aurelia) {
@@ -42,15 +44,13 @@ export class Plugin extends BasePlugin {
     return [];
   }
 
-  async getPostInstallTasks(project: Project): Promise<Array<Task>> {
+  async resolvePostInstallWorkflow(project: Project, workflow: Workflow) {
     if (!project.isUsingGulp()) return;
-    
-    let tasks = [];
 
-    tasks.push(new Task(project, 'Loading project tasks', () => this.commandRunner.load(project, false)));
-
-    tasks.push(this.commandRunner.runByCmd(project, 'gulp watch'));
-
-    return tasks;
+    if (!workflow.phases.run.stepExists('gulp watch')) {
+      let t = new Task(project, 'fetch tasks', () => this.commandRunner.load(project, false));
+      workflow.phases.run.addStep(new Step('fetch tasks', 'fetch tasks', t));
+      workflow.phases.run.addStep(new Step('gulp watch', 'gulp watch', this.commandRunner.runByCmd(project, 'gulp watch')));
+    }
   }
 }

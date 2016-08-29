@@ -5,6 +5,8 @@ import {Detection}     from './detection';
 import {PluginManager} from '../../shared/plugin-manager';
 import {Project}       from '../../shared/project';
 import {Notification}  from '../../shared/notification';
+import {Workflow}      from '../../project-installation/workflow';
+import {Step}          from '../../project-installation/step';
 import {Errors}        from '../errors/errors';
 import {Task}          from '../task-manager/task';
 import {CommandRunner} from '../task-manager/command-runner';
@@ -72,5 +74,47 @@ export class Plugin extends BasePlugin {
     }
 
     return tasks;
+  }
+
+  async resolvePostInstallWorkflow(project: Project, workflow: Workflow, pass: number) {
+    if (!project.isUsingDotnetCore()) return;
+
+    if (pass === 1) {
+      let dotnetInstalled = false;
+      try {
+        // making sure that dotnet is installed
+        let cwd = project.packageJSONPath ? FS.getFolderPath(project.packageJSONPath) : project.path;
+        await OS.exec('dotnet --help', { cwd: cwd });
+
+        dotnetInstalled = true;
+      } catch (err) {
+        this.notification.error('Error during "dotnet --help", did you install dotnet core?');
+        logger.error(err);
+        this.errors.add(err);
+      }
+
+      if (!dotnetInstalled) return;
+
+      if (!workflow.phases.environment.stepExists('dotnet restore')) {
+        let dotnetRestore = new Task(project).fromPostInstallProcess({
+          description: 'dotnet restore',
+          command: 'dotnet',
+          args: ['restore']
+        });
+
+        workflow.phases.environment.addStep(new Step('dotnet restore', 'dotnet restore', dotnetRestore));
+      }
+
+      
+      if (!workflow.phases.run.stepExists('dotnet run')) {
+        let dotnetRun = new Task(project).fromPostInstallProcess({
+          description: 'dotnet run',
+          command: 'dotnet',
+          args: ['run']
+        });
+
+        workflow.phases.run.addStep(new Step('dotnet run', 'dotnet run', dotnetRun));
+      }
+    }
   }
 }

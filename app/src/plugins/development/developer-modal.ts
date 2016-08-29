@@ -3,12 +3,20 @@ import {DialogController}   from 'aurelia-dialog';
 import {TaskManager}        from '../task-manager/task-manager';
 import {Task}               from '../task-manager/task';
 import {ApplicationState}   from '../../shared/application-state';
+import {WorkflowViewer}     from '../../project-installation/workflow-viewer';
 
 @autoinject()
 export class DeveloperModal {
+  project;
+  workflowViewer: WorkflowViewer;
+
   constructor(private dialogController: DialogController,
               private taskManager: TaskManager,
-              private state: ApplicationState) {}
+              private state: ApplicationState) {
+    if (state.projects.length > 0) {
+      this.project = state.projects[0];
+    }
+  }
 
   createDummyTasks() {
     var firstPromise;
@@ -46,6 +54,10 @@ export class DeveloperModal {
     this.taskManager.addTask(this.state.projects[0], second);
 
     this.taskManager.startTask(first);
+  }
+
+  startWorkflow() {
+    this.workflowViewer.start();
   }
 
   throwError() {

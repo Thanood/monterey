@@ -37,8 +37,6 @@ export class Run {
         logger.info(`creating aurelia-cli project: ${JSON.stringify(this.state)}`);
 
         let proj =  await AURELIACLI.create(this.state); 
-        if (!this.state.__meta__) this.state.__meta__ = {};
-        this.state.__meta__.cliProject = proj;
 
         this.finished = true;
         this.state.successful = true;

@@ -4,6 +4,8 @@ import {Detection}     from './detection';
 import {PluginManager} from '../../shared/plugin-manager';
 import {Project}       from '../../shared/project';
 import {Task}          from '../task-manager/task';
+import {Workflow}      from '../../project-installation/workflow';
+import {Step}          from '../../project-installation/step';
 import {CommandRunner} from '../task-manager/command-runner';
 
 export function configure(aurelia) {
@@ -42,17 +44,15 @@ export class Plugin extends BasePlugin {
     return [];
   }
 
-  async getPostInstallTasks(project: Project): Promise<Array<Task>> {
+  async resolvePostInstallWorkflow(project: Project, workflow: Workflow) {
     if (!project.isUsingTypings()) return;
-    
-    let tasks = [];
 
-    tasks.push(new Task(project).fromPostInstallProcess({
-      description: 'Installing Typings',
-      command: 'node',
-      args: ['node_modules/typings/dist/bin.js', 'install']
-    }));
-
-    return tasks;
+    if (!workflow.phases.environment.stepExists('typings install')) {
+      workflow.phases.environment.addStep(new Step('typings install', 'typings install', new Task(project).fromPostInstallProcess({
+        description: 'typings install',
+        command: 'node',
+        args: ['node_modules/typings/dist/bin.js', 'install']
+      })));
+    }
   }
 }

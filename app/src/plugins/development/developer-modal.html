@@ -1,8 +1,13 @@
 <template>
+  <require from="../../project-installation/workflow-viewer"></require>
+
   <ai-dialog class="developer-modal" width="600" title="Developer" height="500">
     <ai-dialog-body>
       <button class="btn btn-primary" click.delegate="createDummyTasks()">Create dummy tasks</button>
       <button class="btn btn-primary" click.delegate="throwError()">Throw error</button>
+
+      <workflow-viewer project.bind="project" view-model.ref="workflowViewer"></workflow-viewer>
+      <button class="btn btn-primary" click.delegate="startWorkflow()">start</button>
     </ai-dialog-body>
 
     <ai-dialog-footer>

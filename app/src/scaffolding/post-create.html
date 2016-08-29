@@ -1,8 +1,7 @@
 <template>
+  <require from="../project-installation/workflow-viewer"></require>
   <h3>The project has been created!</h3>
 
   <p>Would you like to:</p>
-  <label repeat.for="action of actions" style="display: block">
-    <input type="checkbox" checked.bind="action.checked" change.delegate="onCheck(action)"/> ${action.title}
-  </label>
+  <workflow-viewer project.bind="project" checked-count.two-way="checkedCount" selected-tasks.two-way="selectedTasks" view-model.ref="workflowViewer"></workflow-viewer>
 </template>

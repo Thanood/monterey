@@ -1,0 +1,34 @@
+<template>
+  <label repeat.for="action of actions" style="display: block">
+    <input type="checkbox" checked.bind="action.checked" change.delegate="onCheck(action)"/> ${action.title}
+  </label>
+  
+  <ol class="install-workflow">
+    <li repeat.for="phase of phases">
+      <h3 class="title" style="display: inline;">
+        <label>
+          <input type="checkbox" checked.bind="phase.checked" change.delegate="onCheck(phase)"/>
+          <span class="counter"></span>
+          ${phase.description}
+        </label>
+      </h3>
+      
+      <ol>
+        <li repeat.for="step of phase.steps">
+          <label>
+            <input type="checkbox" checked.bind="step.checked" change.delegate="onCheck(phase, step)"/>
+            <span class="counter"></span>
+            ${step.title}
+          </label>
+        </li>
+      </ol>
+    </li>
+  </ol>
+
+  <style>
+    .install-workflow, .install-workflow ol { counter-reset: item }
+    .install-workflow label { font-weight: normal; }
+    .install-workflow li { display: block; }
+    .install-workflow .counter:before { content: counters(item, ".") " "; counter-increment: item }
+  </style>
+</template>

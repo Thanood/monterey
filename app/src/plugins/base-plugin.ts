@@ -32,7 +32,7 @@ export class BasePlugin {
     return [];
   }
 
-  async getPostInstallTasks(project) {
-    return [];
+  async resolvePostInstallWorkflow(project, workflow, pass: number) {
+    return workflow;
   }
 }

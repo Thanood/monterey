@@ -2,6 +2,7 @@ import {BasePlugin}         from '../plugins/base-plugin';
 import {Project}            from './project';
 import {Task}               from '../plugins/task-manager/task';
 import {ApplicationState}   from './application-state';
+import {Workflow}           from '../project-installation/workflow';
 
 export class PluginManager {
 
@@ -44,17 +45,24 @@ export class PluginManager {
     return items;
   }
 
-  async getPostInstallTasks(project: Project): Promise<Array<Task>> {
-    let items = await this.call('getPostInstallTasks', project);
+  /**
+   * resolvePostInstallWorkflow gives plugins multiple opportunities to resolve the post install workflow
+   */
+  async resolvePostInstallWorkflow(project: Project, workflow: Workflow) {
+    async function cycle (project: Project, workflow: Workflow, pass: number) {
+      for(let x = 0; x < this.plugins.length; x++) {
+        await this.plugins[x].resolvePostInstallWorkflow(project, workflow, pass);
+      }
+    }
 
-    await this.sortPostInstallTasks(items);
+    // plugins get three opportunities to make changes to the workflow
+    let cycles = 3;
 
-    return items;
-  }
+    for(let x = 1; x < (cycles + 1); x++) {
+      await cycle.call(this, project, workflow, x);
+    }
 
-  async sortPostInstallTasks(tasks: Array<Task>): Promise<Array<Task>> {
-    let items = await this.call('sortPostInstallTasks', tasks);
-    return items;
+    return workflow;
   }
  
 

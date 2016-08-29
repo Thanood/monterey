@@ -5,7 +5,6 @@ import {Task}                                 from './task';
 import {Command}                              from './command';
 import {Project}                              from '../../shared/project';
 
-
 /**
  * The CommandRunner creates a Task from a Command ('gulp watch')
  */
