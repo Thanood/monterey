@@ -1,5 +1,6 @@
 <template>
   <h4 style="display: inline">${title}</h4> 
+  <label><input type="checkbox" checked.bind="autoScroll"> Autoscroll</label>
   <ul class="logs" ref="logsDiv">
     <li style="color: white; list-style-type: none" repeat.for="log of logs">
       ${log.message}
