@@ -27,7 +27,23 @@ export class TaskDetail {
       } else {
         endDate = new Date();
       }
-      this.task.elapsed = `${moment(endDate).diff(this.task.start, 'seconds')} seconds`;
+      let duration = moment.duration(moment(endDate).diff(this.task.start));
+      let parts = [];
+      let hours = duration.hours();
+      let minutes = duration.minutes();
+      let seconds = duration.seconds();
+      if (hours > 0) {
+        parts.push(`${hours} hour${hours > 1 ? 's' : ''}`);
+      } 
+      
+      if (minutes > 0) {
+        parts.push(`${minutes} minute${minutes > 1 ? 's' : ''}`);
+      } 
+      
+      if (seconds > 0) {
+        parts.push(`${seconds} second${seconds > 1 ? 's' : ''}`);
+      }
+      this.task.elapsed = parts.join(', ');
     }
   }
 
