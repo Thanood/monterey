@@ -35,6 +35,10 @@ export class Phase {
     return Math.max(...this.steps.map(x => x.order)) + 1;
   }
 
+  sort() {
+    this.steps = this.steps.sort((a, b) => a.order - b.order);
+  }
+
   moveAfter(a: Step, b: Step) {
     if (this.steps.findIndex(x => x.order === b.order + 1) > -1) {
       this.steps.forEach(step => {

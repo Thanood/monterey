@@ -20,14 +20,15 @@
     <span show.bind="task.start && !task.end && task.estimation">
       <b>Estimation:</b> ${task.estimation}
     </span>
+    <span show.bind="!task.start && !task.end && task.dependsOn">
+      <b>Waiting for:</b> ${task.dependsOn.title}
+    </span>
     <span show.bind="task.description">
       <b>Description:</b> <span innerhtml.bind="task.description"></span><br/>
     </span>
   </p>
 
   <hr style="margin: 0">
-
-  <h4 style="margin: 0">Output</h4>
 
   <logger logs.bind="task.logs"></logger>
 </template>

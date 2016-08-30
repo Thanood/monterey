@@ -25,6 +25,7 @@ export class ProjectName {
     this.step.execute = () => this.execute();
     this.step.previous = () => this.previous();
 
+    // observe the name property, so we can check for project folder existence
     this.observer = this.bindingEngine.propertyObserver(this.state, 'name').subscribe(() => this.nameChanged());
   }
 

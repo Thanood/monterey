@@ -107,13 +107,8 @@ export class WorkflowViewer {
       return [];
     }
 
-    let prevTask;
     tasks.forEach(task => {
-      if (prevTask) {
-        task.dependsOn = prevTask;
-      }
       this.taskManager.addTask(this.project, task);
-      prevTask = task;
     });
 
     this.taskManager.startTask(tasks[0]);

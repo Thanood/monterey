@@ -105,7 +105,17 @@ export class Plugin extends BasePlugin {
 
       
       if (!workflow.phases.run.stepExists('dotnet run')) {
-        workflow.phases.environment.addStep(new Step('dotnet run', 'dotnet run', this.commandRunner.runByCmd(project, 'dotnet run')));
+        workflow.phases.run.addStep(new Step('dotnet run', 'dotnet run', this.commandRunner.runByCmd(project, 'dotnet run')));
+      }
+    }
+
+    if (pass === 2) {
+      // dotnet run and gulp watch needs to run at the same time
+      // so they can't depend on eachother, they need to depend on the task before dotnet run and gulp watch
+      if (workflow.phases.run.stepExists('dotnet run') && workflow.phases.run.stepExists('gulp watch')) {
+       let dotnet =  workflow.phases.run.getStep('dotnet run');
+       let gulp = workflow.phases.run.getStep('gulp watch');
+       (dotnet.order > gulp.order) ? dotnet.task.dependsOn = gulp.task.dependsOn : gulp.task.dependsOn = dotnet.task.dependsOn;
       }
     }
   }

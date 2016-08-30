@@ -4,6 +4,7 @@ import {Project}               from './project';
 import {Task}                  from '../plugins/task-manager/task';
 import {ApplicationState}      from './application-state';
 import {Workflow}              from '../project-installation/workflow';
+import {Phase}                 from '../project-installation/phase';
 import {CommandRunnerService}  from '../plugins/task-manager/command-runner-service';
 
 @autoinject()
@@ -73,6 +74,30 @@ export class PluginManager {
 
     for(let x = 1; x < (cycles + 1); x++) {
       await cycle.call(this, project, workflow, x);
+
+      for(let phase in workflow.phases) {
+        (<Phase>workflow.phases[phase]).sort();
+      }
+
+      // here all tasks are added
+      // so we set the task dependencies here and
+      // allow plugins to override in cycle 2 and 3
+      if (x === 1) {
+        let prevPhaseTask;
+        for(let phase in workflow.phases) {
+          let p = <Phase>workflow.phases[phase];
+          let prevTask;
+          p.steps.forEach(step => {
+            if (prevTask) {
+              step.task.dependsOn = prevTask;
+            } else if (prevPhaseTask) {
+              step.task.dependsOn = prevPhaseTask;
+            }
+            prevTask = step.task;
+            prevPhaseTask = step.task;
+          });
+        }
+      }
     }
 
     return workflow;

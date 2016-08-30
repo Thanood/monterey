@@ -29,7 +29,7 @@ describe('Workflow viewer resolving', () => {
 
     FS.getFolderPath = (p) => p;
 
-    let plugin = [JSPMPlugin, NPMPlugin, CLIPlugin, GulpPlugin, WebpackPlugin, TypingsPlugin, DotNetPlugin];
+    let plugin = [NPMPlugin, JSPMPlugin, CLIPlugin, GulpPlugin, WebpackPlugin, TypingsPlugin, DotNetPlugin];
     plugin.forEach(p => {
       pluginManager.registerPlugin(container.get(p));
     });
@@ -50,7 +50,6 @@ describe('Workflow viewer resolving', () => {
     r();
   });
     
-
   it('jspm install has higher order than npm install', async (r) => {
     proj.packageJSONPath = 'c:/mydir/package.json';
     proj.jspmVersion = '0.16.15';

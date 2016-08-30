@@ -24,7 +24,10 @@ export class ScaffoldProject {
     this.templates.push({
       name: 'Aurelia-CLI',
       source: 'cli',
-      id: 1
+      id: 1,
+      state: {
+        name: 'aurelia-app'
+      }
     });
 
     let id = 2;
@@ -50,7 +53,10 @@ export class ScaffoldProject {
     this.templates.push({
       name: 'ZIP',
       source: 'zip',
-      id: id
+      id: id,
+      state: {
+        name: 'aurelia-app'
+      }
     });
   }
 
