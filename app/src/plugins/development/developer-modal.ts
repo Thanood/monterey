@@ -25,16 +25,11 @@ export class DeveloperModal {
       return new Promise(r => {
         setTimeout(() => {
          if (!first.finished) r(); 
-        }, 20000);
+        }, 10000);
         
-        // for(let x = 1; x <= 1000; x++) {
-        //   setTimeout(() => first.addTaskLog('output'), x * 10);
-        // }
-
-        for(let x = 1; x <= 80; x++) {
-          setTimeout(() => first.addTaskLog('output'), x * 250);
+        for(let x = 1; x <= 1000; x++) {
+          setTimeout(() => first.addTaskLog('output'), x * 10);
         }
-
       });
     });
     first.stoppable = true;
@@ -56,7 +51,7 @@ export class DeveloperModal {
     second.dependsOn = first;
     second.stoppable = true;
     second.stop = async () => {};
-    // this.taskManager.addTask(this.selectedProject.current, second);
+    this.taskManager.addTask(this.selectedProject.current, second);
 
     this.taskManager.startTask(first);
   }
