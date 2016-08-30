@@ -74,6 +74,10 @@ export class GithubAPI {
     });
   }
 
+  async getContents(repository: string, path: string = '') {
+    return this.client.fetch(`${this.githubAPIUrl}/repos/${repository}/contents/${path}`);
+  }
+
   async confirmAuth() {
     if (this._authConfigured && this.state.gitAuthorization) {
       return true;

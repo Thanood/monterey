@@ -1,4 +1,5 @@
 import {TaskBar} from '../../../../src/plugins/task-manager/task-bar';
+import {Container} from 'aurelia-framework';
 import {EventAggregator} from 'aurelia-event-aggregator';
 
 describe('TaskManager taskbar', () => {
@@ -7,7 +8,9 @@ describe('TaskManager taskbar', () => {
 
   beforeEach(() => {
     ea = new EventAggregator();
-    sut = new TaskBar(ea);
+    let container = new Container();
+    container.registerInstance(EventAggregator, ea);
+    sut = container.get(TaskBar);
   });
 
   it('keeps track of running and queued tasks', () => {

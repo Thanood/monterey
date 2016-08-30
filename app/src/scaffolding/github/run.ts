@@ -41,21 +41,16 @@ export class Run {
     this.promise = new Promise(async (resolve, reject) => {
       try {
         
-        logger.info(`creating zip project: ${JSON.stringify(this.state)}`);
+        logger.info(`creating GitHub project: ${JSON.stringify(this.state)}`);
 
         let url;
         let subDir;
         let projectDir = FS.join(this.state.path, this.state.name);
 
-        if (this.state.source === 'skeleton') {
-          let releaseInfo = await this.githubAPI.getLatestReleaseZIP(this.state.skeleton.repo);
-          url = releaseInfo.zipball_url;
-          subDir = this.state.skeleton.subfolder;
-          this.logs.push(`Downloading version ${releaseInfo.tag_name}`);
-        } else {
-          url = this.state.zipUrl;
-          subDir = this.state.zipSubfolder;
-        }
+        let releaseInfo = await this.githubAPI.getLatestReleaseZIP(this.state.github.repo);
+        url = releaseInfo.zipball_url;
+        subDir = this.state.github.subfolder;
+        this.logs.push(`Downloading version ${releaseInfo.tag_name}`);
 
         await this.downloadAndExtractZIP(url, projectDir, subDir);
 

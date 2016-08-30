@@ -15,9 +15,13 @@ export class TaskBar {
   taskManagerText: string = 'Task Manager';
 
   constructor(private ea: EventAggregator,
+              private taskManager: TaskManager,
               private selectedProject: SelectedProject) {}
 
   attached() {
+    this.running = this.taskManager.tasks.filter(x => x.status === 'running').length;
+    this.queued = this.taskManager.tasks.filter(x => x.status === 'queued').length;
+
     this.subscriptions.push(this.ea.subscribe('TaskStarted', () => {
       this.queued --; this.running ++;
      }));

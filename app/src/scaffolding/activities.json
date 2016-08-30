@@ -24,14 +24,14 @@
         "nextActivity": 6
       },
       {
-        "case": "zip",
+        "case": "github",
         "nextActivity": 4
       }
     ]
   }, {
     "id": 4,
     "type": "screen",
-    "viewModel": "./zip/url-input",
+    "viewModel": "./github/url-input",
     "nextActivity": 6
   }, {
     "id": 5,
@@ -62,7 +62,7 @@
         "nextActivity": 10
       },
       {
-        "case": "zip",
+        "case": "github",
         "nextActivity": 10
       }
     ]
@@ -75,7 +75,7 @@
     "id": 10,
     "type": "screen",
     "nextActivity": 11,
-    "viewModel": "./zip/run"
+    "viewModel": "./github/run"
   }, {
     "id": 11,
     "type": "screen",

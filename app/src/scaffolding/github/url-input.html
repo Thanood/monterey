@@ -1,0 +1,23 @@
+<template>
+  <form validation-renderer="bootstrap-form" class="scaffolding-project-detail">
+    <div class="form-group">
+      GitHub URL:
+      <input type="textbox"
+              class="form-control"
+              value.bind="repo & debounce:500"/>
+      <input type="hidden" value.bind="state.github.repo & validate"/>
+      ${error}
+    </div>
+      
+    <p show.bind="loading" style="display: inline">Loading subdirectories</p>
+    <i class="fa fa-spinner fa-spin" show.bind="loading"></i>
+    
+    <div class="form-group">
+      Subfolder (optional):
+      <select class="form-control" value.bind="state.github.subfolder">
+        <option model.bind="null">No subfolder</option>
+        <option repeat.for="subdir of subdirectories" value.bind="subdir">${subdir}</option>
+      </select>
+    </div>
+  </form>
+</template>

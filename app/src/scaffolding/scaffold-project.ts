@@ -41,7 +41,7 @@ export class ScaffoldProject {
         state: {
           // set the default name of the project to the name of the skeleton
           name: skeleton.name,
-          skeleton: skeleton
+          github: skeleton
         },
         id: id
       });
@@ -51,11 +51,12 @@ export class ScaffoldProject {
 
 
     this.templates.push({
-      name: 'ZIP',
-      source: 'zip',
+      name: 'GitHub',
+      source: 'github',
       id: id,
       state: {
-        name: 'aurelia-app'
+        name: 'aurelia-app',
+        github: {}
       }
     });
   }
@@ -82,7 +83,9 @@ export class ScaffoldProject {
   }
 
   selectedTemplateChanged() {
-    this.state = Object.assign({}, this.selectedTemplate.state || {}, {
+    let template = this.selectedTemplate.state ? JSON.parse(JSON.stringify(this.selectedTemplate.state)) : {};
+
+    this.state = Object.assign({}, template || {}, {
       source: this.selectedTemplate.source
     });
     // copy activities JSON so multiple sessions can be started without new session inheriting answers
