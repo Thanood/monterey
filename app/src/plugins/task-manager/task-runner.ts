@@ -45,11 +45,19 @@ export class TaskRunner {
     }
 
     if (this.favoriteTab) {
-      $(this.favoriteTab).tab('show');
-      $(this.favoriteTab).show();
+      this.showFavoriteTab();
+    } else {
+      setTimeout(() => this.showFavoriteTab());
     }
 
     this.load();
+  }
+
+  showFavoriteTab() {
+    if (this.favoriteTab) {
+      $(this.favoriteTab).tab('show');
+      $(this.favoriteTab).show();
+    }
   }
 
   async load() {
