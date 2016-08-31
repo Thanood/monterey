@@ -3,6 +3,7 @@ import {DialogController}     from 'aurelia-dialog';
 import {FS, NPM}              from 'monterey-pal';
 import {ProjectManager}       from '../shared/project-manager';
 import {MontereyRegistries}   from '../shared/monterey-registries';
+import {Settings}             from '../shared/settings';
 import {Workflow}             from './workflow';
 import * as activities        from './activities.json!';
 
@@ -16,6 +17,7 @@ export class ScaffoldProject {
 
   constructor(private dialog: DialogController,
               private projectManager: ProjectManager,
+              private settings: Settings,
               private registries: MontereyRegistries) {
   }
 
@@ -88,6 +90,11 @@ export class ScaffoldProject {
     this.state = Object.assign({}, template || {}, {
       source: this.selectedTemplate.source
     });
+
+    if (this.settings.getValue('new-project-folder')) {
+      this.state.path = this.settings.getValue('new-project-folder');
+    }
+
     // copy activities JSON so multiple sessions can be started without new session inheriting answers
     this.workflow = new Workflow(JSON.parse(JSON.stringify(activities)), this.state);
   }
@@ -102,6 +109,14 @@ export class ScaffoldProject {
     let curStep = this.workflow.currentStep;
     if (curStep && curStep.project) {
       await curStep.execute();
+
+      // save the project directory so we can use that as default in
+      // next sessions
+      if (!this.settings.getValue('new-project-folder')) {
+        this.settings.setValue('new-project-folder', this.state.path);
+        await this.settings.save();
+      }
+
       this.dialog.ok(curStep.project);
     } else {
       this.dialog.cancel();

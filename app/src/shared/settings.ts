@@ -28,8 +28,15 @@ export class Settings {
   }
 
   getValue(identifier: string) {
-    let setting = this.state.settings.find(x => x.identifier === identifier);
+    let setting = this.getSetting(identifier);
     return setting ? setting.value : null;
+  }
+
+  async setValue(identifier: string, value: any) {
+    let setting = this.getSetting(identifier);
+    if (setting) {
+      setting.value = value;
+    }
   }
 
   getSettings() {

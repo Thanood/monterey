@@ -1,14 +1,16 @@
 <template>
-  <div class="form-group" repeat.for="setting of _settings">
-    <div if.bind="setting.type === 'boolean'">
-      <label class="control-label">
-        <input type="checkbox" checked.bind="setting.value">
-        ${setting.title}
-      </label>
-    </div>
-    <div if.bind="setting.type === 'string'">
-      <label class="control-label">${setting.title}</label>
-      <input type="text" value.bind="setting.value">
+  <div class="row" repeat.for="setting of _settings">
+    <div class="form-group col-md-6">
+      <div if.bind="setting.type === 'boolean'">
+        <label class="control-label">
+          <input type="checkbox" checked.bind="setting.value">
+          ${setting.title}
+        </label>
+      </div>
+      <div if.bind="setting.type === 'string'">
+        <label class="control-label">${setting.title}</label><br>
+        <input type="text" class="form-control" value.bind="setting.value">
+      </div>
     </div>
   </div>
 
