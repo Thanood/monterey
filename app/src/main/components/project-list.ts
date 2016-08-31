@@ -58,8 +58,8 @@ export class ProjectList {
   }
 
   select(index: number) {
-    if (this.state.projects.length > index) {
-      this.selectedProject.set(this.state.projects[index]);
+    if (this.projectGrid.ctx.vGridCollection.length > index) {
+      this.selectedProject.set(this.projectGrid.ctx.vGridCollection[index]);
 
       this.projectGrid.ctx.vGridSelection.select(index);
       this.projectGrid.ctx.vGridGenerator.updateSelectionOnAllRows();
