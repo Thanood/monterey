@@ -1,12 +1,12 @@
 import {autoinject, singleton} from 'aurelia-framework';
 import {withModal}         from '../shared/decorators';
 import {ProjectFinder}     from '../shared/project-finder';
-import {ProjectManager}    from '../shared/project-manager';
 import {SelectedProject}   from '../shared/selected-project';
+import {Project}           from '../shared/project';
 import {TaskManager}       from '../plugins/task-manager/task-manager';
 import {ScaffoldProject}   from '../scaffolding/scaffold-project';
 import {Tiles}             from './components/tiles';
-import {Project}           from '../shared/project';
+import {ProjectList}       from './components/project-list';
 
 @autoinject()
 @singleton()
@@ -15,10 +15,10 @@ export class Main {
   _activePluginScreenModel;
   _activePluginScreen: string;
   tilesVM: Tiles;
+  projectList: ProjectList;
   pluginViewActivated: boolean;
 
   constructor(private projectFinder: ProjectFinder,
-              private projectManager: ProjectManager,
               private selectedProject: SelectedProject,
               private taskManager: TaskManager) {
   }
@@ -28,21 +28,7 @@ export class Main {
   }
 
   async removeProject() {
-    if (!this.selectedProject.current) {
-      return;
-    }
-
-    if (!confirm('Are you sure? We will not remove the actual project')) {
-      return;
-    }
-
-    await this.projectManager.removeProject(this.selectedProject.current);
-
-    if (this.projectManager.state.projects.length > 0) {
-      this.selectedProject.set(this.projectManager.state.projects[0]);
-    } else {
-      this.selectedProject.set(null);
-    }
+    await this.projectList.removeProject();
   }
 
   @withModal(ScaffoldProject)
