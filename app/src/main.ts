@@ -4,6 +4,7 @@ import {MonteryLogAppender}              from './shared/monterey-logger';
 import {BootstrapFormValidationRenderer} from './shared/bootstrap-validation-renderer';
 import {KendoAureliaDialogRenderer}      from './shared/kendo-aurelia-dialog-renderer';
 import {ApplicationState}                from './shared/application-state';
+import {ProjectManager}                  from './shared/project-manager';
 import {Cleanup}                         from './shared/cleanup';
 import {IPC}                             from './shared/ipc';
 import {GlobalExceptionHandler}          from './shared/global-exception-handler';
@@ -27,9 +28,11 @@ export async function configure(aurelia: Aurelia) {
     .feature('scaffolding')
     .feature('plugins');
 
+  // register monterey's log appender
   LogManager.addAppender(aurelia.container.get(MonteryLogAppender));
   LogManager.setLevel(LogManager.logLevel.debug);
 
+  // initialize the logger
   try {
     let logger = aurelia.container.get(FileSystemLogger);
     await logger.activate();
@@ -42,6 +45,14 @@ export async function configure(aurelia: Aurelia) {
   let ipc = new IPC(aurelia);
   let globalExceptionHandler = new GlobalExceptionHandler(aurelia);
 
+
+  // restore the session
+  let applicationState = <ApplicationState>aurelia.container.get(ApplicationState);
+  let projectManager = <ProjectManager>aurelia.container.get(ProjectManager);
+  if (!(await applicationState._isNew())) {
+    await applicationState._loadStateFromSession();
+    await projectManager.verifyProjectsExistence();
+  }
   
   
   // register the bootstrap validation error renderer under the bootstrap-form key

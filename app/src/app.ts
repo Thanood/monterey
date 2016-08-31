@@ -11,17 +11,6 @@ export class App {
               private projectManager: ProjectManager) {
   }
 
-  async activate() {
-    if (await this.applicationState._isNew()) {
-      await this.pluginManager.notifyOfNewSession(this.applicationState);
-      await this.applicationState._save();
-    } else {
-      await this.applicationState._loadStateFromSession();
-
-      await this.projectManager.verifyProjectsExistence();
-    }
-  }
-
   configureRouter(config, router) {
     config.title = 'Monterey';
 
