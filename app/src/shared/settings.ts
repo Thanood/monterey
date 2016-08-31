@@ -10,7 +10,8 @@ export interface Setting {
 
 @autoinject()
 export class Settings {
-  constructor(private state: ApplicationState) {}
+  constructor(private state: ApplicationState) {
+  }
 
   /**
    * Adds a setting to the applicationstate when the setting

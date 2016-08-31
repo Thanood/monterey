@@ -109,7 +109,7 @@ describe('FileSystemLogger', () => {
       else return new Date();
     };
 
-    await sut.clearLog(3);
+    await sut._cleanupLogs(3);
 
     expect(FS.unlink).toHaveBeenCalledWith('c:/appdata/monterey/logs/1.csv');
     expect(FS.unlink).toHaveBeenCalledWith('c:/appdata/monterey/logs/2.csv');

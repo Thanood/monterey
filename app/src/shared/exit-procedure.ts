@@ -1,6 +1,6 @@
 import {OS} from 'monterey-pal';
 
-export class Cleanup {
+export class ExitProcedure {
   constructor() {
     // onbeforeunload is called before monterey is quit
     // which you can cancel by setting the returnValue

@@ -1,19 +1,20 @@
+import {autoinject}   from 'aurelia-framework';
 import {FS, ELECTRON} from 'monterey-pal';
+import {Settings}     from './settings';
 
+@autoinject()
 export class FileSystemLogger {
-
+  logFolder: string;
   buffer: string = '';
   timeout: number;
+  timer = 10000;
+  days = 5;
   deleteAfterDays: number;
   logFileName: string;
   logFilePath: string;
 
-  constructor(public logFolder?: string, 
-              public timer: number = 10000, 
-              public days: number = 5) {
-    if (!this.logFolder) {
-      this.logFolder = FS.join(ELECTRON.getPath('userData'), 'logs');
-    }
+  constructor(public settings: Settings) {
+    this.logFolder = FS.join(ELECTRON.getPath('userData'), 'logs');
     this.logFileName = this.getLogFileName();
     this.logFilePath = FS.join(this.logFolder, this.logFileName);
   }
@@ -50,7 +51,7 @@ export class FileSystemLogger {
   }
 
   // cleanup old log files
-  async clearLog(days) {
+  async _cleanupLogs(days) {
     // get the date of 5 days ago
     let tempDate = new Date();
     tempDate.setDate(tempDate.getDate() - days);
@@ -75,6 +76,24 @@ export class FileSystemLogger {
           console.log(`could not get modified date of ${filePath}`);
           console.log(e);
         }
+      }
+    }
+  }
+
+  async cleanupLogs() {
+    this.settings.addSetting({
+      identifier: 'cleanup-logs',
+      title: 'Clean up old log files?',
+      type: 'boolean',
+      value: true
+    });
+
+    if (this.settings.getValue('cleanup-logs')) {
+      try {
+        await this._cleanupLogs(this.deleteAfterDays);
+      } catch(e) {
+        console.log('error while trying to clear log');
+        console.log(e);
       }
     }
   }
@@ -140,15 +159,8 @@ export class FileSystemLogger {
   async activate() {
     await this.verifyLogPathAndFile();
 
-    try {
-      await this.clearLog(this.deleteAfterDays);
-    } catch(e) {
-      console.log('error while trying to clear log');
-      console.log(e);
-    }
-
     this.addFlushDelay();
-
+    
     this.writeToBuffer('info', 'monterey', 'application started');
   }
 };

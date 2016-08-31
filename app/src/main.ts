@@ -5,7 +5,7 @@ import {BootstrapFormValidationRenderer} from './shared/bootstrap-validation-ren
 import {KendoAureliaDialogRenderer}      from './shared/kendo-aurelia-dialog-renderer';
 import {ApplicationState}                from './shared/application-state';
 import {ProjectManager}                  from './shared/project-manager';
-import {Cleanup}                         from './shared/cleanup';
+import {ExitProcedure}                   from './shared/exit-procedure';
 import {IPC}                             from './shared/ipc';
 import {GlobalExceptionHandler}          from './shared/global-exception-handler';
 import {FileSystemLogger}                from './shared/file-system-logger';
@@ -33,15 +33,15 @@ export async function configure(aurelia: Aurelia) {
   LogManager.setLevel(LogManager.logLevel.debug);
 
   // initialize the logger
+  let logger = <FileSystemLogger>aurelia.container.get(FileSystemLogger);
   try {
-    let logger = aurelia.container.get(FileSystemLogger);
     await logger.activate();
   } catch (e) {
     console.log('failed to initialize logger');
     console.log(e);
   }
 
-  let cleanup = new Cleanup();
+  let exitProcedure = new ExitProcedure();
   let ipc = new IPC(aurelia);
   let globalExceptionHandler = new GlobalExceptionHandler(aurelia);
 
@@ -53,6 +53,8 @@ export async function configure(aurelia: Aurelia) {
     await applicationState._loadStateFromSession();
     await projectManager.verifyProjectsExistence();
   }
+
+  await logger.cleanupLogs();
   
   
   // register the bootstrap validation error renderer under the bootstrap-form key
