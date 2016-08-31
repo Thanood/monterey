@@ -1,6 +1,6 @@
 import {ELECTRON, OS} from 'monterey-pal';
 import {LogManager}   from 'aurelia-framework';
-import {Notification} from './shared/notification';
+import {Notification} from './notification';
 
 export class IPC {
   constructor(aurelia) {

@@ -1,4 +1,4 @@
-import {ProjectManager} from '../../src/shared/project-manager';
+import {ProjectManager} from '../../../src/shared/project-manager';
 import {initializePAL} from 'monterey-pal';
 
 describe('ProjectManager removeProject', () => {

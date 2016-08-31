@@ -1,18 +1,17 @@
+import {autoinject} from 'aurelia-framework';
 import {Logger} from 'aurelia-logging';
-import {ELECTRON, OS} from 'monterey-pal';
+import {FileSystemLogger} from './file-system-logger';
 
 /*
  * An implementation of the Appender interface.
  */
+@autoinject()
 export class MonteryLogAppender {
-  ipcRenderer;
 
-  constructor() {
-    this.ipcRenderer = ELECTRON.getIpcRenderer();
-  }
+  constructor(private fsLogger: FileSystemLogger) {}
 
   /**
-   * Sends csv data to ipc event listener
+   * Write message to file system logger
    *
    * @param args Obj from logger
    */
@@ -34,13 +33,7 @@ export class MonteryLogAppender {
       });
     }
 
-    let logMsg = {
-      id: logger.id,
-      type: level,
-      msg: msg
-    };
-
-    this.ipcRenderer.send('log-message', logMsg);
+    this.fsLogger.writeToBuffer(level, logger.id, msg);
   }
 
   /**

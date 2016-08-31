@@ -23,6 +23,13 @@ declare module 'monterey-pal' {
       downloadFile(url: any, targetPath: any): void;
       _downloadFile(stream: any, url: any, targetPath: any): void;
       createFolder(path: string): Promise<void>;
+      access(p: string, flags): Promise<boolean>;
+      readdir(p: string): Promise<Array<any>>;
+      unlink(p: string): Promise<void>;
+      stat(p: string): Promise<any>;
+      mkdir(p: string): Promise<void>;
+      appendFile(p: string, text: string): Promise<void>;
+      getConstants(): any;
   };
   export const SESSION: {
       get(key: any): void;

@@ -1,4 +1,4 @@
-import {ApplicationState} from '../../src/shared/application-state';
+import {ApplicationState} from '../../../src/shared/application-state';
 import {initializePAL} from 'monterey-pal';
 
 describe('ApplicationState object normalizer', () => {

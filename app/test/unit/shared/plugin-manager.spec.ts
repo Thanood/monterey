@@ -1,10 +1,10 @@
-import {PluginManager} from '../../src/shared/plugin-manager';
-import {BasePlugin}    from '../../src/plugins/base-plugin';
-import {ApplicationState} from '../../src/shared/application-state';
-import {Project}          from '../../src/shared/project';
-import {Task}             from '../../src/plugins/task-manager/task';
-import {Workflow}         from '../../src/project-installation/workflow';
-import {Step}             from '../../src/project-installation/step';
+import {PluginManager} from '../../../src/shared/plugin-manager';
+import {BasePlugin}    from '../../../src/plugins/base-plugin';
+import {ApplicationState} from '../../../src/shared/application-state';
+import {Project}          from '../../../src/shared/project';
+import {Task}             from '../../../src/plugins/task-manager/task';
+import {Workflow}         from '../../../src/project-installation/workflow';
+import {Step}             from '../../../src/project-installation/step';
 
 describe('PluginManager', () => {
   let pluginManager: PluginManager;

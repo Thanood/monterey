@@ -1,5 +1,5 @@
 import {LogManager}                      from 'aurelia-framework';
-import {Errors}                          from './plugins/errors/errors';
+import {Errors}                          from '../plugins/errors/errors';
 
 export class GlobalExceptionHandler {
   constructor(aurelia) {

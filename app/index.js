@@ -17,20 +17,7 @@ var mainWindow, client;
 const fixPath = require('fix-path');
 fixPath();
 
-// activate the logger
-const logFolder = path.join(app.getPath('userData'), 'logs');
-const Logger = require('./logger');
-var log = new Logger(logFolder, app);
-log.activate();
-
-
 app.commandLine.appendSwitch('enable-transparent-visuals');
-
-
-// flush the log buffer before quit
-app.on('before-quit', (e) => {
-  log.flushBuffer();
-});
 
 const handleStartupEvent = require('./startuphandler.js');
 const update = require('./updater');
@@ -55,7 +42,6 @@ if (isDev() || !handleStartupEvent()) {
     global.rootDir = __dirname;
     global.app = app;
     global.environment = environment;
-    global.logFolder = logFolder;
     global.node_modules = path.join(__dirname, 'node_modules');
 
     mainWindow.loadURL(getIndex());
@@ -125,7 +111,7 @@ let devMenuTemplate = [
     }, {
       label: 'Logs',
       click: function() {
-        shell.showItemInFolder(logFolder);
+        shell.showItemInFolder(path.join(app.getPath('userData'), 'logs'));
       }
     }, {
       label: 'Clear cache',

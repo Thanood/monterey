@@ -1,5 +1,5 @@
-import {GlobalExceptionHandler} from '../../src/global-exception-handler';
-import {Errors}                 from '../../src/plugins/errors/errors';
+import {GlobalExceptionHandler} from '../../../src/shared/global-exception-handler';
+import {Errors}                 from '../../../src/plugins/errors/errors';
 import {Container}              from 'aurelia-framework';
 import {LogManager}             from 'aurelia-framework';
 

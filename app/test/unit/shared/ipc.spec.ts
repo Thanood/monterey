@@ -1,8 +1,8 @@
-import {IPC}          from '../../src/ipc';
+import {IPC}          from '../../../src/shared/ipc';
 import {Container}    from 'aurelia-framework';
 import {LogManager}   from 'aurelia-framework';
 import {ELECTRON}     from 'monterey-pal';
-import {Notification} from '../../src/shared/notification';
+import {Notification} from '../../../src/shared/notification';
 
 describe('IPC', () => {
   let sut: IPC;
