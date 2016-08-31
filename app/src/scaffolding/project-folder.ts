@@ -48,6 +48,10 @@ export class ProjectFolder {
       properties: ['openDirectory']
     });
 
-    this.state.path = path;
+    if(path && path.length > 0) {
+      this.state.path = path[0];
+    } else {
+      this.state.path = null;
+    }
   }
 }
