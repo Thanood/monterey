@@ -1,0 +1,16 @@
+<template>
+  <i class="fa fa-spinner fa-spin fa-3x" if.bind="loading"></i>
+
+  <div class="form-group">
+    <label class="control-label" for="npmRegistry">NPM Registry</label>
+    <input type="text" class="form-control" id="npmRegistry"
+            value.bind="npmRegistry">
+  </div>
+  <div class="form-group">
+    <label class="control-label" for="enabled">Strict-SSL</label>
+    <input type="checkbox" id="enabled"
+            checked.bind="npmStrictSSL">
+  </div>
+
+  <button click.delegate="save()" class="btn btn-primary">Save</button>
+</template>

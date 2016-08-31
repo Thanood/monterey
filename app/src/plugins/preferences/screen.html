@@ -3,50 +3,16 @@
     <button class="returnToPluginListBtn btn btn-primary" click.delegate="goBack()">Back</button>
     <h1 class="plugin-title">Preferences</h1>
   </div>
-  <i class="fa fa-spinner fa-spin fa-3x" if.bind="loading"></i>
-  <div class="plugin-content-container" if.bind="!loading">
-    <form validation-renderer="bootstrap-form">
-      <div class="form-group">
-        <label class="control-label" for="title">Github credentials</label>
-        <button if.bind="!state.gitAuthorization" click.delegate="configureGithub()" class="btn btn-primary">Configure
-        </button>
-        <button if.bind="state.gitAuthorization" click.delegate="clearGithub()" class="btn btn-primary">Clear
-          credentials
-        </button>
-      </div>
-    </form>
+  <div class="plugin-content-container">
+    <!-- Nav tabs -->
+    <ul class="nav nav-tabs" ref="nav" role="tablist">
+      <li repeat.for="tab of tabs" role="presentation"><a href="#${tab.title}" ref="tab.element" role="tab" data-toggle="tab">${tab.title}</a></li>
+    </ul>
 
-    <hr />
-
-    <h3>Manage endpoints</h3>
-    <button click.delegate="manageEndpoints()" class="btn btn-primary">Manage</button>
-
-    <hr />
-    <h3>NPM settings</h3>
-    <div class="form-group">
-      <label class="control-label" for="npmRegistry">NPM Registry</label>
-      <input type="text" class="form-control" id="npmRegistry"
-              value.bind="npmRegistry">
-    </div>
-    <div class="form-group">
-      <label class="control-label" for="enabled">Strict-SSL</label>
-      <input type="checkbox" id="enabled"
-              checked.bind="npmStrictSSL">
-    </div>
-
-    <hr />
-
-    <div if.bind="development">
-      <h3>Development</h3>
-      <div class="form-group">
-        <label class="control-label" for="developmentToolsVisible">Show development tools?</label>
-        <input type="checkbox" id="developmentToolsVisible"
-                checked.bind="state.developmentToolsVisible">
+    <div class="tab-content">
+      <div repeat.for="tab of tabs" role="tabpanel" class="tab-pane" id="${tab.title}">
+        <compose view-model="${tab.viewModel}"></compose>
       </div>
     </div>
-
-    <hr />
-    
-    <button click.delegate="save()" class="btn btn-primary">Save</button>
   </div>
 </template>

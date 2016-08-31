@@ -2,6 +2,7 @@ import {autoinject}       from 'aurelia-framework';
 import {PluginManager}    from '../../shared/plugin-manager';
 import {BasePlugin}       from '../base-plugin';
 import {ApplicationState} from '../../shared/application-state';
+import {Settings}         from '../../shared/settings';
 import {SESSION}          from 'monterey-pal';
 
 export function configure(aurelia) {
@@ -12,19 +13,22 @@ export function configure(aurelia) {
 
 @autoinject()
 class Plugin extends BasePlugin {
-  constructor(private state: ApplicationState) {
+  constructor(private state: ApplicationState,
+              private settings: Settings) {
     super();
-  }
 
-  async onNewSession(state) {
     if (SESSION.getEnv() === 'development') {
-      state.developmentToolsVisible = true;
+      this.settings.addSetting({ 
+        identifier: 'show-development-tools', 
+        title: 'Show development tools?', 
+        type: 'boolean', 
+        value: true 
+      });
     }
-    return state;
   }
 
   async getTaskBarItems(project) {
-    if (this.state.developmentToolsVisible) {
+    if (this.settings.getValue('show-development-tools')) {
       return ['plugins/development/task-bar'];
     }
 
