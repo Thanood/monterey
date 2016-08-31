@@ -53,5 +53,6 @@ export class ProjectFolder {
     } else {
       this.state.path = null;
     }
+    this.state.folder = this.state.path;
   }
 }

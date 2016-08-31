@@ -113,7 +113,7 @@ export class ScaffoldProject {
       // save the project directory so we can use that as default in
       // next sessions
       if (!this.settings.getValue('new-project-folder')) {
-        this.settings.setValue('new-project-folder', this.state.path);
+        this.settings.setValue('new-project-folder', this.state.folder);
         await this.settings.save();
       }
 
