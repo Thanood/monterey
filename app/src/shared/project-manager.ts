@@ -40,7 +40,7 @@ export class ProjectManager {
   /**
   * Main entry point for adding projects to Monterey
   */
-  async addProject(projectObj): Promise<Project|boolean> {
+  async addProject(projectObj): Promise<Project> {
     // have all plugins evaluate the project
     projectObj = await this.pluginManager.evaluateProject(projectObj);
 
