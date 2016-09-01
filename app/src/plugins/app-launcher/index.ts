@@ -35,16 +35,14 @@ class Plugin extends BasePlugin {
     let launchers = (project.appLaunchers || []).concat(this.state.appLaunchers || []);
 
     launchers.forEach(launcher => {
-      if (launcher.data.enabled) {
-        // how many launchers are there with the same title?
-        // needed to create a unique tile name
-        let launchersSameName = tiles.filter(x => x.name.startsWith(`app-launcher-${launcher.data.title}`)).length;
-        tiles.push({
-          name: `app-launcher-${launcher.data.title}-${launchersSameName}`,
-          viewModel: 'plugins/app-launcher/tile',
-          model: launcher.data
-        });
-      }
+      // how many launchers are there with the same title?
+      // needed to create a unique tile name
+      let launchersSameName = tiles.filter(x => x.name.startsWith(`app-launcher-${launcher.data.title}`)).length;
+      tiles.push({
+        name: `app-launcher-${launcher.data.title}-${launchersSameName}`,
+        viewModel: 'plugins/app-launcher/tile',
+        model: launcher.data
+      });
     });
 
     return tiles;

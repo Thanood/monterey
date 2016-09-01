@@ -3,11 +3,6 @@
   <p show.bind="launcher.description">${launcher.data.description}</p>
   <form validation-renderer="bootstrap-form">
     <div class="form-group">
-      <label class="control-label" for="enabled">Enabled</label>
-      <input type="checkbox" id="enabled"
-              checked.bind="launcher.data.enabled">
-    </div>
-    <div class="form-group">
       <label class="control-label" for="title">Title</label>
       <input type="text" class="form-control" id="title"
               value.bind="launcher.data.title">

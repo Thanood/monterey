@@ -38,8 +38,7 @@ export class AppLauncherEditor {
     this.launchers.push({
       id: new RandomNumber().create(),
       data: {
-        title: 'Name',
-        enabled: true
+        title: 'Name'
       }
     });
 
@@ -49,7 +48,7 @@ export class AppLauncherEditor {
   }
 
   remove() {
-    if (!confirm('Are you sure?')) {
+    if (!confirm(`Are you sure that you want to delete "${this.selectedLauncher.data.title}"?`)) {
       return;
     } 
 
@@ -85,7 +84,7 @@ export class AppLauncherEditor {
   }
 
   async save() {
-    if (this.launchers.filter(x => x.data.enabled && !x.data.title).length > 0) {
+    if (this.launchers.filter(x => !x.data.title).length > 0) {
       this.notification.error('All app launchers need a title');
       return;
     }

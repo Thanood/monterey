@@ -19,7 +19,6 @@
         <li class="list-group-item ${launcher.id === selectedLauncher.id ? 'selected': ''}"
             repeat.for="launcher of launchers"
             click.delegate="selectLauncher(launcher)">
-          <input type="checkbox" checked.bind="launcher.data.enabled" />
           <span title.bind="launcher.data.title">
             ${launcher.data.title}
           </span>
