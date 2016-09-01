@@ -1,9 +1,11 @@
 import {autoinject, bindable}            from 'aurelia-framework';
+import {withModal}                       from '../../shared/decorators';
 import {ApplicationState}                from '../../shared/application-state';
 import {Project}                         from '../../shared/project';
 import {Notification}                    from '../../shared/notification';
 import {SelectedProject}                 from '../../shared/selected-project';
 import {ProjectManager}                  from '../../shared/project-manager';
+import {RenameModal}                     from './rename-modal';
 import {EventAggregator, Subscription}   from 'aurelia-event-aggregator';
 import {ContextMenu}                     from 'context-menu/context-menu'; 
 
@@ -52,10 +54,14 @@ export class ProjectList {
     let projRow = $(clickedElement).closest('.vGrid-row')[0];
     let rowNr = $(projRow).attr('row');
     this.select(parseInt(rowNr, 0));
-    builder.addItem({ title: 'Remove project', onClick: () => {
-      this.removeProject();
-    }});
+
+    builder
+    .addItem({ title: 'Rename project', onClick:  () => this.renameProject() })
+    .addItem({ title: 'Remove project', onClick: () => this.removeProject() });
   }
+
+  @withModal(RenameModal)
+  renameProject() {}
 
   select(index: number) {
     if (this.projectGrid.ctx.vGridCollection.length > index) {
