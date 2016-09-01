@@ -130,6 +130,44 @@ let devMenuTemplate = [
         shell.showItemInFolder(path.join(app.getPath('userData'), 'logs'));
       }
     }, {
+      label: 'Dump session to log',
+      click: function() {
+        
+        const storage = require('electron-json-storage');
+        new Promise(resolve => {
+          storage.keys(function(error, keys) {
+            if (error) throw error;
+
+            resolve(keys);
+          });
+        }).then(keys => {
+          let promises = [];
+
+          for(let x = 0; x < keys.length; x++) {
+            promises.push(new Promise(resolve => {
+              storage.get(keys[x], (error, data) => {
+                if (error) throw error;
+
+                resolve({ key: keys[x], data: data });
+              });
+            }));
+          }
+          return Promise.all(promises);
+        })
+        .then(all => {
+          for(let x = 0; x < all.length; x++) {
+            if (all[x].key.startsWith('state')) {
+              notify(false, 'info', 'info', all[x].data);
+            }
+          }
+          var dialog = electron.dialog;
+          dialog.showMessageBox(mainWindow, { type: 'info', message: 'done', buttons: []});    
+        }).catch(e => {
+          var dialog = electron.dialog;
+          dialog.showMessageBox(mainWindow, { type: 'error', message: 'failed: ' + e.message, buttons: []});    
+        });
+      }
+    }, {
       label: 'Start from scratch',
       click: function() {
         if (!confirm('Are you sure? Monterey will start from scratch. This is meant as a last resort.')) {
