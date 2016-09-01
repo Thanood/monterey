@@ -20,7 +20,7 @@
     <span show.bind="task.start && !task.end && task.estimation">
       <b>Estimation:</b> ${task.estimation}
     </span>
-    <span show.bind="!task.start && !task.end && task.dependsOn">
+    <span show.bind="task.status === 'queued' && task.dependsOn">
       <b>Waiting for:</b> ${task.dependsOn.title}
     </span>
     <span show.bind="task.description">

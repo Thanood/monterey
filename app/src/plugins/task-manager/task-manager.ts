@@ -91,9 +91,6 @@ export class TaskManager {
       this.startDependingTasks(task);
     }
 
-    let index = this.tasks.indexOf(task);
-    this.tasks.splice(index, 1);
-
     this.ea.publish('TaskFinished', { error: errorred, project: task.project, task: task });
   }
 
@@ -135,10 +132,10 @@ export class TaskManager {
    * Cancells all dependent tasks of a task
    */
   async stopTaskDependencies(task: Task) {
-    for(let x = this.tasks.length - 1; x >= 0; x--) {
+    for(let x = 0; x < this.tasks.length; x++) {
       let t = this.tasks[x];
       if (t.dependsOn === task) {
-        await this._stopTask(t);
+       await this._stopTask(this.tasks[x]);
       }
     }
   }

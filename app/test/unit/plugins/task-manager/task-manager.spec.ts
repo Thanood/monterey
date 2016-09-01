@@ -150,18 +150,6 @@ describe('TaskManager', () => {
     });    
   });
 
-  it ('removes task from local tasks array when finished', (r) => {
-    let project = new Project();
-    let task = new Task(project, 'jspm install', () => Promise.reject(new Error('something failed')));
-
-    taskManager.addTask(project, task);
-    taskManager.startTask(task)
-    .then(() => {
-      expect(taskManager.tasks.length).toBe(0);
-      r();
-    });    
-  });
-
   it ('sets finished to true and sets end date when task has finished', (r) => {
     let project = new Project();
     let task = new Task(project, 'jspm install', () => Promise.reject(new Error('something failed')));

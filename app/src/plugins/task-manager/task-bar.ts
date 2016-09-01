@@ -9,30 +9,29 @@ import {TaskManagerModal} from './task-manager-modal';
 export class TaskBar {
   subscriptions: Array<Subscription> = [];
 
-  @bindable running: number = 0;
-  @bindable queued: number = 0;
+  running: number = 0;
+  queued: number = 0;
   busy: boolean;
   taskManagerText: string = 'Task Manager';
 
   constructor(private ea: EventAggregator,
               private taskManager: TaskManager,
-              private selectedProject: SelectedProject) {}
+              private selectedProject: SelectedProject) {
+}
 
   attached() {
-    this.running = this.taskManager.tasks.filter(x => x.status === 'running').length;
-    this.queued = this.taskManager.tasks.filter(x => x.status === 'queued').length;
-
-    this.subscriptions.push(this.ea.subscribe('TaskStarted', () => {
-      this.queued --; this.running ++;
-     }));
-    this.subscriptions.push(this.ea.subscribe('TaskAdded', () => this.queued ++));
-    this.subscriptions.push(this.ea.subscribe('TaskFinished', () => this.running --));
+    this.subscriptions.push(this.ea.subscribe('TaskAdded', () => this.propertyChanged()));
+    this.subscriptions.push(this.ea.subscribe('TaskStarted', () => this.propertyChanged()));
+    this.subscriptions.push(this.ea.subscribe('TaskFinished', (payload) => this.propertyChanged()));
   }
 
   @withModal(TaskManagerModal, function () { return { project: this.selectedProject.current }; })
   showTasks() {}
 
   propertyChanged() {
+    this.running = this.taskManager.tasks.filter(x => x.status === 'running').length;
+    this.queued = this.taskManager.tasks.filter(x => x.status === 'queued').length;
+
     let text = 'Task manager';
     if (this.running > 0 && this.queued == 0) {
       text = `${text} (${this.running} running)`;
