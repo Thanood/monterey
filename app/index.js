@@ -9,6 +9,7 @@ const shell = electron.shell;
 const Menu = electron.Menu;
 const notify = require('./notify');
 const BrowserWindow = electron.BrowserWindow;
+const WindowStateManager = require('electron-window-state-manager');
 const path = require('path');
 var mainWindow, client;
 
@@ -22,7 +23,12 @@ app.commandLine.appendSwitch('enable-transparent-visuals');
 const handleStartupEvent = require('./startuphandler.js');
 const update = require('./updater');
 
-
+// stores and retrieves the width, height, x and y position
+// of the window, in order to restore it after restarts
+const mainWindowState = new WindowStateManager('mainWindow', {
+    defaultWidth: 1024,
+    defaultHeight: 768
+});
 
 // handle any Squirrel event (installer events)
 if (isDev() || !handleStartupEvent()) {
@@ -32,10 +38,16 @@ if (isDev() || !handleStartupEvent()) {
     Menu.setApplicationMenu(Menu.buildFromTemplate(devMenuTemplate));
 
     mainWindow = new BrowserWindow({
-      width: 1024,
-      height: 768,
+      width: mainWindowState.width,
+      height: mainWindowState.height,
+      x: mainWindowState.x,
+      y: mainWindowState.y,
       icon: __dirname + '/images/monterey.ico'
     });
+
+    if (mainWindowState.maximized) {
+      mainWindow.maximize();
+    }
 
     // these global vars are used in monterey-pal-electron
     global.mainWindow = mainWindow;
@@ -71,6 +83,10 @@ if (isDev() || !handleStartupEvent()) {
     // cleanup mainWindow variable on close event
     mainWindow.on('closed', (e) => {
       mainWindow = null;
+    });
+
+    mainWindow.on('close', () => {
+      mainWindowState.saveState(mainWindow);
     });
   });
 }
