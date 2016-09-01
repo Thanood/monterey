@@ -114,9 +114,9 @@ let devMenuTemplate = [
         shell.showItemInFolder(path.join(app.getPath('userData'), 'logs'));
       }
     }, {
-      label: 'Clear cache',
+      label: 'Start from scratch',
       click: function() {
-        if (!confirm('Are you sure? Monterey will start from scratch')) {
+        if (!confirm('Are you sure? Monterey will start from scratch. This is meant as a last resort.')) {
           return;
         }
         const storage = require('electron-json-storage');
