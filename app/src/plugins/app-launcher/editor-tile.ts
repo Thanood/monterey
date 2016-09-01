@@ -7,7 +7,6 @@ import {useView}    from 'aurelia-framework';
 export class Tile {
   title: string;
   img: string;
-  project;
 
   constructor(private main: Main) {
     this.title = 'App launcher';
@@ -15,7 +14,6 @@ export class Tile {
   }
 
   activate(model, relevant) {
-    this.project = model.project;
     Object.assign(this, model.model);
   }
 

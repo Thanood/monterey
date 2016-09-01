@@ -6,13 +6,12 @@ import {TaskManager}      from '../../plugins/task-manager/task-manager';
 import {TaskManagerModal} from '../../plugins/task-manager/task-manager-modal';
 import {NPM}              from 'monterey-pal';
 import {Notification}     from '../../shared/notification';
+import {SelectedProject}  from '../../shared/selected-project';
 import {Main}             from '../../main/main';
 
 @autoinject()
 export class Screen {
 
-  model;
-  project;
   projectGrid;
   loading: boolean;
   topLevelDependencies: Array<any> = [];
@@ -22,12 +21,8 @@ export class Screen {
               private taskManager: TaskManager,
               private dialogService: DialogService,
               private notification: Notification,
+              private selectedProject: SelectedProject,
               private main: Main) { 
-  }
-
-  activate(model) {
-    this.model = model;
-    this.project = model.selectedProject;
   }
 
   attached() {
@@ -37,12 +32,12 @@ export class Screen {
   async load() {
     this.loading = true;
 
-    this.topLevelDependencies = await this.analyzer.analyze(this.project);
+    this.topLevelDependencies = await this.analyzer.analyze(this.selectedProject.current);
 
     let promises = [];
 
     promises.push(this.analyzer.getLatestVersions(this.topLevelDependencies));
-    promises.push(this.analyzer.lookupInstalledVersions(this.project, this.topLevelDependencies));
+    promises.push(this.analyzer.lookupInstalledVersions(this.selectedProject.current, this.topLevelDependencies));
 
     Promise.all(promises)
     .then(() => this.topLevelDependencies.forEach(dep => this.analyzer.checkIfUpToDate(dep)))
@@ -50,9 +45,9 @@ export class Screen {
   }
 
   installAll() {
-    let task = this.common.installNPMDependencies(this.project);
+    let task = this.common.installNPMDependencies(this.selectedProject.current);
 
-    this.taskManager.addTask(this.project, task);
+    this.taskManager.addTask(this.selectedProject.current, task);
 
     this.taskManager.startTask(task);
 
@@ -69,9 +64,9 @@ export class Screen {
       return;
     }
 
-    let task = this.common.installNPMDependencies(this.project, deps, 'This could take 30 seconds or more to complete');
+    let task = this.common.installNPMDependencies(this.selectedProject.current, deps, 'This could take 30 seconds or more to complete');
 
-    this.taskManager.addTask(this.project, task);
+    this.taskManager.addTask(this.selectedProject.current, task);
 
     this.taskManager.startTask(task);
 

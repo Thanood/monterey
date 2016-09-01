@@ -1,20 +1,15 @@
 import {autoinject}           from 'aurelia-framework';
 import {Project}              from '../../shared/project';
+import {SelectedProject}      from '../../shared/selected-project';
 import {Main}                 from '../../main/main';
 
 @autoinject()
 export class Screen {
-  model;
-  project: Project;
   tabs: Element;
   activeTab = 'Global';
 
-  constructor(private main: Main) {}
-
-  activate(model) {
-    this.model = model;
-    this.project = model.selectedProject;
-  }
+  constructor(private main: Main,
+              private selectedProject: SelectedProject) {}
 
   attached() {
     $(this.tabs).on('show.bs.tab', (e) => {

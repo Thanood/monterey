@@ -8,7 +8,6 @@ import {SelectedProject}     from '../../shared/selected-project';
 export class Tile {
   title: string;
   img;
-  project;
 
   constructor(private selectedProject: SelectedProject) {
     this.title = 'Taskmanager';
@@ -16,7 +15,6 @@ export class Tile {
   }
 
   activate(model) {
-    this.project = model.project;
     Object.assign(this, model.model);
   }
 

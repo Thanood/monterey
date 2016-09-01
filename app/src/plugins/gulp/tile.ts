@@ -1,6 +1,7 @@
 import {autoinject, useView} from 'aurelia-framework';
 import {Main}                from '../../main/main';
 import {Project}             from '../../shared/project';
+import {SelectedProject}     from '../../shared/selected-project';
 import {Detection}           from './detection';
 
 @useView('plugins/default-tile.html')
@@ -8,25 +9,24 @@ import {Detection}           from './detection';
 export class Tile {
   title: string;
   img: string;
-  project: Project;
 
   constructor(private main: Main,
+              private selectedProject: SelectedProject,
               private detection: Detection) {
     this.title = 'Gulp';
     this.img = 'images/gulp.png';
   }
 
   activate(model) {
-    this.project = model.project;
     Object.assign(this, model.model);
   }
 
   async onClick() {
-    if (!this.project.isUsingGulp()) {
-      await this.detection.manualDetection(this.project);
+    if (!this.selectedProject.current.isUsingGulp()) {
+      await this.detection.manualDetection(this.selectedProject.current);
     }
     
-    if (this.project.isUsingGulp()) {
+    if (this.selectedProject.current.isUsingGulp()) {
       this.main.activateScreen('plugins/gulp/screen');
     }
   }

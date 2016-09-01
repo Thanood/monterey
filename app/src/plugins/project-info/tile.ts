@@ -6,7 +6,6 @@ import {Main}                from '../../main/main';
 export class Tile {
   title: string;
   img;
-  project;
 
   constructor(private main: Main) {
     this.title = 'Project info';
@@ -14,7 +13,6 @@ export class Tile {
   }
 
   activate(model) {
-    this.project = model.project;
     Object.assign(this, model.model);
   }
 

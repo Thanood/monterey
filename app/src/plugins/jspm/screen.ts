@@ -1,21 +1,20 @@
 import {autoinject}       from 'aurelia-framework';
 import {JSPM, FS}         from 'monterey-pal';
 import {DialogService}    from 'aurelia-dialog';
-import {TaskManager}      from '../../plugins/task-manager/task-manager';
-import {TaskManagerModal} from '../../plugins/task-manager/task-manager-modal';
 import {Analyzer}         from './analyzer';
 import {Forks}            from './forks';
+import {Common}           from './common';
+import {TaskManager}      from '../../plugins/task-manager/task-manager';
+import {TaskManagerModal} from '../../plugins/task-manager/task-manager-modal';
+import {Main}             from '../../main/main';
 import {withModal}        from '../../shared/decorators';
 import {Project}          from '../../shared/project';
 import {Notification}     from '../../shared/notification';
-import {Common}           from './common';
-import {Main}             from '../../main/main';
+import {SelectedProject}  from '../../shared/selected-project';
 
 @autoinject()
 export class Screen {
 
-  model;
-  project: Project;
   loading = false;
   projectGrid;
   topLevelDependencies = [];
@@ -27,12 +26,8 @@ export class Screen {
               private common: Common,
               private dialogService: DialogService,
               private notification: Notification,
+              private selectedProject: SelectedProject,
               private main: Main) {
-  }
-
-  async activate(model) {
-    this.model = model;
-    this.project = model.selectedProject;
   }
 
   async attached() {
@@ -41,8 +36,8 @@ export class Screen {
       return;
     }
 
-    if (!(await JSPM.isJspmInstalled(this.project.packageJSONPath))) {
-      this.notification.error(`JSPM is not installed (tried to find ${FS.getFolderPath(this.project.packageJSONPath)}\node_modules\jspm\jspm.js). Did you install all npm modules?`);
+    if (!(await JSPM.isJspmInstalled(this.selectedProject.current.packageJSONPath))) {
+      this.notification.error(`JSPM is not installed (tried to find ${FS.getFolderPath(this.selectedProject.current.packageJSONPath)}\node_modules\jspm\jspm.js). Did you install all npm modules?`);
       return;
     }
 
@@ -67,9 +62,9 @@ export class Screen {
 
     this.forks = [];
 
-    let packageJSON = JSON.parse(await FS.readFile(this.project.packageJSONPath));
+    let packageJSON = JSON.parse(await FS.readFile(this.selectedProject.current.packageJSONPath));
     let config = await JSPM.getConfig({
-      project: this.project
+      project: this.selectedProject.current
     });
 
     this.allDependencies = this.analyzer.analyze(config.loader, packageJSON);
@@ -87,11 +82,11 @@ export class Screen {
     // gradually come in
     this.analyzer.lookupLatest();
 
-    let workingDirectory = FS.getFolderPath(this.project.packageJSONPath);
+    let workingDirectory = FS.getFolderPath(this.selectedProject.current.packageJSONPath);
 
     // get list of forks
     JSPM.getForks(config, {
-      project: this.project,
+      project: this.selectedProject.current,
       jspmOptions: {
         workingDirectory: workingDirectory
       }
@@ -128,9 +123,9 @@ export class Screen {
   }
 
   install(deps, jspmOptions = {}, withLoader = false) {
-    let task = this.common.install(this.project, deps, jspmOptions, withLoader);
+    let task = this.common.install(this.selectedProject.current, deps, jspmOptions, withLoader);
 
-    this.taskManager.addTask(this.project, task);
+    this.taskManager.addTask(this.selectedProject.current, task);
 
     this.taskManager.startTask(task);
 

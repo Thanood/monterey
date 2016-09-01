@@ -1,7 +1,8 @@
 <template>
   <div class="plugin-title-container">
     <button class="returnToPluginListBtn btn btn-primary" click.delegate="goBack()">Back</button>
-    <h1 class="plugin-title">Project information<span class="project-title-plugin" if.bind="selectedProject.name">${' - '+selectedProject.name}</span></h1>
+    <h1 class="plugin-title">Project information</h1>
+    <p class="project-title-plugin" if.bind="selectedProject.current.name">${selectedProject.current.name}</p>
   </div>
   <div class="plugin-content-container">
 

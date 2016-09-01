@@ -1,16 +1,12 @@
-import {Project}          from '../../shared/project';
 import {autoinject}       from 'aurelia-framework';
+import {SelectedProject}  from '../../shared/selected-project';
 import {Main}             from '../../main/main';
 
 @autoinject()
 export class Screen {
-  project: Project;
 
-  constructor(private main: Main) {
-  }
-
-  async activate(model) {
-    this.project = model.selectedProject;
+  constructor(private main: Main,
+              private selectedProject: SelectedProject) {
   }
 
   goBack() {
