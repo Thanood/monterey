@@ -8,7 +8,6 @@ import {IStep}                from './istep';
 export class ProjectFolder {
   step: IStep;
   state;
-  templates = [];
 
   constructor(private validation: ValidationController) {
   }
@@ -18,13 +17,7 @@ export class ProjectFolder {
     this.step = model.step;
     this.step.execute = () => this.execute();
     this.step.previous = () => this.previous();
-  }
 
-  sourceChanged() {
-    this.validation.validate();
-  }
-
-  attached() {
     ValidationRules
     .ensure('path').required()
     .on(this.state);
