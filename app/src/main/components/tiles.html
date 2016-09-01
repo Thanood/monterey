@@ -5,7 +5,7 @@
     <compose repeat.for="tile of tiles" 
              view-model="${tile.viewModel}"
              id="${tile.name}"
-             model.bind="{ project: selectedProject.current, model: tile.model }"
+             model.bind="{ model: tile.model }"
              click.delegate="executeTile(composeElement)"
              class="tile" compose.ref="composeElement">
     </compose>
