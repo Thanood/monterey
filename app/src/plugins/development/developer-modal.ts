@@ -1,7 +1,9 @@
 import {autoinject}         from 'aurelia-framework';
 import {DialogController}   from 'aurelia-dialog';
+import {DialogService}      from 'aurelia-dialog';
 import {TaskManager}        from '../task-manager/task-manager';
 import {Task}               from '../task-manager/task';
+import {TaskManagerModal}   from '../task-manager/task-manager-modal';
 import {ApplicationState}   from '../../shared/application-state';
 import {SelectedProject}    from '../../shared/selected-project';
 import {WorkflowViewer}     from '../../project-installation/workflow-viewer';
@@ -13,6 +15,7 @@ export class DeveloperModal {
 
   constructor(private dialogController: DialogController,
               private taskManager: TaskManager,
+              private dialogService: DialogService,
               private selectedProject: SelectedProject,
               private state: ApplicationState) {
     this.project = selectedProject.current;
@@ -58,6 +61,8 @@ export class DeveloperModal {
 
   startWorkflow() {
     this.workflowViewer.start();
+
+    this.dialogService.open({ viewModel: TaskManagerModal, model: { task: this.workflowViewer.selectedTasks[0] } });
   }
 
   throwError() {
