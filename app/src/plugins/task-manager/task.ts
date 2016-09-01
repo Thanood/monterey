@@ -12,7 +12,7 @@ export class Task implements Task {
   finished?: boolean;
   description?: string;
   elapsed?: string;
-  status?: string;
+  status?: 'queued'|'stopped by user'|'running'|'finished';
   stop?: (task: Task) => Promise<void>;
   estimation?: string;
   meta?: any;

@@ -221,7 +221,10 @@ describe('TaskManager', () => {
     task.stoppable = false;
 
     taskManager.addTask(project, task);
-    expect(() => taskManager.stopTask(task)).toThrow(new Error('This task cannot be cancelled'));
+    taskManager.stopTask(task)
+    .catch(e => {
+      expect(e.message).toBe('This task cannot be cancelled');
+    });
   });
 
   it ('depending tasks get started after task finished', (r) => {
@@ -240,6 +243,49 @@ describe('TaskManager', () => {
       _resolveTask2();
       r();
     });    
+  });
+
+  it ('cancelling of task cancels all dependent tasks', async (r) => {
+    let project = new Project();
+    let _resolveTask2;
+    let task1 = new Task(project, 'npm install', () => Promise.resolve());
+    let task2 = new Task(project, 'jspm install', () => Promise.resolve());
+    let task3 = new Task(project, 'typings install', () => Promise.resolve());
+    let task4 = new Task(project, 'gulp watch', () => Promise.resolve());
+    let task5 = new Task(project, 'dotnet run', () => Promise.resolve());
+    task1.stoppable = true;
+    task1.stop = async () => {};
+    task2.dependsOn = task1;
+    task3.dependsOn = task2;
+    task4.dependsOn = task3;
+    task5.dependsOn = task3;
+
+    taskManager.addTask(project, task1);
+    taskManager.addTask(project, task2);
+    taskManager.addTask(project, task3);
+    taskManager.addTask(project, task4);
+    taskManager.addTask(project, task5);
+
+    await taskManager.stopTask(task1);
+
+    expect(task2.status).toBe('stopped by user');
+    expect(task3.status).toBe('stopped by user');
+    expect(task4.status).toBe('stopped by user');
+    expect(task5.status).toBe('stopped by user');
+    r();
+  });
+
+  it ('starts only queued tasks', async (r) => {
+    let project = new Project();
+    let _resolver;
+    let task1 = new Task(project, 'npm install', () => new Promise(resolver => _resolver = resolver));
+
+    taskManager.addTask(project, task1);
+    task1.status = 'finished';
+
+    await taskManager.startTask(task1);
+    expect(task1.status).not.toBe('running');
+    r();
   });
 
   it ('creates correct log messages', () => {

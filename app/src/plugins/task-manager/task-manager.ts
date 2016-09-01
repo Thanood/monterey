@@ -39,6 +39,10 @@ export class TaskManager {
   }
 
   startTask(task: Task) {
+    if (task.status !== 'queued') {
+      return Promise.resolve();
+    }
+
     task.start = new Date();
     task.status = 'running';
     
@@ -83,7 +87,9 @@ export class TaskManager {
     task.description = null;
     task.finished = true;
 
-    this.startDependingTasks(task);
+    if (task.status === 'finished') {
+      this.startDependingTasks(task);
+    }
 
     let index = this.tasks.indexOf(task);
     this.tasks.splice(index, 1);
@@ -93,18 +99,23 @@ export class TaskManager {
 
   startDependingTasks(task: Task) {
     this.tasks.forEach(t => {
-      if (t.dependsOn === task) {
+      if (t.dependsOn === task && t.status === 'queued') {
         this.startTask(t);
       }
     })
   }
 
-  stopTask(task: Task) {
+  async stopTask(task: Task) {
     if (!task.stoppable) {
       throw new Error('This task cannot be cancelled');
     }
 
     logger.info(`task '${task.title}' for project '${task.project.name}' was cancelled by user`);
+
+    return await this._stopTask(task);
+  }
+
+  private async _stopTask(task: Task) {
     this.addTaskLog(task, '-----STOPPED BY USER-----');
     task.status = 'stopped by user';
 
@@ -114,9 +125,21 @@ export class TaskManager {
       promise = task.stop(task);
     }
     
-    return promise
-    .then(() => {
-      this.finishTask(task);
-    });
+    await promise;
+    this.finishTask(task);
+
+    await this.stopTaskDependencies(task);
+  }
+
+  /**
+   * Cancells all dependent tasks of a task
+   */
+  async stopTaskDependencies(task: Task) {
+    for(let x = this.tasks.length - 1; x >= 0; x--) {
+      let t = this.tasks[x];
+      if (t.dependsOn === task) {
+        await this._stopTask(t);
+      }
+    }
   }
 }
