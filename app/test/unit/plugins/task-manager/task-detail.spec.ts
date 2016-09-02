@@ -1,14 +1,43 @@
 import {TaskDetail} from '../../../../src/plugins/task-manager/task-detail';
 import {Task} from '../../../../src/plugins/task-manager/task';
 import {Container} from 'aurelia-framework';
+import {EventAggregator} from 'aurelia-event-aggregator';
 import '../../setup';
 
 describe('TaskDetail', () => {
   let sut: TaskDetail;
+  let ea: EventAggregator;
 
   beforeEach(() => {
     let container = new Container();
+    ea = new EventAggregator();
+    container.registerInstance(EventAggregator, ea);
     sut = container.get(TaskDetail);
+  });
+
+  it('disables autoscroll when task has finished', () => {
+    sut.task = new Task(null);
+    sut.logger = <any>{
+      autoScroll: true,
+      scrollDown: jasmine.createSpy('scrollDown')
+    };
+    ea.publish('TaskFinished', { task: sut.task });
+    expect(sut.logger.autoScroll).toBe(false);
+    expect(sut.logger.scrollDown).toHaveBeenCalled();
+  });
+
+  it('enables autoscroll only when selected task has not finished', () => {
+    sut.task = new Task(null);
+    sut.task.finished = false;
+    sut.logger = <any>{};
+    sut.taskChanged();
+    expect(sut.logger.autoScroll).toBe(true);
+    
+    sut.task = new Task(null);
+    sut.task.finished = true;
+    sut.logger = <any>{};
+    sut.taskChanged();
+    expect(sut.logger.autoScroll).toBeFalsy;
   });
 
   it('uses correct format for elapsed', () => {

@@ -1,13 +1,32 @@
-import {bindable, autoinject} from 'aurelia-framework';
-import {Task} from './task';
-import {TaskManager} from './task-manager';
+import {bindable, autoinject}          from 'aurelia-framework';
+import {EventAggregator, Subscription} from 'aurelia-event-aggregator';
+import {Task}                          from './task';
+import {TaskManager}                   from './task-manager';
+import {Logger}                        from './components/logger';
 
 @autoinject()
 export class TaskDetail {
   @bindable task;
+  logger: Logger;
   interval: any;
+  subscription: Subscription;
 
-  constructor(private taskManager: TaskManager) {
+  constructor(private taskManager: TaskManager,
+              private ea: EventAggregator) {
+    this.subscription = ea.subscribe('TaskFinished', (info) => {
+      if (this.task && info.task === this.task) {
+        this.taskFinished();
+      }
+    });
+  }
+
+  taskFinished() {
+    // disable autoscroll as soon as the task finishes
+    if (this.logger.autoScroll) {
+      // but scroll down first, so the last message is visible
+      this.logger.scrollDown();
+      this.logger.autoScroll = false;
+    }
   }
 
   attached() {
@@ -16,6 +35,9 @@ export class TaskDetail {
   }
 
   taskChanged() {
+    if (this.logger && !this.task.finished) {
+      this.logger.autoScroll = true;
+    }
     this.updateElapsed();
   }
 
@@ -52,6 +74,8 @@ export class TaskDetail {
   }
 
   detached() {
+    this.subscription.dispose();
+    
     clearInterval(this.interval);
   }
 }
