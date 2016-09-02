@@ -85,7 +85,7 @@ export class TaskRunner {
   }
 
   loadFavorites() {
-    if (!this.project.favoriteCommands) return;
+    if (!this.project || this.project.favoriteCommands) return;
 
     this.categories.forEach(category => {
       category.commands.forEach(command => {
@@ -100,6 +100,8 @@ export class TaskRunner {
   }
 
   async loadCommands(category: Category, useCache: boolean) {
+    if (!this.project) return;
+    
     category.commands.splice(0);
     category.selectedCommand = null;
     category.error = '';
@@ -120,6 +122,8 @@ export class TaskRunner {
   }
 
   startCommand(category: Category, command?: Command) {
+    if (!this.project) return;
+    
     if (!command && !category.selectedCommand) {
       this.notification.warning('No task has been selected');
       return;
@@ -134,6 +138,8 @@ export class TaskRunner {
   }
 
   favoriteCommand(category: Category) {
+    if (!this.project) return;
+    
     this.favorites.push({
       category: category,
       command: category.selectedCommand
