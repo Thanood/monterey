@@ -85,7 +85,7 @@ export class TaskRunner {
   }
 
   loadFavorites() {
-    if (!this.project || this.project.favoriteCommands) return;
+    if (!this.project || !this.project.favoriteCommands) return;
 
     this.categories.forEach(category => {
       category.commands.forEach(command => {
