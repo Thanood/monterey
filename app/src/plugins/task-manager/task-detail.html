@@ -18,10 +18,10 @@
       <b>${task.end ? 'Ran' : 'Running'} for:</b> ${task.elapsed}<br/>
     </span>
     <span show.bind="task.start && !task.end && task.estimation">
-      <b>Estimation:</b> ${task.estimation}
+      <b>Estimation:</b> ${task.estimation}<br/>
     </span>
     <span show.bind="task.status === 'queued' && task.dependsOn">
-      <b>Waiting for:</b> ${task.dependsOn.title}
+      <b>Waiting for:</b> ${task.dependsOn.title}<br/>
     </span>
     <span show.bind="task.description">
       <b>Description:</b> <span innerhtml.bind="task.description"></span><br/>

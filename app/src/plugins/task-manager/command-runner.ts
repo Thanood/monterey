@@ -77,7 +77,9 @@ export class CommandRunner {
       });
 
       if (!foundCommand) {
-        throw new Error(`did not find command ${cmd}`);
+        // maybe we should throw an error here, not sure yet
+        task.addTaskLog(`Did not find command ${cmd}`);
+        return Promise.resolve();
       }
 
       return this._executor(task, project, foundCommand)();
