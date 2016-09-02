@@ -42,7 +42,7 @@ System.config({
     "aurelia-templating-binding": "npm:aurelia-templating-binding@1.0.0",
     "aurelia-templating-resources": "npm:aurelia-templating-resources@1.0.0",
     "aurelia-templating-router": "npm:aurelia-templating-router@1.0.0",
-    "aurelia-v-grid": "github:aurelia-ui-toolkits/aurelia-v-grid@0.1.0",
+    "aurelia-v-grid": "github:aurelia-ui-toolkits/aurelia-v-grid@0.2.4",
     "aurelia-validatejs": "npm:aurelia-validatejs@0.6.0",
     "aurelia-validation": "npm:aurelia-validation@0.10.1",
     "bootstrap": "github:twbs/bootstrap@3.3.6",
@@ -63,8 +63,8 @@ System.config({
     "github:CodeSeven/toastr@2.1.2": {
       "css": "github:systemjs/plugin-css@0.1.27"
     },
-    "github:aurelia-ui-toolkits/aurelia-v-grid@0.1.0": {
-      "aurelia-framework": "npm:aurelia-framework@1.0.1"
+    "github:aurelia-ui-toolkits/aurelia-v-grid@0.2.4": {
+      "aurelia-framework": "npm:aurelia-framework@1.0.2"
     },
     "github:jspm/nodelibs-assert@0.1.0": {
       "assert": "npm:assert@1.4.1"
@@ -139,6 +139,17 @@ System.config({
       "aurelia-logging": "npm:aurelia-logging@1.0.0"
     },
     "npm:aurelia-framework@1.0.1": {
+      "aurelia-binding": "npm:aurelia-binding@1.0.1",
+      "aurelia-dependency-injection": "npm:aurelia-dependency-injection@1.0.0",
+      "aurelia-loader": "npm:aurelia-loader@1.0.0",
+      "aurelia-logging": "npm:aurelia-logging@1.0.0",
+      "aurelia-metadata": "npm:aurelia-metadata@1.0.0",
+      "aurelia-pal": "npm:aurelia-pal@1.0.0",
+      "aurelia-path": "npm:aurelia-path@1.0.0",
+      "aurelia-task-queue": "npm:aurelia-task-queue@1.0.0",
+      "aurelia-templating": "npm:aurelia-templating@1.0.0"
+    },
+    "npm:aurelia-framework@1.0.2": {
       "aurelia-binding": "npm:aurelia-binding@1.0.1",
       "aurelia-dependency-injection": "npm:aurelia-dependency-injection@1.0.0",
       "aurelia-loader": "npm:aurelia-loader@1.0.0",
