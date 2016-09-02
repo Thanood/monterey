@@ -17,7 +17,7 @@
         <i class="fa fa-spinner fa-spin fa-3x"></i>
       </div>
 
-      <p show.bind="!loading && favorites.length === 0">No favorites</p>
+      <p show.bind="!loading && project.__meta__.taskrunner.favorites.length === 0">No favorites</p>
       <!-- tiles for favorite commands -->
       <div class="tile default-tile without-icon" 
            click.delegate="startCommand(favorite.category, favorite.command)" 
