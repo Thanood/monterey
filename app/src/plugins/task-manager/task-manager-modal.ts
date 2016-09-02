@@ -1,14 +1,15 @@
 import {autoinject, observable}        from 'aurelia-framework';
 import {DialogController}              from 'aurelia-dialog';
 import {EventAggregator, Subscription} from 'aurelia-event-aggregator';
+import {ContextMenu}                   from 'context-menu/context-menu'; 
 import {TaskManager}                   from './task-manager';
 import {TRexDialog}                    from './components/t-rex-dialog';
 import {Task}                          from './task';
+import {Settings}                      from '../../shared/settings';
 import {withModal}                     from '../../shared/decorators';
 import {ApplicationState}              from '../../shared/application-state';
 import {TreeNode}                      from '../../shared/tree-list/tree-node';
 import {TreeListNode}                  from '../../shared/tree-list/tree-list-node';
-import {ContextMenu}                   from 'context-menu/context-menu'; 
 import {Project}                       from '../../shared/project';
 import {Notification}                  from '../../shared/notification';
 
@@ -21,7 +22,7 @@ export class TaskManagerModal {
   splitter: Element;
   left: Element;
   selectedProject: Project;
-  @observable showFinished = true;
+  @observable showFinished;
   subscriptions: Array<Subscription> = [];
 
   model: { task: Task, project: Project };
@@ -32,6 +33,7 @@ export class TaskManagerModal {
               private taskManager: TaskManager,
               private contextMenu: ContextMenu,
               private notification: Notification,
+              private settings: Settings,
               private ea: EventAggregator,
               private state: ApplicationState) {
     // we need to update the tree when tasks are added, started and finished
@@ -42,6 +44,8 @@ export class TaskManagerModal {
     }));
     this.subscriptions.push(this.ea.subscribe('TaskAdded', () => this.updateTree()));
     this.subscriptions.push(this.ea.subscribe('TaskFinished', () => this.updateTree()));
+
+    this.showFinished = this.settings.getValue('show-finished-tasks');
   }
 
   activate(model) {
@@ -160,7 +164,10 @@ export class TaskManagerModal {
     }
   }
 
-  showFinishedChanged() {
+  showFinishedChanged(newVal, oldVal) {
+    if (oldVal !== undefined) {
+      this.settings.setValue('show-finished-tasks', this.showFinished);
+    }
     this.updateTree();
   }
 
