@@ -11,10 +11,10 @@ export class App {
               private projectManager: ProjectManager) {
   }
 
-  configureRouter(config, router) {
+  async configureRouter(config, router) {
     config.title = 'Monterey';
 
-    if (!this.projectManager.hasProjects()) {
+    if (await this.applicationState._isNew()) {
       router.addRoute({ route: '', redirect: 'landing' });
     } else {
       router.addRoute({ route: '', redirect: 'main' });
