@@ -37,7 +37,7 @@ describe('TaskDetail', () => {
     sut.task.finished = true;
     sut.logger = <any>{};
     sut.taskChanged();
-    expect(sut.logger.autoScroll).toBeFalsy;
+    expect(sut.logger.autoScroll).toBeFalsy();
   });
 
   it('uses correct format for elapsed', () => {

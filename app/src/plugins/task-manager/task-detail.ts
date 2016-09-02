@@ -35,8 +35,8 @@ export class TaskDetail {
   }
 
   taskChanged() {
-    if (this.logger && !this.task.finished) {
-      this.logger.autoScroll = true;
+    if (this.logger) {
+      this.logger.autoScroll = !this.task.finished;
     }
     this.updateElapsed();
   }
