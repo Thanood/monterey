@@ -27,7 +27,7 @@ module.exports = function update (window) {
     notify(false, 'info', 'updater', 'update-not-available');
   });
 
-  let feedURL = `https://${UPDATE_SERVER_HOST}/update/${os.platform()}/`;
+  let feedURL = `https://${UPDATE_SERVER_HOST}/update/${os.platform()}/${os.platform() === 'darwin' ? '?version=' + version : ''}`;
   notify(false, 'info', 'updater', `using update feed url: ${feedURL}`);
   autoUpdater.setFeedURL(feedURL);
 
