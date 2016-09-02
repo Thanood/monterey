@@ -48,6 +48,10 @@ export class ApplicationState {
   _getStateIdentifier() {
     let id = `state-${FS.getRootDir()}`;
 
+    // remove semver from the path. 
+    // we want the session to be kept when updating 
+    id = id.replace(/\bv?(?:0|[1-9]\d*)\.(?:0|[1-9]\d*)\.(?:0|[1-9]\d*)(?:-[\da-z\-]+(?:\.[\da-z\-]+)*)?(?:\+[\da-z\-]+(?:\.[\da-z\-]+)*)?\b/ig, '');
+
     // electron-json-storage does not handle special characters well
     return id.replace(/[`~!@#$%^&*()_|+=?;:'",.<>\{\}\[\]\\\/]/gi, '');
   }

@@ -1,5 +1,6 @@
 import {ApplicationState} from '../../../src/shared/application-state';
 import {initializePAL} from 'monterey-pal';
+import {FS} from 'monterey-pal';
 
 describe('ApplicationState object normalizer', () => {
   let applicationState: ApplicationState;
@@ -94,6 +95,19 @@ describe('ApplicationState _loadStateFromSession', () => {
 
     d();
   });
+
+  it('removes non-html special characters from identifier', () => {
+    FS.getRootDir = () => 'hello~!@#$%^&*()_|+=?;:\'",.<>\{\}\[\]\\\/'
+    expect(applicationState._getStateIdentifier()).toBe('state-hello');
+  });
+
+  it('removes versions from identifier', () => {
+    FS.getRootDir = () => 'C:\\monterey\\app-0.3.0\\folder'
+    expect(applicationState._getStateIdentifier()).toBe('state-Cmontereyapp-folder');
+
+    FS.getRootDir = () => 'C:\\monterey\\app-0.3.0-beta\\folder'
+    expect(applicationState._getStateIdentifier()).toBe('state-Cmontereyapp-folder');
+  });
 });
 
 
@@ -126,6 +140,8 @@ describe('ApplicationState _isNew', () => {
     d();
   });
 });
+
+
 
 
 
