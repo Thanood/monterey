@@ -30,7 +30,7 @@ export class Common {
         jspmModulesPath: project.__meta__.jspmModulesPath,
         jspmOptions: jspmOptions,
         logCallback: (message) => {
-          task.addTaskLog(message.message);
+          task.addTaskLog(this._resolveJSPMLogMessage(message.message));          
         }
       });
 
@@ -44,6 +44,10 @@ export class Common {
     }
 
     return task;
+  }
+
+  _resolveJSPMLogMessage(msg: string) {
+    return msg.replace(/(\s|\`|^)%([^%\n]+)%/g, '$1$2');
   }
 
   downloadLoader(project: Project, callback) {
