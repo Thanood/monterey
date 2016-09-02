@@ -65,7 +65,12 @@ export class TaskDetail {
       if (seconds > 0) {
         parts.push(`${seconds} second${seconds > 1 ? 's' : ''}`);
       }
-      this.task.elapsed = parts.join(', ');
+
+      if (hours === 0 && minutes === 0 && seconds === 0) {
+        this.task.elapsed = '0 seconds';
+      } else {
+        this.task.elapsed = parts.join(', ');
+      }
     }
   }
 

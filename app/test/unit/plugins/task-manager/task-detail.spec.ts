@@ -69,6 +69,11 @@ describe('TaskDetail', () => {
     expect(sut.task.elapsed).toBe('1 second');
 
     sut.task.start = new Date(2016, 8, 30, 6, 0, 0);
+    sut.task.end = new Date(2016, 8, 30, 6, 0, 0);
+    sut.updateElapsed();
+    expect(sut.task.elapsed).toBe('0 seconds');
+
+    sut.task.start = new Date(2016, 8, 30, 6, 0, 0);
     sut.task.end = new Date(2016, 8, 30, 6, 0, 2);
     sut.updateElapsed();
     expect(sut.task.elapsed).toBe('2 seconds');
