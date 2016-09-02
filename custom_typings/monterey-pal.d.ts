@@ -30,6 +30,7 @@ declare module 'monterey-pal' {
       mkdir(p: string): Promise<void>;
       appendFile(p: string, text: string): Promise<void>;
       getConstants(): any;
+      getGlobalNodeModulesPath(): string;
   };
   export const SESSION: {
       get(key: any): void;
@@ -48,8 +49,6 @@ declare module 'monterey-pal' {
   export const JSPM: {
       install(packages: any, options: any): Promise<void>;
       downloadLoader(options: any): Promise<void>;
-      isJspmInstalled(projectPath: any): void;
-      getJSPMRootPath(projectPath: any): void;
       getConfig(options: any): any;
       getForks(config: any, options: any): any;
   };

@@ -1,5 +1,5 @@
 import {autoinject}       from 'aurelia-framework';
-import {JSPM, FS}         from 'monterey-pal';
+import {FS}               from 'monterey-pal';
 import {DialogService}    from 'aurelia-dialog';
 import {Analyzer}         from './analyzer';
 import {Forks}            from './forks';
@@ -36,11 +36,6 @@ export class Screen {
       return;
     }
 
-    if (!(await JSPM.isJspmInstalled(this.selectedProject.current.packageJSONPath))) {
-      this.notification.error(`JSPM is not installed (tried to find ${FS.getFolderPath(this.selectedProject.current.packageJSONPath)}\node_modules\jspm\jspm.js). Did you install all npm modules?`);
-      return;
-    }
-
     this.loading = true;
 
     try {
@@ -63,9 +58,7 @@ export class Screen {
     this.forks = [];
 
     let packageJSON = JSON.parse(await FS.readFile(this.selectedProject.current.packageJSONPath));
-    let config = await JSPM.getConfig({
-      project: this.selectedProject.current
-    });
+    let config = await this.common.getConfig(this.selectedProject.current);
 
     this.allDependencies = this.analyzer.analyze(config.loader, packageJSON);
 
@@ -82,16 +75,7 @@ export class Screen {
     // gradually come in
     this.analyzer.lookupLatest();
 
-    let workingDirectory = FS.getFolderPath(this.selectedProject.current.packageJSONPath);
-
-    // get list of forks
-    JSPM.getForks(config, {
-      project: this.selectedProject.current,
-      jspmOptions: {
-        workingDirectory: workingDirectory
-      }
-    })
-    .then(forks => this.forks = forks);
+    this.forks = await this.common.getForks(this.selectedProject.current, config);
   }
 
   updateSelected() {

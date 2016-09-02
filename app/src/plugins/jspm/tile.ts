@@ -1,5 +1,6 @@
 import {useView, autoinject} from 'aurelia-framework';
 import {JSPMDetection}       from './jspm-detection';
+import {Common}              from './common';
 import {Project}             from '../../shared/project';
 import {Main}                from '../../main/main';
 import {Notification}        from '../../shared/notification';
@@ -13,6 +14,7 @@ export class Tile {
   project: Project;
 
   constructor(private main: Main,
+              private common: Common,
               private jspmDetection: JSPMDetection,
               private notification: Notification) {
     this.title = 'JSPM';
@@ -29,6 +31,11 @@ export class Tile {
     }
     
     if (this.project.isUsingJSPM()) {
+      if (!(await this.common.isJSPMInstalled(this.project))) {
+        this.notification.error('Could not find JSPM');
+        return;
+      }
+
       this.main.activateScreen('plugins/jspm/screen');
     }
   }
