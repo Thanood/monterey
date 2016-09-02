@@ -65,7 +65,7 @@ export class TaskRunner {
   }
 
   async load(project: Project) {
-    this.loading = true;
+    project.__meta__.taskrunner.loading = true;
     
     let categories: Array<Category> = [];
     let services = await this.commandRunner.getServices(project);
@@ -81,7 +81,7 @@ export class TaskRunner {
     }
 
     project.__meta__.taskrunner.categories = categories;
-    this.loading = false;
+    project.__meta__.taskrunner.loading = false;
 
     this.loadFavorites(project);
   }
