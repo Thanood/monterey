@@ -43,8 +43,6 @@ export class ProjectFolder {
 
     if(path && path.length > 0) {
       this.state.path = path[0];
-    } else {
-      this.state.path = null;
     }
     this.state.folder = this.state.path;
   }
