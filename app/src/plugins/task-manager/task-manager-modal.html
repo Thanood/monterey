@@ -17,7 +17,7 @@
         <task-detail task.bind="selectedTask"></task-detail>
       </div>
       
-      <div class="right-side" if.bind="selectedProject">
+      <div class="right-side" show.bind="selectedProject">
         <task-runner project.bind="selectedProject"></task-runner>
       </div>
 
