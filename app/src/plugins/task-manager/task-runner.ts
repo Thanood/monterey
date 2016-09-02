@@ -42,7 +42,7 @@ export class TaskRunner {
       this.project.favoriteCommands = [
         'gulp watch',
         'au run --watch',
-        'npm run',
+        'npm start',
         'dotnet restore',
         'gulp prepare-release'
       ];
