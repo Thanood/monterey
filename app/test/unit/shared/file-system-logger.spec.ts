@@ -90,6 +90,22 @@ describe('FileSystemLogger', () => {
     expect(sut.buffer.match(/"warn","some-module",".*","something happened"\r\n/g).length > 0).toBe(true);
   });
 
+  it('handles that buffer may have been changed during flush of previous buffer', (r) => {
+    let _resolve;
+    sut.buffer = 'test\r\n';
+    sut.appendToFile = jasmine.createSpy('appendToFile').and.returnValue(new Promise(resolver => _resolve = resolver));
+    let promise = sut.flushBuffer();
+
+    sut.buffer = 'test\r\nsome message that came in during flush';
+
+    _resolve();
+
+    promise.then(() => {
+      expect(sut.buffer).toBe('some message that came in during flush');
+      r();
+    });
+  });
+
   it('removes old logfiles', async (r) => {
     FS.unlink = jasmine.createSpy('FS.unlink');
     FS.readdir = async () => {

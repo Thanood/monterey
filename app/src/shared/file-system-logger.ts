@@ -130,12 +130,14 @@ export class FileSystemLogger {
     }
 
     try {
+      let bufferSize = this.buffer.length;
+
       let err = await this.appendToFile(this.logFilePath, this.buffer);
       if (err) {
         console.log('could not flush buffer');
         console.log(err);
       } else {
-        this.buffer = '';
+        this.buffer = this.buffer.slice(bufferSize);
       }
     } catch (e) {
       // we couldn't flush the buffer but we should swallow the exception

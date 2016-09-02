@@ -1,10 +1,13 @@
-import {autoinject}       from 'aurelia-framework';
+import {autoinject, LogManager} from 'aurelia-framework';
+import {Logger}                 from 'aurelia-logging';
 import {Router}           from 'aurelia-router';
 import {withModal}        from '../shared/decorators';
 import {ApplicationState} from '../shared/application-state';
 import {ProjectFinder}    from '../shared/project-finder';
 import {ScaffoldProject}  from '../scaffolding/scaffold-project';
 import {PluginManager}    from '../shared/plugin-manager';
+
+const logger = <Logger>LogManager.getLogger('landing');
 
 @autoinject()
 export class Landing {
@@ -18,6 +21,8 @@ export class Landing {
   async activate() {
     await this.pluginManager.notifyOfNewSession(this.applicationState);
     await this.applicationState._save();
+
+    logger.info('user reached landing screen');
   }
 
   async open() {

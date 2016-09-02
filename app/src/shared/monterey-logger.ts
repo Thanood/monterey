@@ -19,21 +19,21 @@ export class MonteryLogAppender {
     // don't log debug messages
     if (level === 'debug') return;
 
-    let msg = '';
+    let msgParts = [];
 
     if (parameters && parameters.length > 0) {
       parameters.forEach(param => {
         if (param.message && param.stack) {
-         msg = param.message + '   '  + param.stack;
-        } else if (typeof param === 'string') {
-          msg = msg + '   '  + param;       
+         msgParts.push(param.message + ', '  + param.stack);
+        } else if (typeof param === 'object') {
+          msgParts.push(JSON.stringify(param)); 
         } else {
-          msg = msg + '   '  + JSON.stringify(param);
+          msgParts.push(param);
         }
       });
     }
 
-    this.fsLogger.writeToBuffer(level, logger.id, msg);
+    this.fsLogger.writeToBuffer(level, logger.id, msgParts.join(', '));
   }
 
   /**
