@@ -1,15 +1,18 @@
 <template>
-  <div if.bind="!finished">
+  <div if.bind="!finished && !failed">
     <h3>Creating project files....</h3>
     <i class="fa fa-spinner fa-spin"></i>
-    <ul style="list-style-type: none">
-      <li repeat.for="log of logs">
-        ${log}
-      </li>
-    </ul>
   </div>
+  
+  <ul style="list-style-type: none">
+    <li repeat.for="log of logs">
+      ${log}
+    </li>
+  </ul>
+
   <div if.bind="failed">
     <h3>An error has occurred while scaffolding the application</h3>
     <p>${failedMessage}</p>
+    <button class="btn btn-primary" click.delegate="go()">Retry</button>
   </div>
 </template>

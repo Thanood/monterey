@@ -37,59 +37,71 @@ export class Run {
     };
   }
 
-  attached() {
-    this.promise = new Promise(async (resolve, reject) => {
+  async attached() {
+    await this.go();
+  }
+
+  async go() {
+    this.finished = false;
+    this.failed = false;
+    this.failedMessage = null;
+    this.logs.splice(0);
+
+    try {
+      logger.info(`creating GitHub project: ${JSON.stringify(this.state)}`);
+
+      let url;
+      let subDir;
+      let projectDir = FS.join(this.state.path, this.state.name);
+
+      let releaseInfo = await this.githubAPI.getLatestReleaseZIP(this.state.github.repo);
+      url = releaseInfo.zipball_url;
+      subDir = this.state.github.subfolder;
+      this.logs.push(`Downloading version ${releaseInfo.tag_name}`);
+
+      await this.downloadAndExtractZIP(url, projectDir, subDir);
+
+      this.finished = true;
+      this.state.successful = true;
+
+      this.step.next();
+
       try {
-        
-        logger.info(`creating GitHub project: ${JSON.stringify(this.state)}`);
-
-        let url;
-        let subDir;
-        let projectDir = FS.join(this.state.path, this.state.name);
-
-        let releaseInfo = await this.githubAPI.getLatestReleaseZIP(this.state.github.repo);
-        url = releaseInfo.zipball_url;
-        subDir = this.state.github.subfolder;
-        this.logs.push(`Downloading version ${releaseInfo.tag_name}`);
-
-        await this.downloadAndExtractZIP(url, projectDir, subDir);
-
-        this.finished = true;
-        this.state.successful = true;
-
-        this.step.next();
-
-        resolve();
+        FS.cleanupTemp();
+        this.logs.push('Cleaned up temp files and folders');
       } catch (e) {
-        this.notification.error('Error while scaffolding the application: ' + e.message);
-        logger.error(e);
-        this.failed = true;
-        this.failedMessage = e.message;
-        this.state.successful = false;
-        reject();
-      } finally {
-        try {
-          FS.cleanupTemp();
-          this.logs.push('Cleaned up temp files and folders');
-        } catch (e) {
-          logger.info('Did not finish cleanup of temp folder: ' + e.message);
-        }
+        logger.info('Did not finish cleanup of temp folder: ' + e.message);
       }
-    });
+    } catch (e) {
+      this.notification.error('Error while creating the application: ' + e.message);
+      logger.error(e);
+      this.failed = true;
+
+      if (e.message.startsWith('EPERM')) {
+        this.failedMessage = 'Do you have enough permissions to create this folder? Also try to disable your antivirus as it may be blocking this action\r\n' + e.message;
+      } else {
+        this.failedMessage = e.message;
+      }
+
+      this.state.successful = false;
+    }
   }
 
   async downloadAndExtractZIP(url, projectDir, subDir) {
+    this.logs.push(`Creating temp file....`);
     let zipPath = await FS.getTempFile();
-    this.logs.push(`Temp file created: ${zipPath}....`);
+    this.logs.push(`Temp file created: ${zipPath}`);
+    this.logs.push('Downloading zip....');
     await FS.downloadFile(url, zipPath);
-    this.logs.push('Downloaded zip....');
+    this.logs.push('Downloaded zip');
 
 
+    this.logs.push(`Creating temp folder....`);
     let unzipPath = await FS.getTempFolder();
-    this.logs.push(`Temp folder created: ${unzipPath}....`);
+    this.logs.push(`Temp folder created: ${unzipPath}`);
 
+    this.logs.push('Unzipping files....');
     await FS.unzip(zipPath, unzipPath);
-    this.logs.push('Unzipped files....');
 
     // unfortunately, github wraps the repository files in a folder in the zip
     // so we get the first directory name and extract that automatically
@@ -97,13 +109,20 @@ export class Run {
 
 
     let target = subDir ? FS.join(unzipPath, firstDir, subDir) : FS.join(unzipPath, firstDir);
+    this.logs.push(`Going to move directory to ${projectDir}....`);
+     
     await FS.move(target, projectDir);
     this.logs.push(`Moved directory to ${projectDir}....`);
   }
 
   async execute() {
+    if (this.finished && this.failed) {
+      this.notification.error('Can\'t go to the next step until this step successfuly finishes');
+      return;
+    }
+
     return {
-      goToNextStep: this.finished
+      goToNextStep: this.finished && !this.failed
     };
   }
 }
