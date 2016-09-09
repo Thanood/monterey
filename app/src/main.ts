@@ -9,6 +9,7 @@ import {ExitProcedure}                   from './shared/exit-procedure';
 import {IPC}                             from './shared/ipc';
 import {GlobalExceptionHandler}          from './shared/global-exception-handler';
 import {FileSystemLogger}                from './shared/file-system-logger';
+import {ThemeManager}                    from './shared/theme-manager';
 
 export async function configure(aurelia: Aurelia) {
   aurelia.use
@@ -61,7 +62,13 @@ export async function configure(aurelia: Aurelia) {
   // so that aurelia-validation uses this renderer when validation-renderer="bootstrap-form" is put on a form
   aurelia.container.registerHandler('bootstrap-form', container => container.get(BootstrapFormValidationRenderer));
 
-  aurelia.start().then(() => aurelia.setRoot()).then(() => {
+  aurelia.start()
+  .then((au) => {
+    let themeManager = <ThemeManager>au.container.get(ThemeManager);
+    return themeManager.load('default');
+  })
+  .then(() => aurelia.setRoot())
+  .then(() => {
     // Monterey has been loaded, let the main process know
     // so that the main process can trigger the auto update process
     ipc.notifyMainOfStart();

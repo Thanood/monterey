@@ -7,8 +7,8 @@ bower_components
 build/reports
 coverage
 test/e2e/dist
-app/styles/styles.css
-app/styles/styles.css.map
+app/styles/less/**/*.css
+app/styles/less/**/*.css.map
 release
 app/export
 /dist/

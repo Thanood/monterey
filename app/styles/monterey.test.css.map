@@ -1,0 +1,1 @@
+{"version":3,"sources":["test/index.less"],"names":[],"mappings":"AAAA;EACE,qBAAA","sourcesContent":["body {\r\n  background-color: red;\r\n}"],"file":"monterey.test.css"}
