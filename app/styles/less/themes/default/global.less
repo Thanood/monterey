@@ -1,10 +1,10 @@
 body, html {
-  background-color: #F7F7F7 !important;
+  background-color: @alabaster !important;
   font-family: 'Source Sans Pro', Helvetica, 'Open Sans', sans-serif;
 }
 
 hr {
-  border-top: 5px solid #eee;
+  border-top: 5px solid @gallery;
 }
 
 router-view {
@@ -15,19 +15,19 @@ p {
   font-weight: 400;
   font-size: 1.1em;
   line-height: 1.5em;
-  color: #555555;
+  color: @emperor;
 }
 
 .btn-primary:active, .btn-primary:focus, .btn:hover, .btn-primary:active:focus {
-  background: #7d519e !important;
-  color: #fff !important;
+  background: @butterfly-bush !important;
+  color: @white !important;
 }
 
 .btn-primary {
-  background-color: #FFF;
+  background-color: @white;
   border-radius: 4px;
-  border: 1px solid #70519E;
-  color: #70519E;
+  border: 1px solid @butterfly-bush;
+  color: @butterfly-bush;
   font-size: 14px;
   font-weight: 400;
 }
@@ -35,44 +35,35 @@ p {
 
 .list-group-item {
   &.selected {
-    background-color: #f1f1f1;
+    background-color: @seashell;
   }
 }
 
 .default-tile {
-  border: 3px solid #dfdfe1;
+  border: 3px solid @iron;
 
   &.irrelevant {
     background: repeating-linear-gradient(
       45deg,
-      #dfdfe1,
-      #dfdfe1 10px,
+      @iron,
+      @iron 10px,
       #d0d0d0 10px,
       #d0d0d0 20px
     );
   }
 }
 
-// style when tile gets dragged
-.gu-transit > .default-tile {
-  background-color: #e6e6e6;
-}
-
 .plugin-title-container {
-  background-color: #f4f4f4;
+  background-color: @white;
   border-bottom: 5px solid rgba(0, 0, 0, .1);
 
   .plugin-title {
-    color: #70519E;
+    color: @butterfly-bush;
   }
 
   .project-title-plugin {
-    color: #70519E;
+    color: @butterfly-bush;
   }
-}
-
-.plugin-content-container {
-  color: #646464;
 }
 
 tree-list {
@@ -81,22 +72,12 @@ tree-list {
   }
 }
 
-tree-list {
-  ul {
-    li {
-      div {
-        &.selected {
-          background-color: #ECECED;
-        }
-      }
-    }
-  }
-  
+tree-list {  
   > tree-node {
     > ul {
       > li {
         > div {
-          background-color: #dfdfe1;
+          background-color: @iron;
         }
       }
     }
@@ -105,13 +86,13 @@ tree-list {
 
 
 .splitter {
-  background-color: lightgrey;
+  background-color: @lightgrey;
 }
 
 .title {
-  color: #EC2685;
+  color: @violet-red;
 }
 
 .main-header {
-  color: #70519E;
+  color: @butterfly-bush;
 }

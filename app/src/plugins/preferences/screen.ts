@@ -8,6 +8,7 @@ export class Screen {
     { element: null, title: 'Github', viewModel: './components/github' },
     { element: null, title: 'NPM', viewModel: './components/npm' },
     { element: null, title: 'Endpoints', viewModel: './components/endpoints' },
+    { element: null, title: 'Theme', viewModel: './components/themes' },
   ];
 
   constructor(private main: Main) {
