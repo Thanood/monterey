@@ -5,6 +5,7 @@ export interface Setting {
   title: string;
   type: 'string'|'boolean';
   identifier: string;
+  visible?: boolean;
   value?: string|boolean|undefined;
 }
 
@@ -18,6 +19,10 @@ export class Settings {
    * does not exist yet
    */
   addSetting(setting: Setting) {
+    if (setting.visible === undefined) {
+      setting.visible = true;
+    }
+
     let set = this.getSetting(setting.identifier);
     if (!set) {
       this.state.settings.push(setting);

@@ -10,6 +10,7 @@ import {IPC}                             from './shared/ipc';
 import {GlobalExceptionHandler}          from './shared/global-exception-handler';
 import {FileSystemLogger}                from './shared/file-system-logger';
 import {ThemeManager}                    from './shared/theme-manager';
+import {Settings}                        from './shared/settings';
 
 export async function configure(aurelia: Aurelia) {
   aurelia.use
@@ -65,7 +66,8 @@ export async function configure(aurelia: Aurelia) {
   aurelia.start()
   .then((au) => {
     let themeManager = <ThemeManager>au.container.get(ThemeManager);
-    return themeManager.load('default');
+    let settings = <Settings>au.container.get(Settings);
+    return themeManager.load(<string>settings.getValue('theme'));
   })
   .then(() => aurelia.setRoot())
   .then(() => {
