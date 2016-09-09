@@ -4,7 +4,7 @@ html {
   font-family: 'Source Sans Pro', Helvetica, 'Open Sans', sans-serif;
 }
 hr {
-  border-top: 5px solid #eee;
+  border-top: 5px solid #eeeeee;
 }
 router-view {
   height: 100%;
@@ -19,11 +19,11 @@ p {
 .btn-primary:focus,
 .btn:hover,
 .btn-primary:active:focus {
-  background: #7d519e !important;
-  color: #fff !important;
+  background: #70519E !important;
+  color: #ffffff !important;
 }
 .btn-primary {
-  background-color: #FFF;
+  background-color: #ffffff;
   border-radius: 4px;
   border: 1px solid #70519E;
   color: #70519E;
@@ -31,7 +31,7 @@ p {
   font-weight: 400;
 }
 .list-group-item.selected {
-  background-color: #f1f1f1;
+  background-color: #F1F1F1;
 }
 .default-tile {
   border: 3px solid #dfdfe1;
@@ -39,11 +39,8 @@ p {
 .default-tile.irrelevant {
   background: repeating-linear-gradient(45deg, #dfdfe1, #dfdfe1 10px, #d0d0d0 10px, #d0d0d0 20px);
 }
-.gu-transit > .default-tile {
-  background-color: #e6e6e6;
-}
 .plugin-title-container {
-  background-color: #f4f4f4;
+  background-color: #ffffff;
   border-bottom: 5px solid rgba(0, 0, 0, 0.1);
 }
 .plugin-title-container .plugin-title {
@@ -52,14 +49,8 @@ p {
 .plugin-title-container .project-title-plugin {
   color: #70519E;
 }
-.plugin-content-container {
-  color: #646464;
-}
 tree-list ul {
   padding-left: 0;
-}
-tree-list ul li div.selected {
-  background-color: #ECECED;
 }
 tree-list > tree-node > ul > li > div {
   background-color: #dfdfe1;
@@ -106,17 +97,17 @@ launcher-item {
   color: #EC2685;
 }
 .main .left {
-  background-color: #ECECED;
+  background-color: #eeeeee;
   box-shadow: 0 3px 4px 0 rgba(0, 0, 0, 0.14), 0 3px 3px -2px rgba(0, 0, 0, 0.2), 0 1px 8px 0 rgba(0, 0, 0, 0.12);
 }
 .main .left .main-button-group .main-button {
-  background: #FFF;
+  background: #ffffff;
   color: #70519E;
-  border-left: 1px solid #e6e6e6;
+  border-left: 1px solid #eeeeee;
 }
 .main .left .main-button-group .main-button:active,
 .main .left .main-button-group .main-button:hover {
-  color: #FFF;
+  color: #ffffff;
   background-image: -webkit-radial-gradient(49% 0 circle, #C632AC 0, #8A2979 100%);
   background-image: radial-gradient(circle at 49% 0, #C632AC 0, #8A2979 100%);
 }
@@ -125,16 +116,16 @@ launcher-item {
   border: 0 !important;
 }
 .main .left .projectList .vGrid .vGrid-row {
-  color: #777;
+  color: #777777;
   background-color: #ECECED !important;
 }
 .main .left .projectList .vGrid .vGrid-row-selected {
   color: #EC2685;
-  background-color: #f7f7f7 !important;
+  background-color: #F7F7F7 !important;
 }
 .main .left .project-list-header {
   background-color: #dfdfe1;
-  color: #70509D;
+  color: #70519E;
 }
 .main .right .title {
   border-bottom: 1px solid rgba(0, 0, 0, 0.12);
@@ -147,20 +138,20 @@ task-bar-item {
   border-left: 4px solid #bbb7b7;
 }
 task-bar-item span {
-  color: white;
+  color: #ffffff;
 }
 task-bar {
   background-color: grey;
 }
 task-bar .runningTasks p {
-  color: white;
+  color: #ffffff;
 }
 .task-manager-modal .left-side {
   border-right: 1px solid #dfdfe1;
 }
 .task-manager-modal .left-side tree-list > tree-node > ul > li > div {
   font-size: 14px !important;
-  border-bottom: 2px solid gray;
+  border-bottom: 2px solid grey;
   background-color: #dfdfe1 !important;
 }
 .task-manager-modal .left-side tree-list tree-node ul li div {

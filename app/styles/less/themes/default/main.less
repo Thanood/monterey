@@ -1,17 +1,17 @@
 .project-list-item {
-  border: 3px solid #dfdfe1;
+  border: 3px solid @iron;
   project {
     box-shadow: inset 0 -1px 0 rgba(0,0,0,0.1);
 
     .title {
-      color: black;
+      color: @black;
     }
 
     &.selected:hover, &.selected {
       background-image: linear-gradient(-270deg,rgba(255,255,255,.5) 100%,rgba(255,255,255,0) 100%);
 
       .title {
-        color: #EC2685;
+        color: @violet-red;
       }
     }
   }
@@ -20,18 +20,18 @@
 
 .main {
   .left {
-    background-color: #ECECED;
+    background-color: @gallery;
     box-shadow: 0 3px 4px 0 rgba(0, 0, 0, .14), 0 3px 3px -2px rgba(0, 0, 0, .2), 0 1px 8px 0 rgba(0, 0, 0, .12);
 
     .main-button-group {
       .main-button {
-        background: #FFF;
-        color: #70519E;
-        border-left: 1px solid rgb(230, 230, 230);
+        background: @white;
+        color: @butterfly-bush;
+        border-left: 1px solid @gallery;
       }
 
       .main-button:active, .main-button:hover {
-        color: #FFF;
+        color: @white;
         background-image: -webkit-radial-gradient(49% 0 circle, #C632AC 0, #8A2979 100%);
         background-image: radial-gradient(circle at 49% 0, #C632AC 0, #8A2979 100%);
       }
@@ -43,20 +43,20 @@
         border: 0 !important;
 
         .vGrid-row {
-          color: #777;
-          background-color: #ECECED !important;
+          color: @boulder;
+          background-color: @athens-gray !important;
         }
 
         .vGrid-row-selected {
-          color: #EC2685;
-          background-color: #f7f7f7 !important;
+          color: @violet-red;
+          background-color: @alabaster !important;
         }
       }
     }
 
     .project-list-header {
-      background-color: #dfdfe1;
-      color: #70509D;
+      background-color: @iron;
+      color: @butterfly-bush;
     }
   }
 
