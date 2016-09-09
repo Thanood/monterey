@@ -1,46 +1,24 @@
 body, html {
   margin: 0;
   height: 100%;
-  background-color: #F7F7F7 !important;
-  font-family: 'Source Sans Pro', Helvetica, 'Open Sans', sans-serif;
 }
 
 hr {
   margin-top: 10px;
   margin-bottom: 10px;
   border: 0;
-  border-top: 3px solid #dfdfe1;
 }
 
 router-view {
   height: 100%;
 }
 
-p {
-  font-weight: 400;
-  font-size: 1.1em;
-  line-height: 1.5em;
-  color: #555555;
-}
-
-.btn-primary:active, .btn-primary:focus, .btn:hover, .btn-primary:active:focus {
-  background: #7d519e !important;
-  color: #fff !important;
-}
-
 .btn-primary {
   position: relative;
   cursor: pointer;
   text-align: center;
-
-  background-color: #FFF;
-  border-radius: 4px;
-  border: 1px solid #70519E;
-  color: #70519E;
   display: inline-block;
   margin: 0 2px;
-  font-size: 14px;
-  font-weight: 400;
   padding: 3px 10px;
 }
 
@@ -128,9 +106,6 @@ p {
 
 
 .list-group-item {
-  &.selected {
-    background-color: #f1f1f1;
-  }
   i, p {
     display: inline;
   }
@@ -149,10 +124,6 @@ p {
   background-color: black;
   padding-left: 5px;
   overflow: auto;
-}
-
-hr {
-  border-top: 5px solid #eee;
 }
 
 ai-dialog-body * {
@@ -191,19 +162,8 @@ ai-dialog ai-dialog-footer .align-right {
 .default-tile {
   width: 120px;
   height: 132px;
-  border: 3px solid #dfdfe1;
   vertical-align: middle;
   text-align: center;
-
-  &.irrelevant {
-    background: repeating-linear-gradient(
-      45deg,
-      #dfdfe1,
-      #dfdfe1 10px,
-      #d0d0d0 10px,
-      #d0d0d0 20px
-    );
-  }
  
   &.without-icon {
     > p {
@@ -225,18 +185,10 @@ ai-dialog ai-dialog-footer .align-right {
   }
 }
 
-// style when tile gets dragged
-.gu-transit > .default-tile {
-  background-color: #e6e6e6;
-}
-
 .plugin-title-container {
   display: block;
-  background-color: #f4f4f4;
-  border-bottom: 5px solid rgba(0, 0, 0, .1);
 
   .plugin-title {
-    color: #70519E;
     margin-top: 10px;
     margin-bottom: 0;
     letter-spacing: .4px;
@@ -246,7 +198,6 @@ ai-dialog ai-dialog-footer .align-right {
   }
 
   .project-title-plugin {
-    color: #70519E;
     text-align: center;
     margin-bottom: 5px;
     white-space: nowrap;
@@ -255,7 +206,6 @@ ai-dialog ai-dialog-footer .align-right {
 }
 
 .plugin-content-container {
-  color: #646464;
   display: block;
   padding-top: 5px;
   padding-left: 20px;
@@ -272,10 +222,6 @@ tree-list {
     li {
       div {
         padding-left: 5px;
-
-        &.selected {
-          background-color: #ECECED;
-        }
         
         > span {
           line-height: 30px;
@@ -294,15 +240,11 @@ tree-list {
       }
     }
   }
-
   
   > tree-node {
     > ul {
       > li {
         padding-left: 0;
-        > div {
-          background-color: #dfdfe1;
-        }
       }
     }
   }
@@ -311,15 +253,12 @@ tree-list {
 
 .splitter {
   padding: 2px;
-  background-color: lightgrey;
-
   min-height: 200px;
   cursor: col-resize;  
   flex: 0 0 auto;
 }
 
 .title {
-  color: #EC2685;
   font-weight: 300;
   letter-spacing: .4px;
   white-space: nowrap;
@@ -328,7 +267,6 @@ tree-list {
 }
 
 .main-header {
-  color: #70519E;
   line-height: 25px;
   letter-spacing: .4px;
   white-space: nowrap;

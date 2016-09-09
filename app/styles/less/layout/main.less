@@ -1,23 +1,12 @@
 .project-list-item {
   list-style-type: none;
-  border: 3px solid #dfdfe1;
   project {
     display: block;
     padding: 5px;
-    box-shadow: inset 0 -1px 0 rgba(0,0,0,0.1);
 
     .title {
-      color: black;
       line-height: 50px;
       margin: 0;
-    }
-
-    &.selected:hover, &.selected {
-      background-image: linear-gradient(-270deg,rgba(255,255,255,.5) 100%,rgba(255,255,255,0) 100%);
-
-      .title {
-        color: #EC2685;
-      }
     }
   }
 }
@@ -29,12 +18,10 @@
 
   .left {
     position: relative;
-    background-color: #ECECED;
     flex: 0 0 auto;
     z-index: 5;
     width: 300px;
     overflow: hidden;
-    box-shadow: 0 3px 4px 0 rgba(0, 0, 0, .14), 0 3px 3px -2px rgba(0, 0, 0, .2), 0 1px 8px 0 rgba(0, 0, 0, .12);
 
     .main-button-group {
       height: 44px;
@@ -45,20 +32,11 @@
         display: block;
         height: 100%;
         width: 33.33%;
-        background: #FFF;
-        color: #70519E;
         border: 0;
         font-size: 16px;
         line-height: 25px;
         text-align: center;
         white-space: nowrap;
-        border-left: 1px solid rgb(230, 230, 230);
-      }
-
-      .main-button:active, .main-button:hover {
-        color: #FFF;
-        background-image: -webkit-radial-gradient(49% 0 circle, #C632AC 0, #8A2979 100%);
-        background-image: radial-gradient(circle at 49% 0, #C632AC 0, #8A2979 100%);
       }
     }
 
@@ -69,10 +47,6 @@
       left: 0;
       right: 0;
       .vGrid {
-        background-color: transparent !important;
-        border: 0 !important;
-
-
         .vGrid-header {
           overflow-y: hidden !important;
 
@@ -89,22 +63,13 @@
         }
 
         .vGrid-row {
-          color: #777;
           font-size: 18px;
           letter-spacing: .4px;
-          background-color: #ECECED !important;
-        }
-
-        .vGrid-row-selected {
-          color: #EC2685;
-          background-color: #f7f7f7 !important;
         }
       }
     }
 
     .project-list-header {
-      background-color: #dfdfe1;
-      color: #70509D;
       max-height: 36px;
       min-height: 36px;
       text-align: center;
@@ -138,7 +103,6 @@
 
     .title {
       margin-left: 10px;
-      border-bottom: 1px solid rgba(0, 0, 0, .12);
     }
 
     .project-title-plugin {

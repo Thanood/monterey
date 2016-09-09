@@ -1,21 +1,11 @@
 .task-manager-modal {
-  ai-dialog-body {
-    display: flex;
-    flex-direction: row;
-  }
-
   .left-side {
-    height: 100%;
-    overflow: auto;
-    width: 250px;
-    flex: 0 0 auto;
     border-right: 1px solid #dfdfe1;
 
     tree-list {
       > tree-node {
         > ul {
           > li {
-            padding-left: 0;
             > div {
               font-size: 14px !important;
               border-bottom: 2px solid gray;
@@ -30,8 +20,6 @@
           li {
             div {
               color: #777;
-              font-size: 16px;
-              letter-spacing: .4px;
               background-color: #ECECED;
 
               &.selected {
@@ -45,10 +33,6 @@
   }
 
   .right-side {
-    height: 53px;
-    flex: 1 1 auto;
-    margin-left: 15px;
-
     .title {
       border-bottom: 1px solid rgba(0, 0, 0, .12);
     }

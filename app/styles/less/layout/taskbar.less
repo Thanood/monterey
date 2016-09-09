@@ -1,18 +1,13 @@
 @taskbarHeight: 40px;
-@taskbarColor: grey;
 
 task-bar-item {
   height: @taskbarHeight;
   line-height: @taskbarHeight;
   float: right;
   padding-left: 10px;
+  padding-right: 10px;
   cursor: hand;
   cursor: pointer;
-  padding-right: 10px;
-  border-left: 4px solid #bbb7b7;
-  span {
-    color: white;
-  }
   img {
     height: 24px;
   }
@@ -22,16 +17,14 @@ task-bar {
   position: absolute;
   bottom: 0;
   width: 100%;
-  background-color: @taskbarColor;
   height: @taskbarHeight;
-  z-index: 999;;
+  z-index: 999;
 
   .runningTasks {
     position: absolute;
     right: 0;
 
     p {
-      color: white;
       padding: 0;
       margin: 0;
       line-height: @taskbarHeight;

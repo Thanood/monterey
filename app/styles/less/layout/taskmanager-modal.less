@@ -1,0 +1,44 @@
+.task-manager-modal {
+  ai-dialog-body {
+    display: flex;
+    flex-direction: row;
+  }
+
+  .left-side {
+    height: 100%;
+    overflow: auto;
+    width: 250px;
+    flex: 0 0 auto;
+
+    tree-list {
+      > tree-node {
+        > ul {
+          > li {
+            padding-left: 0;
+          }
+        }
+      }
+
+      tree-node {
+        ul {
+          li {
+            div {
+              font-size: 16px;
+              letter-spacing: .4px;
+            }
+          }
+        }
+      }
+    }
+  }
+
+  .right-side {
+    height: 53px;
+    flex: 1 1 auto;
+    margin-left: 15px;
+  }
+
+  .logs {
+    height: 274px;
+  }
+}

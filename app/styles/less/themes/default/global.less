@@ -1,0 +1,117 @@
+body, html {
+  background-color: #F7F7F7 !important;
+  font-family: 'Source Sans Pro', Helvetica, 'Open Sans', sans-serif;
+}
+
+hr {
+  border-top: 5px solid #eee;
+}
+
+router-view {
+  height: 100%;
+}
+
+p {
+  font-weight: 400;
+  font-size: 1.1em;
+  line-height: 1.5em;
+  color: #555555;
+}
+
+.btn-primary:active, .btn-primary:focus, .btn:hover, .btn-primary:active:focus {
+  background: #7d519e !important;
+  color: #fff !important;
+}
+
+.btn-primary {
+  background-color: #FFF;
+  border-radius: 4px;
+  border: 1px solid #70519E;
+  color: #70519E;
+  font-size: 14px;
+  font-weight: 400;
+}
+
+
+.list-group-item {
+  &.selected {
+    background-color: #f1f1f1;
+  }
+}
+
+.default-tile {
+  border: 3px solid #dfdfe1;
+
+  &.irrelevant {
+    background: repeating-linear-gradient(
+      45deg,
+      #dfdfe1,
+      #dfdfe1 10px,
+      #d0d0d0 10px,
+      #d0d0d0 20px
+    );
+  }
+}
+
+// style when tile gets dragged
+.gu-transit > .default-tile {
+  background-color: #e6e6e6;
+}
+
+.plugin-title-container {
+  background-color: #f4f4f4;
+  border-bottom: 5px solid rgba(0, 0, 0, .1);
+
+  .plugin-title {
+    color: #70519E;
+  }
+
+  .project-title-plugin {
+    color: #70519E;
+  }
+}
+
+.plugin-content-container {
+  color: #646464;
+}
+
+tree-list {
+  ul {
+    padding-left: 0;
+  }
+}
+
+tree-list {
+  ul {
+    li {
+      div {
+        &.selected {
+          background-color: #ECECED;
+        }
+      }
+    }
+  }
+  
+  > tree-node {
+    > ul {
+      > li {
+        > div {
+          background-color: #dfdfe1;
+        }
+      }
+    }
+  }
+}
+
+
+.splitter {
+  background-color: lightgrey;
+}
+
+.title {
+  color: #EC2685;
+}
+
+.main-header {
+  color: #70519E;
+}
