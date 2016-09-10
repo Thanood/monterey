@@ -7,6 +7,7 @@ import {TaskManagerModal}   from '../task-manager/task-manager-modal';
 import {ApplicationState}   from '../../shared/application-state';
 import {SelectedProject}    from '../../shared/selected-project';
 import {WorkflowViewer}     from '../../project-installation/workflow-viewer';
+import {Tour}               from '../../main/components/tour';
 
 @autoinject()
 export class DeveloperModal {
@@ -17,7 +18,8 @@ export class DeveloperModal {
               private taskManager: TaskManager,
               private dialogService: DialogService,
               private selectedProject: SelectedProject,
-              private state: ApplicationState) {
+              private state: ApplicationState,
+              private tour: Tour) {
     this.project = selectedProject.current;
   }
 
@@ -67,5 +69,10 @@ export class DeveloperModal {
 
   throwError() {
     throw new Error('something terrible has happened');
+  } 
+
+  startTour() {
+    this.dialogController.cancel();
+    this.tour.start();
   }
 }

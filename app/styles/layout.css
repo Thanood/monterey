@@ -331,9 +331,11 @@ m-menu p {
 .main .left .project-list-header .vGrid-glyphicon-sort-desc {
   right: 15px;
 }
-.main .left h1 {
-  margin-top: 0;
-  padding-top: 20px;
+.main .left .main-header {
+  margin: 0;
+  padding-top: 0;
+  line-height: 65px;
+  height: 55px;
 }
 .main .right {
   flex: 1 1 auto;

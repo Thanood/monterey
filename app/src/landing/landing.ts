@@ -16,6 +16,10 @@ export class Landing {
               private applicationState: ApplicationState,
               private pluginManager: PluginManager,
               private router: Router) {
+    if (!applicationState.__meta__) {
+      applicationState.__meta__ = {};
+    }
+    applicationState.__meta__.firstStart = true;
   }
 
   async activate() {

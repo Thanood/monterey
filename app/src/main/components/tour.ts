@@ -1,17 +1,31 @@
+import {bindable, autoinject} from 'aurelia-framework';
+import {ApplicationState}     from '../../shared/application-state';
+
+@autoinject()
 export class Tour {
 
   delay: number = 1000;
 
+  constructor(private state: ApplicationState) {}
+
   attached() {
-    setTimeout(() => this.start(), this.delay);
+    if (this.state.__meta__.firstStart) {
+      // delay the tour so that all UI elements are rendered
+      setTimeout(() => this.start(), this.delay);
+    }
   }
 
   start() {
     let intro = introJs();
     intro.setOptions({ 
       overlayOpacity: 0.5,
+      showProgress: true,
       showStepNumbers: false,
       steps: [{
+        element: $('.main .main-header')[0],
+        intro: 'Welcome to Monterey. Click on next to go through the tour, click on skip to exit the tour',
+        position: 'right'
+      }, {
         element: $('.main-button-group')[0],
         intro: 'With these buttons you can add, create or remove projects',
         position: 'right'
