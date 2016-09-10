@@ -26,7 +26,9 @@ export class Main {
   attached() {
     let intro = introJs();
     setTimeout(() => {
-      intro.setOptions({
+      intro.setOptions({ 
+        overlayOpacity: 0.5,
+        showStepNumbers: false,
         steps: [{
           element: $('.main-button-group')[0],
           intro: 'With these buttons you can add, create or remove projects'
@@ -37,11 +39,11 @@ export class Main {
         }, {
           element: $('.tiles-row')[0],
           intro: 'These tiles represent Monterey features that can be used with the selected project',
-          position: 'left'
+          position: 'floating'
         }, {
           element: $('task-bar .support')[0],
           intro: 'Here you can find ways to contact the developers of Monterey',
-          position: 'top'
+          position: 'top-left-aligned'
         }]
       });
       intro.start();

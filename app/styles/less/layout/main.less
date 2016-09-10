@@ -14,12 +14,12 @@
 
 .main {
   display: flex;
+  flex: 1;
   height: 100%;
 
   .left {
     position: relative;
     flex: 0 0 auto;
-    z-index: 5;
     width: 300px;
     overflow: hidden;
 
@@ -42,7 +42,7 @@
 
     .projectList {
       position: absolute;
-      bottom: @taskbarHeight;
+      bottom: 0;
       top: 100px;
       left: 0;
       right: 0;
