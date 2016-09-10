@@ -10,6 +10,7 @@ if [ "${TEST_SUITE}" = "tests" ]; then
   sudo dpkg -i google-chrome*.deb
 	gulp test
 else
+  gulp lint
   gulp build-release
   npm run dist
 fi
