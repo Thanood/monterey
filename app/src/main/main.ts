@@ -23,6 +23,31 @@ export class Main {
               private taskManager: TaskManager) {
   }
 
+  attached() {
+    let intro = introJs();
+    setTimeout(() => {
+      intro.setOptions({
+        steps: [{
+          element: $('.main-button-group')[0],
+          intro: 'With these buttons you can add, create or remove projects'
+        }, {
+          element: $('.projectList')[0],
+          intro: 'This is a list of all your projects',
+          position: 'right'
+        }, {
+          element: $('.tiles-row')[0],
+          intro: 'These tiles represent Monterey features that can be used with the selected project',
+          position: 'left'
+        }, {
+          element: $('task-bar .support')[0],
+          intro: 'Here you can find ways to contact the developers of Monterey',
+          position: 'top'
+        }]
+      });
+      intro.start();
+    }, 1000);
+  }
+
   async addProject() {
     await this.projectFinder.openDialog();
   }
