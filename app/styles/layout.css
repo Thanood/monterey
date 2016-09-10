@@ -418,10 +418,9 @@ m-menu p {
   overflow: auto;
 }
 .scaffold-modal ai-dialog-body .main-header-dialog {
-  letter-spacing: .4px;
-  text-align: center;
-  white-space: nowrap;
-  vertical-align: middle;
+  margin-top: 0px;
+  line-height: 45px;
+  height: 45px;
 }
 .scaffold-modal ai-dialog-body .dialog-input-select {
   list-style-type: none;
@@ -455,6 +454,23 @@ m-menu p {
 }
 .task-manager-modal .logs {
   height: 274px;
+}
+.install-workflow > ol {
+  padding-left: 0;
+}
+.install-workflow,
+.install-workflow ol {
+  counter-reset: item;
+}
+.install-workflow label {
+  font-weight: normal;
+}
+.install-workflow li {
+  display: block;
+}
+.install-workflow .counter:before {
+  content: counters(item, ".") " ";
+  counter-increment: item;
 }
 .error-modal ai-dialog-body {
   display: flex;

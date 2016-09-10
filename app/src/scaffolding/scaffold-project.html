@@ -7,7 +7,6 @@
       <i class="fa fa-spinner fa-spin" style="display: block" if.bind="loading"></i>
 
       <div class="left-side" if.bind="!loading" splitter="handle.bind: splitter">
-        <h2>Project template</h2>
         <div class="project-template-list">
           <ul class="list-group">
             <li class="list-group-item ${selectedTemplate.id === template.id ? 'selected': ''}"
@@ -15,8 +14,6 @@
                 title.bind="template.name"
                 click.delegate="switchTemplate(template)">
               <p>${template.name}</p>
-
-              <i class="fa fa-arrow-right" show.bind="selectedTemplate.id === template.id"></i>
             </li>
           </ul>
         </div>
@@ -25,7 +22,7 @@
       <div ref="splitter" if.bind="!loading"></div>
 
       <div class="right-side" if.bind="!loading">
-        <h2 class="main-header-dialog">Create new application</h2>
+        <h3 class="main-header-dialog">${title}</h3>
         <compose view-model.bind="workflow.currentStep.viewModel"
                 model.bind="{ state: state, step: workflow.currentStep }"></compose>
       </div>
@@ -33,7 +30,7 @@
 
     <ai-dialog-footer>
       <div class="align-right">
-        <button class="btn btn-primary" click.trigger="close()" tabindex="3">${workflow.currentStep.closeBtnText || 'Close'}</button>
+        <button class="btn btn-primary" click.trigger="close()" tabindex="3">${closeBtnText}</button>
         <button class="btn btn-primary" click.trigger="workflow.previous()" if.bind="!workflow.isLast && !workflow.isFirst" tabindex="2">
           Previous
         </button>

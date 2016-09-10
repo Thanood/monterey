@@ -3,6 +3,7 @@ import {Logger}           from 'aurelia-logging';
 import {DialogService}    from 'aurelia-dialog';
 import {FS}               from 'monterey-pal';
 import {IStep}            from './istep';
+import {ScaffoldProject}  from './scaffold-project';
 import {ProjectManager}   from '../shared/project-manager';
 import {PluginManager}    from '../shared/plugin-manager';
 import {Notification}     from '../shared/notification';
@@ -26,6 +27,7 @@ export class PostCreate {
   constructor(private projectManager: ProjectManager,
               private pluginManager: PluginManager,
               private dialogService: DialogService,
+              private scaffoldProject: ScaffoldProject,
               private notification: Notification,
               private taskManager: TaskManager) {}
 
@@ -34,6 +36,8 @@ export class PostCreate {
     this.step = model.step;
     this.step.execute = () => this.execute();
     this.step.previous = () => this.previous();
+
+    this.scaffoldProject.title = 'The project has been created!';
 
     await this.addProject();
   }
@@ -54,7 +58,7 @@ export class PostCreate {
   }
 
   checkedCountChanged() {
-    this.step.closeBtnText = this.checkedCount > 0 ? 'Start' : 'Close';
+    this.scaffoldProject.closeBtnText = this.checkedCount > 0 ? 'Start' : 'Close';
   }
 
   async execute() {
