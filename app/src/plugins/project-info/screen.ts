@@ -68,6 +68,7 @@ export class Screen {
     this.items.push({ key: 'NPM:', value: OS.getNPMVersion() });
     this.items.push({ key: 'Electron:', value: OS.getElectronVersion() });
     this.items.push({ key: 'Chrome:', value: OS.getChromeVersion() });
+    this.items.push({ key: 'Operating system:', value: OS.getPlatform() });
 
     this.loading = false;
   }
