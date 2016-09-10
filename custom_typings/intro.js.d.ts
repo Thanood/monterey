@@ -7,6 +7,7 @@ declare module IntroJs {
         intro: string;
         element?: string|HTMLElement|Element;
         position?: string;
+        heightPadding?: number;
     }
 
     interface Options {
