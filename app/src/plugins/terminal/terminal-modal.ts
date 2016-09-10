@@ -11,18 +11,18 @@ export class TerminalModal {
   }
 
   attached() {
-    //reload instance of out xterm
-    setTimeout(()=> {
-      this.terminalState.terminals.forEach((term)=> {
-        let element = document.createElement("DIV");
-        term.element.appendChild(term.xterm.element)
+    // reload instance of out xterm
+    setTimeout(() => {
+      this.terminalState.terminals.forEach((term) => {
+        let element = document.createElement('DIV');
+        term.element.appendChild(term.xterm.element);
       });
     }, 100);
   }
 
 
-  updateTitle(e){
-    if(this.terminalState.selectedTerminal){
+  updateTitle(e) {
+    if (this.terminalState.selectedTerminal) {
       this.terminalState.selectedTerminal.name = e.target.innerText;
       return true;
     } else {
@@ -31,7 +31,7 @@ export class TerminalModal {
   }
 
   setTerminal(terminal) {
-    if(this.terminalState.selectedTerminal){
+    if (this.terminalState.selectedTerminal) {
       this.terminalState.selectedTerminal.active = false;
     }
     this.terminalState.selectedTerminal = terminal;
@@ -40,25 +40,25 @@ export class TerminalModal {
 
 
   addTerminal() {
-    this.generateTerminal()
+    this.generateTerminal();
   }
 
 
   generateTerminal() {
     let id: string = 'terminal-' + this.terminalState.getID();
-    let element = document.createElement("DIV");
+    let element = document.createElement('DIV');
     this.terminalState.terminals.push({
       active: true,
       xterm: null,
       pty: null,
       id: id,
-      pid: "generating",
+      pid: 'generating',
       element: element
     });
 
-    setTimeout((e)=> {
+    setTimeout((e) => {
       this.terminalState.createPTY(id);
-    }, 200)
+    }, 200);
   }
 
 
@@ -67,6 +67,4 @@ export class TerminalModal {
       this.terminalState.selectedTerminal.pty.kill();
     }
   }
-
-
 }

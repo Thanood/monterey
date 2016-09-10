@@ -64,7 +64,7 @@ export class PluginManager {
    */
   async resolvePostInstallWorkflow(project: Project, workflow: Workflow) {
     async function cycle (project: Project, workflow: Workflow, pass: number) {
-      for(let x = 0; x < this.plugins.length; x++) {
+      for (let x = 0; x < this.plugins.length; x++) {
         await this.plugins[x].resolvePostInstallWorkflow(project, workflow, pass);
       }
     }
@@ -72,10 +72,10 @@ export class PluginManager {
     // plugins get three opportunities to make changes to the workflow
     let cycles = 3;
 
-    for(let x = 1; x < (cycles + 1); x++) {
+    for (let x = 1; x < (cycles + 1); x++) {
       await cycle.call(this, project, workflow, x);
 
-      for(let phase in workflow.phases) {
+      for (let phase in workflow.phases) {
         (<Phase>workflow.phases[phase]).sort();
       }
 
@@ -84,7 +84,7 @@ export class PluginManager {
       // allow plugins to override in cycle 2 and 3
       if (x === 1) {
         let prevPhaseTask;
-        for(let phase in workflow.phases) {
+        for (let phase in workflow.phases) {
           let p = <Phase>workflow.phases[phase];
           let prevTask;
           p.steps.forEach(step => {
@@ -102,7 +102,7 @@ export class PluginManager {
 
     return workflow;
   }
- 
+
 
   /**
    * Call a function on all plugins
@@ -129,11 +129,11 @@ export class PluginManager {
 
     // enforce unique names for tiles
     tiles.forEach(tile => {
-      if(!tile.name || tiles.filter(x => x.name === tile.name).length > 1) {
+      if (!tile.name || tiles.filter(x => x.name === tile.name).length > 1) {
         console.log(tile);
         throw new Error('A tile must have a unique name');
       }
-    })
+    });
 
     return tiles;
   }

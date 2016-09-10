@@ -53,7 +53,7 @@ export class FileSelectorModal {
       this.notification.error('There are validation errors');
       return;
     }
-    
+
     this.dialogController.ok(this.selectedFilePath);
   }
 }

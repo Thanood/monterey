@@ -22,7 +22,7 @@ export class ProjectFinder {
 
     if (projectFolders) {
       let projects = [];
-      for(let x = 0; x < projectFolders.length; x++) {
+      for (let x = 0; x < projectFolders.length; x++) {
         projects.push(await this.projectManager.addProjectByPath(projectFolders[x]));
       }
 

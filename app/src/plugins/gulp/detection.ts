@@ -22,7 +22,7 @@ export class Detection {
       FS.join(project.path, 'src', 'skeleton-navigation-typescript-vs', 'gulpfile.js')
     ];
 
-    if(project.packageJSONPath) {
+    if (project.packageJSONPath) {
       lookupPaths.push(FS.join(FS.getFolderPath(project.packageJSONPath), 'gulpfile.js'));
     }
 
@@ -39,9 +39,9 @@ export class Detection {
   }
 
   async manualDetection(project: Project) {
-    let result = await this.dialogService.open({ 
-      viewModel: FileSelectorModal, 
-      model: { 
+    let result = await this.dialogService.open({
+      viewModel: FileSelectorModal,
+      model: {
         description: 'In order to enable Gulp features, please select gulpfile.js',
         expectedFileName: 'gulpfile.js',
         filters: [

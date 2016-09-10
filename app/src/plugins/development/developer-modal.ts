@@ -24,15 +24,15 @@ export class DeveloperModal {
   }
 
   createDummyTasks() {
-    var firstPromise;
-    var timeouts = [];
+    let firstPromise;
+    let timeouts = [];
     let first = new Task(this.selectedProject.current, 'first task', () => {
       return new Promise(r => {
         setTimeout(() => {
-         if (!first.finished) r(); 
+         if (!first.finished) r();
         }, 10000);
-        
-        for(let x = 1; x <= 1000; x++) {
+
+        for (let x = 1; x <= 1000; x++) {
           setTimeout(() => first.addTaskLog('output'), x * 10);
         }
       });
@@ -41,14 +41,14 @@ export class DeveloperModal {
     first.stop = async () => {};
     this.taskManager.addTask(this.selectedProject.current, first);
 
-    
+
     let second = new Task(this.selectedProject.current, 'second task', () => {
       return new Promise(r => {
         setTimeout(() => {
-         if (!second.finished) r(); 
+         if (!second.finished) r();
         }, 10000);
 
-        for(let x = 1; x <= 10; x++) {
+        for (let x = 1; x <= 10; x++) {
           setTimeout(() => second.addTaskLog('output'), x * 1000);
         }
       });
@@ -69,7 +69,7 @@ export class DeveloperModal {
 
   throwError() {
     throw new Error('something terrible has happened');
-  } 
+  }
 
   startTour() {
     this.dialogController.cancel();

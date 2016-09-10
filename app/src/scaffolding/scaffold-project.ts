@@ -73,7 +73,7 @@ export class ScaffoldProject {
   }
 
   async next() {
-    this.title = 'Create new application'
+    this.title = 'Create new application';
     this.closeBtnText = 'Close';
     await this.workflow.next();
   }

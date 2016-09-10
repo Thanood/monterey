@@ -25,7 +25,7 @@ export class Tile {
     if (!this.selectedProject.current.isUsingGulp()) {
       await this.detection.manualDetection(this.selectedProject.current);
     }
-    
+
     if (this.selectedProject.current.isUsingGulp()) {
       this.main.activateScreen('plugins/gulp/screen');
     }

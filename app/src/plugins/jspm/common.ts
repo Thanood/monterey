@@ -30,7 +30,7 @@ export class Common {
         jspmModulesPath: project.__meta__.jspmModulesPath,
         jspmOptions: jspmOptions,
         logCallback: (message) => {
-          task.addTaskLog(this._resolveJSPMLogMessage(message.message));          
+          task.addTaskLog(this._resolveJSPMLogMessage(message.message));
         }
       });
 
@@ -41,7 +41,7 @@ export class Common {
       }
 
       return promise;
-    }
+    };
 
     return task;
   }
@@ -78,7 +78,7 @@ export class Common {
       jspmOptions: {
         workingDirectory: FS.getFolderPath(project.packageJSONPath)
       }
-    })
+    });
   }
 
   /**
@@ -100,7 +100,7 @@ export class Common {
       FS.join(FS.getGlobalNodeModulesPath(), 'jspm')
     ];
 
-    for(let x = 0; x < lookupPaths.length; x++) {
+    for (let x = 0; x < lookupPaths.length; x++) {
       let jspmApiFile = FS.join(lookupPaths[x], 'api.js');
 
       if (await FS.fileExists(jspmApiFile)) {
@@ -108,7 +108,7 @@ export class Common {
         return lookupPaths[x];
       }
     }
-    
+
     logger.info(`did not find a node_modules folder with jspm installed. tried: [${lookupPaths.join(', ')}]`);
   }
 }

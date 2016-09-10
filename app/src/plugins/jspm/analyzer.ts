@@ -118,7 +118,7 @@ export class Analyzer {
         promise = this.npmAPI.getLatest(m.package)
           .then(tag => {
             if (tag) {
-              m.latest = this.normalizeTag(tag)
+              m.latest = this.normalizeTag(tag);
             }
           });
       }

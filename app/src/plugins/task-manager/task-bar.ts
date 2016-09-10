@@ -33,11 +33,11 @@ export class TaskBar {
     this.queued = this.taskManager.tasks.filter(x => x.status === 'queued').length;
 
     let text = 'Task manager';
-    if (this.running > 0 && this.queued == 0) {
+    if (this.running > 0 && this.queued === 0) {
       text = `${text} (${this.running} running)`;
     } else if (this.queued > 0 && this.running === 0) {
       text = `${text} (${this.queued} queued)`;
-    } else if(this.queued > 0 && this.running > 0) {
+    } else if (this.queued > 0 && this.running > 0) {
       text = `${text} (${this.running} running, ${this.queued} queued)`;
     }
 

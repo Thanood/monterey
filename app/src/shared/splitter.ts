@@ -10,7 +10,7 @@ export class Splitter {
 
   attached() {
     if (!this.handle) return;
-  
+
     if (!this.handle.classList.contains('splitter')) {
       this.handle.classList.add('splitter');
     }

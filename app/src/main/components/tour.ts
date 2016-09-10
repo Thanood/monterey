@@ -17,7 +17,7 @@ export class Tour {
 
   start() {
     let intro = introJs();
-    intro.setOptions({ 
+    intro.setOptions({
       overlayOpacity: 0.5,
       showProgress: true,
       showStepNumbers: false,

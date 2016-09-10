@@ -96,9 +96,9 @@ export class JSPMDetection {
   }
 
   async manualDetection(project: Project) {
-    let result = await this.dialogService.open({ 
-      viewModel: FileSelectorModal, 
-      model: { 
+    let result = await this.dialogService.open({
+      viewModel: FileSelectorModal,
+      model: {
         description: 'In order to enable JSPM features, please select the config.js or jspm.config.js file',
         expectedFileName: 'config.js/jspm.config.js',
         filters: [

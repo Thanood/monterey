@@ -16,7 +16,7 @@ export class SupportModal {
   async activate() {
     this.books = (await this.registries.getGitbooks()).books;
     let packageJSON = JSON.parse(await FS.readFile(FS.join(FS.getRootDir(), 'package.json')));
-    this.logFolder = FS.join(ELECTRON.getPath('userData'), 'logs'); 
+    this.logFolder = FS.join(ELECTRON.getPath('userData'), 'logs');
   }
 
   openBook() {

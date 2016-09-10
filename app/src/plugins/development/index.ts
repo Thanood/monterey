@@ -18,11 +18,11 @@ class Plugin extends BasePlugin {
     super();
 
     if (SESSION.getEnv() === 'development') {
-      this.settings.addSetting({ 
-        identifier: 'show-development-tools', 
-        title: 'Show development tools?', 
-        type: 'boolean', 
-        value: true 
+      this.settings.addSetting({
+        identifier: 'show-development-tools',
+        title: 'Show development tools?',
+        type: 'boolean',
+        value: true
       });
     }
   }

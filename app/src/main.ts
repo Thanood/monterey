@@ -19,7 +19,7 @@ export async function configure(aurelia: Aurelia) {
     .plugin('aurelia-dialog', config => {
       config.useStandardResources();
       config.useCSS('');
-      config.useRenderer(KendoAureliaDialogRenderer)
+      config.useRenderer(KendoAureliaDialogRenderer);
     })
     .plugin('aurelia-v-grid')
     .plugin('aurelia-validation')
@@ -57,8 +57,7 @@ export async function configure(aurelia: Aurelia) {
   }
 
   await logger.cleanupLogs();
-  
-  
+
   // register the bootstrap validation error renderer under the bootstrap-form key
   // so that aurelia-validation uses this renderer when validation-renderer="bootstrap-form" is put on a form
   aurelia.container.registerHandler('bootstrap-form', container => container.get(BootstrapFormValidationRenderer));

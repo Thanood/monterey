@@ -8,7 +8,7 @@ export class ProjectDescription {
   step: IStep;
 
   constructor(private scaffoldProject: ScaffoldProject) {}
-            
+
   async activate(model) {
     this.state = model.state;
     this.step = model.step;

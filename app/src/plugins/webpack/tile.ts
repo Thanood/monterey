@@ -25,7 +25,7 @@ export class Tile {
     if (!this.selectedProject.current.isUsingWebpack()) {
       await this.detection.manualDetection(this.selectedProject.current);
     }
-    
+
     if (this.selectedProject.current.isUsingWebpack()) {
       this.main.activateScreen('plugins/webpack/screen');
     }

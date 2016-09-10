@@ -24,7 +24,7 @@ export class Tile {
     if (!this.selectedProject.current.isUsingAureliaCLI()) {
       await this.detection.manualDetection(this.selectedProject.current);
     }
-    
+
     if (this.selectedProject.current.isUsingAureliaCLI()) {
       this.main.activateScreen('plugins/aurelia-cli/screen');
     }

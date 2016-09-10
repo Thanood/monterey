@@ -12,8 +12,8 @@ const logger = <Logger>LogManager.getLogger('launcher-manager');
 @autoinject
 export class LauncherManager {
 
-  constructor(private registry: MontereyRegistries, 
-              private state: ApplicationState, 
+  constructor(private registry: MontereyRegistries,
+              private state: ApplicationState,
               private taskManager: TaskManager) {
   }
 
@@ -25,15 +25,15 @@ export class LauncherManager {
       let mapped: any = {};
       mapped.platforms = [];
 
-      for(let prop in result) {
+      for (let prop in result) {
         mapped.platforms.push(prop);
       }
 
       mapped.launchers = result;
-      
+
       return mapped;
-    } 
-    catch(err) {
+    }
+    catch (err) {
       throw err;
     }
   }
@@ -46,7 +46,7 @@ export class LauncherManager {
 
   // installs a launcher to the app state
   async installLauncher(project: Project | undefined, platform: string, launcherPath: string) {
-    await this.tryInstallLauncherFromRemote(project, platform, launcherPath);   
+    await this.tryInstallLauncherFromRemote(project, platform, launcherPath);
   }
 
 
@@ -78,7 +78,7 @@ export class LauncherManager {
 
       await this.state._save();
     }
-    catch(err) {
+    catch (err) {
       throw new Error(`Failed to install ${platform}/${launcherPath} launcher: ${err.message}`);
     }
   }

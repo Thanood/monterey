@@ -19,7 +19,7 @@ export class Detection {
       FS.join(project.path, 'project.json')
     ];
 
-    if(project.packageJSONPath) {
+    if (project.packageJSONPath) {
       lookupPaths.push(FS.join(FS.getFolderPath(project.packageJSONPath), 'project.json'));
     }
 
@@ -36,9 +36,9 @@ export class Detection {
   }
 
   async manualDetection(project: Project) {
-    let result = await this.dialogService.open({ 
-      viewModel: FileSelectorModal, 
-      model: { 
+    let result = await this.dialogService.open({
+      viewModel: FileSelectorModal,
+      model: {
         description: 'In order to enable dotnet features, please select the project.json file of your project',
         expectedFileName: 'project.json',
         filters: [

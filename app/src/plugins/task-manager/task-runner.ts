@@ -11,12 +11,10 @@ import {Task}                 from './task';
 @autoinject()
 export class TaskRunner {
   @bindable project: Project;
-  // categories: Array<Category> = [];
-  // favorites: Array<Favorite> = [];
   favoriteTab: Element;
   favoriteTabBody: Element;
   loading: boolean;
-  
+
   constructor(private taskManager: TaskManager,
               private commandRunner: CommandRunner,
               private state: ApplicationState,
@@ -37,8 +35,8 @@ export class TaskRunner {
 
     taskrunner.categories.splice(0);
     taskrunner.favorites.splice(0);
-    
-    if(!this.project.favoriteCommands) {
+
+    if (!this.project.favoriteCommands) {
       this.project.favoriteCommands = [
         'gulp watch',
         'au run --watch',
@@ -66,7 +64,7 @@ export class TaskRunner {
 
   async load(project: Project) {
     project.__meta__.taskrunner.loading = true;
-    
+
     let categories: Array<Category> = [];
     let services = await this.commandRunner.getServices(project);
 
@@ -76,7 +74,7 @@ export class TaskRunner {
       commands: []
     }));
 
-    for(let x = 0; x < categories.length; x++) {
+    for (let x = 0; x < categories.length; x++) {
       await this.loadCommands(project, categories[x], true);
     }
 
@@ -88,7 +86,7 @@ export class TaskRunner {
 
   loadFavorites(project: Project) {
     if (!project.favoriteCommands) return;
-    
+
     let taskrunner = project.__meta__.taskrunner;
     let categories = <Array<Category>>taskrunner.categories;
     let favorites = <Array<Favorite>>taskrunner.favorites;
@@ -130,7 +128,7 @@ export class TaskRunner {
       this.notification.warning('No task has been selected');
       return;
     }
-    
+
     let task = this.commandRunner.run(this.project, command || category.selectedCommand);
 
     this.taskManager.addTask(this.project, task);
@@ -155,7 +153,7 @@ export class TaskRunner {
 }
 
 interface Category {
-  service?: CommandRunnerService
+  service?: CommandRunnerService;
   commands: Array<Command>;
   selectedCommand?: Command;
   error?: string;
