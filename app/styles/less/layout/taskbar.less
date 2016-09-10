@@ -12,6 +12,7 @@ task-bar-item {
   padding-right: 10px;
   cursor: hand;
   cursor: pointer;
+  display: block;
   img {
     height: 24px;
   }
@@ -23,4 +24,8 @@ task-bar {
   width: 100%;
   height: @taskbarHeight;
   z-index: 999;
+
+  compose {
+    flex-shrink: 0;
+  }
 }
