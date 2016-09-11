@@ -175,7 +175,6 @@ let devMenuTemplate = [
           return;
         }
         const storage = require('electron-json-storage');
-        console.log(global.paths);
         storage.remove(global.paths.application_state, function (err){});
         mainWindow.loadURL(getIndex());
       },

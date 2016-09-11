@@ -18,12 +18,11 @@
     "./app/src/**/*.ts",
     "./test/**/*.ts",
     "./typings/index.d.ts",
-    "./custom_typings/**/*.d.ts",
-    "./jspm_packages/**/*.d.ts"
+    "./custom_typings/**/*.d.ts"
   ],
   "exclude": [
-    "node_modules",
-    "jspm_packages"
+    "app/node_modules",
+    "app/jspm_packages"
   ],
   "atom": {
     "rewriteTsconfig": false

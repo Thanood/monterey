@@ -1,5 +1,7 @@
 import 'bootstrap';
 import {LogManager, Aurelia}             from 'aurelia-framework';
+import {I18N}                            from 'aurelia-i18n';
+import * as Backend                      from 'i18next-xhr-backend';
 import {ELECTRON}                        from 'monterey-pal';
 import {MonteryLogAppender}              from './shared/monterey-logger';
 import {BootstrapFormValidationRenderer} from './shared/bootstrap-validation-renderer';
@@ -21,6 +23,20 @@ export async function configure(aurelia: Aurelia) {
       config.useStandardResources();
       config.useCSS('');
       config.useRenderer(KendoAureliaDialogRenderer);
+    })
+    .plugin('aurelia-i18n', (instance) => {
+      // register backend plugin
+      instance.i18next.use(Backend);
+
+      return instance.setup({
+        backend: {
+          loadPath: './locales/{{lng}}/{{ns}}.json',
+        },
+        lng : 'en',
+        fallbackLng: 'en',
+        attributes : ['t', 'i18n'],
+        debug : false
+      });
     })
     .plugin('aurelia-v-grid')
     .plugin('aurelia-validation')
@@ -62,8 +78,6 @@ export async function configure(aurelia: Aurelia) {
   // storing the state identifier in a global, so we can use that to clear
   // this exact session via the menu bar
   ELECTRON.getGlobal('paths').application_state = applicationState._getStateIdentifier();
-
-  console.log(ELECTRON.getGlobal('paths'));
 
   // register the bootstrap validation error renderer under the bootstrap-form key
   // so that aurelia-validation uses this renderer when validation-renderer="bootstrap-form" is put on a form
