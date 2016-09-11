@@ -2,7 +2,7 @@ import {Settings}  from '../../../src/shared/settings';
 import {ApplicationState}  from '../../../src/shared/application-state';
 import {Container} from 'aurelia-framework';
 
-describe('IPC', () => {
+describe('Settings', () => {
   let sut: Settings;
   let container: Container;
   let state: ApplicationState;
@@ -14,14 +14,14 @@ describe('IPC', () => {
   });
 
   it('only adds settings that are not in the applicationstate already', () => {
-    expect(state.settings.length).toBe(0);
+    expect(sut.settings.length).toBe(0);
     sut.addSetting({
       identifier: 'some-setting',
       value: true,
       type: 'boolean',
       title: 'some setting'
     });
-    expect(state.settings.length).toBe(1);
+    expect(sut.settings.length).toBe(1);
 
     // add it again
     sut.addSetting({
@@ -30,7 +30,7 @@ describe('IPC', () => {
       type: 'boolean',
       title: 'some setting'
     });
-    expect(state.settings.length).toBe(1);
+    expect(sut.settings.length).toBe(1);
   });
 
   it('getSetting returns the correct setting or undefined', () => {
@@ -81,6 +81,23 @@ describe('IPC', () => {
     }
 
     expect(sut.getSettings().length).toBe(10);
+  });
+
+  it('save function updates settingValues in applicationstate', async (d) => {
+    let saveSpy = spyOn(state, '_save');
+    state.settingValues = [];
+    sut.settings = [{
+      identifier: 'foo',
+      value: 'foo'
+    }, {
+      identifier: 'bar',
+      value: 'bar'
+    }];
+    await sut.save();
+    expect(state.settingValues.length).toBe(2);
+    expect(state.settingValues.find(x => x.identifier === 'foo').value).toBe('foo');
+    expect(state.settingValues.find(x => x.identifier === 'bar').value).toBe('bar');
+    d();
   });
 
   it('save calls save on the state', async (d) => {

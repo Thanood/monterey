@@ -12,6 +12,8 @@ export interface Setting {
 
 @autoinject()
 export class Settings {
+  settings: Array<Setting> = [];
+
   constructor(private state: ApplicationState) {
   }
 
@@ -26,12 +28,18 @@ export class Settings {
 
     let set = this.getSetting(setting.identifier);
     if (!set) {
-      this.state.settings.push(setting);
+      this.settings.push(setting);
+
+      // get the stored setting from the application state
+      let val = this.state.settingValues.find(x => x.identifier === setting.identifier);
+      if (val) {
+        setting.value = val.value;
+      }
     }
   }
 
   getSetting(identifier: string) {
-    return this.state.settings.find(x => x.identifier === identifier);
+    return this.settings.find(x => x.identifier === identifier);
   }
 
   getValue(identifier: string) {
@@ -47,10 +55,22 @@ export class Settings {
   }
 
   getSettings() {
-    return this.state.settings;
+    return this.settings;
   }
 
   async save() {
+    this.state.settingValues = [];
+    for (let setting of this.settings) {
+      this.state.settingValues.push({
+        identifier: setting.identifier,
+        value: setting.value
+      });
+    }
     return await this.state._save();
   }
+}
+
+export class SettingValue {
+  identifier: string;
+  value: any;
 }

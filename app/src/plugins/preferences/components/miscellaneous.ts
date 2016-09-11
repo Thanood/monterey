@@ -19,7 +19,7 @@ export class Miscellaneous {
   async save() {
     this.loading = true;
 
-    await this.state._save();
+    await this.settings.save();
 
     this.notification.success('Changes saved');
     this.ea.publish('SettingsChanged');
