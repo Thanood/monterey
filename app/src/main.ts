@@ -1,5 +1,6 @@
 import 'bootstrap';
 import {LogManager, Aurelia}             from 'aurelia-framework';
+import {ELECTRON}                        from 'monterey-pal';
 import {MonteryLogAppender}              from './shared/monterey-logger';
 import {BootstrapFormValidationRenderer} from './shared/bootstrap-validation-renderer';
 import {KendoAureliaDialogRenderer}      from './shared/kendo-aurelia-dialog-renderer';
@@ -57,6 +58,12 @@ export async function configure(aurelia: Aurelia) {
   }
 
   await logger.cleanupLogs();
+
+  // storing the state identifier in a global, so we can use that to clear
+  // this exact session via the menu bar
+  ELECTRON.getGlobal('paths').application_state = applicationState._getStateIdentifier();
+
+  console.log(ELECTRON.getGlobal('paths'));
 
   // register the bootstrap validation error renderer under the bootstrap-form key
   // so that aurelia-validation uses this renderer when validation-renderer="bootstrap-form" is put on a form
