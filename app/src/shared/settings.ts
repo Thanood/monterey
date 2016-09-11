@@ -7,6 +7,7 @@ export interface Setting {
   identifier: string;
   visible?: boolean;
   value?: string|boolean|undefined;
+  options?: Array<{ value: any, display: string }>;
 }
 
 @autoinject()

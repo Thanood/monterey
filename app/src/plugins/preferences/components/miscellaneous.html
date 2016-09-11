@@ -8,8 +8,18 @@
         </label>
       </div>
       <div if.bind="setting.type === 'string'">
-        <label class="control-label">${setting.title}</label><br>
-        <input type="text" class="form-control" value.bind="setting.value">
+        <div if.bind="!setting.options">
+          <label class="control-label">${setting.title}</label><br>
+          <input type="text" class="form-control" value.bind="setting.value">
+        </div>
+        <div if.bind="setting.options">
+          <label class="control-label">${setting.title}</label><br>
+          <select class="form-control" value.bind="setting.value">
+            <option repeat.for="option of setting.options" model.bind="option.value">
+              ${option.display}
+            </option>
+          </select>
+        </div>
       </div>
     </div>
   </div>

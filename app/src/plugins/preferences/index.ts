@@ -22,6 +22,16 @@ class Plugin extends BasePlugin {
       visible: false,
       value: 'default'
     });
+
+    this.settings.addSetting({
+      identifier: 'language',
+      title: 'Language',
+      type: 'string',
+      value: 'en',
+      options: [
+        { value: 'en', display: 'English' }
+      ]
+    });
   }
 
   async getTaskBarItems(project) {

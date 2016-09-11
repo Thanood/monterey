@@ -27,12 +27,13 @@ export async function configure(aurelia: Aurelia) {
     .plugin('aurelia-i18n', (instance) => {
       // register backend plugin
       instance.i18next.use(Backend);
+      let settings = <Settings>aurelia.container.get(Settings);
 
       return instance.setup({
         backend: {
           loadPath: './locales/{{lng}}/{{ns}}.json',
         },
-        lng : 'en',
+        lng : <string>settings.getValue('language') || 'en',
         fallbackLng: 'en',
         attributes : ['t', 'i18n'],
         debug : false
