@@ -1,4 +1,5 @@
 import {autoinject, observable}        from 'aurelia-framework';
+import {I18N}                          from 'aurelia-i18n';
 import {DialogController}              from 'aurelia-dialog';
 import {EventAggregator, Subscription} from 'aurelia-event-aggregator';
 import {ContextMenu}                   from 'context-menu/context-menu';
@@ -34,6 +35,7 @@ export class TaskManagerModal {
               private contextMenu: ContextMenu,
               private notification: Notification,
               private settings: Settings,
+              private i18n: I18N,
               private ea: EventAggregator,
               private state: ApplicationState) {
     // we need to update the tree when tasks are added, started and finished
@@ -75,14 +77,14 @@ export class TaskManagerModal {
     }
 
     let task = <Task>treeListNode.data.task;
-    builder.addItem({ title: 'End task', onClick: () => {
+    builder.addItem({ title: this.i18n.tr('end-task'), onClick: () => {
       if (task.finished) {
-        this.notification.error('This task has already finished');
+        this.notification.error(this.i18n.tr('task-has-already-finished'));
         return;
       }
 
       if (!task.stoppable) {
-        this.notification.error('This task cannot be stopped');
+        this.notification.error('task-cannot-be-stopped');
         return;
       }
 
@@ -133,8 +135,8 @@ export class TaskManagerModal {
       projNode.data = { project: proj };
       projNode.bold = true;
 
-      let newTaskNode = new TreeListNode('Start new task');
-      newTaskNode.title = 'Start new task';
+      let newTaskNode = new TreeListNode(this.i18n.tr('start-new-task'));
+      newTaskNode.title = this.i18n.tr('start-new-task');
       newTaskNode.data = { project: proj };
       newTaskNode.icon = 'glyphicon glyphicon-plus';
       projNode.children.push(newTaskNode);

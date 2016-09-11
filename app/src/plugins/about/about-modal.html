@@ -1,10 +1,10 @@
 <template>
   <require from="../../shared/converters/limit-text-size"></require>
 
-  <ai-dialog class="about-modal" width="600" title="About" height="500">
+  <ai-dialog class="about-modal" width="600" title="${'about' | t}" height="500">
     <ai-dialog-body>
       <img src="images/monterey-64x64.png" />
-      <p>Monterey is an extensible application that provides a graphical user interface for a collection of tools to simplify the creation, configuration and maintenance of Aurelia applications</p>
+      <p i18n="monterey-description"></p>
 
       <hr>
 
@@ -17,7 +17,7 @@
 
     <ai-dialog-footer>
       <div class="align-right">
-        <button class="btn btn-primary" click.trigger="dialogController.close()">Close</button>
+        <button class="btn btn-primary" click.trigger="dialogController.close()" i18n="close"></button>
       </div>
     </ai-dialog-footer>
   </ai-dialog>

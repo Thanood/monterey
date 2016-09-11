@@ -1,12 +1,12 @@
 <template>
   <div class="plugin-title-container">
-    <button class="returnToPluginListBtn btn btn-primary" click.delegate="goBack()">Back</button>
-    <h1 class="plugin-title">Project information</h1>
+    <button class="returnToPluginListBtn btn btn-primary" click.delegate="goBack()" i18n="back"></button>
+    <h1 class="plugin-title" i18n="project-information"></h1>
     <p class="project-title-plugin" if.bind="selectedProject.current.name">${selectedProject.current.name}</p>
   </div>
   <div class="plugin-content-container">
 
-    <button class="copy-btn btn btn-primary">Copy to clipboard (markdown)</button>
+    <button class="copy-btn btn btn-primary" i18n="copy-to-clipboard-markdown"></button>
 
     <br>
 

@@ -32,9 +32,9 @@
     </ai-dialog-body>
     <ai-dialog-footer>
       <div class="align-right">
-        <button class="btn btn-primary" click.delegate="addTerminal()">New terminal</button>
-        <button class="btn btn-primary" click.delegate="closeTerminal()">kill selected</button>
-        <button class="btn btn-primary" click.trigger="dialogController.close()">Close</button>
+        <button class="btn btn-primary" click.delegate="addTerminal()" i18n="new-terminal"></button>
+        <button class="btn btn-primary" click.delegate="closeTerminal()" i18n="kill-selected-terminal"></button>
+        <button class="btn btn-primary" click.trigger="dialogController.close()" i18n="close"></button>
       </div>
     </ai-dialog-footer>
   </ai-dialog>

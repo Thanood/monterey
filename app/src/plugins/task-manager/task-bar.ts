@@ -1,5 +1,6 @@
 import {autoinject, bindable}          from 'aurelia-framework';
 import {EventAggregator, Subscription} from 'aurelia-event-aggregator';
+import {I18N}             from 'aurelia-i18n';
 import {withModal}        from '../../shared/decorators';
 import {SelectedProject}  from '../../shared/selected-project';
 import {TaskManager}      from './task-manager';
@@ -12,11 +13,13 @@ export class TaskBar {
   running: number = 0;
   queued: number = 0;
   busy: boolean;
-  taskManagerText: string = 'Task Manager';
+  taskManagerText: string;
 
   constructor(private ea: EventAggregator,
               private taskManager: TaskManager,
+              private i18n: I18N,
               private selectedProject: SelectedProject) {
+  this.taskManagerText = this.i18n.tr('task-manager');
 }
 
   attached() {
@@ -32,13 +35,16 @@ export class TaskBar {
     this.running = this.taskManager.tasks.filter(x => x.status === 'running').length;
     this.queued = this.taskManager.tasks.filter(x => x.status === 'queued').length;
 
-    let text = 'Task manager';
+    let text = this.i18n.tr('task-manager');
+    let runningTranslation = this.i18n.tr('running');
+    let queuedTranslation = this.i18n.tr('queued');
+
     if (this.running > 0 && this.queued === 0) {
-      text = `${text} (${this.running} running)`;
+      text = `${text} (${this.running} ${runningTranslation})`;
     } else if (this.queued > 0 && this.running === 0) {
-      text = `${text} (${this.queued} queued)`;
+      text = `${text} (${this.queued} ${queuedTranslation})`;
     } else if (this.queued > 0 && this.running > 0) {
-      text = `${text} (${this.running} running, ${this.queued} queued)`;
+      text = `${text} (${this.running} ${runningTranslation}, ${this.queued} ${queuedTranslation})`;
     }
 
     if (this.running > 0 || this.queued > 0) {

@@ -12,9 +12,9 @@
       <div class="top">
         <h1 class="main-header" style="text-align:center">Monterey</h1>
         <div class="main-button-group">
-          <button class="main-button" click.delegate="addProject()">Add</button>
-          <button class="main-button" click.delegate="createProject()">Create</button>
-          <button class="main-button" click.delegate="removeProject()">Remove</button>
+          <button class="main-button" click.delegate="addProject()" i18n="add"></button>
+          <button class="main-button" click.delegate="createProject()" i18n="create"></button>
+          <button class="main-button" click.delegate="removeProject()" i18n="remove"></button>
         </div>
       </div>
       <project-list view-model.ref="projectList" disabled.bind="_activePluginScreen"></project-list>
