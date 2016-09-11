@@ -2,6 +2,7 @@ import {TaskBar} from '../../../../src/plugins/task-manager/task-bar';
 import {TaskManager} from '../../../../src/plugins/task-manager/task-manager';
 import {Container} from 'aurelia-framework';
 import {EventAggregator} from 'aurelia-event-aggregator';
+import {I18N}            from 'aurelia-i18n';
 
 describe('TaskManager taskbar', () => {
   let sut: TaskBar;
@@ -13,6 +14,13 @@ describe('TaskManager taskbar', () => {
     let container = new Container();
     this.taskManager = <any>{};
     container.registerInstance(TaskManager, this.taskManager);
+    container.registerInstance(I18N, {
+      tr: (key) => {
+        if (key === 'task-manager') return 'Task manager';
+        if (key === 'queued') return 'queued';
+        if (key === 'running') return 'running';
+      }
+    });
     container.registerInstance(EventAggregator, ea);
     sut = container.get(TaskBar);
   });
