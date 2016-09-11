@@ -11,19 +11,19 @@ export function configure(aurelia) {
 
 @autoinject()
 class Plugin extends BasePlugin {
-  
+
   constructor(private settings: Settings) {
     super();
 
-    this.settings.addSetting({ 
-      identifier: 'theme', 
-      title: 'Theme', 
+    this.settings.addSetting({
+      identifier: 'theme',
+      title: 'Theme',
       type: 'string',
-      visible: false, 
+      visible: false,
       value: 'default'
     });
   }
-  
+
   async getTaskBarItems(project) {
     return ['plugins/preferences/task-bar'];
   }

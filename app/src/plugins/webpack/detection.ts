@@ -32,9 +32,9 @@ export class Detection {
   }
 
   async manualDetection(project: Project) {
-    let result = await this.dialogService.open({ 
-      viewModel: FileSelectorModal, 
-      model: { 
+    let result = await this.dialogService.open({
+      viewModel: FileSelectorModal,
+      model: {
         description: 'In order to enable Webpack features, please select the webpack.config.js',
         expectedFileName: 'webpack.config.js',
         filters: [

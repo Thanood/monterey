@@ -14,7 +14,7 @@ export class Browser {
 
   @observable quickSearch;
   @observable showAllPlugins: boolean = false;
-  
+
   endpointError: string;
   rawData;
   data;
@@ -38,7 +38,7 @@ export class Browser {
       this.filterLaunchers(this.quickSearch);
     }).catch(err => {
       this.endpointError = err.message;
-    });        
+    });
   }
 
   quickSearchChanged(newValue) {
@@ -46,12 +46,12 @@ export class Browser {
   }
 
   showAllPluginsChanged() {
-    this.filterLaunchers(this.quickSearch)
+    this.filterLaunchers(this.quickSearch);
   }
 
   filterLaunchers(filter) {
-    if(!this.rawData) return;
-    filter = filter || "";
+    if (!this.rawData) return;
+    filter = filter || '';
     filter = filter.toLowerCase();
 
     this.data = {};
@@ -59,19 +59,19 @@ export class Browser {
     this.data.launchers = {};
 
     this.rawData.platforms.forEach(platform => {
-      if(!this.showAllPlugins && this.platform !== platform) return;
+      if (!this.showAllPlugins && this.platform !== platform) return;
 
       this.data.launchers[platform] = this.rawData.launchers[platform].filter(item => {
-          return filter === "" || item.name.toLowerCase().indexOf(filter) !== -1 || item.description.toLowerCase().indexOf(filter) !== -1;
+          return filter === '' || item.name.toLowerCase().indexOf(filter) !== -1 || item.description.toLowerCase().indexOf(filter) !== -1;
       });
     });
   }
 
-  
+
 
   async install(tile, launcher) {
-    if(tile.dataLoaded) {
-      if(tile.errors) return;
+    if (tile.dataLoaded) {
+      if (tile.errors) return;
 
       // install the launcher
       try {
@@ -81,7 +81,7 @@ export class Browser {
       catch (err) {
         console.log(err);
         this.notification.error(`Failed to install app launcher: ${err.message}`);
-      } 
+      }
     }
   }
 
@@ -94,7 +94,7 @@ export class PlatformNameValueConverter {
   toView(platform) {
     let result: string;
 
-    switch(platform) {
+    switch (platform) {
       case 'win32':
         result = 'Windows';
         break;

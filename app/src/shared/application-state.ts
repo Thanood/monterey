@@ -20,6 +20,7 @@ export class ApplicationState {
     githubApi: 'https://api.github.com/',
     github: 'https://github.com/'
   };
+  __meta__: any = {};
 
   /**
   * restores the application state from session

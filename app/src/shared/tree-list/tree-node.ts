@@ -10,7 +10,7 @@ export class TreeNode {
 
   nodeClicked(e: Event, node: TreeListNode) {
     let target: Element = <any>e.target;
-    
+
     if (target.classList.contains('glyphicon-menu-down') || target.classList.contains('glyphicon-menu-right')) {
       this.node.toggleNode();
     } else {

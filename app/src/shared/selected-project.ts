@@ -21,7 +21,7 @@ export class SelectedProject {
   set(project: Project) {
     this.current = project;
     this.callbacks.forEach(cb => cb(this.current));
-    
+
     this.state.selectedProjectPath = this.current ? this.current.path : null;
     this.state._save();
   }

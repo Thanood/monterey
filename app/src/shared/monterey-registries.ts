@@ -25,7 +25,7 @@ export class MontereyRegistries {
     }
 
     this.client = new HttpClient();
-    this.client.configure(config => config.withBaseUrl(this.state.endpoints.montereyRegistry))
+    this.client.configure(config => config.withBaseUrl(this.state.endpoints.montereyRegistry));
     return this.client;
   }
 
@@ -84,10 +84,10 @@ export class MontereyRegistries {
 
     // Read the blob into an array buffer as a data URL
     // Is there a less verbose way of doing this?
-    var fileReader = new FileReader();
-    let readerPromise = new Promise(function(resolve,reject){
+    let fileReader = new FileReader();
+    let readerPromise = new Promise(function(resolve, reject){
       fileReader.onload = resolve;
-    }).then((res:any) => {
+    }).then((res: any) => {
       imageBuffer = res.target.result;
     });
     fileReader.readAsDataURL(blob);
@@ -95,8 +95,8 @@ export class MontereyRegistries {
 
     return {
       id: new RandomNumber().create(),
-      data: data, 
-      image: imageBuffer, 
+      data: data,
+      image: imageBuffer,
       remoteImagePath: this.state.endpoints.montereyRegistry + imagePath
     };
   }

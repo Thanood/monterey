@@ -26,7 +26,7 @@ export class MonteryLogAppender {
         if (param.message && param.stack) {
          msgParts.push(param.message + ', '  + param.stack);
         } else if (typeof param === 'object') {
-          msgParts.push(JSON.stringify(param)); 
+          msgParts.push(JSON.stringify(param));
         } else {
           msgParts.push(param);
         }

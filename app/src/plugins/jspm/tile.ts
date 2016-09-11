@@ -29,7 +29,7 @@ export class Tile {
     if (!this.project.isUsingJSPM()) {
       await this.jspmDetection.manualDetection(this.project);
     }
-    
+
     if (this.project.isUsingJSPM()) {
       if (!(await this.common.isJSPMInstalled(this.project))) {
         this.notification.error('Could not find JSPM');

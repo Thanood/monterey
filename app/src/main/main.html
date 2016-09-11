@@ -1,8 +1,11 @@
 <template>
   <require from="./components/project-list"></require>
   <require from="./components/tiles"></require>
+  <require from="./components/tour"></require>
   <require from="../shared/splitter"></require>
   <require from="../plugins/task-bar/task-bar"></require>
+
+  <tour></tour>
 
   <div class="main">
     <div class="left" show.bind="!pluginViewActivated" splitter="handle.bind: splitter">

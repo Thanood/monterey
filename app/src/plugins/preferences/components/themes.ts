@@ -11,7 +11,7 @@ export class Themes {
     this.selectedTheme = settings.getValue('theme');
   }
 
-  selectedThemeChanged(newVal, oldVal) {  
+  selectedThemeChanged(newVal, oldVal) {
     if (newVal) {
       this.themeManager.load(this.selectedTheme);
     }

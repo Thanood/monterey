@@ -7,7 +7,7 @@ import {SelectedProject}                 from '../../shared/selected-project';
 import {ProjectManager}                  from '../../shared/project-manager';
 import {RenameModal}                     from './rename-modal';
 import {EventAggregator, Subscription}   from 'aurelia-event-aggregator';
-import {ContextMenu}                     from 'context-menu/context-menu'; 
+import {ContextMenu}                     from 'context-menu/context-menu';
 
 @autoinject()
 export class ProjectList {
@@ -45,7 +45,7 @@ export class ProjectList {
         // select first row
         this.select(0);
       }
-      
+
       this.contextMenu.attach(this.gridDiv, (builder, clickedElement) => this.contextMenuActivated(builder, clickedElement));
     });
   }

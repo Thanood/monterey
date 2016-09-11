@@ -11,7 +11,7 @@ export class KendoAureliaDialogRenderer implements Renderer {
   getDialogContainer() {
     return DOM.createElement('div');
   }
-  
+
   /**
      * Displays the dialog.
      * @returns Promise A promise that resolves when the dialog has been displayed.
@@ -20,7 +20,7 @@ export class KendoAureliaDialogRenderer implements Renderer {
     let options = dialogController.settings.options;
     let aiDialog = jQuery(dialogController.slot.anchor).find('ai-dialog');
 
-    let defaults = { 
+    let defaults = {
       visible: true,
       center: true,
       modal: true,
@@ -31,7 +31,7 @@ export class KendoAureliaDialogRenderer implements Renderer {
 
     // add all properties on the ai-dialog tag to the default settings
     let props = [];
-    for (var i = 0, atts = aiDialog[0].attributes, n = atts.length, arr = []; i < n; i++){
+    for (let i = 0, atts = aiDialog[0].attributes, n = atts.length, arr = []; i < n; i++) {
       defaults[atts[i].nodeName] = atts[i].value;
     }
 
@@ -47,7 +47,7 @@ export class KendoAureliaDialogRenderer implements Renderer {
     }
     return Promise.resolve();
   }
-  
+
   /**
      * Hides the dialog.
      * @returns Promise A promise that resolves when the dialog has been hidden.

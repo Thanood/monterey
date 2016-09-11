@@ -22,7 +22,7 @@ export class Screen {
               private dialogService: DialogService,
               private notification: Notification,
               private selectedProject: SelectedProject,
-              private main: Main) { 
+              private main: Main) {
   }
 
   attached() {

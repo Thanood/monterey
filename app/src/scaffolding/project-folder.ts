@@ -41,7 +41,7 @@ export class ProjectFolder {
       properties: ['openDirectory']
     });
 
-    if(path && path.length > 0) {
+    if (path && path.length > 0) {
       this.state.path = path[0];
     }
     this.state.folder = this.state.path;

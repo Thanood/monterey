@@ -3,7 +3,7 @@ import {TreeNode} from './tree-node';
 import {TreeListNode} from './tree-list-node';
 
 export class TreeList {
-  @bindable tree : Array<TreeListNode>;
+  @bindable tree: Array<TreeListNode>;
   @bindable selectedNode: TreeListNode;
 
   nodeClicked(node: TreeListNode) {

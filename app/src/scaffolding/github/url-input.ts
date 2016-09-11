@@ -64,7 +64,7 @@ export class UrlInput {
         this.error = 'Did not find this repository';
       } else {
         let contents = await response.json();
-        for(let x = 0; x < contents.length; x++) {
+        for (let x = 0; x < contents.length; x++) {
           let fileOrDir = contents[x];
           if (fileOrDir.type === 'dir') {
             this.subdirectories.push(fileOrDir.name);
@@ -97,7 +97,7 @@ export class UrlInput {
     } else {
       this.state.name = this.slug.split('/')[1];
     }
-    
+
     return {
       goToNextStep: true
     };

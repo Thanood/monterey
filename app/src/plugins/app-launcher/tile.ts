@@ -32,7 +32,7 @@ export class AppLauncher {
     logger.info(`going to run cmd: "${this.cmd}", ${this.useShell ? 'with shell' : 'without shell'}`);
 
     try {
-      if(this.useShell) {
+      if (this.useShell) {
         OS.openItem(this.cmd);
       } else {
         await OS.exec(this.cmd, {});

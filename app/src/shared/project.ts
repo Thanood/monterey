@@ -29,7 +29,7 @@ export class Project {
   appLaunchers?: Array<any> = [];
   favoriteCommands: Array<string>;
 
-  constructor(project = {}) {    
+  constructor(project = {}) {
     Object.assign(this, project);
 
     if (!this.__meta__) {

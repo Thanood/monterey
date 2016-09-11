@@ -42,9 +42,9 @@ export class FileSystemLogger {
       // this also creates the file
       try {
         await this.appendToFile(this.logFilePath, 'type,id,date,msg');
-      } catch(err) {
+      } catch (err) {
         if (err) {
-          console.log(err)
+          console.log(err);
         }
       }
     }
@@ -55,13 +55,13 @@ export class FileSystemLogger {
     // get the date of 5 days ago
     let tempDate = new Date();
     tempDate.setDate(tempDate.getDate() - days);
-    var deleteDate = tempDate;
+    let deleteDate = tempDate;
 
     // read out files in log folder
     let files = await FS.readdir(this.logFolder);
     if (files) {
       // iterate over the files
-      for(let x = 0; x < files.length; x++) {
+      for (let x = 0; x < files.length; x++) {
         let filePath = FS.join(this.logFolder, files[x]);
 
         try {
@@ -91,7 +91,7 @@ export class FileSystemLogger {
     if (this.settings.getValue('cleanup-logs')) {
       try {
         await this._cleanupLogs(this.deleteAfterDays);
-      } catch(e) {
+      } catch (e) {
         console.log('error while trying to clear log');
         console.log(e);
       }
@@ -113,11 +113,11 @@ export class FileSystemLogger {
       let err = await FS.appendFile(file, text);
       return err;
     } catch (e) {
-      console.log(`could not append to file: "${file}"`)
+      console.log(`could not append to file: "${file}"`);
       console.log(e);
     }
   }
- 
+
   addFlushDelay() {
     this.timer = setTimeout(() => this.flushBuffer(), this.timeout);
   }
@@ -162,7 +162,7 @@ export class FileSystemLogger {
     await this.verifyLogPathAndFile();
 
     this.addFlushDelay();
-    
+
     this.writeToBuffer('info', 'monterey', 'application started');
   }
 };

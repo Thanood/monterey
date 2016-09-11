@@ -17,11 +17,11 @@ export class NPM {
     this.loading = true;
 
     await this.load();
-    
+
     this.loading = false;
   }
 
-  async load() {    
+  async load() {
     this.npmStrictSSL = (await NPMPal.getConfig('strict-ssl')).trim() === 'true';
     this._npmStrictSSL = this.npmStrictSSL;
 
@@ -41,7 +41,7 @@ export class NPM {
     }
 
     await this.load();
-    
+
     this.loading = false;
 
     this.notification.success('Changes saved');

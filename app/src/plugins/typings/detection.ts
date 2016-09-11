@@ -19,7 +19,7 @@ export class Detection {
       FS.join(project.path, 'typings.json')
     ];
 
-    if(project.packageJSONPath) {
+    if (project.packageJSONPath) {
       lookupPaths.push(FS.join(FS.getFolderPath(project.packageJSONPath), 'typings.json'));
     }
 
@@ -36,9 +36,9 @@ export class Detection {
   }
 
   async manualDetection(project: Project) {
-    let result = await this.dialogService.open({ 
-      viewModel: FileSelectorModal, 
-      model: { 
+    let result = await this.dialogService.open({
+      viewModel: FileSelectorModal,
+      model: {
         description: 'In order to enable Typings features, please select the typings.json file of your project',
         expectedFileName: 'typings.json',
         filters: [

@@ -18,7 +18,7 @@ export function configure(aurelia) {
 @autoinject()
 class Plugin extends BasePlugin {
 
-  constructor(private state: ApplicationState, 
+  constructor(private state: ApplicationState,
               private manager: LauncherManager) {
     super();
     this.state = state;

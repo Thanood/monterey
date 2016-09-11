@@ -17,6 +17,7 @@ export class Main {
   tilesVM: Tiles;
   projectList: ProjectList;
   pluginViewActivated: boolean;
+  startTour: boolean;
 
   constructor(private projectFinder: ProjectFinder,
               private selectedProject: SelectedProject,

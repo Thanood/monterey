@@ -1,5 +1,7 @@
 export class RandomNumber {
  create() {
-  return Math.floor((Math.random() * 999999999) + 111111111);
+   let min = 111111111;
+   let max = 999999999;
+    return Math.floor(Math.random() * (max - min) + min);
  }
 }

@@ -55,7 +55,7 @@ export class Plugin extends BasePlugin {
 
   async getPostInstallTasks(project: Project): Promise<Array<Task>> {
     if (!project.isUsingDotnetCore()) return;
-    
+
     let tasks = [];
 
     let cwd = project.packageJSONPath ? FS.getFolderPath(project.packageJSONPath) : project.path;
@@ -68,7 +68,7 @@ export class Plugin extends BasePlugin {
         command: 'dotnet',
         args: ['restore']
       }));
-    } catch(err) {
+    } catch (err) {
       this.notification.error('Error during "dotnet --help", did you install dotnet core?');
       logger.error(err);
       this.errors.add(err);
@@ -95,7 +95,7 @@ export class Plugin extends BasePlugin {
       }
 
       if (!dotnetInstalled) return;
-      
+
       let t = new Task(project, 'fetch tasks', () => this.commandRunner.getCommands(project, false));
       workflow.phases.environment.addStep(new Step('fetch tasks', 'fetch tasks', t));
 
@@ -103,7 +103,7 @@ export class Plugin extends BasePlugin {
         workflow.phases.environment.addStep(new Step('dotnet restore', 'dotnet restore', this.commandRunner.runByCmd(project, 'dotnet restore')));
       }
 
-      
+
       if (!workflow.phases.run.stepExists('dotnet run')) {
         workflow.phases.run.addStep(new Step('dotnet run', 'dotnet run', this.commandRunner.runByCmd(project, 'dotnet run')));
       }

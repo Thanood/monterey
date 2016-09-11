@@ -56,12 +56,12 @@ export class TaskDetail {
       let seconds = duration.seconds();
       if (hours > 0) {
         parts.push(`${hours} hour${hours > 1 ? 's' : ''}`);
-      } 
-      
+      }
+
       if (minutes > 0) {
         parts.push(`${minutes} minute${minutes > 1 ? 's' : ''}`);
-      } 
-      
+      }
+
       if (seconds > 0) {
         parts.push(`${seconds} second${seconds > 1 ? 's' : ''}`);
       }
@@ -80,7 +80,7 @@ export class TaskDetail {
 
   detached() {
     this.subscription.dispose();
-    
+
     clearInterval(this.interval);
   }
 }

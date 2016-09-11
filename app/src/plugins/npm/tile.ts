@@ -25,7 +25,7 @@ export class Tile {
     if (!this.selectedProject.current.isUsingNPM()) {
       await this.npmDetection.manualDetection(this.selectedProject.current);
     }
-    
+
     if (this.selectedProject.current.isUsingNPM()) {
       this.main.activateScreen('plugins/npm/screen');
     }

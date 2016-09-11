@@ -15,8 +15,7 @@ export class ManageEndpoints {
               private state: ApplicationState,
               private notification: Notification) {}
 
-  attached() {  
-
+  attached() {
     Object.assign(this.tempState, this.state.endpoints);
 
     ValidationRules

@@ -34,14 +34,14 @@ export class TerminalState {
     let length = this.terminals.length;
     xterminal.open(this.terminals[length - 1].element);
 
-    xterminal.on('key', (key, ev)=> {
-      var printable = (
+    xterminal.on('key', (key, ev) => {
+      let printable = (
         !ev.altKey && !ev.altGraphKey && !ev.ctrlKey && !ev.metaKey
       );
 
-      if (ev.keyCode == 13) {
-        this.selectedTerminal.pty.write(key)
-      } else if (ev.keyCode == 8) {
+      if (ev.keyCode === 13) {
+        this.selectedTerminal.pty.write(key);
+      } else if (ev.keyCode === 8) {
 
         // Do not delete the corrent text from terminal
         if (xterminal.x > this.lastXtermInputLength) {
@@ -49,7 +49,7 @@ export class TerminalState {
         }
 
       } else if (printable) {
-        this.selectedTerminal.pty.write(key)
+        this.selectedTerminal.pty.write(key);
       }
     });
 
@@ -65,26 +65,26 @@ export class TerminalState {
     let terminalView = this.createXterm();
     let cmd = OS.getPlatform() === 'win32' ? OS.getEnv(['comspec']) || 'cmd.exe' : OS.getEnv('SHELL') || 'sh';
 
-    
+
     let path = this.selectedProject.current ? this.selectedProject.current.path : undefined;
 
-    var ptyTerminal = this.pty.spawn(cmd, [], {
+    let ptyTerminal = this.pty.spawn(cmd, [], {
       name: 'xterm-color',
       env: OS.getEnv(),
       cwd: path,
       cols: terminalView.cols
     });
 
-    ptyTerminal.on('data', (data)=> {
+    ptyTerminal.on('data', (data) => {
       terminalView.write(data);
       if (this.lastXtermInputLength = null) {
         let children = terminalView.rowContainer.children;
-        this.lastXtermInputLength = children[this.lastXtermInputLength - 1].innerText.length
+        this.lastXtermInputLength = children[this.lastXtermInputLength - 1].innerText.length;
       }
     });
 
     ptyTerminal.on('exit', () => {
-      this.terminals.forEach((t, i)=> {
+      this.terminals.forEach((t, i) => {
         if (this.selectedTerminal) {
           if (t.pty.pid === this.selectedTerminal.pty.pid) {
             this.terminals.splice(i, 1);

@@ -8,7 +8,7 @@ export class Phase {
   }
 
   addStep(step: Step) {
-    if(this.steps.findIndex(x => x.identifier === step.identifier) > -1) {
+    if (this.steps.findIndex(x => x.identifier === step.identifier) > -1) {
       throw new Error(`The post install step ${step.identifier} already exists`);
     }
 

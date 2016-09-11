@@ -11,6 +11,8 @@ import * as activities        from './activities.json!';
 export class ScaffoldProject {
   state: any = {};
   workflow: Workflow;
+  title: string = 'Create new application';
+  closeBtnText: string = 'Close';
   @bindable selectedTemplate: ProjectTemplate;
   templates: Array<ProjectTemplate> = [];
   loading = false;
@@ -71,6 +73,8 @@ export class ScaffoldProject {
   }
 
   async next() {
+    this.title = 'Create new application';
+    this.closeBtnText = 'Close';
     await this.workflow.next();
   }
 

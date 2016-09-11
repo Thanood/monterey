@@ -32,9 +32,9 @@ export class Detection {
   }
 
   async manualDetection(project: Project) {
-    let result = await this.dialogService.open({ 
-      viewModel: FileSelectorModal, 
-      model: { 
+    let result = await this.dialogService.open({
+      viewModel: FileSelectorModal,
+      model: {
         description: 'In order to enable AureliaCLI features, please select the aurelia.json file',
         expectedFileName: 'aurelia.json',
         filters: [

@@ -13,12 +13,12 @@ export class TreeListNode {
    */
   title: string;
 
-  constructor(name: string, children?: Array<TreeListNode>){
+  constructor(name: string, children?: Array<TreeListNode>) {
     this.name = name;
     this.children = children || [];
     this.visible = true;
 
-    if(this.hasChildren()){
+    if (this.hasChildren()) {
       this.icon = 'glyphicon glyphicon-menu-down';
       this.expanded = true;
     }
@@ -33,16 +33,16 @@ export class TreeListNode {
       return;
     }
 
-    for(var i = 0; i < this.children.length; i++){
+    for (let i = 0; i < this.children.length; i++) {
       this.children[i].visible = !this.children[i].visible;
     }
 
     this.expanded = !this.expanded;
 
-    if(this.expanded === true){
+    if (this.expanded === true) {
       this.icon = 'glyphicon glyphicon-menu-right';
     }
-    else{
+    else {
       this.icon = 'glyphicon glyphicon-menu-down';
     }
   }

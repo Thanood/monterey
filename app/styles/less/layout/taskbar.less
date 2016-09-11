@@ -1,33 +1,31 @@
 @taskbarHeight: 40px;
 
+body > router-view {
+  display: flex;
+  min-height: 100vh;
+  flex-direction: column;
+}
+
 task-bar-item {
-  height: @taskbarHeight;
   line-height: @taskbarHeight;
-  float: right;
   padding-left: 10px;
   padding-right: 10px;
   cursor: hand;
   cursor: pointer;
+  display: block;
   img {
     height: 24px;
   }
 }
 
 task-bar {
-  position: absolute;
-  bottom: 0;
+  display: flex;
+  flex-direction: row-reverse;
   width: 100%;
   height: @taskbarHeight;
   z-index: 999;
 
-  .runningTasks {
-    position: absolute;
-    right: 0;
-
-    p {
-      padding: 0;
-      margin: 0;
-      line-height: @taskbarHeight;
-    }
+  compose {
+    flex-shrink: 0;
   }
 }
