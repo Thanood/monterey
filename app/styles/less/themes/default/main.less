@@ -49,10 +49,15 @@
         .vGrid-row {
           color: @boulder;
           background-color: @athens-gray !important;
+          transition: background-color 100ms ease-out;
+
+          &:hover {
+            background-color: @backdrop !important;
+          }
         }
 
         .vGrid-row-selected {
-          color: @violet-red;
+          color: @accent;
           background-color: @backdrop !important;
         }
       }
