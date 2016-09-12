@@ -53,7 +53,8 @@ export class TooltipService {
           this._compositionEngine.compose(returnedInstruction)
             .then(controller => {
               this._renderer._element = host;
-              this._renderer.show(returnedInstruction.viewSlot, settings.target);
+              this._renderer._viewSlot = returnedInstruction.viewSlot;
+              this._renderer.show(settings.target);
             });
         }
       });
@@ -66,7 +67,7 @@ export class TooltipService {
         invokeLifecycle(this._viewModel, 'canDeactivate', this._model)
           .then((canDeactivate: boolean) => {
             if (canDeactivate) {
-              this._renderer.hide(this._viewSlot);
+              this._renderer.hide();
             }
           });
         });
