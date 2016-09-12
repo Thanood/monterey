@@ -6,13 +6,11 @@ import {Task}               from '../task-manager/task';
 import {TaskManagerModal}   from '../task-manager/task-manager-modal';
 import {ApplicationState}   from '../../shared/application-state';
 import {SelectedProject}    from '../../shared/selected-project';
-import {WorkflowViewer}     from '../../project-installation/workflow-viewer';
 import {Tour}               from '../../main/components/tour';
 
 @autoinject()
 export class DeveloperModal {
   project;
-  workflowViewer: WorkflowViewer;
 
   constructor(private dialogController: DialogController,
               private taskManager: TaskManager,
@@ -59,12 +57,6 @@ export class DeveloperModal {
     this.taskManager.addTask(this.selectedProject.current, second);
 
     this.taskManager.startTask(first);
-  }
-
-  startWorkflow() {
-    this.workflowViewer.start();
-
-    this.dialogService.open({ viewModel: TaskManagerModal, model: { task: this.workflowViewer.selectedTasks[0] } });
   }
 
   throwError() {

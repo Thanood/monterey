@@ -29,4 +29,8 @@ export class WorkflowViewer {
 
     this.workflow = workflow;
   }
+
+  async start() {
+    return await this.workflow.start();
+  }
 }
