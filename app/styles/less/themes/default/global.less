@@ -1,5 +1,5 @@
 body, html {
-  background-color: @alabaster !important;
+  background-color: @backdrop !important;
   font-family: 'Source Sans Pro', Helvetica, 'Open Sans', sans-serif;
   transition: background-color 500ms ease-in;
 }
@@ -44,8 +44,8 @@ p {
   .default-tile {
     background: repeating-linear-gradient(
       45deg,
-      @iron,
-      @iron 10px,
+      @border,
+      @border 10px,
       #d0d0d0 10px,
       #d0d0d0 20px
     );
@@ -53,22 +53,22 @@ p {
 }
 
 .default-tile {
-  border: 1px solid @iron;
+  border: 1px solid @border;
   border-radius: 5px;
-  background-color: @alabaster;
+  background-color: @backdrop;
   box-shadow: @tile-shadow;
   transition: background-color 150ms ease-out;
 
   &:hover {
-    background-color: @alabaster-hover;
+    background-color: @backdrop-hover;
     transition: background-color 150ms ease-in;
   }
 
   &.irrelevant {
     background: repeating-linear-gradient(
       45deg,
-      @iron,
-      @iron 10px,
+      @border,
+      @border 10px,
       #d0d0d0 10px,
       #d0d0d0 20px
     );
@@ -98,7 +98,7 @@ tree-list {
     > ul {
       > li {
         > div {
-          background-color: @iron;
+          background-color: @border;
         }
       }
     }
