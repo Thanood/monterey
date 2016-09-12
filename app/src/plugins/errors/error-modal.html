@@ -21,8 +21,8 @@
       <div class="right-side" show.bind="selectedError">
         <p class="title">${selectedError.message | limitTextSize: 50}</p>
         <div>
-          <button class="btn btn-primary copy-btn">Copy to clipboard</button>
-          <button class="btn btn-primary" click.delegate="clearError()">Clear error</button>
+          <button class="btn btn-primary copy-btn" i18n="copy-to-clipboard"></button>
+          <button class="btn btn-primary" click.delegate="clearError()" i18n="clear-error"></button>
         </div>
         <div class="stacktrace">
           <p>${selectedError.message}</p>
@@ -31,13 +31,13 @@
       </div>
 
       <div class="right-side" show.bind="errors.errors.length === 0">
-        <p>There were no errors</p>
+        <p i18n="no-errors"></p>
       </div>
     </ai-dialog-body>
 
     <ai-dialog-footer>
       <div class="align-right">
-        <button class="btn btn-primary" click.trigger="dialogController.close()">Close</button>
+        <button class="btn btn-primary" click.trigger="dialogController.close()" i18n="close"></button>
       </div>
     </ai-dialog-footer>
   </ai-dialog>

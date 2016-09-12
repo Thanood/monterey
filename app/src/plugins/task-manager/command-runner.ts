@@ -11,12 +11,12 @@ import {PluginManager}        from '../../shared/plugin-manager';
  */
 @autoinject()
 export class CommandRunner {
-  constructor(private taskManager: TaskManager, 
+  constructor(private taskManager: TaskManager,
               private pluginManager: PluginManager) {}
 
   run(project: Project, command: Command) {
     let task = new Task(project, `${command.command} ${command.args.join(' ')}`);
-    
+
     task.execute = this._executor(task, project, command);
     task.stoppable = true;
     task.stop = this._stop(task);
@@ -27,7 +27,7 @@ export class CommandRunner {
   _stop(task: Task) {
     return () => {
       let service = <CommandRunnerService>(task.meta.service);
-      return service.stopCommand(task.meta.process) 
+      return service.stopCommand(task.meta.process);
     };
   }
 
@@ -38,7 +38,7 @@ export class CommandRunner {
       }, stderr => {
         this.taskManager.addTaskLog(task, stderr);
       });
-      
+
       task.meta = {
         service: command.service,
         process: result.process
@@ -55,7 +55,7 @@ export class CommandRunner {
     for (let x = 0; x < services.length; x++) {
       commands = commands.concat(await services[x].getCommands(project, withCache));
     }
-    
+
     return commands;
   }
 
@@ -66,7 +66,7 @@ export class CommandRunner {
 
   runByCmd(project: Project, cmd: string) {
     let task = new Task(project, cmd);
-    
+
     task.execute = async () => {
       let commands = await this.getCommands(project, true);
       let foundCommand;

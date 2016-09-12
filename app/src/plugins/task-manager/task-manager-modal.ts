@@ -1,7 +1,8 @@
 import {autoinject, observable}        from 'aurelia-framework';
+import {I18N}                          from 'aurelia-i18n';
 import {DialogController}              from 'aurelia-dialog';
 import {EventAggregator, Subscription} from 'aurelia-event-aggregator';
-import {ContextMenu}                   from 'context-menu/context-menu'; 
+import {ContextMenu}                   from 'context-menu/context-menu';
 import {TaskManager}                   from './task-manager';
 import {TRexDialog}                    from './components/t-rex-dialog';
 import {Task}                          from './task';
@@ -34,6 +35,7 @@ export class TaskManagerModal {
               private contextMenu: ContextMenu,
               private notification: Notification,
               private settings: Settings,
+              private i18n: I18N,
               private ea: EventAggregator,
               private state: ApplicationState) {
     // we need to update the tree when tasks are added, started and finished
@@ -69,23 +71,23 @@ export class TaskManagerModal {
   contextMenuActivated(builder, clickedElement) {
     let treeNode = $(clickedElement).closest('tree-node')[0];
     let treeListNode = <TreeListNode>(<any>treeNode).au.controller.viewModel.node;
-    
+
     if (!treeListNode.data.task) {
       return;
     }
 
     let task = <Task>treeListNode.data.task;
-    builder.addItem({ title: 'End task', onClick: () => {
+    builder.addItem({ title: this.i18n.tr('end-task'), onClick: () => {
       if (task.finished) {
-        this.notification.error('This task has already finished');
+        this.notification.error(this.i18n.tr('task-has-already-finished'));
         return;
       }
 
       if (!task.stoppable) {
-        this.notification.error('This task cannot be stopped');
+        this.notification.error('task-cannot-be-stopped');
         return;
       }
-      
+
       this.taskManager.stopTask(task);
     }});
   }
@@ -102,7 +104,7 @@ export class TaskManagerModal {
         if (!task.finished || this.showFinished) {
           let taskNode = new TreeListNode(task.title);
           taskNode.title = task.title;
-          switch(task.status) {
+          switch (task.status) {
             case 'running':
               taskNode.icon = 'glyphicon glyphicon-cog gly-spin';
             break;
@@ -133,8 +135,8 @@ export class TaskManagerModal {
       projNode.data = { project: proj };
       projNode.bold = true;
 
-      let newTaskNode = new TreeListNode('Start new task');
-      newTaskNode.title = 'Start new task';
+      let newTaskNode = new TreeListNode(this.i18n.tr('start-new-task'));
+      newTaskNode.title = this.i18n.tr('start-new-task');
       newTaskNode.data = { project: proj };
       newTaskNode.icon = 'glyphicon glyphicon-plus';
       projNode.children.push(newTaskNode);
@@ -145,7 +147,7 @@ export class TaskManagerModal {
 
       tree.push(projNode);
     });
-  
+
     // we can probably sort this in a better way
     // for example, running processes should take priority over finished processes
     tree.sort((a: TreeListNode, b: TreeListNode) => b.children.map(x => x.data).length - a.children.map(x => x.data).length);
@@ -159,7 +161,7 @@ export class TaskManagerModal {
 
     if (this.selectedNode.data.project) {
       this.selectedProject = this.selectedNode.data.project;
-    } else if(this.selectedNode.data.task) {
+    } else if (this.selectedNode.data.task) {
       this.selectedTask = this.selectedNode.data.task;
     }
   }

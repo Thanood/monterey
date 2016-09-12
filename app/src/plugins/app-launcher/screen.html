@@ -2,7 +2,7 @@
   <require from="./app-launcher-editor"></require>
 
   <div class="plugin-title-container">
-    <button class="returnToPluginListBtn btn btn-primary" click.delegate="goBack()">Back</button>
+    <button class="returnToPluginListBtn btn btn-primary" click.delegate="goBack()" i18n="back"></button>
     <h1 class="plugin-title">App launcher</h1>
     <p class="project-title-plugin" if.bind="selectedProject.current.name">${selectedProject.current.name}</p>
   </div>
@@ -13,8 +13,8 @@
 
     <!-- Nav tabs -->
     <ul class="nav nav-tabs" role="tablist" ref="tabs">
-      <li role="presentation" class="active"><a href="#global" aria-controls="global" role="tab" data-toggle="tab">Global</a></li>
-      <li role="presentation"><a href="#project" aria-controls="project" role="tab" data-toggle="tab">Project-specific</a></li>
+      <li role="presentation" class="active"><a href="#global" aria-controls="global" role="tab" data-toggle="tab" i18n="global"></a></li>
+      <li role="presentation"><a href="#project" aria-controls="project" role="tab" data-toggle="tab" i18n="project-specific">Project-specific</a></li>
     </ul>
     <div class="tab-content launcher-tabs">
       <div role="tabpanel" class="tab-pane active" id="global">

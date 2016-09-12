@@ -13,7 +13,7 @@ export class Common {
         task.addTaskLog(out);
       }, err => {
         task.addTaskLog(err);
-      })
+      });
 
       task.meta = { process: promise.process };
 
@@ -23,7 +23,7 @@ export class Common {
     task.stoppable = true;
     task.stop = async () => {
       return OS.kill(task.meta.process);
-    }
+    };
 
     return task;
   }

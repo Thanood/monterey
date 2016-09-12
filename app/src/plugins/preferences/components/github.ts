@@ -17,7 +17,7 @@ export class Github {
   clearGithub() {
     this.state.gitAuthorization = null;
   }
-  
+
   @withModal(GithubCreds)
   async configureGithub() {}
 

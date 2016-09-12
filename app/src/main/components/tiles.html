@@ -1,7 +1,7 @@
 <template>
   <h2 class="title" if.bind="selectedProject.current.name">${selectedProject.current.name}</h2>
 
-  <div class="row" ref="dragContainer">
+  <div class="row tiles-row" ref="dragContainer">
     <compose repeat.for="tile of tiles" 
              view-model="${tile.viewModel}"
              id="${tile.name}"
@@ -11,5 +11,5 @@
     </compose>
   </div>
 
-  <label class="relevant-checkbox"><input type="checkbox" checked.bind="showIrrelevant" /> Show irrelevant tiles</label>
+  <label class="relevant-checkbox"><input type="checkbox" checked.bind="showIrrelevant" /> <span i18n="show-irrelevant-tiles"></span></label>
 </template>

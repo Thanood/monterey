@@ -1,10 +1,10 @@
 <template>
   <div class="plugin-title-container">
-    <button class="returnToPluginListBtn btn btn-primary" click.delegate="goBack()">Back</button>
+    <button class="returnToPluginListBtn btn btn-primary" click.delegate="goBack()" i18n="back"></button>
     <h1 class="plugin-title">Typings</h1>
     <p class="project-title-plugin" if.bind="selectedProject.current.name">${selectedProject.current.name}</p>
   </div>
   <div class="plugin-content-container">
-    <p>This screen is yet to be made</p>
+    <p i18n="screen-yet-to-be-made"></p>
   </div>
 </template>

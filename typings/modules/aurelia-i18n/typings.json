@@ -1,0 +1,8 @@
+{
+  "resolution": "main",
+  "tree": {
+    "src": "https://raw.githubusercontent.com/aurelia/i18n/master/dist/aurelia-i18n.d.ts",
+    "raw": "github:aurelia/i18n/dist/aurelia-i18n.d.ts",
+    "typings": "https://raw.githubusercontent.com/aurelia/i18n/master/dist/aurelia-i18n.d.ts"
+  }
+}

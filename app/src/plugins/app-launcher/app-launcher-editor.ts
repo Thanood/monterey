@@ -50,7 +50,7 @@ export class AppLauncherEditor {
   remove() {
     if (!confirm(`Are you sure that you want to delete "${this.selectedLauncher.data.title}"?`)) {
       return;
-    } 
+    }
 
     let index = this.launchers.indexOf(this.selectedLauncher);
     this.launchers.splice(index, 1);
@@ -93,6 +93,6 @@ export class AppLauncherEditor {
     this.notification.success('Changes saved');
   }
 
-  @withModal(ShareModal, function (launcher) { return launcher })
+  @withModal(ShareModal, function (launcher) { return launcher; })
   share() {}
 }

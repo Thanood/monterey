@@ -54,7 +54,7 @@ export class NPMDetection {
       } else {
         project.name = packageJSON.name;
       }
-      
+
       return true;
     }
 
@@ -83,9 +83,9 @@ export class NPMDetection {
   }
 
   async manualDetection(project: Project) {
-    let result = await this.dialogService.open({ 
-      viewModel: FileSelectorModal, 
-      model: { 
+    let result = await this.dialogService.open({
+      viewModel: FileSelectorModal,
+      model: {
         description: 'In order to enable NPM features, please select the package.json',
         expectedFileName: 'package.json',
         filters: [

@@ -6,33 +6,33 @@
 
       <!-- Nav tabs -->
       <ul class="nav nav-tabs" role="tablist">
-        <li role="presentation" class="active"><a href="#documentation" aria-controls="documentation" role="tab" data-toggle="tab">Documentation</a></li>
-        <li role="presentation"><a href="#issue" aria-controls="issue" role="tab" data-toggle="tab">Report an issue</a></li>
+        <li role="presentation" class="active"><a href="#documentation" aria-controls="documentation" role="tab" data-toggle="tab" i18n="documentation"></a></li>
+        <li role="presentation"><a href="#issue" aria-controls="issue" role="tab" data-toggle="tab" i18n="report-issue"></a></li>
       </ul>
 
       <!-- Tab panes -->
       <div class="tab-content">
         <div role="tabpanel" class="tab-pane active" id="documentation">
-          <label class="control-label">Subject</label>
+          <label class="control-label" i18n="subject"></label>
           <select value.bind="selectedBook" class="form-control">
             <option repeat.for="book of books" model.bind="book">${book.name}</option>
           </select>
-          <button click.delegate="openBook()" class="btn btn-primary">Open</button>
+          <button click.delegate="openBook()" class="btn btn-primary" i18n="open"></button>
         </div>
         <div role="tabpanel" class="tab-pane" id="issue">
-          <p>We provide support in Monterey's Gitter channel and via Github issues.</p>
+          <p i18n="support-options"></p>
 
           <a href="https://gitter.im/monterey-framework/monterey" target="_blank" class="btn btn-primary">Gitter</a>
           <a href="https://github.com/monterey-framework/monterey/issues" target="_blank" class="btn btn-primary">Github</a>
           
-          <p>Logs can be found in: ${logFolder}</p>
+          <p>${'logs-can-be-found-in' | t}: ${logFolder}</p>
         </div>
       </div>
     </ai-dialog-body>
 
     <ai-dialog-footer>
       <div class="align-right">
-        <button class="btn btn-primary" click.trigger="dialogController.close()">Close</button>
+        <button class="btn btn-primary" click.trigger="dialogController.close()" i18n="close"></button>
       </div>
     </ai-dialog-footer>
   </ai-dialog>

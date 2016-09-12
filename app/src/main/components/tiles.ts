@@ -32,7 +32,7 @@ export class Tiles {
     try {
       tile.currentViewModel.onClick();
     }
-    catch(err) {
+    catch (err) {
       console.log(err);
     }
   }

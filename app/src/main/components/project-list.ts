@@ -7,7 +7,8 @@ import {SelectedProject}                 from '../../shared/selected-project';
 import {ProjectManager}                  from '../../shared/project-manager';
 import {RenameModal}                     from './rename-modal';
 import {EventAggregator, Subscription}   from 'aurelia-event-aggregator';
-import {ContextMenu}                     from 'context-menu/context-menu'; 
+import {ContextMenu}                     from 'context-menu/context-menu';
+import {I18N}                            from 'aurelia-i18n';
 
 @autoinject()
 export class ProjectList {
@@ -23,6 +24,7 @@ export class ProjectList {
               private notification: Notification,
               private projectManager: ProjectManager,
               private contextMenu: ContextMenu,
+              private i18n: I18N,
               private selectedProject: SelectedProject,
               private ea: EventAggregator) {
     this.projectRemoved = ea.subscribe('ProjectRemoved', () => this.select(0));
@@ -45,7 +47,7 @@ export class ProjectList {
         // select first row
         this.select(0);
       }
-      
+
       this.contextMenu.attach(this.gridDiv, (builder, clickedElement) => this.contextMenuActivated(builder, clickedElement));
     });
   }
@@ -56,8 +58,8 @@ export class ProjectList {
     this.select(parseInt(rowNr, 0));
 
     builder
-    .addItem({ title: 'Rename project', onClick:  () => this.renameProject() })
-    .addItem({ title: 'Remove project', onClick: () => this.removeProject() });
+    .addItem({ title: this.i18n.tr('rename-project'), onClick:  () => this.renameProject() })
+    .addItem({ title: this.i18n.tr('remove-project'), onClick: () => this.removeProject() });
   }
 
   @withModal(RenameModal)
@@ -86,7 +88,7 @@ export class ProjectList {
       return;
     }
 
-    if (!confirm('Are you sure? We will not remove the actual project')) {
+    if (!confirm(this.i18n.tr('confirm-remove-project'))) {
       return;
     }
 

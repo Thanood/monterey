@@ -20,7 +20,7 @@ export class Task implements Task {
   dependsOn?: Task;
 
   constructor(public project: Project,
-              public title?: string, 
+              public title?: string,
               public execute?: () => Promise<any>) {
   }
 
@@ -34,7 +34,7 @@ export class Task implements Task {
         this.addTaskLog(stderr);
       });
 
-      if (!this.meta) this.meta = {}; 
+      if (!this.meta) this.meta = {};
       this.meta.process = proc.process;
 
       return proc.completion;

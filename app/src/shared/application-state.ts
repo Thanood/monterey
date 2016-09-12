@@ -1,8 +1,8 @@
-import {LogManager}  from 'aurelia-framework';
-import {Logger}      from 'aurelia-logging';
-import {SESSION, FS} from 'monterey-pal';
-import {Project}     from './project';
-import {Setting}     from './settings';
+import {LogManager}                from 'aurelia-framework';
+import {Logger}                    from 'aurelia-logging';
+import {SESSION, FS}               from 'monterey-pal';
+import {Project}                   from './project';
+import {Setting, SettingValue}     from './settings';
 
 const logger = <Logger>LogManager.getLogger('application-state');
 
@@ -11,7 +11,7 @@ export class ApplicationState {
   gitAuthorization: string;
   projects: Array<Project> = [];
   appLaunchers: Array<any> = [];
-  settings: Array<Setting> = [];
+  settingValues: Array<SettingValue> = [];
   // used to restore the selected project after restart
   selectedProjectPath: string;
   endpoints = {
@@ -20,6 +20,7 @@ export class ApplicationState {
     githubApi: 'https://api.github.com/',
     github: 'https://github.com/'
   };
+  __meta__: any = {};
 
   /**
   * restores the application state from session

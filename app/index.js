@@ -53,6 +53,7 @@ if (isDev() || !handleStartupEvent()) {
     global.mainWindow = mainWindow;
     global.rootDir = __dirname;
     global.app = app;
+    global.paths = { application_state: '' };
     global.environment = environment;
     global.node_modules = path.join(__dirname, 'node_modules');
 
@@ -174,7 +175,7 @@ let devMenuTemplate = [
           return;
         }
         const storage = require('electron-json-storage');
-        storage.clear(function (err){});
+        storage.remove(global.paths.application_state, function (err){});
         mainWindow.loadURL(getIndex());
       },
     }

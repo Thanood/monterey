@@ -44,6 +44,11 @@ gulp.task('watch', ['build'], function() {
     });
   });
 
+  watch('app/locales/**/*.json', function () {
+    reportChange();
+    reload();
+  });
+
   watch('app/!(config).js', function () {
     reportChange();
     restart();

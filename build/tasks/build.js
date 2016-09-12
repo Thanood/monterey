@@ -8,7 +8,7 @@ var paths = require('../paths');
 var assign = Object.assign || require('object.assign');
 var notify = require('gulp-notify');
 var less = require('gulp-less');
-
+var rename = require('gulp-rename');
 
 var typescriptCompiler = typescriptCompiler || null;
 gulp.task('build-system', function() {
@@ -44,11 +44,25 @@ gulp.task('build-html', function() {
     .pipe(gulp.dest(paths.output));
 });
 
-gulp.task('build-less', function() {
-  return gulp.src(paths.less)
+gulp.task('build-less:layout', function() {
+  return gulp.src(['app/styles/less/layout/index.less'])
     .pipe(sourcemaps.init())
     .pipe(plumber({errorHandler: notify.onError('Error: <%= error.message %>')}))
     .pipe(less())
+    .pipe(rename('layout.css'))
+    .pipe(sourcemaps.write('./'))
+    .pipe(gulp.dest(paths.styles));
+});
+
+gulp.task('build-less:themes', function() {
+  return gulp.src(['app/styles/less/themes/**/index.less'])
+    .pipe(sourcemaps.init())
+    .pipe(plumber({errorHandler: notify.onError('Error: <%= error.message %>')}))
+    .pipe(less())
+    .pipe(rename(function (path) {
+      path.basename = 'monterey.' + path.dirname;
+      path.dirname = '';
+    }))
     .pipe(sourcemaps.write('./'))
     .pipe(gulp.dest(paths.styles));
 });
@@ -68,6 +82,13 @@ gulp.task('build', function(callback) {
   return runSequence(
     'clean',
     ['build-system', 'build-html', 'build-less', 'build-json'],
+    callback
+  );
+});
+
+gulp.task('build-less', function(callback) {
+  return runSequence(
+    ['build-less:themes', 'build-less:layout'],
     callback
   );
 });

@@ -34,7 +34,7 @@ export class TaskManager {
     this.tasks.push(task);
 
     logger.info(`queued '${task.title}' for project '${project.name}'`);
-    
+
     this.ea.publish('TaskAdded', { project: task.project, task: task });
   }
 
@@ -45,25 +45,25 @@ export class TaskManager {
 
     task.start = new Date();
     task.status = 'running';
-    
+
     this.ea.publish('TaskStarted', { project: task.project, task: task });
 
     logger.info(`started '${task.title}' for project '${task.project.name}'`);
-  
+
     this.addTaskLog(task, '-----STARTED-----');
 
     return task.execute().then((result) => {
       this.addTaskLog(task, '-----FINISHED-----');
-        
+
       logger.info(`task '${task.title}' for project '${task.project.name}' finished without error`);
       this.finishTask(task, false);
       return result;
     }).catch((e) => {
       this.addTaskLog(task, '-----FINISHED WITH ERROR-----');
       this.addTaskLog(task, e.message);
-      this.errors.add(e); 
+      this.errors.add(e);
       this.finishTask(task, true);
-      
+
       let timeItTook = `${moment(task.end).diff(task.start, 'seconds')} seconds`;
       logger.info(`task '${task.title}' for project '${task.project.name}' finished with error (after it ran for ${timeItTook})`);
       logger.error(e);
@@ -99,7 +99,7 @@ export class TaskManager {
       if (t.dependsOn === task && t.status === 'queued') {
         this.startTask(t);
       }
-    })
+    });
   }
 
   async stopTask(task: Task) {
@@ -121,7 +121,7 @@ export class TaskManager {
     if (task.start) {
       promise = task.stop(task);
     }
-    
+
     await promise;
     this.finishTask(task);
 
@@ -132,7 +132,7 @@ export class TaskManager {
    * Cancells all dependent tasks of a task
    */
   async stopTaskDependencies(task: Task) {
-    for(let x = 0; x < this.tasks.length; x++) {
+    for (let x = 0; x < this.tasks.length; x++) {
       let t = this.tasks[x];
       if (t.dependsOn === task) {
        await this._stopTask(this.tasks[x]);

@@ -1,0 +1,76 @@
+.project-list-item {
+  border: 3px solid @iron;
+  project {
+    box-shadow: inset 0 -1px 0 rgba(0,0,0,0.1);
+
+    .title {
+      color: @black;
+    }
+
+    &.selected:hover, &.selected {
+      background-image: linear-gradient(-270deg,rgba(255,255,255,.5) 100%,rgba(255,255,255,0) 100%);
+
+      .title {
+        color: @violet-red;
+      }
+    }
+  }
+}
+
+
+.main {
+  .left {
+    background-color: @gallery;
+    box-shadow: 0 3px 4px 0 rgba(0, 0, 0, .14), 0 3px 3px -2px rgba(0, 0, 0, .2), 0 1px 8px 0 rgba(0, 0, 0, .12);
+
+    .main-header {      
+      background-color: @gallery;
+    }
+
+    .main-button-group {
+      .main-button {
+        background: @white;
+        color: @butterfly-bush;
+        border-left: 1px solid @gallery;
+      }
+
+      .main-button:active, .main-button:hover {
+        color: @white;
+        background-image: -webkit-radial-gradient(49% 0 circle, #C632AC 0, #8A2979 100%);
+        background-image: radial-gradient(circle at 49% 0, #C632AC 0, #8A2979 100%);
+      }
+    }
+
+    .projectList {
+      .vGrid {
+        background-color: transparent !important;
+        border: 0 !important;
+
+        .vGrid-row {
+          color: @boulder;
+          background-color: @athens-gray !important;
+        }
+
+        .vGrid-row-selected {
+          color: @violet-red;
+          background-color: @alabaster !important;
+        }
+      }
+    }
+
+    .project-list-header {
+      background-color: @iron;
+      color: @butterfly-bush;
+    }
+  }
+
+  .right {
+    .title {
+      border-bottom: 1px solid rgba(0, 0, 0, .12);
+    }
+  }
+}
+
+.plugin-content-container {
+  color: @dove-gray;
+}

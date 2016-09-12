@@ -1,18 +1,19 @@
 <template>
   <div class="plugin-title-container">
-    <button class="returnToPluginListBtn btn btn-primary" click.delegate="goBack()">Back</button>
+    <button class="returnToPluginListBtn btn btn-primary" click.delegate="goBack()" i18n="back"></button>
     <h1 class="plugin-title">NPM Package Manager</h1>
     <p class="project-title-plugin" if.bind="selectedProject.current.name">${selectedProject.current.name}</p>
   </div>
   <div class="plugin-content-container">
 
-    <button click.delegate="installAll()" class="btn btn-primary">Install</button>
-    <button click.delegate="updateSelected()" class="btn btn-primary">Update selected</button>
-    <button click.delegate="load()" class="btn btn-primary">Refresh</button>
+    <button click.delegate="installAll()" class="btn btn-primary" i18n="install"></button>
+    <button click.delegate="updateSelected()" class="btn btn-primary" i18n="update-selected"></button>
+    <button click.delegate="load()" class="btn btn-primary" i18n="refresh"></button>
 
     <i class="fa fa-spinner fa-spin fa-3x" if.bind="loading"></i>
 
-    <h3>Application dependencies</h3>
+    <!-- dependency list -->
+    <h3 i18n="application-dependencies"></h3>
     <v-grid
       class="npm-grid"
       v-header-height="50"

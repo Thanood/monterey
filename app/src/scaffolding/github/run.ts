@@ -110,7 +110,7 @@ export class Run {
 
     let target = subDir ? FS.join(unzipPath, firstDir, subDir) : FS.join(unzipPath, firstDir);
     this.logs.push(`Going to move directory to ${projectDir}....`);
-     
+
     await FS.move(target, projectDir);
     this.logs.push(`Moved directory to ${projectDir}....`);
   }

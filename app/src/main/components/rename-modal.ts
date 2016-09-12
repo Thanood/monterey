@@ -38,7 +38,7 @@ export class RenameModal {
     await this.state._save();
 
     this.notification.success('Project name changed');
-    
+
     this.dialogController.ok();
   }
 }

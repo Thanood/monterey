@@ -7,11 +7,11 @@ export class ExitProcedure {
     // onbeforeunload is executed synchronously while we want to asynchrounsly cleanup
     // so we cancel the first time it is called, cleanup and then 
     // we close the window ourselves when cleanup is finished 
-    var cleanedup = false;
+    let cleanedup = false;
     window.onbeforeunload = (e) => {
       if (!cleanedup) {
         let promises = [];
-        for(let i = OS.processes.length; i > 0; i--) {
+        for (let i = OS.processes.length; i > 0; i--) {
           promises.push(OS.kill(OS.processes[i - 1]));
         }
 
@@ -22,6 +22,6 @@ export class ExitProcedure {
           Promise.all(promises).then(() => window.close());
         } // else, quit immediately
       }
-    }
+    };
   }
 }

@@ -41,6 +41,6 @@ export class DashifyValueConverter {
   toView(text) {
     if (!text) return '';
 
-    return text.replace(/\s+/g, '-').toLowerCase()
+    return text.replace(/\s+/g, '-').toLowerCase();
   }
 }

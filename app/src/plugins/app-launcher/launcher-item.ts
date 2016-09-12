@@ -23,8 +23,8 @@ export class LauncherItem {
       let result = await this.manager.getLauncher(this.platform, this.launcher.path);
       this.dataLoaded = true;
       this.icon = result.image;
-    }        
-    catch(err) {
+    }
+    catch (err) {
       this.errors = err;
       this.dataLoaded = true;
       this.icon = 'images/monterey-logo.png';

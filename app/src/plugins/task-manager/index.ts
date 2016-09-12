@@ -14,11 +14,11 @@ class Plugin extends BasePlugin {
   constructor(private settings: Settings) {
     super();
 
-    this.settings.addSetting({ 
-      identifier: 'show-finished-tasks', 
-      title: 'Show finished tasks in taskmanager?', 
-      type: 'boolean', 
-      value: true 
+    this.settings.addSetting({
+      identifier: 'show-finished-tasks',
+      title: 'Show finished tasks in taskmanager?',
+      type: 'boolean',
+      value: true
     });
   }
   async getTaskBarItems(project) {

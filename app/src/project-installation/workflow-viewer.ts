@@ -24,7 +24,7 @@ export class WorkflowViewer {
 
   async resolveWorkflow() {
     let workflow = new Workflow();
-    
+
     await this.pluginManager.resolvePostInstallWorkflow(this.project, workflow);
 
     this.workflow = workflow;
@@ -49,7 +49,7 @@ export class WorkflowViewer {
     // deselect following phases and steps
     if ((step && !step.checked) || !phase.checked) {
       // following phases
-      for(let x = index + 1; x < this.phases.length; x++) {
+      for (let x = index + 1; x < this.phases.length; x++) {
         this.phases[x].checked = false;
         this.phases[x].steps.forEach(s => s.checked = false);
       }
@@ -57,7 +57,7 @@ export class WorkflowViewer {
       // steps in same phase
       if (step) {
         let stepIndex = phase.steps.indexOf(step);
-        for(let x = stepIndex + 1; x < phase.steps.length; x++) {
+        for (let x = stepIndex + 1; x < phase.steps.length; x++) {
           phase.steps[x].checked = false;
         }
       } else {
@@ -65,9 +65,9 @@ export class WorkflowViewer {
       }
     }
 
-    
+
     if ((step && step.checked) || phase.checked) {
-      for(let x = 0; x < index; x++) {
+      for (let x = 0; x < index; x++) {
         this.phases[x].checked = true;
         this.phases[x].steps.forEach(s => s.checked = true);
       }
@@ -76,7 +76,7 @@ export class WorkflowViewer {
         phase.steps.forEach(s => s.checked = true);
       } else {
         let stepIndex = phase.steps.indexOf(step);
-        for(let x = 0; x < stepIndex; x++) {
+        for (let x = 0; x < stepIndex; x++) {
           phase.steps[x].checked = true;
         }
       }

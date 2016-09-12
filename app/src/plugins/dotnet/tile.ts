@@ -24,7 +24,7 @@ export class Tile {
     if (!this.selectedProject.current.isUsingDotnetCore()) {
       await this.detection.manualDetection(this.selectedProject.current);
     }
-    
+
     if (this.selectedProject.current.isUsingDotnetCore()) {
       this.main.activateScreen('plugins/dotnet/screen');
     }

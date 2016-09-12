@@ -1,13 +1,13 @@
 <template>
   <require from="./launcher-item"></require>
 
-  <ai-dialog class="app-launcher-browser-modal" title="Browse launchers">
+  <ai-dialog class="app-launcher-browser-modal" title="${'browse-launchers' | t}">
     <ai-dialog-body>
       <div class="row">
-        <input type="text" class="form-control" value.bind="quickSearch & debounce" placeholder="Search for launchers..."" />
+        <input type="text" class="form-control" value.bind="quickSearch & debounce" placeholder="${'search-app-launchers' | t}" />
         <div class="checkbox">
           <label>
-            <input type="checkbox" checked.bind="showAllPlugins" /> Show app launchers that are incompatible with the current platform
+            <input type="checkbox" checked.bind="showAllPlugins" /> ${'show-incompatible-launchers' | t}
           </label>
         </div>
       </div>
@@ -23,7 +23,7 @@
 
     <ai-dialog-footer>
       <div class="align-right">
-        <button class="btn btn-primary" click.trigger="dialogController.ok()">Close</button>
+        <button class="btn btn-primary" click.trigger="dialogController.ok()" i18n="close"></button>
       </div>
     </ai-dialog-footer>
   </ai-dialog>

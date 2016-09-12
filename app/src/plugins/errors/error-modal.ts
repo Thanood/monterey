@@ -1,6 +1,7 @@
 import {Errors}           from './errors';
 import {autoinject}       from 'aurelia-framework';
 import {DialogController} from 'aurelia-dialog';
+import {I18N}             from 'aurelia-i18n';
 import {Notification}     from '../../shared/notification';
 
 @autoinject()
@@ -10,6 +11,7 @@ export class ErrorModal {
 
   constructor(private dialogController: DialogController,
               private notification: Notification,
+              private i18n: I18N,
               public errors: Errors) {}
 
   attached() {
@@ -41,7 +43,7 @@ export class ErrorModal {
     });
 
     this.clipboard.on('success', (e) => {
-      this.notification.success('copied error to clipboard');
+      this.notification.success(this.i18n.tr('copied-error-to-clipboard'));
     });
 
     this.clipboard.on('error', (e) => {

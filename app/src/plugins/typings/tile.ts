@@ -24,7 +24,7 @@ export class Tile {
     if (!this.selectedProject.current.isUsingTypings()) {
       await this.detection.manualDetection(this.selectedProject.current);
     }
-    
+
     if (this.selectedProject.current.isUsingTypings()) {
       this.main.activateScreen('plugins/typings/screen');
     }

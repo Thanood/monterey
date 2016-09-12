@@ -1,5 +1,8 @@
 import 'bootstrap';
 import {LogManager, Aurelia}             from 'aurelia-framework';
+import {I18N}                            from 'aurelia-i18n';
+import * as Backend                      from 'i18next-xhr-backend';
+import {ELECTRON}                        from 'monterey-pal';
 import {MonteryLogAppender}              from './shared/monterey-logger';
 import {BootstrapFormValidationRenderer} from './shared/bootstrap-validation-renderer';
 import {KendoAureliaDialogRenderer}      from './shared/kendo-aurelia-dialog-renderer';
@@ -9,6 +12,8 @@ import {ExitProcedure}                   from './shared/exit-procedure';
 import {IPC}                             from './shared/ipc';
 import {GlobalExceptionHandler}          from './shared/global-exception-handler';
 import {FileSystemLogger}                from './shared/file-system-logger';
+import {ThemeManager}                    from './shared/theme-manager';
+import {Settings}                        from './shared/settings';
 
 export async function configure(aurelia: Aurelia) {
   aurelia.use
@@ -17,7 +22,22 @@ export async function configure(aurelia: Aurelia) {
     .plugin('aurelia-dialog', config => {
       config.useStandardResources();
       config.useCSS('');
-      config.useRenderer(KendoAureliaDialogRenderer)
+      config.useRenderer(KendoAureliaDialogRenderer);
+    })
+    .plugin('aurelia-i18n', (instance) => {
+      // register backend plugin
+      instance.i18next.use(Backend);
+      let settings = <Settings>aurelia.container.get(Settings);
+
+      return instance.setup({
+        backend: {
+          loadPath: './locales/{{lng}}/{{ns}}.json',
+        },
+        lng : <string>settings.getValue('language') || 'en',
+        fallbackLng: 'en',
+        attributes : ['t', 'i18n'],
+        debug : false
+      });
     })
     .plugin('aurelia-v-grid')
     .plugin('aurelia-validation')
@@ -55,13 +75,23 @@ export async function configure(aurelia: Aurelia) {
   }
 
   await logger.cleanupLogs();
-  
-  
+
+  // storing the state identifier in a global, so we can use that to clear
+  // this exact session via the menu bar
+  ELECTRON.getGlobal('paths').application_state = applicationState._getStateIdentifier();
+
   // register the bootstrap validation error renderer under the bootstrap-form key
   // so that aurelia-validation uses this renderer when validation-renderer="bootstrap-form" is put on a form
   aurelia.container.registerHandler('bootstrap-form', container => container.get(BootstrapFormValidationRenderer));
 
-  aurelia.start().then(() => aurelia.setRoot()).then(() => {
+  aurelia.start()
+  .then((au) => {
+    let themeManager = <ThemeManager>au.container.get(ThemeManager);
+    let settings = <Settings>au.container.get(Settings);
+    return themeManager.load(<string>settings.getValue('theme'));
+  })
+  .then(() => aurelia.setRoot())
+  .then(() => {
     // Monterey has been loaded, let the main process know
     // so that the main process can trigger the auto update process
     ipc.notifyMainOfStart();
