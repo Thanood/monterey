@@ -56,11 +56,12 @@ p {
   border: 1px solid @iron;
   border-radius: 5px;
   background-color: @alabaster;
-
   box-shadow: @tile-shadow;
+  transition: background-color 150ms ease-out;
 
   &:hover {
     background-color: @alabaster-hover;
+    transition: background-color 150ms ease-in;
   }
 
   &.irrelevant {
