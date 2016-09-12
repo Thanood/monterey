@@ -1,3 +1,6 @@
+@appTitleHeight: 70px;
+@projectListTop: 45 + @appTitleHeight;
+
 .project-list-item {
   list-style-type: none;
   project {
@@ -43,7 +46,7 @@
     .projectList {
       position: absolute;
       bottom: 0;
-      top: 100px;
+      top: @projectListTop;
       left: 0;
       right: 0;
       .vGrid {
@@ -87,7 +90,7 @@
       margin: 0;
       padding-top: 0;
       line-height: 65px;
-      height: 55px;
+      height: @appTitleHeight;
     }
   }
 
