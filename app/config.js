@@ -17,6 +17,9 @@ System.config({
     "npm:moment@2.14.1/moment.js": {
       "exports": "moment"
     },
+    "showdown/dist/showdown": {
+      "format": "cjs"
+    },
     "github:CodeSeven/toastr@2.1.2/toastr.js": {
       "format": "amd"
     }
@@ -35,6 +38,7 @@ System.config({
     "aurelia-i18n": "npm:aurelia-i18n@1.1.2",
     "aurelia-loader-default": "npm:aurelia-loader-default@1.0.0",
     "aurelia-logging-console": "npm:aurelia-logging-console@1.0.0",
+    "aurelia-metadata": "npm:aurelia-metadata@1.0.0",
     "aurelia-pal": "npm:aurelia-pal@1.0.0",
     "aurelia-pal-browser": "npm:aurelia-pal-browser@1.0.0",
     "aurelia-polyfills": "npm:aurelia-polyfills@1.0.0",
@@ -295,6 +299,9 @@ System.config({
       "vm": "github:jspm/nodelibs-vm@0.1.0"
     },
     "npm:semver@5.3.0": {
+      "process": "github:jspm/nodelibs-process@0.1.2"
+    },
+    "npm:showdown@1.1.0": {
       "process": "github:jspm/nodelibs-process@0.1.2"
     },
     "npm:ticky@1.0.1": {

@@ -66,5 +66,7 @@
 
   "monterey-description": "Monterey is an extensible application that provides a graphical user interface for a collection of tools to simplify the creation, configuration and maintenance of Aurelia applications",
 
-  "screen-yet-to-be-made": "This screen is yet to be made"
+  "screen-yet-to-be-made": "This screen is yet to be made",
+
+  "npm-tooltip": "**NPM**<br> Package manager for NPM<br/> [Documentation](https://aurelia-ui-toolkits.gitbooks.io/monterey-user-manual/content/features/npm_manager.html)"
 }
