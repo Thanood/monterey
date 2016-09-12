@@ -49,7 +49,7 @@ export class Plugin extends BasePlugin {
   async resolvePostInstallWorkflow(project: Project, workflow: Workflow) {
     if (!project.isUsingJSPM()) return;
 
-    let phase = workflow.phases.dependencies;
+    let phase = workflow.getPhase('dependencies');
 
     if (!phase.stepExists('jspm install')) {
       phase.addStep(new Step('jspm install', 'jspm install', this.common.install(project, true, { lock: true }, true)));

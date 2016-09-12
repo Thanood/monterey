@@ -4,7 +4,8 @@ export class Phase {
   steps: Array<Step> = [];
   checked: boolean = true;
 
-  constructor(public description: string) {
+  constructor(public identifier: string,
+              public description: string) {
   }
 
   addStep(step: Step) {

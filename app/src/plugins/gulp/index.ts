@@ -49,11 +49,13 @@ export class Plugin extends BasePlugin {
   async resolvePostInstallWorkflow(project: Project, workflow: Workflow) {
     if (!project.isUsingGulp()) return;
 
-    if (!workflow.phases.run.stepExists('gulp watch')) {
+    let runPhase = workflow.getPhase('run');
+
+    if (!runPhase.stepExists('gulp watch')) {
       let t = new Task(project, 'fetch tasks', () => this.commandRunner.getCommands(project, false));
       t.description = 'Gets all available gulp/aurelia-cli/webpack commands';
-      workflow.phases.run.addStep(new Step('fetch tasks', 'fetch tasks', t));
-      workflow.phases.run.addStep(new Step('gulp watch', 'gulp watch', this.commandRunner.runByCmd(project, 'gulp watch')));
+      runPhase.addStep(new Step('fetch tasks', 'fetch tasks', t));
+      runPhase.addStep(new Step('gulp watch', 'gulp watch', this.commandRunner.runByCmd(project, 'gulp watch')));
     }
   }
 

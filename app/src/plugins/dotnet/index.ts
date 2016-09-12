@@ -97,24 +97,26 @@ export class Plugin extends BasePlugin {
       if (!dotnetInstalled) return;
 
       let t = new Task(project, 'fetch tasks', () => this.commandRunner.getCommands(project, false));
-      workflow.phases.environment.addStep(new Step('fetch tasks', 'fetch tasks', t));
+      workflow.getPhase('environment').addStep(new Step('fetch tasks', 'fetch tasks', t));
 
-      if (!workflow.phases.environment.stepExists('dotnet restore')) {
-        workflow.phases.environment.addStep(new Step('dotnet restore', 'dotnet restore', this.commandRunner.runByCmd(project, 'dotnet restore')));
+      if (!workflow.getPhase('environment').stepExists('dotnet restore')) {
+        workflow.getPhase('environment').addStep(new Step('dotnet restore', 'dotnet restore', this.commandRunner.runByCmd(project, 'dotnet restore')));
       }
 
 
-      if (!workflow.phases.run.stepExists('dotnet run')) {
-        workflow.phases.run.addStep(new Step('dotnet run', 'dotnet run', this.commandRunner.runByCmd(project, 'dotnet run')));
+      if (!workflow.getPhase('run').stepExists('dotnet run')) {
+        workflow.getPhase('run').addStep(new Step('dotnet run', 'dotnet run', this.commandRunner.runByCmd(project, 'dotnet run')));
       }
     }
 
     if (pass === 2) {
+      let runPhase = workflow.getPhase('run');
+
       // dotnet run and gulp watch needs to run at the same time
       // so they can't depend on eachother, they need to depend on the task before dotnet run and gulp watch
-      if (workflow.phases.run.stepExists('dotnet run') && workflow.phases.run.stepExists('gulp watch')) {
-       let dotnet =  workflow.phases.run.getStep('dotnet run');
-       let gulp = workflow.phases.run.getStep('gulp watch');
+      if (runPhase.stepExists('dotnet run') && runPhase.stepExists('gulp watch')) {
+       let dotnet =  runPhase.getStep('dotnet run');
+       let gulp = runPhase.getStep('gulp watch');
        (dotnet.order > gulp.order) ? dotnet.task.dependsOn = gulp.task.dependsOn : gulp.task.dependsOn = dotnet.task.dependsOn;
       }
     }

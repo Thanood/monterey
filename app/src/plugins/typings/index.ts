@@ -47,8 +47,10 @@ export class Plugin extends BasePlugin {
   async resolvePostInstallWorkflow(project: Project, workflow: Workflow) {
     if (!project.isUsingTypings()) return;
 
-    if (!workflow.phases.environment.stepExists('typings install')) {
-      workflow.phases.environment.addStep(new Step('typings install', 'typings install', new Task(project).fromPostInstallProcess({
+    let phase = workflow.getPhase('environment');
+
+    if (!phase.stepExists('typings install')) {
+      phase.addStep(new Step('typings install', 'typings install', new Task(project).fromPostInstallProcess({
         description: 'typings install',
         command: 'node',
         args: ['node_modules/typings/dist/bin.js', 'install']

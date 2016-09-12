@@ -49,8 +49,10 @@ export class Plugin extends BasePlugin {
   async resolvePostInstallWorkflow(project: Project, workflow: Workflow) {
     if (!project.isUsingNPM()) return;
 
-    if (!workflow.phases.dependencies.stepExists('npm install')) {
-      workflow.phases.dependencies.addStep(new Step('npm install', 'npm install', this.common.installNPMDependencies(project)));
+    let phase = workflow.getPhase('dependencies');
+
+    if (!phase.stepExists('npm install')) {
+      phase.addStep(new Step('npm install', 'npm install', this.common.installNPMDependencies(project)));
     }
   }
 }
