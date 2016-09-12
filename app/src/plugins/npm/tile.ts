@@ -9,7 +9,7 @@ import {NPMDetection}        from './npm-detection';
 export class Tile {
   title: string;
   img: string;
-  tooltip = 'npm-tooltip';
+  tooltip = 'tooltip-npm';
 
   constructor(private main: Main,
               private selectedProject: SelectedProject,

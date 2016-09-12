@@ -68,5 +68,6 @@
 
   "screen-yet-to-be-made": "This screen is yet to be made",
 
-  "npm-tooltip": "**NPM**<br> Package manager for NPM<br/> [Documentation](https://aurelia-ui-toolkits.gitbooks.io/monterey-user-manual/content/features/npm_manager.html)"
+  "tooltip-npm": "**NPM**<br> Package manager for NPM<br/> [Documentation](https://aurelia-ui-toolkits.gitbooks.io/monterey-user-manual/content/features/npm_manager.html)",
+  "tooltip-taskmanager": "**Taskmanager**<br>Monitors running processes and can start new tasks"
 }

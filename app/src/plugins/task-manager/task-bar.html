@@ -4,5 +4,6 @@
   <task-bar-item click.delegate="showTasks()"
                  text.bind="taskManagerText"
                  class="taskmanager"
+                 tooltip="tooltip-taskmanager"
                  icon="glyphicon glyphicon-cog ${busy > 0 ? ' gly-spin' : ''}"></task-bar-item>
 </template>
