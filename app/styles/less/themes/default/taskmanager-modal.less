@@ -1,23 +1,9 @@
 .task-manager-modal {
   .left-side {
-    border-right: 1px solid @iron;
+    background-color: @accent-backdrop;
+    border-right: 1px solid @border;
 
     tree-list {
-      > tree-node {
-        > ul {
-          > li {
-            > div {
-              font-size: 14px !important;
-              border-bottom: 2px solid @grey;
-              background-color: @iron !important;
-              overflow: hidden;
-              text-overflow: ellipsis;
-              white-space: nowrap;
-            }
-          }
-        }
-      }
-
       tree-node {
         ul {
           li {
@@ -28,6 +14,21 @@
               &.selected {
                 color: @accent;
               }
+            }
+          }
+        }
+      }
+
+      > tree-node {
+        > ul {
+          > li {
+            > div {
+              font-size: 14px !important;
+              border-bottom: 2px solid @grey;
+              background-color: @tree-node-bg;
+              overflow: hidden;
+              text-overflow: ellipsis;
+              white-space: nowrap;
             }
           }
         }
