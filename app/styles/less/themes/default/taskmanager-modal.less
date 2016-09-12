@@ -24,11 +24,16 @@
           > li {
             > div {
               font-size: 14px !important;
-              border-bottom: 2px solid @grey;
+              border-bottom: 2px solid @border;
               background-color: @tree-node-bg;
               overflow: hidden;
               text-overflow: ellipsis;
               white-space: nowrap;
+
+              .glyphicon {
+                position: relative;
+                top: 3px;
+              }
             }
           }
         }
