@@ -5,7 +5,10 @@ export class Phase {
   checked: boolean = true;
 
   constructor(public identifier: string,
-              public description: string) {
+              public description?: string) {
+    if (!description) {
+      this.description = identifier;
+    }
   }
 
   addStep(step: Step) {
