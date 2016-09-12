@@ -4,6 +4,7 @@ import {ApplicationState} from '../../../src/shared/application-state';
 import {Project}          from '../../../src/shared/project';
 import {Task}             from '../../../src/plugins/task-manager/task';
 import {Workflow}         from '../../../src/project-installation/workflow';
+import {Phase}            from '../../../src/project-installation/phase';
 import {Step}             from '../../../src/project-installation/step';
 
 describe('PluginManager', () => {
@@ -116,7 +117,7 @@ describe('PluginManager post install workflow resolver', () => {
     plugin1.resolvePostInstallWorkflow = jasmine.createSpy('resolvePostInstallWorkflow');
     plugin2.resolvePostInstallWorkflow = jasmine.createSpy('resolvePostInstallWorkflow');
 
-    let workflow = new Workflow();
+    let workflow = new Workflow(null, null);
     let project = new Project();
     await pluginManager.resolvePostInstallWorkflow(project, workflow);
 
@@ -128,7 +129,7 @@ describe('PluginManager post install workflow resolver', () => {
   it('does multiple passes so that dependencies in the workflow can be resolved', async (r) => {
     plugin1.resolvePostInstallWorkflow = jasmine.createSpy('resolvePostInstallWorkflow');
 
-    let workflow = new Workflow();
+    let workflow = new Workflow(null, null);
     let project = new Project();
     await pluginManager.resolvePostInstallWorkflow(project, workflow);
 
@@ -141,41 +142,44 @@ describe('PluginManager post install workflow resolver', () => {
       if (pass === 1) {
         let jspm = new Step('jspm install', 'jspm install', null);
         let npm = new Step('npm install', 'npm install', null);
-        workflow.phases.dependencies.addStep(jspm);
-        workflow.phases.dependencies.addStep(npm);
+        workflow.getPhase('dependencies').addStep(jspm);
+        workflow.getPhase('dependencies').addStep(npm);
         // right now jspm has lower order than npm
 
         // now change the order, the plugin manager should sort based on the order
-        workflow.phases.dependencies.moveAfter(jspm, npm);
+        workflow.getPhase('dependencies').moveAfter(jspm, npm);
       }
     };
 
-    let workflow = new Workflow();
+    let workflow = new Workflow(null, null);
+    workflow.addPhase(new Phase('dependencies'));
     let project = new Project();
     await pluginManager.resolvePostInstallWorkflow(project, workflow);
 
-    expect(workflow.phases.dependencies.steps[0].identifier).toBe('npm install');
+    expect(workflow.getPhase('dependencies').steps[0].identifier).toBe('npm install');
     r();
   });
 
   it('sets task dependencies after first pass, so that plugins can override these in 2nd and 3rd pass', async (r) => {
     plugin1.resolvePostInstallWorkflow = async (project: Project, workflow: Workflow, pass) => {
       if (pass === 1) {
-        workflow.phases.dependencies.addStep(new Step('npm install', 'npm install', new Task(null)));
-        workflow.phases.dependencies.addStep(new Step('jspm install', 'jspm install', new Task(null)));
+        workflow.getPhase('dependencies').addStep(new Step('npm install', 'npm install', new Task(null)));
+        workflow.getPhase('dependencies').addStep(new Step('jspm install', 'jspm install', new Task(null)));
 
         // first task of phase depends on last task of the phase before
-        workflow.phases.run.addStep(new Step('typings install', 'typings install', new Task(null)));
+        workflow.getPhase('run').addStep(new Step('typings install', 'typings install', new Task(null)));
       }
       if (pass === 2) {
-        expect(workflow.phases.dependencies.steps[0].task.dependsOn).toBeUndefined();
-        expect(workflow.phases.dependencies.steps[1].task.dependsOn).toBe(workflow.phases.dependencies.steps[0].task);
+        expect(workflow.getPhase('dependencies').steps[0].task.dependsOn).toBeUndefined();
+        expect(workflow.getPhase('dependencies').steps[1].task.dependsOn).toBe(workflow.getPhase('dependencies').steps[0].task);
 
-        expect(workflow.phases.run.steps[0].task.dependsOn).toBe(workflow.phases.dependencies.steps[1].task);
+        expect(workflow.getPhase('run').steps[0].task.dependsOn).toBe(workflow.getPhase('dependencies').steps[1].task);
       }
     };
 
-    let workflow = new Workflow();
+    let workflow = new Workflow(null, null);
+    workflow.addPhase(new Phase('dependencies'));
+    workflow.addPhase(new Phase('run'));
     let project = new Project();
     try {
       await pluginManager.resolvePostInstallWorkflow(project, workflow);

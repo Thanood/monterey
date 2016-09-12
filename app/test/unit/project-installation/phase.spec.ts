@@ -6,11 +6,12 @@ describe('Phase', () => {
   let sut: Phase;
 
   beforeEach(() => {
-    sut = new Phase('some phase');
+    sut = new Phase('some phase', 'some phase that does something');
   });
 
-  it('stores description of phase', () => {
-    expect(sut.description).toBe('some phase');
+  it('stores name and description of phase', () => {
+    expect(sut.identifier).toBe('some phase');
+    expect(sut.description).toBe('some phase that does something');
   });
 
   it('stepExists works correctly', () => {
