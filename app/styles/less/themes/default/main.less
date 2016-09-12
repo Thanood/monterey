@@ -32,12 +32,17 @@
         background: @white;
         color: @primary;
         border-left: 1px solid @accent-backdrop;
-      }
 
-      .main-button:active, .main-button:hover {
-        color: @white;
-        background-image: -webkit-radial-gradient(49% 0 circle, #C632AC 0, #8A2979 100%);
-        background-image: radial-gradient(circle at 49% 0, #C632AC 0, #8A2979 100%);
+        &:hover {
+          color: @white;
+          // background-image: -webkit-radial-gradient(49% 0 circle, #C632AC 0, #8A2979 100%);
+          background: radial-gradient(circle at 49% 0, #C632AC 0, #8A2979 100%);
+        }
+
+        &:active {
+          color: @white;
+          background: none #8A2979;
+        }
       }
     }
 
