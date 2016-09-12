@@ -14,7 +14,7 @@ export class Tile {
               private selectedProject: SelectedProject,
               private detection: Detection) {
     this.title = 'Gulp';
-    this.img = 'images/gulp.png';
+    this.img = 'images/gulp-transparent.png';
   }
 
   activate(model) {
