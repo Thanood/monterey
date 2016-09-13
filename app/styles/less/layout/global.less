@@ -149,6 +149,11 @@ ai-dialog ai-dialog-footer .align-right {
   float: right;
 }
 
+.tiles-row {
+  display: flex;
+  flex-wrap: wrap;
+}
+
 .tile {
   margin: 5px;
   cursor: pointer;
@@ -161,13 +166,25 @@ ai-dialog ai-dialog-footer .align-right {
 .default-tile {
   width: 120px;
   height: 132px;
-  vertical-align: middle;
-  text-align: center;
+  // vertical-align: middle;
+  // text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  // justify-content: space-around;
+  justify-content: center;
+
+  > p {
+    height: 30px;
+    margin: 0;
+  }
 
   &.without-icon {
     > p {
-      margin: 0;
-      padding-top: 50px;
+      // margin: 0;
+      // padding-top: 17px;
+      // height: 40px;
+      // line-height: 40px;
     }
   }
 
@@ -178,8 +195,10 @@ ai-dialog ai-dialog-footer .align-right {
     }
 
     > p {
-      padding-top: 17px;
-      text-align: center;
+      // padding-top: 17px;
+      // height: 40px;
+      // line-height: 40px;
+      // text-align: center;
     }
   }
 }
