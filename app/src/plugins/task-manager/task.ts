@@ -1,6 +1,6 @@
-import {Project}            from '../../shared/project';
-import {PostInstallProcess} from '../../scaffolding/post-install-process';
-import {OS, FS}             from 'monterey-pal';
+import {Project} from '../../shared/project';
+import {Command} from './command';
+import {OS, FS}  from 'monterey-pal';
 import 'moment';
 
 export class Task implements Task {
@@ -24,11 +24,11 @@ export class Task implements Task {
               public execute?: () => Promise<any>) {
   }
 
-  fromPostInstallProcess(process: PostInstallProcess) {
-    this.title = process.description;
+  fromCommand(command: Command) {
+    this.title = command.description;
     this.execute = async () => {
       let dir = this.project.packageJSONPath ? FS.getFolderPath(this.project.packageJSONPath) : this.project.path;
-      let proc = OS.spawn(process.command, process.args, { cwd: dir }, out => {
+      let proc = OS.spawn(command.command, command.args, { cwd: dir }, out => {
         this.addTaskLog(out);
       }, stderr => {
         this.addTaskLog(stderr);

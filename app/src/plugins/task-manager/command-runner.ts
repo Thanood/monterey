@@ -1,5 +1,6 @@
 import {autoinject}           from 'aurelia-framework';
 import {CommandRunnerService} from './command-runner-service';
+import {CommandRunnerLocator} from './command-runner-locator';
 import {TaskManager}          from './task-manager';
 import {Task}                 from './task';
 import {Command}              from './command';
@@ -12,35 +13,35 @@ import {PluginManager}        from '../../shared/plugin-manager';
 @autoinject()
 export class CommandRunner {
   constructor(private taskManager: TaskManager,
+              private serviceLocator: CommandRunnerLocator,
               private pluginManager: PluginManager) {}
 
   run(project: Project, command: Command) {
+    let service = this.serviceLocator.getHandler(command);
     let task = new Task(project, `${command.command} ${command.args.join(' ')}`);
 
-    task.execute = this._executor(task, project, command);
+    task.execute = this._executor(task, service, project, command);
     task.stoppable = true;
-    task.stop = this._stop(task);
+    task.stop = this._stop(service, task);
 
     return task;
   }
 
-  _stop(task: Task) {
+  _stop(service: CommandRunnerService, task: Task) {
     return () => {
-      let service = <CommandRunnerService>(task.meta.service);
       return service.stopCommand(task.meta.process);
     };
   }
 
-  _executor(task: Task, project: Project, command: Command) {
+  _executor(task: Task, service: CommandRunnerService, project: Project, command: Command) {
     return () => {
-      let result = command.service.runCommand(project, command, task, stdout => {
+      let result = service.runCommand(project, command, task, stdout => {
         this.taskManager.addTaskLog(task, stdout);
       }, stderr => {
         this.taskManager.addTaskLog(task, stderr);
       });
 
       task.meta = {
-        service: command.service,
         process: result.process
       };
 
@@ -62,31 +63,5 @@ export class CommandRunner {
   async getServices(project: Project) {
     let services = await this.pluginManager.getCommandServices(project);
     return services;
-  }
-
-  runByCmd(project: Project, cmd: string) {
-    let task = new Task(project, cmd);
-
-    task.execute = async () => {
-      let commands = await this.getCommands(project, true);
-      let foundCommand;
-      commands.forEach(command => {
-        if (`${command.command} ${command.args.join(' ')}` === cmd) {
-          foundCommand = command;
-        }
-      });
-
-      if (!foundCommand) {
-        // maybe we should throw an error here, not sure yet
-        task.addTaskLog(`Did not find command ${cmd}`);
-        return Promise.resolve();
-      }
-
-      return this._executor(task, project, foundCommand)();
-    };
-    task.stoppable = true;
-    task.stop = this._stop(task);
-
-    return task;
   }
 }

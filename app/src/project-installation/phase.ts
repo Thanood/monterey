@@ -12,10 +12,6 @@ export class Phase {
   }
 
   addStep(step: Step) {
-    if (this.steps.findIndex(x => x.identifier === step.identifier) > -1) {
-      throw new Error(`The post install step ${step.identifier} already exists`);
-    }
-
     if (!step.order) {
       if (this.steps.length > 0) {
         step.order = this._getHighestOrder();

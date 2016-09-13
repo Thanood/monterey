@@ -9,7 +9,7 @@ import {CommandService as Default}    from './default-command-service';
 
 @autoinject()
 export class CommandRunnerLocator {
-  services: Array<CommandRunnerService>;
+  services: Array<CommandRunnerService> = [];
 
   constructor(private container: Container) {
     this.register(Gulp);

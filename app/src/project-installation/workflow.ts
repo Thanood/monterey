@@ -11,8 +11,7 @@ export class Workflow {
   phases: Array<Phase> = [];
 
   constructor(private taskManager: TaskManager,
-              private project: Project)
-  {}
+              private project: Project) { }
 
   addPhase(phase: Phase) {
     if (!this.getPhase(phase.identifier)) {

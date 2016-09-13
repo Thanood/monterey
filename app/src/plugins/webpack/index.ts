@@ -6,8 +6,8 @@ import {Project}          from '../../shared/project';
 import {Task}             from '../task-manager/task';
 import {Workflow}         from '../../project-installation/workflow';
 import {Step}             from '../../project-installation/step';
-import {CommandRunner}    from '../task-manager/command-runner';
 import {CommandService}   from './command-service';
+import {CommandRunner}    from '../task-manager/command-runner';
 
 export function configure(aurelia) {
   let pluginManager = <PluginManager>aurelia.container.get(PluginManager);
@@ -51,10 +51,10 @@ export class Plugin extends BasePlugin {
     let runPhase = workflow.getPhase('run');
 
     if (!runPhase.stepExists('npm start')) {
-      let t = new Task(project, 'fetch tasks', () => this.commandRunner.getCommands(project, false));
-      t.description = 'Gets all available gulp/aurelia-cli/webpack commands';
-      runPhase.addStep(new Step('fetch tasks', 'fetch tasks', t));
-      runPhase.addStep(new Step('npm start', 'npm start', this.commandRunner.runByCmd(project, 'npm start')));
+      runPhase.addStep(new Step('npm start', 'npm start', this.commandRunner.run(project, {
+        command: 'npm',
+        args: ['start']
+      })));
     }
   }
 

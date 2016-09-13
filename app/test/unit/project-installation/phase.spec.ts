@@ -23,12 +23,6 @@ describe('Phase', () => {
     expect(sut.stepExists('jspm install')).toBe(false);
   });
 
-  it('does not accept multiple steps with same identifier', () => {
-    sut.addStep(new Step('npm install', 'npm install', new Task(null)));
-    
-    expect(() => sut.addStep(new Step('npm install', 'npm install', new Task(null)))).toThrowError('The post install step npm install already exists');
-  });
-
   it('sets the order of steps', () => {
     let step = new Step('npm install', 'npm install', new Task(null));
     sut.addStep(step);

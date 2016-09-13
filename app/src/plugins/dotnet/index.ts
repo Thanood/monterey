@@ -63,7 +63,7 @@ export class Plugin extends BasePlugin {
       // making sure that dotnet is installed
       await OS.exec('dotnet --help', { cwd: cwd });
 
-      tasks.push(new Task(project).fromPostInstallProcess({
+      tasks.push(new Task(project).fromCommand({
         description: 'dotnet restore',
         command: 'dotnet',
         args: ['restore']
@@ -100,12 +100,18 @@ export class Plugin extends BasePlugin {
       workflow.getPhase('environment').addStep(new Step('fetch tasks', 'fetch tasks', t));
 
       if (!workflow.getPhase('environment').stepExists('dotnet restore')) {
-        workflow.getPhase('environment').addStep(new Step('dotnet restore', 'dotnet restore', this.commandRunner.runByCmd(project, 'dotnet restore')));
+        workflow.getPhase('environment').addStep(new Step('dotnet restore', 'dotnet restore', this.commandRunner.run(project, {
+          command: 'dotnet',
+          args: ['restore']
+        })));
       }
 
 
       if (!workflow.getPhase('run').stepExists('dotnet run')) {
-        workflow.getPhase('run').addStep(new Step('dotnet run', 'dotnet run', this.commandRunner.runByCmd(project, 'dotnet run')));
+        workflow.getPhase('run').addStep(new Step('dotnet run', 'dotnet run', this.commandRunner.run(project, {
+          command: 'dotnet',
+          args: ['run']
+        })));
       }
     }
 
