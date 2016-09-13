@@ -37,7 +37,7 @@
       </div>
 
       <!-- list of commands for a service -->
-      <ul class="list-group" style="width: 200px; max-height: 380px; overflow: auto;">
+      <ul class="list-group" style="width: 100%; max-height: 380px; overflow: auto;">
         <li class="list-group-item ${command === category.selectedCommand ? 'selected' : ''}"
             click.delegate="category.selectedCommand = command"
             dblclick.delegate="startCommand(category, command)"
