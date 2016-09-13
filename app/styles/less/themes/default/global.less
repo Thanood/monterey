@@ -105,6 +105,19 @@ tree-list {
   }
 }
 
+.nav-tabs {
+  > li {
+    > a {
+      color: @primary;
+    }
+  }
+  > li.active {
+    > a, a:focus {
+      color: @primary;
+      font-weight: bold;
+    }
+  }
+}
 
 .splitter {
   background-color: transparent;
