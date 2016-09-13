@@ -41,9 +41,7 @@ export class CommandRunner {
         this.taskManager.addTaskLog(task, stderr);
       });
 
-      task.meta = {
-        process: result.process
-      };
+      task.meta.process = result.process;
 
       return result.completion;
     };

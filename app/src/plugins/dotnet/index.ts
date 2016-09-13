@@ -63,7 +63,7 @@ export class Plugin extends BasePlugin {
       // making sure that dotnet is installed
       await OS.exec('dotnet --help', { cwd: cwd });
 
-      tasks.push(new Task(project).fromCommand({
+      tasks.push(this.commandRunner.run(project, {
         description: 'dotnet restore',
         command: 'dotnet',
         args: ['restore']

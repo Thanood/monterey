@@ -15,36 +15,13 @@ export class Task implements Task {
   status?: 'queued'|'stopped by user'|'running'|'finished';
   stop?: (task: Task) => Promise<void>;
   estimation?: string;
-  meta?: any;
+  meta?: any = {};
   promise: Promise<any>;
   dependsOn?: Task;
 
   constructor(public project: Project,
               public title?: string,
               public execute?: () => Promise<any>) {
-  }
-
-  fromCommand(command: Command) {
-    this.title = command.description;
-    this.execute = async () => {
-      let dir = this.project.packageJSONPath ? FS.getFolderPath(this.project.packageJSONPath) : this.project.path;
-      let proc = OS.spawn(command.command, command.args, { cwd: dir }, out => {
-        this.addTaskLog(out);
-      }, stderr => {
-        this.addTaskLog(stderr);
-      });
-
-      if (!this.meta) this.meta = {};
-      this.meta.process = proc.process;
-
-      return proc.completion;
-    };
-    this.stoppable = true;
-    this.stop = async () => {
-      return OS.kill(this.meta.process);
-    };
-
-    return this;
   }
 
   addTaskLog(text: string, level?: string) {

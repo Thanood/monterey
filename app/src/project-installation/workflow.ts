@@ -43,12 +43,24 @@ export class Workflow {
     }
 
     tasks.forEach(task => {
+      if (!task.meta) task.meta = {};
+
+      task.meta.workflow = this;
+
       this.taskManager.addTask(this.project, task);
     });
 
     this.taskManager.startTask(tasks[0]);
 
     return tasks;
+  }
+
+  stop() {
+    for (let task of this.taskManager.tasks) {
+      if (task.meta.workflow === this) {
+        this.taskManager.stopTask(task);
+      }
+    }
   }
 
   onCheck(phase: Phase, step?: Step) {
