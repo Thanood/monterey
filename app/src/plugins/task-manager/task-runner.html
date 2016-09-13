@@ -1,11 +1,11 @@
 <template>
-  <h3 class="title" style="margin: 0">${project.name}</h3>
+  <h3 class="title" style="margin: 0">${project.name} - Tasks</h3>
 
-  <p>Start a new task:</p>
+  <!-- <p>Start a new task:</p> -->
 
   <!-- Nav tabs -->
   <ul class="nav nav-tabs" ref="nav" role="tablist">
-    <li role="presentation" class="active"><a href="#popular" ref="favoriteTab" role="tab" data-toggle="tab">Favorites</a></li> 
+    <li role="presentation" class="active"><a href="#popular" ref="favoriteTab" role="tab" data-toggle="tab">Favorites</a></li>
     <li repeat.for="category of project.__meta__.taskrunner.categories" role="presentation"><a href="#${category.title}" role="tab" data-toggle="tab">${category.title}</a></li>
   </ul>
 
@@ -19,8 +19,8 @@
 
       <p show.bind="!project.__meta__.taskrunner.loading && project.__meta__.taskrunner.favorites.length === 0">No favorites</p>
       <!-- tiles for favorite commands -->
-      <div class="tile default-tile without-icon" 
-           click.delegate="startCommand(favorite.category, favorite.command)" 
+      <div class="tile default-tile without-icon"
+           click.delegate="startCommand(favorite.category, favorite.command)"
            repeat.for="favorite of project.__meta__.taskrunner.favorites">
           <p>${favorite.command.description}</p>
       </div>
@@ -28,7 +28,7 @@
 
     <div repeat.for="category of project.__meta__.taskrunner.categories" role="tabpanel" class="tab-pane" id="${category.title}">
       <p show.bind="category.error">${category.error}</p>
-      
+
       <div if.bind="category.loading">
         <p>Loading tasks... first time will take longer</p>
         <i class="fa fa-spinner fa-spin fa-3x"></i>
@@ -36,8 +36,8 @@
 
       <!-- list of commands for a service -->
       <ul class="list-group" style="width: 200px; max-height: 380px; overflow: auto;">
-        <li class="list-group-item ${command === category.selectedCommand ? 'selected' : ''}" 
-            click.delegate="category.selectedCommand = command" 
+        <li class="list-group-item ${command === category.selectedCommand ? 'selected' : ''}"
+            click.delegate="category.selectedCommand = command"
             dblclick.delegate="startCommand(category, command)"
             repeat.for="command of category.commands">
             <p>${command.description}</p>
