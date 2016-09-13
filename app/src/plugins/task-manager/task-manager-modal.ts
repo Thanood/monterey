@@ -13,6 +13,7 @@ import {TreeNode}                      from '../../shared/tree-list/tree-node';
 import {TreeListNode}                  from '../../shared/tree-list/tree-list-node';
 import {Project}                       from '../../shared/project';
 import {Notification}                  from '../../shared/notification';
+import {TaskRunner}                    from './task-runner';
 
 @autoinject()
 export class TaskManagerModal {
@@ -25,6 +26,7 @@ export class TaskManagerModal {
   selectedProject: Project;
   @observable showFinished;
   subscriptions: Array<Subscription> = [];
+  taskRunnerVM: TaskRunner;
 
   model: { task: Task, project: Project };
 
@@ -66,6 +68,8 @@ export class TaskManagerModal {
 
   attached() {
     this.contextMenu.attach(this.taskTreeElement, (builder, clickedElement) => this.contextMenuActivated(builder, clickedElement));
+
+    this.taskRunnerVM.select(this.selectedProject);
   }
 
   contextMenuActivated(builder, clickedElement) {
@@ -161,6 +165,7 @@ export class TaskManagerModal {
 
     if (this.selectedNode.data.project) {
       this.selectedProject = this.selectedNode.data.project;
+      this.taskRunnerVM.select(this.selectedProject);
     } else if (this.selectedNode.data.task) {
       this.selectedTask = this.selectedNode.data.task;
     }

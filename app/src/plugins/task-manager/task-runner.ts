@@ -10,7 +10,10 @@ import {Task}                 from './task';
 
 @autoinject()
 export class TaskRunner {
-  @bindable project: Project;
+  cache: Array<TaskRunnerState> = [];
+  current: TaskRunnerState;
+
+  // @bindable project: Project;
   favoriteTab: Element;
   favoriteTabBody: Element;
   loading: boolean;
@@ -20,24 +23,23 @@ export class TaskRunner {
               private state: ApplicationState,
               private notification: Notification) {}
 
-  projectChanged() {
-    if (!this.project) {
+  select(project: Project) {
+    if (!project) {
+      this.current = null;
       return;
     }
 
-    if (!this.project.__meta__.taskrunner) {
-      this.project.__meta__.taskrunner = {};
+    if (!this.cache.find(x => x.project === project)) {
+      this.current = { project: project, categories: [], favorites: [] };
+      this.cache.push(this.current);
+    } else {
+      this.current = this.cache.find(x => x.project === project);
+      this.current.categories.splice(0);
+      this.current.favorites.splice(0);
     }
 
-    let taskrunner = this.project.__meta__.taskrunner;
-    if (!taskrunner.categories) taskrunner.categories = [];
-    if (!taskrunner.favorites) taskrunner.favorites = [];
-
-    taskrunner.categories.splice(0);
-    taskrunner.favorites.splice(0);
-
-    if (!this.project.favoriteCommands) {
-      this.project.favoriteCommands = [
+    if (!project.favoriteCommands) {
+      project.favoriteCommands = [
         'gulp watch',
         'au run --watch',
         'npm start',
@@ -52,21 +54,22 @@ export class TaskRunner {
       setTimeout(() => this.showFavoriteTab());
     }
 
-    this.load(this.project);
+    this.load();
   }
 
   showFavoriteTab() {
     if (this.favoriteTab) {
       $(this.favoriteTab).tab('show');
-      $(this.favoriteTab).show();
+      $(this.favoriteTab).css('position', 'relative');
     }
   }
 
-  async load(project: Project) {
-    project.__meta__.taskrunner.loading = true;
+  async load() {
+    this.loading = true;
 
     let categories: Array<Category> = [];
-    let services = await this.commandRunner.getServices(project);
+    let state = this.current;
+    let services = await this.commandRunner.getServices(state.project);
 
     services.forEach(service => categories.push({
       title: service.title,
@@ -75,25 +78,25 @@ export class TaskRunner {
     }));
 
     for (let x = 0; x < categories.length; x++) {
-      await this.loadCommands(project, categories[x], true);
+      await this.loadCommands(state.project, categories[x], true);
     }
 
-    project.__meta__.taskrunner.categories = categories;
-    project.__meta__.taskrunner.loading = false;
+    state.categories = categories;
 
-    this.loadFavorites(project);
+    this.loadFavorites(state);
+
+    this.loading = false;
   }
 
-  loadFavorites(project: Project) {
-    if (!project.favoriteCommands) return;
+  loadFavorites(state: TaskRunnerState) {
+    if (!state.project.favoriteCommands) return;
 
-    let taskrunner = project.__meta__.taskrunner;
-    let categories = <Array<Category>>taskrunner.categories;
-    let favorites = <Array<Favorite>>taskrunner.favorites;
+    let categories = state.categories;
+    let favorites = state.favorites;
 
     categories.forEach((category: Category) => {
       category.commands.forEach(command => {
-        if (project.favoriteCommands.indexOf(command.description) > -1) {
+        if (state.project.favoriteCommands.indexOf(command.description) > -1) {
           favorites.push({
             category: category,
             command: command
@@ -129,24 +132,21 @@ export class TaskRunner {
       return;
     }
 
-    let task = this.commandRunner.run(this.project, command || category.selectedCommand);
+    let task = this.commandRunner.run(this.current.project, command || category.selectedCommand);
 
-    this.taskManager.addTask(this.project, task);
+    this.taskManager.addTask(this.current.project, task);
     this.taskManager.startTask(task);
 
     this.notification.success('Task has been started');
   }
 
   favoriteCommand(category: Category) {
-    let taskrunner = this.project.__meta__.taskrunner;
-    let favorites = <Array<Favorite>>taskrunner.favorites;
-
-    favorites.push({
+    this.current.favorites.push({
       category: category,
       command: category.selectedCommand
     });
 
-    this.project.favoriteCommands.push(category.selectedCommand.description);
+    this.current.project.favoriteCommands.push(category.selectedCommand.description);
     this.state._save();
     this.notification.success('Added the task to favorites');
   }
@@ -164,4 +164,10 @@ interface Category {
 interface Favorite {
   category: Category;
   command: Command;
+}
+
+interface TaskRunnerState {
+  project: Project;
+  categories: Array<Category>;
+  favorites: Array<Favorite>;
 }

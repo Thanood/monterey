@@ -1,32 +1,32 @@
 <template>
-  <h3 class="title" style="margin: 0">${project.name}</h3>
+  <h3 class="title" style="margin: 0">${current.project.name}</h3>
 
   <p>Start a new task:</p>
 
   <!-- Nav tabs -->
   <ul class="nav nav-tabs" ref="nav" role="tablist">
     <li role="presentation" class="active"><a href="#popular" ref="favoriteTab" role="tab" data-toggle="tab">Favorites</a></li> 
-    <li repeat.for="category of project.__meta__.taskrunner.categories" role="presentation"><a href="#${category.title}" role="tab" data-toggle="tab">${category.title}</a></li>
+    <li repeat.for="category of current.categories" role="presentation"><a href="#${category.title}" role="tab" data-toggle="tab">${category.title}</a></li>
   </ul>
 
   <!-- Tab panes -->
   <div class="tab-content">
     <div role="tabpanel" class="tab-pane active" id="popular">
-      <div if.bind="project.__meta__.taskrunner.loading">
+      <div if.bind="loading">
         <p>Loading tasks... first time will take longer</p>
         <i class="fa fa-spinner fa-spin fa-3x"></i>
       </div>
 
-      <p show.bind="!project.__meta__.taskrunner.loading && project.__meta__.taskrunner.favorites.length === 0">No favorites</p>
+      <p show.bind="!loading && current.favorites.length === 0">No favorites</p>
       <!-- tiles for favorite commands -->
       <div class="tile default-tile without-icon" 
            click.delegate="startCommand(favorite.category, favorite.command)" 
-           repeat.for="favorite of project.__meta__.taskrunner.favorites">
+           repeat.for="favorite of current.favorites">
           <p>${favorite.command.description}</p>
       </div>
     </div>
 
-    <div repeat.for="category of project.__meta__.taskrunner.categories" role="tabpanel" class="tab-pane" id="${category.title}">
+    <div repeat.for="category of current.categories" role="tabpanel" class="tab-pane" id="${category.title}">
       <p show.bind="category.error">${category.error}</p>
       
       <div if.bind="category.loading">
@@ -47,7 +47,7 @@
       <!-- possible actions -->
       <button class="btn btn-primary" click.delegate="startCommand(category)" disabled.bind="!category.selectedCommand">Start this task</button>
       <button class="btn btn-primary" click.delegate="favoriteCommand(category)" disabled.bind="!category.selectedCommand">Favorite this task</button>
-      <button class="btn btn-primary" click.delegate="loadCommands(category, false)">Refresh tasks</button>
+      <button class="btn btn-primary" click.delegate="loadCommands(current.project, category, false)">Refresh tasks</button>
     </div>
   </div>
 </template>

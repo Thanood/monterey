@@ -18,7 +18,7 @@
       </div>
       
       <div class="right-side" show.bind="selectedProject">
-        <task-runner project.bind="selectedProject"></task-runner>
+        <task-runner view-model.ref="taskRunnerVM"></task-runner>
       </div>
 
       <div class="right-side" if.bind="!selectedTask && !selectedProject">
