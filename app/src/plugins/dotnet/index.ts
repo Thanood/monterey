@@ -96,16 +96,12 @@ export class Plugin extends BasePlugin {
 
       if (!dotnetInstalled) return;
 
-      let t = new Task(project, 'fetch tasks', () => this.commandRunner.getCommands(project, false));
-      workflow.getPhase('environment').addStep(new Step('fetch tasks', 'fetch tasks', t));
-
       if (!workflow.getPhase('environment').stepExists('dotnet restore')) {
         workflow.getPhase('environment').addStep(new Step('dotnet restore', 'dotnet restore', this.commandRunner.run(project, {
           command: 'dotnet',
           args: ['restore']
         })));
       }
-
 
       if (!workflow.getPhase('run').stepExists('dotnet run')) {
         workflow.getPhase('run').addStep(new Step('dotnet run', 'dotnet run', this.commandRunner.run(project, {

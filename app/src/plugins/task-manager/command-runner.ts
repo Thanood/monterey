@@ -49,17 +49,6 @@ export class CommandRunner {
     };
   }
 
-  async getCommands(project: Project, withCache: boolean = true): Promise<Array<Command>> {
-    let services = await this.getServices(project);
-    let commands = [];
-
-    for (let x = 0; x < services.length; x++) {
-      commands = commands.concat(await services[x].getCommands(project, withCache));
-    }
-
-    return commands;
-  }
-
   async getServices(project: Project) {
     let services = await this.pluginManager.getCommandServices(project);
     return services;
