@@ -14,6 +14,10 @@ export class CommandService implements CommandRunnerService {
     ];
   }
 
+  handle(command: Command) {
+    return command.command === 'au';
+  }
+
   runCommand(project: Project, command: Command, task: Task, stdout, stderr) {
     // Application Available At: http://localhost:9000
     let cmd = OS.getPlatform() === 'win32' ? `${command.command}.cmd` : command.command;

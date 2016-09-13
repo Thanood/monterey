@@ -35,6 +35,10 @@ export class CommandService implements CommandRunnerService {
     return commands;
   }
 
+  handle(command: Command) {
+    return command.command === 'gulp';
+  }
+
   runCommand(project: Project, command: Command, task: Task, stdout, stderr) {
     let gulpFileDir = FS.getFolderPath(project.gulpfile);
     let cmd = OS.getPlatform() === 'win32' ? 'gulp.cmd' : 'gulp';

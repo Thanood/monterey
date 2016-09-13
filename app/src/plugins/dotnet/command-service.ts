@@ -14,6 +14,10 @@ export class CommandService implements CommandRunnerService {
     ];
   }
 
+  handle(command: Command) {
+    return command.command === 'dotnet';
+  }
+
   runCommand(project: Project, command: Command, task: Task, stdout, stderr) {
     let projJSONdir = FS.getFolderPath(project.projectJSONPath);
     let result = OS.spawn(command.command, command.args, { cwd:  projJSONdir }, out => {

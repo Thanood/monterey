@@ -13,6 +13,10 @@ export class CommandService implements CommandRunnerService {
     ];
   }
 
+  handle(command: Command) {
+    return command.command === 'npm';
+  }
+
   runCommand(project: Project, command: Command, task: Task, stdout, stderr) {
     let cmd = OS.getPlatform() === 'win32' ? `${command.command}.cmd` : command.command;
     let result = OS.spawn(cmd, command.args, { cwd:  project.path }, out => {

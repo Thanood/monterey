@@ -5,6 +5,7 @@ import {Command}                             from './command';
 
 export interface CommandRunnerService {
   title?: string;
+  handle(command: Command): boolean;
   stopCommand(process): Promise<void>;
   runCommand(project: Project, command: Command, task: Task, stdout, stderr);
   getCommands(project: Project, useCache: boolean): Promise<Array<Command>>;
