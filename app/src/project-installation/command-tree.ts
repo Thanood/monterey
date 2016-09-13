@@ -10,10 +10,11 @@ import {Project}       from '../shared/project';
 /**
  * A serializable collection of Commands that can be converted into a Workflow
  */
-export class CommandWorkflow {
+export class CommandTree {
+  id: number;
   command: Command;
   name: string = 'Workflow';
-  children: Array<CommandWorkflow> = [];
+  children: Array<CommandTree> = [];
 
   constructor(obj: any) {
     Object.assign(this, obj);
@@ -31,8 +32,8 @@ export class CommandWorkflow {
     return workflow;
   }
 
-  _getChildCommands(phase: Phase, project: Project, commandRunner: CommandRunner, commandWorkflow: CommandWorkflow) {
-    for (let child of commandWorkflow.children) {
+  _getChildCommands(phase: Phase, project: Project, commandRunner: CommandRunner, tree: CommandTree) {
+    for (let child of tree.children) {
       phase.addStep(this._createStep(child.command, commandRunner, project));
 
       if (child.children.length > 0) {
