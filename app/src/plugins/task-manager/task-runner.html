@@ -19,10 +19,12 @@
 
       <p show.bind="!project.__meta__.taskrunner.loading && project.__meta__.taskrunner.favorites.length === 0">No favorites</p>
       <!-- tiles for favorite commands -->
-      <div class="tile default-tile without-icon"
-           click.delegate="startCommand(favorite.category, favorite.command)"
-           repeat.for="favorite of project.__meta__.taskrunner.favorites">
-          <p>${favorite.command.description}</p>
+      <div class="tiles-row">
+        <div class="tile default-tile without-icon"
+             click.delegate="startCommand(favorite.category, favorite.command)"
+             repeat.for="favorite of project.__meta__.taskrunner.favorites">
+            <p>${favorite.command.description}</p>
+        </div>
       </div>
     </div>
 
