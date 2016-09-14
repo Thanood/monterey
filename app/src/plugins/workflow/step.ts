@@ -1,4 +1,4 @@
-import {Task} from '../plugins/task-manager/task';
+import {Task} from '../task-manager/task';
 
 export class Step {
   order?: number;

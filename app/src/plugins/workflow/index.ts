@@ -2,7 +2,7 @@ import {autoinject}      from 'aurelia-framework';
 import {BasePlugin}      from '../base-plugin';
 import {PluginManager}   from '../../shared/plugin-manager';
 import {Project}         from '../../shared/project';
-import {CommandTree}     from '../../project-installation/command-tree';
+import {CommandTree}     from './command-tree';
 
 export function configure(aurelia) {
   let pluginManager = <PluginManager>aurelia.container.get(PluginManager);
@@ -19,7 +19,7 @@ export class Plugin extends BasePlugin {
       tiles.push({
         name: `workflow-${x.name}`,
         model: { title: x.name, tree: new CommandTree(x) },
-        viewModel: 'plugins/workflows/tile'
+        viewModel: 'plugins/workflow/tile'
       });
     }
 

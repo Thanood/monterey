@@ -1,8 +1,8 @@
 import {Step}        from './step';
 import {Phase}       from './phase';
-import {Task}        from '../plugins/task-manager/task';
-import {TaskManager} from '../plugins/task-manager/task-manager';
-import {Project}     from '../shared/project';
+import {Task}        from '../task-manager/task';
+import {TaskManager} from '../task-manager/task-manager';
+import {Project}     from '../../shared/project';
 
 /**
  * A workflow is a combination of tasks. A task can run a command (gulp watch) or call an API (jspm's install api)
@@ -39,7 +39,7 @@ export class Workflow {
     let tasks: Array<Task> = this.getSelectedTasks();
 
     if (tasks.length === 0) {
-      return [];
+      return Promise.resolve();
     }
 
     tasks.forEach(task => {
@@ -50,9 +50,7 @@ export class Workflow {
       this.taskManager.addTask(this.project, task);
     });
 
-    this.taskManager.startTask(tasks[0]);
-
-    return tasks;
+    return this.taskManager.startTask(tasks[0]);
   }
 
   stop() {

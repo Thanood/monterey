@@ -4,8 +4,8 @@ import {Detection}     from './detection';
 import {PluginManager} from '../../shared/plugin-manager';
 import {Project}       from '../../shared/project';
 import {Task}          from '../task-manager/task';
-import {Workflow}      from '../../project-installation/workflow';
-import {Step}          from '../../project-installation/step';
+import {Workflow}      from '../workflow/workflow';
+import {Step}          from '../workflow/step';
 import {CommandRunner} from '../task-manager/command-runner';
 
 export function configure(aurelia) {

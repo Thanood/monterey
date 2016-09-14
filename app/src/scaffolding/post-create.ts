@@ -11,7 +11,7 @@ import {Project}          from '../shared/project';
 import {TaskManager}      from '../plugins/task-manager/task-manager';
 import {TaskManagerModal} from '../plugins/task-manager/task-manager-modal';
 import {Task}             from '../plugins/task-manager/task';
-import {WorkflowViewer}   from '../project-installation/workflow-viewer';
+import {WorkflowViewer}   from '../plugins/workflow/workflow-viewer';
 
 const logger = <Logger>LogManager.getLogger('PostCreate');
 

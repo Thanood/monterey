@@ -1,12 +1,12 @@
-import {Command}       from '../plugins/task-manager/command';
-import {TaskManager}   from '../plugins/task-manager/task-manager';
-import {Task}          from '../plugins/task-manager/task';
-import {CommandRunner} from '../plugins/task-manager/command-runner';
+import {Command}       from '../task-manager/command';
+import {TaskManager}   from '../task-manager/task-manager';
+import {Task}          from '../task-manager/task';
+import {CommandRunner} from '../task-manager/command-runner';
 import {Workflow}      from './workflow';
 import {Phase}         from './phase';
 import {Step}          from './step';
-import {Project}       from '../shared/project';
-import {RandomNumber}  from '../shared/random-number';
+import {Project}       from '../../shared/project';
+import {RandomNumber}  from '../../shared/random-number';
 
 /**
  * A serializable collection of Commands that can be converted into a Workflow

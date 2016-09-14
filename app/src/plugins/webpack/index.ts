@@ -4,8 +4,8 @@ import {Detection}        from './detection';
 import {BasePlugin}       from '../base-plugin';
 import {Project}          from '../../shared/project';
 import {Task}             from '../task-manager/task';
-import {Workflow}         from '../../project-installation/workflow';
-import {Step}             from '../../project-installation/step';
+import {Workflow}         from '../workflow/workflow';
+import {Step}             from '../workflow/step';
 import {CommandService}   from './command-service';
 import {CommandRunner}    from '../task-manager/command-runner';
 

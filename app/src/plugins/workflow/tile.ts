@@ -2,13 +2,13 @@ import {autoinject, useView} from 'aurelia-framework';
 import {Main}                from '../../main/main';
 import {SelectedProject}     from '../../shared/selected-project';
 import {Notification}        from '../../shared/notification';
-import {Workflow}            from '../../project-installation/workflow';
-import {CommandTree}         from '../../project-installation/command-tree';
-import {Phase}               from '../../project-installation/phase';
-import {Step}                from '../../project-installation/step';
 import {CommandRunner}       from '../task-manager/command-runner';
 import {TaskManager}         from '../task-manager/task-manager';
 import {Task}                from '../task-manager/task';
+import {Workflow}            from './workflow';
+import {Phase}               from './phase';
+import {Step}                from './step';
+import {CommandTree}         from './command-tree';
 
 @useView('plugins/default-tile.html')
 @autoinject()
@@ -35,7 +35,8 @@ export class Tile {
     this.restoreWorkflow();
 
     this.running = !!this.workflow;
-    this.img = this.running ? 'images/stop.png' : 'images/play.png';
+
+    this.update();
   }
 
   restoreWorkflow() {
@@ -65,8 +66,6 @@ export class Tile {
       this.running = false;
 
       this.notification.success('Stopped');
-
-      this.img = 'images/play.png';
     } else {
 
       this.start();
@@ -74,9 +73,13 @@ export class Tile {
       this.running = true;
 
       this.notification.success('Started');
-
-      this.img = 'images/stop.png';
     }
+
+    this.update();
+  }
+
+  update() {
+    this.img = this.running ? 'images/stop.png' : 'images/play.png';
   }
 
   stop() {
@@ -91,7 +94,11 @@ export class Tile {
   start() {
     let project = this.selectedProject.current;
 
-    this.workflow.start();
+    this.workflow.start()
+    .then(() => {
+      this.running = false;
+      this.update();
+    });
 
     project.__meta__.workflows.push({ tree: this.tree, workflow: this.workflow });
   }

@@ -1,11 +1,11 @@
 import {autoinject, Container} from 'aurelia-framework';
 import {BasePlugin}            from '../plugins/base-plugin';
-import {Project}               from './project';
 import {Task}                  from '../plugins/task-manager/task';
-import {ApplicationState}      from './application-state';
-import {Workflow}              from '../project-installation/workflow';
-import {Phase}                 from '../project-installation/phase';
+import {Workflow}              from '../plugins/workflow/workflow';
+import {Phase}                 from '../plugins/workflow/phase';
 import {CommandRunnerService}  from '../plugins/task-manager/command-runner-service';
+import {Project}               from './project';
+import {ApplicationState}      from './application-state';
 
 @autoinject()
 export class PluginManager {
