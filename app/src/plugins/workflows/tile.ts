@@ -34,7 +34,8 @@ export class Tile {
 
     this.restoreWorkflow();
 
-    this.img = this.workflow ? 'images/stop.png' : 'images/play.png';
+    this.running = !!this.workflow;
+    this.img = this.running ? 'images/stop.png' : 'images/play.png';
   }
 
   restoreWorkflow() {
@@ -44,7 +45,7 @@ export class Tile {
       let workflow = workflows.find(x => x.tree.id === this.tree.id);
 
       if (workflow) {
-        this.workflow = workflow;
+        this.workflow = workflow.workflow;
       }
     }
   }
@@ -56,11 +57,12 @@ export class Tile {
     }
 
     let wasRunning = this.running;
-    this.running = !this.running;
 
     if (wasRunning) {
 
       this.stop();
+
+      this.running = false;
 
       this.notification.success('Stopped');
 
@@ -68,6 +70,8 @@ export class Tile {
     } else {
 
       this.start();
+
+      this.running = true;
 
       this.notification.success('Started');
 

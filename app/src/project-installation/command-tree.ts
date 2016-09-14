@@ -6,6 +6,7 @@ import {Workflow}      from './workflow';
 import {Phase}         from './phase';
 import {Step}          from './step';
 import {Project}       from '../shared/project';
+import {RandomNumber}  from '../shared/random-number';
 
 /**
  * A serializable collection of Commands that can be converted into a Workflow
@@ -18,6 +19,11 @@ export class CommandTree {
 
   constructor(obj: any) {
     Object.assign(this, obj);
+
+    if (!this.id) {
+      this.id = new RandomNumber().create();
+      obj.id = this.id;
+    }
   }
 
   createWorkflow(project: Project, commandRunner: CommandRunner, taskManager: TaskManager) {
