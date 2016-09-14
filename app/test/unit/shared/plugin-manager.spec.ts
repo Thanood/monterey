@@ -3,15 +3,15 @@ import {BasePlugin}    from '../../../src/plugins/base-plugin';
 import {ApplicationState} from '../../../src/shared/application-state';
 import {Project}          from '../../../src/shared/project';
 import {Task}             from '../../../src/plugins/task-manager/task';
-import {Workflow}         from '../../../src/project-installation/workflow';
-import {Phase}            from '../../../src/project-installation/phase';
-import {Step}             from '../../../src/project-installation/step';
+import {Workflow}         from '../../../src/plugins/workflow/workflow';
+import {Phase}            from '../../../src/plugins/workflow/phase';
+import {Step}             from '../../../src/plugins/workflow/step';
 
 describe('PluginManager', () => {
   let pluginManager: PluginManager;
 
   beforeEach(() => {
-    pluginManager = new PluginManager();
+    pluginManager = new PluginManager(null);
   });
 
   it('stores plugins in plugin array', () => {
@@ -27,7 +27,7 @@ describe('PluginManager callbacks', () => {
   let pluginManager: PluginManager;
 
   beforeEach(() => {
-    pluginManager = new PluginManager();
+    pluginManager = new PluginManager(null);
 
     for (let i = 0; i < 5; i++) {
       let plugin = new BasePlugin();
@@ -91,7 +91,7 @@ describe('PluginManager callbacks', () => {
       }
 
       d();
-    } catch(e) {
+    } catch (e) {
       d.fail(e);
     }
   });
@@ -105,10 +105,10 @@ describe('PluginManager post install workflow resolver', () => {
 
   beforeEach(() => {
     pluginManager = new PluginManager(null);
-    
+
     plugin1 = new BasePlugin();
     plugin2 = new BasePlugin();
-  
+
     pluginManager.registerPlugin(plugin1);
     pluginManager.registerPlugin(plugin2);
   });
@@ -184,6 +184,6 @@ describe('PluginManager post install workflow resolver', () => {
     try {
       await pluginManager.resolvePostInstallWorkflow(project, workflow);
       r();
-    } catch(e) { r.fail(e); }
+    } catch (e) { r.fail(e); }
   });
 });

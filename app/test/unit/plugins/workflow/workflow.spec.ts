@@ -1,7 +1,7 @@
-import {Step} from '../../../src/project-installation/step';
-import {Workflow} from '../../../src/project-installation/workflow';
-import {Phase} from '../../../src/project-installation/phase';
-import '../setup';
+import {Step}     from '../../../../src/plugins/workflow/step';
+import {Workflow} from '../../../../src/plugins/workflow/workflow';
+import {Phase}    from '../../../../src/plugins/workflow/phase';
+import '../../setup';
 
 describe('Workflow', () => {
   let sut: Workflow;
@@ -26,10 +26,10 @@ describe('Workflow', () => {
 
     sut.onCheck(sut.getPhase('dependencies'));
 
-    for(let x = sut.phases.indexOf(sut.getPhase('dependencies')) + 1; x < sut.phases.length; x++) {
+    for (let x = sut.phases.indexOf(sut.getPhase('dependencies')) + 1; x < sut.phases.length; x++) {
       expect(sut.phases[x].checked).toBe(false);
 
-      for(let y = 0; y < sut.phases[x].steps.length; y++) {
+      for (let y = 0; y < sut.phases[x].steps.length; y++) {
         expect(sut.phases[x].steps[y].checked).toBe(false);
       }
     }
@@ -42,10 +42,10 @@ describe('Workflow', () => {
     sut.getPhase('dependencies').steps[1].checked = false;
     sut.onCheck(sut.getPhase('dependencies'), sut.getPhase('dependencies').steps[1]);
 
-    for(let x = sut.phases.indexOf(sut.getPhase('dependencies')) + 1; x < sut.phases.length; x++) {
+    for (let x = sut.phases.indexOf(sut.getPhase('dependencies')) + 1; x < sut.phases.length; x++) {
       expect(sut.phases[x].checked).toBe(false);
 
-      for(let y = 0; y < sut.phases[x].steps.length; y++) {
+      for (let y = 0; y < sut.phases[x].steps.length; y++) {
         expect(sut.phases[x].steps[y].checked).toBe(false);
       }
     }
@@ -63,10 +63,10 @@ describe('Workflow', () => {
     sut.getPhase('run').checked = true;
     sut.onCheck(sut.getPhase('run'));
 
-    for(let x = 0; x < sut.phases.indexOf(sut.getPhase('run')); x++) {
+    for (let x = 0; x < sut.phases.indexOf(sut.getPhase('run')); x++) {
       expect(sut.phases[x].checked).toBe(true);
 
-      for(let x = 0; x < sut.phases[x].steps.length; x++) {
+      for (let x = 0; x < sut.phases[x].steps.length; x++) {
         expect(sut.phases[x].steps[x].checked).toBe(true);
       }
     }
@@ -123,6 +123,6 @@ describe('Workflow', () => {
 
     sut.onCheck(sut.getPhase('dependencies'));
 
-    sut.getPhase('dependencies').steps.forEach(s => expect(s.checked).toBe(true));    
+    sut.getPhase('dependencies').steps.forEach(s => expect(s.checked).toBe(true));
   });
 });

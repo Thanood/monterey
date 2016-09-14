@@ -1,20 +1,20 @@
-import {WorkflowViewer} from '../../../src/project-installation/workflow-viewer';
-import {Step} from '../../../src/project-installation/step';
-import {Workflow} from '../../../src/project-installation/workflow';
-import {Phase} from '../../../src/project-installation/phase';
-import {Project} from '../../../src/shared/project';
-import {PluginManager} from '../../../src/shared/plugin-manager';
-import {Container}  from 'aurelia-dependency-injection';
-import {FS}         from 'monterey-pal';
-import '../setup';
+import {WorkflowViewer} from '../../../../src/plugins/workflow/workflow-viewer';
+import {Step}           from '../../../../src/plugins/workflow/step';
+import {Workflow}       from '../../../../src/plugins/workflow/workflow';
+import {Phase}          from '../../../../src/plugins/workflow/phase';
+import {Project}        from '../../../../src/shared/project';
+import {PluginManager}  from '../../../../src/shared/plugin-manager';
+import {Container}      from 'aurelia-dependency-injection';
+import {FS}             from 'monterey-pal';
+import '../../setup';
 
-import {Plugin as JSPMPlugin}    from '../../../src/plugins/jspm/index';
-import {Plugin as NPMPlugin}     from '../../../src/plugins/npm/index';
-import {Plugin as CLIPlugin}     from '../../../src/plugins/aurelia-cli/index';
-import {Plugin as GulpPlugin}    from '../../../src/plugins/gulp/index';
-import {Plugin as WebpackPlugin} from '../../../src/plugins/webpack/index';
-import {Plugin as TypingsPlugin} from '../../../src/plugins/typings/index';
-import {Plugin as DotNetPlugin}  from '../../../src/plugins/dotnet/index';
+import {Plugin as JSPMPlugin}    from '../../../../src/plugins/jspm/index';
+import {Plugin as NPMPlugin}     from '../../../../src/plugins/npm/index';
+import {Plugin as CLIPlugin}     from '../../../../src/plugins/aurelia-cli/index';
+import {Plugin as GulpPlugin}    from '../../../../src/plugins/gulp/index';
+import {Plugin as WebpackPlugin} from '../../../../src/plugins/webpack/index';
+import {Plugin as TypingsPlugin} from '../../../../src/plugins/typings/index';
+import {Plugin as DotNetPlugin}  from '../../../../src/plugins/dotnet/index';
 
 describe('Workflow viewer resolving', () => {
   let sut: WorkflowViewer;

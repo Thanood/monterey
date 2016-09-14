@@ -18,7 +18,7 @@ describe('TaskManager', () => {
     let task = new Task(project, null);
     expect(() => taskManager.addTask(project, task)).toThrow(new Error('task execute function and title are required'));
 
-    
+
     task = new Task(project, 'something');
     expect(() => taskManager.addTask(project, task)).toThrow(new Error('task execute function and title are required'));
   });
@@ -28,7 +28,7 @@ describe('TaskManager', () => {
     let task = new Task(project, 'jspm install', () => Promise.resolve());
 
     taskManager.addTask(project, task);
-    
+
     expect(task.id).not.toBeUndefined();
     expect(task.status).toBe('queued');
   });
@@ -38,10 +38,10 @@ describe('TaskManager', () => {
     let task = new Task(project, 'jspm install', () => Promise.resolve());
 
     taskManager.addTask(project, task);
-    
+
     expect(project.__meta__.taskmanager.tasks.length).toBe(1);
     expect(project.__meta__.taskmanager.tasks[0]).toBe(task);
-    
+
     // the taskmanager should keep track of running tasks in order to start dependency tasks
     expect(taskManager.tasks.length).toBe(1);
     expect(taskManager.tasks[0]).toBe(task);
@@ -52,7 +52,7 @@ describe('TaskManager', () => {
     let task = new Task(project, 'jspm install', () => Promise.resolve());
 
     taskManager.addTask(project, task);
-    
+
     expect(ea.publish).toHaveBeenCalledWith('TaskAdded', { project: project, task: task });
   });
 
@@ -82,7 +82,7 @@ describe('TaskManager', () => {
 
     taskManager.addTask(project, task);
     taskManager.startTask(task);
-    
+
     expect(ea.publish).toHaveBeenCalledWith('TaskStarted', { project: project, task: task });
   });
 
@@ -93,7 +93,7 @@ describe('TaskManager', () => {
 
     taskManager.addTask(project, task);
     taskManager.startTask(task);
-    
+
     expect(executor).toHaveBeenCalled();
   });
 
@@ -108,7 +108,7 @@ describe('TaskManager', () => {
     .then(() => {
       expect(taskManager.addTaskLog).toHaveBeenCalled();
       r();
-    });    
+    });
   });
 
   it ('error gets added to the log if task fails', (r) => {
@@ -122,7 +122,7 @@ describe('TaskManager', () => {
     .then(() => {
       expect(taskManager.addTaskLog).toHaveBeenCalledWith(task, 'something failed');
       r();
-    });    
+    });
   });
 
   it ('publishes TaskFinished', (r) => {
@@ -134,7 +134,7 @@ describe('TaskManager', () => {
     .then(() => {
       expect(ea.publish).toHaveBeenCalledWith('TaskFinished', { error: false, project: project, task: task });
       r();
-    });    
+    });
   });
 
   it ('publishes TaskFinished (with error true)', (r) => {
@@ -143,11 +143,11 @@ describe('TaskManager', () => {
 
     taskManager.addTask(project, task);
     taskManager.startTask(task)
-    .then(() => { 
+    .then(() => {
       expect(ea.publish).toHaveBeenCalled();
       expect(ea.publish).toHaveBeenCalledWith('TaskFinished', { error: true, project: project, task: task });
       r();
-    });    
+    });
   });
 
   it ('sets finished to true and sets end date when task has finished', (r) => {
@@ -160,7 +160,7 @@ describe('TaskManager', () => {
       expect(task.end).not.toBeUndefined();
       expect(task.finished).toBe(true);
       r();
-    });    
+    });
   });
 
   it ('sets status to finished after completing a task', (r) => {
@@ -172,7 +172,7 @@ describe('TaskManager', () => {
     .then(() => {
       expect(task.status).toBe('finished');
       r();
-    });    
+    });
   });
 
   it ('sets status to "cancelled by user" after user cancelled the task', (r) => {
@@ -230,7 +230,7 @@ describe('TaskManager', () => {
       expect(task2.status).toBe('running');
       _resolveTask2();
       r();
-    });    
+    });
   });
 
   it ('cancelling of task cancels all dependent tasks', async (r) => {
@@ -276,6 +276,15 @@ describe('TaskManager', () => {
     r();
   });
 
+  it ('clears log when task gets added in case restart of task', () => {
+    let project = new Project();
+    let task1 = new Task(project, 'npm install', () => Promise.resolve());
+    task1.addTaskLog('test');
+    taskManager.addTask(project, task1);
+
+    expect(task1.logs.length).toBe(0);
+  });
+
   it ('creates correct log messages', () => {
     let task = new Task(new Project(), 'some task');
     taskManager.addTaskLog(task, 'foo', 'warn');
@@ -310,11 +319,11 @@ describe('TaskManager', () => {
 
     taskManager.addTaskLog(task, 'some msg\n');
     expect(task.logs.length).toBe(1);
-    
+
     task.logs.splice(0);
     taskManager.addTaskLog(task, 'some msg\n\n\n');
     expect(task.logs.length).toBe(1);
-    
+
     task.logs.splice(0);
     taskManager.addTaskLog(task, '[14:05:23] ');
     expect(task.logs.length).toBe(0);

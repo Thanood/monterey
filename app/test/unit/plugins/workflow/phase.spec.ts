@@ -1,6 +1,6 @@
-import {Phase} from '../../../src/project-installation/phase';
-import {Step} from '../../../src/project-installation/step';
-import {Task} from '../../../src/plugins/task-manager/task';
+import {Phase} from '../../../../src/plugins/workflow/phase';
+import {Step} from '../../../../src/plugins/workflow/step';
+import {Task} from '../../../../src/plugins/task-manager/task';
 
 describe('Phase', () => {
   let sut: Phase;
@@ -40,7 +40,7 @@ describe('Phase', () => {
   it('can move one step after another', () => {
     let jspm = new Step('jspm install', 'jspm install', new Task(null));
     sut.addStep(jspm);
-    
+
     let npm = new Step('npm install', 'npm install', new Task(null));
     sut.addStep(npm);
 
@@ -51,7 +51,7 @@ describe('Phase', () => {
   it('can move one step after another, even when that spot is taken', () => {
     let jspm = new Step('jspm install', 'jspm install', new Task(null));
     sut.addStep(jspm);
-    
+
     let npm = new Step('npm install', 'npm install', new Task(null));
     sut.addStep(npm);
 

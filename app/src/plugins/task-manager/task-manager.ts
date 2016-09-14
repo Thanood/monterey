@@ -23,15 +23,24 @@ export class TaskManager {
       throw new Error('task execute function and title are required');
     }
 
-    task.id = new RandomNumber().create();
+    if (!task.id) {
+      task.id = new RandomNumber().create();
+    }
+
     task.status = 'queued';
     task.project = project;
     if (!task.logs) {
       task.logs = [];
+    } else {
+      // clear logs for tasks that get restarted
+      task.logs.splice(0);
     }
 
-    project.__meta__.taskmanager.tasks.push(task);
-    this.tasks.push(task);
+    // do not add the same task a second time
+    if (!this.tasks.find(x => x === task)) {
+      project.__meta__.taskmanager.tasks.push(task);
+      this.tasks.push(task);
+    }
 
     logger.info(`queued '${task.title}' for project '${project.name}'`);
 
