@@ -8,6 +8,7 @@ import {SelectedProject}     from '../../shared/selected-project';
 export class Tile {
   title: string;
   img;
+  tooltip = 'tooltip-taskmanager';
 
   constructor(private selectedProject: SelectedProject) {
     this.title = 'Taskmanager';

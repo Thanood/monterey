@@ -10,6 +10,7 @@ import {Notification}        from '../../shared/notification';
 export class Tile {
   title: string;
   img: string;
+  tooltip = 'tooltip-jspm';
   relevant: boolean;
   project: Project;
 

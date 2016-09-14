@@ -6,6 +6,7 @@ import {Main}                from '../../main/main';
 export class Tile {
   title: string;
   img;
+  tooltip = 'tooltip-project-info';
 
   constructor(private main: Main) {
     this.title = 'Project info';

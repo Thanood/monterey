@@ -8,6 +8,7 @@ import {Detection}           from './detection';
 export class Tile {
   title: string;
   img: string;
+  tooltip = 'tooltip-typings';
 
   constructor(private main: Main,
               private selectedProject: SelectedProject,

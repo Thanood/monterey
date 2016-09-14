@@ -1,15 +1,13 @@
-import {TerminalModal}       from './terminal-modal';
-import {withModal}        from '../../shared/decorators';
-import {TerminalState}   from './terminal-state';
-import {autoinject}         from 'aurelia-framework';
+import {TerminalModal} from './terminal-modal';
+import {withModal}     from '../../shared/decorators';
+import {useView}       from 'aurelia-framework';
 
-@autoinject()
+@useView('../task-bar/default-item.html')
 export class TaskBar {
-
-  constructor(private terminalState: TerminalState) {
-  }
+  tooltip = 'tooltip-terminal';
+  icon = 'glyphicon glyphicon-cog';
+  text = 'terminal';
 
   @withModal(TerminalModal)
-  showTerminalModal() {
-  }
+  onClick() {}
 }
