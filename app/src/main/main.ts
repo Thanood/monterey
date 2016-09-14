@@ -44,6 +44,7 @@ export class Main {
       };
     }
 
+    this.tilesVM.clear();
     this._activePluginScreenModel = model;
     this._activePluginScreen = viewModelPath;
     this.pluginViewActivated = true;

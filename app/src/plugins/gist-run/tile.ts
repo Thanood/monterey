@@ -8,6 +8,7 @@ import {OS} from 'monterey-pal';
 export class Tile {
   title: string;
   img: string;
+  tooltip = 'tooltip-gist-run';
 
   constructor(private registries: MontereyRegistries) {
     this.title = 'GistRun';

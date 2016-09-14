@@ -8,6 +8,7 @@ import {SelectedProject}     from '../../shared/selected-project';
 export class Tile {
   title: string;
   img: string;
+  tooltip = 'tooltip-aurelia-cli';
 
   constructor(private main: Main,
               private selectedProject: SelectedProject,

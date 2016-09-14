@@ -1,0 +1,7 @@
+<template>
+  <div click.delegate="onClick()" tooltip="${tooltip}" if.bind="visible !== false" class="task-bar-item">
+    <img src.bind="img" if.bind="img"/>
+    <span class.bind="icon" if.bind="icon"></span>
+    <span>${text | t}</span>
+  </div>
+</template>

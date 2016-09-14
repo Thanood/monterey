@@ -9,6 +9,7 @@ import {Detection}           from './detection';
 export class Tile {
   title: string;
   img: string;
+  tooltip = 'tooltip-gulp';
 
   constructor(private main: Main,
               private selectedProject: SelectedProject,

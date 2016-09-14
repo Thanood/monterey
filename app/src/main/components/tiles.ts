@@ -37,7 +37,7 @@ export class Tiles {
     }
   }
 
-  refreshTiles() {
+  clear() {
     // destroy dragula
     if (this.drake) {
       this.drake.destroy();
@@ -45,6 +45,10 @@ export class Tiles {
 
     // remove all tiles from the screen
     this.tiles.splice(0);
+  }
+
+  refreshTiles() {
+    this.clear();
 
     // we're done if no project has been selected
     if (!this.selectedProject.current) {
