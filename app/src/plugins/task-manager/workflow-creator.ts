@@ -12,6 +12,8 @@ export class WorkflowCreator {
   jsTree: JSTree;
   selectedCommand: Command;
 
+  nodes: Array<CommandTree> = [];
+
   constructor(private state: ApplicationState,
               private notification: Notification) {}
 
@@ -49,8 +51,7 @@ export class WorkflowCreator {
   getSelectedTree(): CommandTree {
     let selection = this.jsTree.get_selected();
     let selectedNode = this.jsTree.get_node(selection[0]);
-    let treeId = selectedNode.original.treeId;
-    return this.getTreeWithId(treeId);
+    return this.nodes[selectedNode.a_attr.index];
   }
 
   getParent(tree: CommandTree) {
@@ -59,7 +60,7 @@ export class WorkflowCreator {
 
       if (x.children) {
         for (let child of x.children) {
-          if (child.id === tree.id) {
+          if (child === tree) {
             return parent;
           }
 
@@ -75,11 +76,11 @@ export class WorkflowCreator {
   }
 
   refreshTree() {
+    this.nodes = [];
+
     if (!this.tree) {
       return;
     }
-
-    this.assignIds(this.tree);
 
     let data = this.formatTree(null, [], this.tree);
 
@@ -107,46 +108,13 @@ export class WorkflowCreator {
     });
 
     $(this.treeDiv).on('changed.jstree', (e, data) => {
-      let original = data.instance.get_node(data.selected[0]).original;
-      let treeId = original.treeId;
-      this.selectedCommand = this.getTreeWithId(treeId).command;
+      this.selectedCommand = this.getSelectedTree().command;
     });
   }
 
-  assignIds(tree: CommandTree) {
-    tree.id = new RandomNumber().create();
-
-    if (tree.children && tree.children.length > 0) {
-      for (let child of tree.children) {
-        tree.id = new RandomNumber().create();
-        this.assignIds(child);
-      }
-    }
-  }
-
-  getTreeWithId(id) {
-    if (!this.tree) {
-      return;
-    }
-
-    let tree;
-    function y (x) {
-      if (x.id === id) {
-        tree = x;
-      }
-      if (x.children) {
-        for (let child of x.children) {
-          y(child);
-        }
-      }
-    }
-
-    y(this.tree);
-
-    return tree;
-  }
-
   formatTree(parentNode: any, array: Array<any>, tree: CommandTree) {
+    this.nodes.push(tree);
+
     let node = this.formatCommand(tree.command, tree);
 
     if (!parentNode) {
@@ -170,27 +138,26 @@ export class WorkflowCreator {
     if (!command) {
       return {
         text: `${commandTree.name}`,
-        treeId: commandTree.id,
+        icon: 'glyphicon glyphicon-cog',
+        data: {
+          index: this.nodes.indexOf(commandTree)
+        },
         children: []
       };
     }
 
     return {
       text: `${command.command} ${command.args.join(' ')}`,
-      treeId: commandTree.id,
+      icon: 'glyphicon glyphicon-cog',
+      a_attr: {
+        index: this.nodes.indexOf(commandTree)
+      },
       children: []
     };
   }
 
-  /**
-   * Based on the jsTree, build up a new CommandTree
-   */
-  getCurrentCommandTree() {
-    console.log(this.jsTree.get_json('#'));
-  }
-
   async save() {
-    this.getCurrentCommandTree();
+    this.refreshTree();
 
     await this.state._save();
     this.notification.success('Saved');
