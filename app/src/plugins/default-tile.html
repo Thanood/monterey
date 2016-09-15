@@ -1,7 +1,7 @@
 <template>
   <require from="../shared/converters/limit-text-size"></require>
 
-  <div class="default-tile ${ img ? 'with-icon' : 'without-icon' } ${relevant === false ? 'irrelevant' : 'relevant'}">
+  <div tooltip="${tooltip}" class="default-tile ${ img ? 'with-icon' : 'without-icon' } ${relevant === false ? 'irrelevant' : 'relevant'}">
     <p title.bind="title">
       ${title | limitTextSize: 13}
     </p>
