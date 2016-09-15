@@ -35,6 +35,16 @@
   .right-side {
     flex: 1 1 auto;
     margin-left: 15px;
+
+    task-runner {
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+
+      .tab-content, .tab-pane {
+        height: 100%;
+      }
+    }
   }
 
   .logs {
