@@ -7,7 +7,7 @@
   <ai-dialog class="task-manager-modal" title="${'task-manager' | t}" width="860" height="600">
     <ai-dialog-body>
       <div splitter="handle.bind: splitter" class="left-side">
-        <label><input type="checkbox" checked.bind="showFinished"><span>${'show-finished' | t}</span></label>
+        <label><input type="checkbox" checked.bind="showFinished"><span> ${'show-finished' | t}</span></label>
         <tree-list tree.bind="taskTree" ref="taskTreeElement" selected-node.two-way="selectedNode"></tree-list>
       </div>
 
