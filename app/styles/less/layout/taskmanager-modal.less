@@ -33,12 +33,19 @@
   }
 
   .right-side {
-    // height: 53px;
+    display: flex;
+    flex-direction: column;
     flex: 1 1 auto;
     margin-left: 15px;
 
     task-detail {
-      display: block;
+      display: flex;
+      flex-direction: column;
+      flex-grow: 1;
+
+      logger {
+        flex-grow: 1;
+      }
     }
   }
 

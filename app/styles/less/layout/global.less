@@ -13,6 +13,27 @@ router-view {
   height: 100%;
 }
 
+logger {
+  display: block;
+
+  .logger-heading {
+    display: flex;
+    flex-direction: row;
+
+    h4 {
+      display: inline-block;
+    }
+
+    .logger-spacer {
+      flex-grow: 1;
+    }
+
+    label {
+      margin: 0;
+    }
+  }
+}
+
 input[type="checkbox"] {
   height: 16px;
   width: 16px;
