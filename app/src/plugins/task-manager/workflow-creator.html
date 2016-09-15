@@ -1,10 +1,12 @@
 <template>
   <require from="./command-editor"></require>
+  <require from="./workflow-detail"></require>
 
   <button class="btn btn-primary" click.delegate="addCommand()">Add command</button>
   <button class="btn btn-primary" click.delegate="removeCommand()">Remove command</button>
 
   <div ref="treeDiv"></div>
 
-  <command-editor command.bind="selectedCommand"></command-editor>
+  <command-editor show.bind="selectedCommand" command.bind="selectedCommand"></command-editor>
+  <workflow-detail show.bind="workflow" workflow.bind="workflow"></workflow-detail>
 </template>

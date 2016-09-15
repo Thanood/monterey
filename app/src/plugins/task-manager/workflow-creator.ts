@@ -4,6 +4,7 @@ import {Command}     from './command';
 
 export class WorkflowCreator {
   @bindable tree: CommandTree;
+  workflow: CommandTree;
   treeDiv: Element;
   jsTree: JSTree;
   selectedCommand: Command;
@@ -11,6 +12,9 @@ export class WorkflowCreator {
   nodes: Array<CommandTree> = [];
 
   treeChanged() {
+    this.selectedCommand = null;
+    this.workflow = null;
+
     this.refreshTree();
   }
 
@@ -102,7 +106,19 @@ export class WorkflowCreator {
 
     $(this.treeDiv).on('changed.jstree', (e, data) => {
       let selected = this.getSelectedTree();
-      this.selectedCommand = selected ? selected.command : null;
+      if (selected) {
+        if (selected.command) {
+          this.selectedCommand = selected.command;
+          this.workflow = null;
+        } else {
+          this.selectedCommand = null;
+          this.workflow = selected;
+        }
+      }
+    });
+
+    $(document).on('dnd_stop.vakata', (e, data) => {
+      this.jsTree.open_all();
     });
   }
 
@@ -133,7 +149,7 @@ export class WorkflowCreator {
       return {
         text: `${commandTree.name}`,
         icon: 'glyphicon glyphicon-flash',
-        data: {
+        a_attr: {
           index: this.nodes.indexOf(commandTree)
         },
         children: []
