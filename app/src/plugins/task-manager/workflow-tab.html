@@ -1,0 +1,20 @@
+<template>
+  <require from="./workflow-creator"></require>
+  <require from="../../shared/splitter"></require>
+
+  <div class="left" splitter="handle.bind: splitter">
+    <ul class="list-group">
+      <li class="list-group-item ${selectedTree === tree ? 'selected': ''}"
+          repeat.for="tree of trees"
+          click.delegate="selectedTree = tree">
+        <p>${tree.name}</p>
+      </li>
+    </ul>
+  </div>
+
+  <div ref="splitter"></div>
+
+  <div class="right" show.bind="selectedTree">
+    <workflow-creator tree.bind="selectedTree"></workflow-creator>
+  </div>
+</template>
