@@ -10,6 +10,8 @@ export class CommandEditor {
   }
 
   argsStringChanged() {
-    this.command.args = this.argsString.split(' ');
+    if (this.command) {
+      this.command.args = this.argsString.split(' ');
+    }
   }
 }

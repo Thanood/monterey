@@ -1,11 +1,7 @@
-import {bindable, autoinject} from 'aurelia-framework';
-import {RandomNumber}         from '../../shared/random-number';
-import {ApplicationState}     from '../../shared/application-state';
-import {Notification}         from '../../shared/notification';
-import {CommandTree}          from '../workflow/command-tree';
-import {Command}              from './command';
+import {bindable}    from 'aurelia-framework';
+import {CommandTree} from '../workflow/command-tree';
+import {Command}     from './command';
 
-@autoinject()
 export class WorkflowCreator {
   @bindable tree: CommandTree;
   treeDiv: Element;
@@ -13,9 +9,6 @@ export class WorkflowCreator {
   selectedCommand: Command;
 
   nodes: Array<CommandTree> = [];
-
-  constructor(private state: ApplicationState,
-              private notification: Notification) {}
 
   treeChanged() {
     this.refreshTree();
@@ -108,7 +101,8 @@ export class WorkflowCreator {
     });
 
     $(this.treeDiv).on('changed.jstree', (e, data) => {
-      this.selectedCommand = this.getSelectedTree().command;
+      let selected = this.getSelectedTree();
+      this.selectedCommand = selected ? selected.command : null;
     });
   }
 
@@ -138,7 +132,7 @@ export class WorkflowCreator {
     if (!command) {
       return {
         text: `${commandTree.name}`,
-        icon: 'glyphicon glyphicon-cog',
+        icon: 'glyphicon glyphicon-flash',
         data: {
           index: this.nodes.indexOf(commandTree)
         },
@@ -154,12 +148,5 @@ export class WorkflowCreator {
       },
       children: []
     };
-  }
-
-  async save() {
-    this.refreshTree();
-
-    await this.state._save();
-    this.notification.success('Saved');
   }
 }
