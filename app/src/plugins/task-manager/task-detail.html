@@ -4,7 +4,7 @@
 
   <h3 class="title" style="margin: 0">${task.title}</h3>
   <button if.bind="task.stoppable && !task.finished" class="btn btn-primary" click.delegate="stopTask(task)" i18n="end-task"></button>
-  <p>
+  <p class="task-summary">
     <span>
       <b>Status:</b> ${task.status}<br/>
     </span>
