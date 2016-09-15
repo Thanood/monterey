@@ -1,0 +1,10 @@
+<template>
+  <h3>${command.command}</h3>
+  <form validation-renderer="bootstrap-form">
+    <div class="form-group">
+      <label class="control-label">Command</label>
+      <input type="text" class="form-control"
+              value.bind="command.command">
+    </div>
+  </form>
+</template>

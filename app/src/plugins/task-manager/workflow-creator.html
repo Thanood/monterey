@@ -1,5 +1,11 @@
 <template>
+  <require from="./command-editor"></require>
+
   <button class="btn btn-primary" click.delegate="addCommand()">Add command</button>
+  <button class="btn btn-primary" click.delegate="removeCommand()">Remove command</button>
+  <button class="btn btn-primary" click.delegate="save()">Save</button>
 
   <div ref="treeDiv"></div>
+
+  <command-editor command.bind="selectedCommand"></command-editor>
 </template>

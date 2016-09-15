@@ -12,9 +12,9 @@ import {RandomNumber}  from '../../shared/random-number';
  * A serializable collection of Commands that can be converted into a Workflow
  */
 export class CommandTree {
-  id: number;
-  command: Command;
-  name: string = 'Workflow';
+  id?: number;
+  command?: Command;
+  name?: string = 'Workflow';
   children: Array<CommandTree> = [];
 
   constructor(obj: any) {
@@ -31,7 +31,9 @@ export class CommandTree {
     let phase = new Phase(this.name);
     workflow.addPhase(phase);
 
-    phase.addStep(this._createStep(this.command, commandRunner, project));
+    if (this.command) {
+      phase.addStep(this._createStep(this.command, commandRunner, project));
+    }
 
     this._getChildCommands(phase, project, commandRunner, this);
 
