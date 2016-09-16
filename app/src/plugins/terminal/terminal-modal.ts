@@ -63,7 +63,7 @@ export class TerminalModal {
 
 
   closeTerminal() {
-    if (this.terminalState.selectedTerminal) {
+    if (this.terminalState.selectedTerminal && this.terminalState.selectedTerminal.pty) {
       this.terminalState.selectedTerminal.pty.kill();
     }
   }
