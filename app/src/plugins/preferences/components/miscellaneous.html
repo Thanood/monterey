@@ -1,4 +1,5 @@
 <template>
+  <h3>Miscellaneous</h3>
   <div class="row" repeat.for="setting of _settings">
     <div class="form-group col-md-6" show.bind="setting.visible != false">
       <div if.bind="setting.type === 'boolean'">
