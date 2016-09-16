@@ -1,6 +1,7 @@
 body, html {
   background-color: @alabaster !important;
   font-family: 'Source Sans Pro', Helvetica, 'Open Sans', sans-serif;
+  transition: background-color 500ms ease-in;
 }
 
 hr {
@@ -39,9 +40,29 @@ p {
   }
 }
 
+.gu-transit {
+  .default-tile {
+    background: repeating-linear-gradient(
+      45deg,
+      @iron,
+      @iron 10px,
+      #d0d0d0 10px,
+      #d0d0d0 20px
+    );
+  }
+}
+
 .default-tile {
-  border: 3px solid @iron;
+  border: 1px solid @iron;
+  border-radius: 5px;
   background-color: @alabaster;
+  box-shadow: @tile-shadow;
+  transition: background-color 150ms ease-out;
+
+  &:hover {
+    background-color: @alabaster-hover;
+    transition: background-color 150ms ease-in;
+  }
 
   &.irrelevant {
     background: repeating-linear-gradient(
@@ -54,7 +75,7 @@ p {
   }
 }
 
-.plugin-title-container { 
+.plugin-title-container {
   border-bottom: 5px solid rgba(0, 0, 0, .1);
 
   .plugin-title {
@@ -72,7 +93,7 @@ tree-list {
   }
 }
 
-tree-list {  
+tree-list {
   > tree-node {
     > ul {
       > li {
@@ -86,7 +107,11 @@ tree-list {
 
 
 .splitter {
-  background-color: @lightgrey;
+  background-color: transparent;
+
+  &:hover {
+    background-color: @lightgrey;
+  }
 }
 
 .title {
