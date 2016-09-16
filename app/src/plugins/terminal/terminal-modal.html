@@ -4,7 +4,13 @@
 
   <ai-dialog class="terminal-modal" width="900" height="500">
     <ai-dialog-body>
-      <div class="left-side" splitter="handle.bind: splitter">
+      <div class="start-screen" show.bind="terminalState.terminals.length === 0">
+        <div>
+          <button class="btn btn-primary" click.delegate="addTerminal()" i18n="new-terminal"></button>
+        </div>
+      </div>
+
+      <div class="left-side" splitter="handle.bind: splitter" show.bind="terminalState.terminals.length > 0">
         <h2 class="title">Terminals</h2>
         <div class="row">
           <div class="task-list">
@@ -20,9 +26,9 @@
         </div>
       </div>
 
-      <div ref="splitter"></div>
+      <div ref="splitter" show.bind="terminalState.terminals.length > 0"></div>
 
-      <div class="right-side">
+      <div class="right-side" show.bind="terminalState.terminals.length > 0">
         <h2 class="title"><div contenteditable="true" blur.trigger="updateTitle($event)">${terminalState.selectedTerminal.name ? terminalState.selectedTerminal.name:"none"}</div></h2>
         <div
           repeat.for="terminal of terminalState.terminals">
@@ -32,8 +38,8 @@
     </ai-dialog-body>
     <ai-dialog-footer>
       <div class="align-right">
-        <button class="btn btn-primary" click.delegate="addTerminal()" i18n="new-terminal"></button>
-        <button class="btn btn-primary" click.delegate="closeTerminal()" i18n="kill-selected-terminal"></button>
+        <button class="btn btn-primary" click.delegate="addTerminal()" i18n="new-terminal" show.bind="terminalState.terminals.length > 0"></button>
+        <button class="btn btn-primary" click.delegate="closeTerminal()" i18n="kill-selected-terminal" show.bind="terminalState.selectedTerminal.pty"></button>
         <button class="btn btn-primary" click.trigger="dialogController.close()" i18n="close"></button>
       </div>
     </ai-dialog-footer>
