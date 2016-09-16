@@ -36,6 +36,16 @@ export class Plugin extends BasePlugin {
 
   async evaluateProject(project: Project) {
     await this.detection.findWebpackConfig(project);
+
+    if (project.isUsingWebpack()) {
+      let workflow = project.addOrCreateWorkflow('Run');
+      workflow.children.push(<any>{
+        command: {
+          command: 'npm',
+          args: ['start']
+        }
+      });
+    }
   }
 
   async getProjectInfoSections(project: Project) {

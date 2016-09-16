@@ -8,6 +8,7 @@ import {Project}     from '../../shared/project';
  * A workflow is a combination of tasks. A task can run a command (gulp watch) or call an API (jspm's install api)
  */
 export class Workflow {
+  running?: boolean;
   phases: Array<Phase> = [];
 
   constructor(private taskManager: TaskManager,
@@ -50,7 +51,15 @@ export class Workflow {
       this.taskManager.addTask(this.project, task);
     });
 
-    return this.taskManager.startTask(tasks[0]);
+    this.running = true;
+
+    return this.taskManager.startTask(tasks[0])
+    .then(() => {
+      this.running = false;
+    })
+    .catch(() => {
+      this.running = false;
+    });
   }
 
   stop() {

@@ -19,7 +19,7 @@ export class WorkflowTab {
     if (!this.state) return;
 
     let project = this.state.project;
-    this.trees = project.workflowTrees;
+    this.trees = JSON.parse(JSON.stringify(project.workflowTrees));
 
     if (this.trees.length > 0) {
       this.selectedTree = this.trees[0];
@@ -56,6 +56,8 @@ export class WorkflowTab {
 
   async save() {
     this.creator.refreshTree();
+
+    this.state.project.workflowTrees = JSON.parse(JSON.stringify(this.trees));
 
     await this.appState._save();
     this.notification.success('Saved');

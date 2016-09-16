@@ -16,7 +16,7 @@ export class CommandTree {
   command?: Command;
   tile?: boolean;
   name?: string = 'Workflow';
-  children: Array<CommandTree> = [];
+  children?: Array<CommandTree> = [];
 
   constructor(obj: any) {
     Object.assign(this, obj);
@@ -45,7 +45,7 @@ export class CommandTree {
     for (let child of tree.children) {
       phase.addStep(this._createStep(child.command, commandRunner, project));
 
-      if (child.children.length > 0) {
+      if (child.children && child.children.length > 0) {
         this._getChildCommands(phase, project, commandRunner, child);
       }
     }

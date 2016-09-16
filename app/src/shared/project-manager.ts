@@ -42,7 +42,7 @@ export class ProjectManager {
   */
   async addProject(projectObj): Promise<Project> {
     // have all plugins evaluate the project
-    projectObj = await this.pluginManager.evaluateProject(projectObj);
+    projectObj = await this.pluginManager.evaluateProject(new Project(projectObj));
 
     if (!projectObj.name) {
       projectObj.name = FS.getDirName(projectObj.path);

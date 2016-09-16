@@ -44,6 +44,16 @@ export class Plugin extends BasePlugin {
 
   async evaluateProject(project: Project) {
     await this.detection.detect(project);
+
+    if (project.isUsingDotnetCore()) {
+      let workflow = project.addOrCreateWorkflow('Run');
+      workflow.children.push(<any>{
+        command: {
+          command: 'dotnet',
+          args: ['run']
+        }
+      });
+    }
   }
 
   async getProjectInfoSections(project: Project) {

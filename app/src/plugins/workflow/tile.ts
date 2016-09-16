@@ -15,7 +15,6 @@ import {CommandTree}         from './command-tree';
 export class Tile {
   title: string;
   img: string;
-  running: boolean;
   workflow: Workflow;
   tree: CommandTree;
 
@@ -34,8 +33,6 @@ export class Tile {
 
     this.restoreWorkflow();
 
-    this.running = !!this.workflow;
-
     this.update();
   }
 
@@ -52,25 +49,22 @@ export class Tile {
   }
 
   async onClick() {
+    let project = this.selectedProject.current;
 
     if (!this.workflow) {
-      this.workflow = this.tree.createWorkflow(this.selectedProject.current, this.commandRunner, this.taskManager);
+      this.workflow = this.tree.createWorkflow(project, this.commandRunner, this.taskManager);
     }
 
-    let wasRunning = this.running;
+    let wasRunning = this.workflow.running;
 
     if (wasRunning) {
 
       this.stop();
 
-      this.running = false;
-
       this.notification.success('Stopped');
     } else {
 
       this.start();
-
-      this.running = true;
 
       this.notification.success('Started');
     }
@@ -79,7 +73,7 @@ export class Tile {
   }
 
   update() {
-    this.img = this.running ? 'images/stop.png' : 'images/play.png';
+    this.img = this.workflow && this.workflow.running ? 'images/stop.png' : 'images/play.png';
   }
 
   stop() {
@@ -96,7 +90,7 @@ export class Tile {
 
     this.workflow.start()
     .then(() => {
-      this.running = false;
+      this.workflow.running = false;
       this.update();
     });
 

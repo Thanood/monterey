@@ -37,6 +37,16 @@ export class Plugin extends BasePlugin {
 
   async evaluateProject(project: Project) {
     await this.detection.findGulpConfig(project);
+
+    if (project.isUsingGulp()) {
+      let workflow = project.addOrCreateWorkflow('Run');
+      workflow.children.unshift(<any>{
+        command: {
+          command: 'gulp',
+          args: ['watch']
+        }
+      });
+    }
   }
 
   async getProjectInfoSections(project: Project) {

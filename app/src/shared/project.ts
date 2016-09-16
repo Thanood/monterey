@@ -1,4 +1,5 @@
-import {Task} from '../plugins/task-manager/task';
+import {Task}        from '../plugins/task-manager/task';
+import {CommandTree} from '../plugins/workflow/command-tree';
 
 export interface Project {
   packageJSONPath?: string;
@@ -27,7 +28,7 @@ export interface Project {
 
 export class Project {
   appLaunchers?: Array<any> = [];
-  workflowTrees: Array<any> = [];
+  workflowTrees: Array<CommandTree> = [];
   favoriteCommands: Array<string>;
 
   constructor(project = {}) {
@@ -41,6 +42,20 @@ export class Project {
         tasks: []
       };
     }
+  }
+
+  addOrCreateWorkflow(name: string) {
+    let workflow = this.workflowTrees.find(x => x.name === name);
+    if (!workflow) {
+      this.workflowTrees.push(new CommandTree({
+        name: name,
+        tile: true
+      }));
+
+      workflow = this.workflowTrees[0];
+    }
+
+    return workflow;
   }
 
   isUsingGulp() {

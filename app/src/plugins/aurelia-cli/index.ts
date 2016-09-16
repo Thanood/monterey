@@ -40,6 +40,16 @@ export class Plugin extends BasePlugin {
 
   async evaluateProject(project: Project) {
     await this.detection.findAureliaJSONConfig(project);
+
+    if (project.isUsingAureliaCLI()) {
+      let workflow = project.addOrCreateWorkflow('Run');
+      workflow.children.push(<any>{
+        command: {
+          command: 'au',
+          args: ['run', '--watch']
+        }
+      });
+    }
   }
 
   async getProjectInfoSections(project) {
