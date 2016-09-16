@@ -1,32 +1,40 @@
 .task-manager-modal {
+  background-color: @backdrop;
+
   .left-side {
-    border-right: 1px solid @iron;
+    background-color: @accent-backdrop;
+    border-right: 1px solid @border;
 
     tree-list {
-      > tree-node {
-        > ul {
-          > li {
-            > div {
-              font-size: 14px !important;
-              border-bottom: 2px solid @grey;
-              background-color: @iron !important;
-              overflow: hidden;
-              text-overflow: ellipsis;
-              white-space: nowrap;
-            }
-          }
-        }
-      }
-
       tree-node {
         ul {
           li {
             div {
               color: #777;
-              background-color: @athens-gray;
+              background-color: @tree-node-bg;
 
               &.selected {
-                color: @violet-red;
+                color: @accent;
+              }
+            }
+          }
+        }
+      }
+
+      > tree-node {
+        > ul {
+          > li {
+            > div {
+              font-size: 14px !important;
+              border-bottom: 2px solid @border;
+              background-color: @tree-node-bg-top-level;
+              overflow: hidden;
+              text-overflow: ellipsis;
+              white-space: nowrap;
+
+              .glyphicon {
+                position: relative;
+                top: 3px;
               }
             }
           }
@@ -38,6 +46,42 @@
   .right-side {
     .title {
       border-bottom: 1px solid rgba(0, 0, 0, .12);
+
+      &.cap-first-letter {
+        text-transform: inherit;
+        
+        &:first-letter {
+          text-transform: uppercase;
+        }
+      }
+    }
+
+    task-runner {
+      display: block;
+      height: 100%;
+
+      .nav-tabs {
+        margin-top: 15px;
+        width: calc(~'100% - 3px');
+      }
+
+      .tab-content {
+        // height: calc(100% - 92px); // 100% - 42px header - 42px content padding - 8px bottom padding
+        height: calc(~'100% - 92px');
+        width: calc(~'100% - 5px');
+        padding: 10px 0;
+        // tried box shadow, didn't work out
+        // box-shadow: @tile-shadow;
+      }
+    }
+
+    task-detail {
+      display: block;
+
+      .task-summary {
+        padding: 10px 0;
+        margin: 0;
+      }
     }
   }
 

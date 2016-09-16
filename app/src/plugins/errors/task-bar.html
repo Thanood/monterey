@@ -1,8 +1,0 @@
-<template>
-  <require from="../task-bar/task-bar-item"></require>
-
-  <task-bar-item click.delegate="showErrors()"
-                 text="${errors.errors.length}"
-                 if.bind="errors.errors.length"
-                 icon="fa fa-warning"></task-bar-item>
-</template>

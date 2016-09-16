@@ -1,20 +1,12 @@
 <template>
   <require from="../shared/converters/limit-text-size"></require>
 
-  <div class="default-tile with-icon ${relevant === false ? 'irrelevant' : 'relevant'}"
-       tooltip="${tooltip}"
-       if.bind="img">
-    <p>
+  <div tooltip="${tooltip}" class="default-tile ${ img ? 'with-icon' : 'without-icon' } ${relevant === false ? 'irrelevant' : 'relevant'}">
+    <p title.bind="title">
       ${title | limitTextSize: 13}
     </p>
-    <img src.bind="img" alt="Error loading image" />
-  </div>
-
-  <div class="default-tile without-icon ${relevant=== false ? 'irrelevant' : 'relevant'}"
-       tooltip="${tooltip}"
-       if.bind="!img">
-    <p>
-      ${title | limitTextSize: 13}
-    </p>
+    <div if.bind="img">
+      <img src.bind="img" alt="Error loading image" />
+    </div>
   </div>
 </template>

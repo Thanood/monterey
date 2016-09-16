@@ -5,7 +5,9 @@ import {withModal}        from '../../shared/decorators';
 import {SelectedProject}  from '../../shared/selected-project';
 import {TaskManager}      from './task-manager';
 import {TaskManagerModal} from './task-manager-modal';
+import {useView}          from 'aurelia-framework';
 
+@useView('../task-bar/default-item.html')
 @autoinject()
 export class TaskBar {
   subscriptions: Array<Subscription> = [];
@@ -13,14 +15,17 @@ export class TaskBar {
   running: number = 0;
   queued: number = 0;
   busy: boolean;
-  taskManagerText: string;
+
+  text: string;
+  tooltip = 'tooltip-taskmanager';
+  icon = 'glyphicon glyphicon-cog';
 
   constructor(private ea: EventAggregator,
               private taskManager: TaskManager,
               private i18n: I18N,
               private selectedProject: SelectedProject) {
-  this.taskManagerText = this.i18n.tr('task-manager');
-}
+    this.text = this.i18n.tr('task-manager');
+  }
 
   attached() {
     this.subscriptions.push(this.ea.subscribe('TaskAdded', () => this.propertyChanged()));
@@ -29,7 +34,7 @@ export class TaskBar {
   }
 
   @withModal(TaskManagerModal, function () { return { project: this.selectedProject.current }; })
-  showTasks() {
+  onClick() {
     this.ea.publish('RefreshTiles');
   }
 
@@ -55,7 +60,8 @@ export class TaskBar {
       this.busy = false;
     }
 
-    this.taskManagerText = text;
+    this.text = text;
+    this.icon = this.busy ? 'glyphicon glyphicon-cog gly-spin' : 'glyphicon glyphicon-cog';
   }
 
   detached() {

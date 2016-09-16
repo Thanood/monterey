@@ -1,7 +1,7 @@
 <template>
   <form>
     <div class="form-group">
-      <label class="control-label" for="title">Github credentials</label>
+      <h3>Github credentials</h3>
       <button if.bind="!state.gitAuthorization" click.delegate="configureGithub()" class="btn btn-primary">Configure
       </button>
       <button if.bind="state.gitAuthorization" click.delegate="clearGithub()" class="btn btn-primary">Clear

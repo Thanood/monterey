@@ -7,6 +7,7 @@ import {useView}    from 'aurelia-framework';
 export class Tile {
   title: string;
   img: string;
+  tooltip = 'tooltip-app-launcher';
 
   constructor(private main: Main) {
     this.title = 'App launcher';

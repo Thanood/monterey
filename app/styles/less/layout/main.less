@@ -1,5 +1,6 @@
 @appTitleHeight: 70px;
-@projectListTop: 45 + @appTitleHeight;
+@leftPanelPadding: 10px;
+@projectListTop: 45 + @appTitleHeight + @leftPanelPadding * 2;
 
 .project-list-item {
   list-style-type: none;
@@ -25,16 +26,19 @@
     flex: 0 0 auto;
     width: 300px;
     overflow: hidden;
+    padding: 10px;
 
     .main-button-group {
       height: 44px;
       width: 100%;
       display: flex;
+      justify-content: space-around;
 
       .main-button {
         display: block;
         height: 100%;
-        width: 33.33%;
+        // width: calc(33.33% - 5px);
+        width: 32%;
         border: 0;
         font-size: 16px;
         line-height: 25px;
@@ -47,8 +51,8 @@
       position: absolute;
       bottom: 0;
       top: @projectListTop;
-      left: 0;
-      right: 0;
+      left: 0 + @leftPanelPadding;
+      right: 0 + @leftPanelPadding;
       .vGrid {
         .vGrid-header {
           overflow-y: hidden !important;
@@ -134,16 +138,6 @@
 
     .relevant-checkbox {
       margin: 5px;
-
-      input {
-        height: 16px;
-        width: 16px;
-      }
-
-      span {
-        position: relative;
-        top: -3px;
-      }
     }
   }
 }

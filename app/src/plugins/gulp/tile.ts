@@ -9,12 +9,13 @@ import {Detection}           from './detection';
 export class Tile {
   title: string;
   img: string;
+  tooltip = 'tooltip-gulp';
 
   constructor(private main: Main,
               private selectedProject: SelectedProject,
               private detection: Detection) {
     this.title = 'Gulp';
-    this.img = 'images/gulp.png';
+    this.img = 'images/gulp-transparent.png';
   }
 
   activate(model) {

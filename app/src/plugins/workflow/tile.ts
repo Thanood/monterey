@@ -90,7 +90,6 @@ export class Tile {
 
     this.workflow.start()
     .then(() => {
-      this.workflow.running = false;
       this.update();
     });
 
