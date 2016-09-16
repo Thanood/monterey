@@ -3,16 +3,16 @@
     <li repeat.for="phase of workflow.phases">
       <h3 class="title" style="display: inline;">
         <label>
-          <input type="checkbox" checked.bind="phase.checked" change.delegate="workflow.onCheck(phase)"/>
+          <input type="checkbox" checked.bind="phase.checked" change.delegate="onCheck(phase)"/>
           <span class="counter"></span>
           ${phase.description}
         </label>
       </h3>
-      
+
       <ol>
         <li repeat.for="step of phase.steps">
           <label>
-            <input type="checkbox" checked.bind="step.checked" change.delegate="workflow.onCheck(phase, step)"/>
+            <input type="checkbox" checked.bind="step.checked" change.delegate="onCheck(phase, step)"/>
             <span class="counter"></span>
             ${step.title}
           </label>

@@ -10,6 +10,8 @@ import {Project}       from '../../shared/project';
 @autoinject()
 export class WorkflowViewer {
   @bindable project: Project;
+  @bindable checkedCount: number;
+  @bindable selectedTasks: Array<any>;
   workflow: Workflow;
 
   constructor(private pluginManager: PluginManager,
@@ -28,6 +30,18 @@ export class WorkflowViewer {
     await this.pluginManager.resolvePostInstallWorkflow(this.project, workflow);
 
     this.workflow = workflow;
+
+    this.updateSelectedTasksArray();
+  }
+
+  onCheck(phase, step) {
+    this.workflow.onCheck(phase, step);
+    this.updateSelectedTasksArray();
+  }
+
+  updateSelectedTasksArray() {
+    this.selectedTasks = this.workflow.getSelectedTasks();
+    this.checkedCount = this.selectedTasks.length;
   }
 
   async start() {
