@@ -77,6 +77,10 @@ p {
     transition: background-color 150ms ease-in;
   }
 
+  &:active {
+    background-color: darken(@backdrop, 20%);
+  }
+
   &.irrelevant {
     background: repeating-linear-gradient(
       45deg,
