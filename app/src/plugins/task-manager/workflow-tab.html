@@ -4,8 +4,8 @@
 
   <div class="buttons">
     <button class="btn btn-primary" click.delegate="createNew()">Create new workflow</button>
-    <button class="btn btn-primary" click.delegate="remove()">Remove workflow</button>
-    <button class="btn btn-primary" click.delegate="addAsTile()">Add as tile</button>
+    <button class="btn btn-primary" click.delegate="remove()" show.bind="selectedTree">Remove workflow</button>
+    <button class="btn btn-primary" click.delegate="addAsTile()" show.bind="selectedTree">${selectedTree && !selectedTree.tile ? 'Show as' : 'Don\'t show'} tile</button>
     <button class="btn btn-primary" click.delegate="save()">Save</button>
   </div>
 

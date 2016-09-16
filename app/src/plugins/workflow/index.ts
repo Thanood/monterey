@@ -15,7 +15,9 @@ export class Plugin extends BasePlugin {
   getTiles(project: Project, showIrrelevant) {
     let tiles = [];
 
-    for (let x of project.workflowTrees) {
+    let workflows = project.workflowTrees.filter(x => x.tile);
+
+    for (let x of workflows) {
       tiles.push({
         name: `workflow-${x.name}`,
         model: { title: x.name, tree: new CommandTree(x) },

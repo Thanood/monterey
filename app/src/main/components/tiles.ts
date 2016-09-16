@@ -1,4 +1,5 @@
 import {autoinject, bindable} from 'aurelia-framework';
+import {EventAggregator}      from 'aurelia-event-aggregator';
 import {PluginManager}        from '../../shared/plugin-manager';
 import {Project}              from '../../shared/project';
 import {ApplicationState}     from '../../shared/application-state';
@@ -16,12 +17,15 @@ export class Tiles {
 
   constructor(private pluginManager: PluginManager,
               private taskQueue: TaskQueue,
+              private ea: EventAggregator,
               private selectedProject: SelectedProject,
               private state: ApplicationState,
               private element: Element) {
     this.subscriptions.push(selectedProject.onChange((project) => {
       this.refreshTiles();
     }));
+
+    this.subscriptions.push(ea.subscribe('RefreshTiles', () => this.refreshTiles()));
   }
 
   showIrrelevantChanged() {

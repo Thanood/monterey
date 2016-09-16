@@ -14,6 +14,7 @@ import {RandomNumber}  from '../../shared/random-number';
 export class CommandTree {
   id?: number;
   command?: Command;
+  tile?: boolean;
   name?: string = 'Workflow';
   children: Array<CommandTree> = [];
 

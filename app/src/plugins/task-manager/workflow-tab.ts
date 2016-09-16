@@ -40,6 +40,11 @@ export class WorkflowTab {
       return;
     }
 
+    if (!confirm(`Are you sure that you want to remove the "${this.selectedTree.name}"?`)) {
+      return;
+    }
+
+
     this.trees.splice(this.trees.indexOf(this.selectedTree), 1);
 
     if (this.trees.length > 0) {
@@ -54,5 +59,22 @@ export class WorkflowTab {
 
     await this.appState._save();
     this.notification.success('Saved');
+  }
+
+  async addAsTile() {
+    if (!this.selectedTree) {
+      alert('Please select a workflow');
+      return;
+    }
+
+    if (!this.selectedTree.tile) {
+      this.selectedTree.tile = true;
+    } else {
+      this.selectedTree.tile = false;
+    }
+
+    await this.appState._save();
+
+    this.notification.success(`Tile ${this.selectedTree.tile ? 'enabled'  : 'disabled'} for ${this.selectedTree.name}`);
   }
 }

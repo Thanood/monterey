@@ -16,7 +16,7 @@
       <div class="right-side" if.bind="selectedTask">
         <task-detail task.bind="selectedTask"></task-detail>
       </div>
-      
+
       <div class="right-side" show.bind="selectedProject">
         <task-runner view-model.ref="taskRunnerVM"></task-runner>
       </div>
@@ -25,8 +25,8 @@
         <p>
           <h3 i18n="task-manager">Task manager</h3>
           The task manager keeps track of everything that Monterey is doing. <br/>
-          From here you can also launch new tasks such as "gulp watch" or "au run --watch". 
-          Select a project from the left side of the screen to see what tasks can be started. 
+          From here you can also launch new tasks such as "gulp watch" or "au run --watch".
+          Select a project from the left side of the screen to see what tasks can be started.
         </p>
       </div>
     </ai-dialog-body>
@@ -34,7 +34,7 @@
     <ai-dialog-footer>
       <div class="align-right">
         <button class="btn btn-primary" click.trigger="trex()">T-rex</button>
-        <button class="btn btn-primary" click.trigger="dialogController.close()" i18n="close"></button>
+        <button class="btn btn-primary" click.trigger="dialogController.ok()" i18n="close"></button>
       </div>
     </ai-dialog-footer>
   </ai-dialog>
