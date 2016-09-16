@@ -11,6 +11,10 @@ export class WorkflowCreator {
 
   nodes: Array<CommandTree> = [];
 
+  attached() {
+    $(document).on('dnd_stop.vakata', this.afterDrop.bind(this));
+  }
+
   treeChanged() {
     this.selectedCommand = null;
     this.workflow = null;
@@ -28,7 +32,7 @@ export class WorkflowCreator {
     if (!selectedTree.children) {
       selectedTree.children = [];
     }
-    selectedTree.children.push(new CommandTree({ command: { command: 'dotnet', args: ['run'] }}));
+    selectedTree.children.push(new CommandTree({ command: { command: 'command', args: ['parameters'] }}));
 
     this.refreshTree();
   }
@@ -86,11 +90,16 @@ export class WorkflowCreator {
     }
 
     $(this.treeDiv).jstree({
-      'core' : {
-        'check_callback' : true,
-        data: data
+      core: {
+        check_callback: function(operation, node, node_parent, node_position, more) {
+          return node_parent.id !== '#';
+        },
+        data: data,
       },
-      'plugins': ['dnd']
+      dnd: {
+        check_while_dragging: true
+      },
+      plugins: ['dnd']
     });
 
     this.jsTree = $.jstree.reference(<any>this.treeDiv);
@@ -116,10 +125,43 @@ export class WorkflowCreator {
         }
       }
     });
+  }
 
-    $(document).on('dnd_stop.vakata', (e, data) => {
-      this.jsTree.open_all();
-    });
+  afterDrop() {
+    this.jsTree.open_all();
+
+    this.tree = this.rebuildWorkflow();
+
+    this.refreshTree();
+  }
+
+  /**
+   * Since the commands may have been reordered
+   * walk through the jstree and create a new commandtree
+   */
+  rebuildWorkflow() {
+    this.tree.children.splice(0);
+
+    let r = this.jsTree.get_json();
+
+    function y(parent, tree) {
+      if (parent.children) {
+        for (let child of parent.children) {
+          let childTree = this.nodes[child.a_attr.index];
+          let newTree = new CommandTree({
+            command: childTree.command,
+            children: []
+          });
+          tree.children.push(newTree);
+
+          y.call(this, child, newTree);
+        }
+      }
+    }
+
+    y.call(this, r[0], this.tree);
+
+    return this.tree;
   }
 
   formatTree(parentNode: any, array: Array<any>, tree: CommandTree) {
@@ -152,6 +194,7 @@ export class WorkflowCreator {
         a_attr: {
           index: this.nodes.indexOf(commandTree)
         },
+        type: 'parent',
         children: []
       };
     }
@@ -162,7 +205,12 @@ export class WorkflowCreator {
       a_attr: {
         index: this.nodes.indexOf(commandTree)
       },
+      type: 'child',
       children: []
     };
+  }
+
+  detached() {
+    $(document).off('dnd_stop.vakata');
   }
 }
