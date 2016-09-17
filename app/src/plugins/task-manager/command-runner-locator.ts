@@ -1,6 +1,6 @@
 import {autoinject, Container}        from 'aurelia-framework';
-import {Project}                      from '../../shared/project';
 import {Command}                      from './command';
+import {Project}                      from '../../shared/index';
 import {CommandRunnerService}         from './command-runner-service';
 import {CommandService as Default}    from './default-command-service';
 import {CommandService as Gulp}       from '../gulp/command-service';

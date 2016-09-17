@@ -1,10 +1,9 @@
-import {LogManager, autoinject} from 'aurelia-framework';
-import {Logger}            from 'aurelia-logging';
-import {DialogService}     from 'aurelia-dialog';
-import {FS}                from 'monterey-pal';
-import {ApplicationState}  from '../../shared/application-state';
-import {FileSelectorModal} from '../../shared/file-selector-modal/file-selector-modal';
-import {Project}           from '../../shared/project';
+import {LogManager, autoinject}    from 'aurelia-framework';
+import {Logger}                    from 'aurelia-logging';
+import {DialogService}             from 'aurelia-dialog';
+import {FS}                        from 'monterey-pal';
+import {FileSelectorModal}         from '../../shared/file-selector-modal';
+import {Project, ApplicationState} from '../../shared/index';
 
 const logger = <Logger>LogManager.getLogger('npm-detection');
 
@@ -61,7 +60,7 @@ export class NPMDetection {
     return false;
   }
 
-  // https://docs.npmjs.com/files/package.json#name        
+  // https://docs.npmjs.com/files/package.json#name
   normalizePackageName(name: string) {
     name = name.replace(/\s/, '-');
     if (name[0] === '.' || name[0] === '_') {

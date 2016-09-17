@@ -1,13 +1,12 @@
-import {autoinject}    from 'aurelia-framework';
-import {PluginManager} from '../../shared/plugin-manager';
-import {BasePlugin}    from '../base-plugin';
-import {Detection}     from './detection';
-import {Project}       from '../../shared/project';
-import {Task}          from '../task-manager/task';
-import {Workflow}      from '../workflow/workflow';
-import {Step}          from '../workflow/step';
-import {CommandRunner} from '../task-manager/command-runner';
+import {autoinject}     from 'aurelia-framework';
+import {BasePlugin}     from '../base-plugin';
+import {Detection}      from './detection';
 import {CommandService} from './command-service';
+import {PluginManager, Project} from '../../shared/index';
+import {Task}           from '../task-manager/task';
+import {CommandRunner}  from '../task-manager/command-runner';
+import {Workflow}       from '../workflow/workflow';
+import {Step}           from '../workflow/step';
 import {CommandRunnerService} from '../task-manager/command-runner-service';
 
 export function configure(aurelia) {

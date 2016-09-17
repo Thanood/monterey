@@ -1,6 +1,6 @@
-import {TerminalModal} from './terminal-modal';
-import {withModal}     from '../../shared/decorators';
 import {useView}       from 'aurelia-framework';
+import {TerminalModal} from './terminal-modal';
+import {withModal}     from '../../shared/index';
 
 @useView('../task-bar/default-item.html')
 export class TaskBar {

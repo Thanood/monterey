@@ -1,11 +1,8 @@
 import {autoinject, bindable} from 'aurelia-framework';
 import {EventAggregator}      from 'aurelia-event-aggregator';
-import {PluginManager}        from '../../shared/plugin-manager';
-import {Project}              from '../../shared/project';
-import {ApplicationState}     from '../../shared/application-state';
-import {SelectedProject}      from '../../shared/selected-project';
 import * as dragula           from 'dragula';
 import {TaskQueue}            from 'aurelia-task-queue';
+import {PluginManager, Project, ApplicationState, SelectedProject} from '../../shared/index';
 
 @autoinject()
 export class Tiles {

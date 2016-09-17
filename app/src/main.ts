@@ -3,17 +3,19 @@ import {LogManager, Aurelia}             from 'aurelia-framework';
 import {I18N}                            from 'aurelia-i18n';
 import * as Backend                      from 'i18next-xhr-backend';
 import {ELECTRON}                        from 'monterey-pal';
-import {MonteryLogAppender}              from './shared/monterey-logger';
-import {BootstrapFormValidationRenderer} from './shared/bootstrap-validation-renderer';
-import {KendoAureliaDialogRenderer}      from './shared/kendo-aurelia-dialog-renderer';
-import {ApplicationState}                from './shared/application-state';
-import {ProjectManager}                  from './shared/project-manager';
-import {ExitProcedure}                   from './shared/exit-procedure';
-import {IPC}                             from './shared/ipc';
-import {GlobalExceptionHandler}          from './shared/global-exception-handler';
-import {FileSystemLogger}                from './shared/file-system-logger';
-import {ThemeManager}                    from './shared/theme-manager';
-import {Settings}                        from './shared/settings';
+import {
+  MonteryLogAppender,
+  BootstrapFormValidationRenderer,
+  KendoAureliaDialogRenderer,
+  ApplicationState,
+  ProjectManager,
+  ExitProcedure,
+  IPC,
+  GlobalExceptionHandler,
+  FileSystemLogger,
+  ThemeManager,
+  Settings
+} from './shared/index';
 
 export async function configure(aurelia: Aurelia) {
   aurelia.use

@@ -4,14 +4,11 @@ import {DialogService}    from 'aurelia-dialog';
 import {FS}               from 'monterey-pal';
 import {IStep}            from './istep';
 import {ScaffoldProject}  from './scaffold-project';
-import {ProjectManager}   from '../shared/project-manager';
-import {PluginManager}    from '../shared/plugin-manager';
-import {Notification}     from '../shared/notification';
-import {Project}          from '../shared/project';
 import {TaskManager}      from '../plugins/task-manager/task-manager';
 import {TaskManagerModal} from '../plugins/task-manager/task-manager-modal';
 import {Task}             from '../plugins/task-manager/task';
 import {WorkflowViewer}   from '../plugins/workflow/workflow-viewer';
+import {Notification, Project, PluginManager, ProjectManager} from '../shared/index';
 
 const logger = <Logger>LogManager.getLogger('PostCreate');
 

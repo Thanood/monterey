@@ -1,8 +1,7 @@
 import {useView, autoinject, LogManager} from 'aurelia-framework';
-import {OS}              from 'monterey-pal';
-import {Logger}          from 'aurelia-logging';
-import {SelectedProject} from '../../shared/selected-project';
-import {Notification}    from '../../shared/notification';
+import {OS}                              from 'monterey-pal';
+import {Logger}                          from 'aurelia-logging';
+import {Notification, SelectedProject}   from '../../shared/index';
 
 const logger = <Logger>LogManager.getLogger('app-launcher');
 

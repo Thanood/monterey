@@ -1,11 +1,9 @@
 import {autoinject, bindable} from 'aurelia-framework';
 import {DialogController}     from 'aurelia-dialog';
 import {FS, NPM}              from 'monterey-pal';
-import {ProjectManager}       from '../shared/project-manager';
-import {MontereyRegistries}   from '../shared/monterey-registries';
-import {Settings}             from '../shared/settings';
 import {Workflow}             from './workflow';
 import * as activities        from './activities.json!';
+import {ProjectManager, MontereyRegistries, Settings} from '../shared/index';
 
 @autoinject()
 export class ScaffoldProject {

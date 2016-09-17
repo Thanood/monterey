@@ -1,4 +1,4 @@
-import {Project} from '../shared/project';
+import {Project} from '../shared/index';
 
 export interface IStep {
   id: number;

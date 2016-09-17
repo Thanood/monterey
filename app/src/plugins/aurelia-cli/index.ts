@@ -1,15 +1,14 @@
 import {autoinject, LogManager} from 'aurelia-framework';
 import {Logger}                 from 'aurelia-logging';
 import {FS}                     from 'monterey-pal';
-import {BasePlugin}             from '../base-plugin';
 import {Detection}              from './detection';
+import {CommandService}         from './command-service';
+import {BasePlugin}             from '../base-plugin';
 import {Task}                   from '../task-manager/task';
 import {CommandRunner}          from '../task-manager/command-runner';
 import {Workflow}               from '../workflow/workflow';
 import {Step}                   from '../workflow/step';
-import {PluginManager}          from '../../shared/plugin-manager';
-import {Project}                from '../../shared/project';
-import {CommandService}         from './command-service';
+import {PluginManager, Project} from '../../shared/index';
 
 const logger = <Logger>LogManager.getLogger('aurelia-cli-plugin');
 

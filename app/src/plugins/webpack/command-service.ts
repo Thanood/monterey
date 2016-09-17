@@ -1,5 +1,5 @@
 import {OS, FS}               from 'monterey-pal';
-import {Project}              from '../../shared/project';
+import {Project}              from '../../shared/index';
 import {Task}                 from '../task-manager/task';
 import {CommandRunnerService} from '../task-manager/command-runner-service';
 import {Command}              from '../task-manager/command';

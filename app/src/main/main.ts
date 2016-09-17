@@ -1,12 +1,9 @@
 import {autoinject, singleton} from 'aurelia-framework';
-import {withModal}         from '../shared/decorators';
-import {ProjectFinder}     from '../shared/project-finder';
-import {SelectedProject}   from '../shared/selected-project';
-import {Project}           from '../shared/project';
-import {TaskManager}       from '../plugins/task-manager/task-manager';
-import {ScaffoldProject}   from '../scaffolding/scaffold-project';
-import {Tiles}             from './components/tiles';
-import {ProjectList}       from './components/project-list';
+import {TaskManager}           from '../plugins/task-manager/task-manager';
+import {ScaffoldProject}       from '../scaffolding/scaffold-project';
+import {Tiles}                 from './components/tiles';
+import {ProjectList}           from './components/project-list';
+import {SelectedProject, Project, ProjectFinder, withModal} from '../shared/index';
 
 @autoinject()
 @singleton()

@@ -1,6 +1,5 @@
-import {autoinject} from 'aurelia-framework';
-import {Main}       from '../../main/main';
-import {useView}    from 'aurelia-framework';
+import {autoinject, useView} from 'aurelia-framework';
+import {Main}                from '../../main/main';
 
 @useView('plugins/default-tile.html')
 @autoinject()

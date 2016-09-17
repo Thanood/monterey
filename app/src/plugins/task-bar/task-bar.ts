@@ -1,7 +1,6 @@
-import {autoinject}       from 'aurelia-framework';
-import {EventAggregator}  from 'aurelia-event-aggregator';
-import {PluginManager}    from '../../shared/plugin-manager';
-import {SelectedProject}  from '../../shared/selected-project';
+import {autoinject}      from 'aurelia-framework';
+import {EventAggregator} from 'aurelia-event-aggregator';
+import {PluginManager, SelectedProject} from '../../shared/index';
 
 @autoinject()
 export class TaskBar {

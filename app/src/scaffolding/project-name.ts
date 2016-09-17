@@ -3,7 +3,7 @@ import {inject, NewInstance,
   BindingEngine, Disposable}  from 'aurelia-framework';
 import {ValidationRules}      from 'aurelia-validatejs';
 import {ValidationController} from 'aurelia-validation';
-import {Notification}         from '../shared/notification';
+import {Notification}         from '../shared/index';
 import {FS}                   from 'monterey-pal';
 
 @inject(NewInstance.of(ValidationController), BindingEngine, Notification)

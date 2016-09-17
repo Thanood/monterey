@@ -1,11 +1,9 @@
 import {autoinject, LogManager} from 'aurelia-framework';
 import {Logger}                 from 'aurelia-logging';
-import {MontereyRegistries}     from '../../shared/monterey-registries';
-import {Project}                from '../../shared/project';
-import {ApplicationState}       from '../../shared/application-state';
 import {FS, ELECTRON}           from 'monterey-pal';
 import {TaskManager}            from '../task-manager/task-manager';
 import {Task}                   from '../task-manager/task';
+import {Project, ApplicationState, MontereyRegistries} from '../../shared/index';
 
 const logger = <Logger>LogManager.getLogger('launcher-manager');
 

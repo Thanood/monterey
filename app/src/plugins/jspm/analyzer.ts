@@ -1,7 +1,6 @@
 import {autoinject} from 'aurelia-framework';
-import {GithubAPI}  from '../../shared/github-api';
-import {NPMAPI}     from '../../shared/npm-api';
 import * as semver  from 'semver';
+import {GithubAPI, NPMAPI}  from '../../shared/index';
 
 @autoinject()
 export class Analyzer {

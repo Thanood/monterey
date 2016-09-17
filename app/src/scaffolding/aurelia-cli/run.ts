@@ -1,8 +1,8 @@
-import {LogManager, autoinject}   from 'aurelia-framework';
-import {Logger}                   from 'aurelia-logging';
-import {AURELIACLI}               from 'monterey-pal';
-import {IStep}                    from '../istep';
-import {Notification}             from '../../shared/notification';
+import {LogManager, autoinject} from 'aurelia-framework';
+import {Logger}                 from 'aurelia-logging';
+import {AURELIACLI}             from 'monterey-pal';
+import {IStep}                  from '../istep';
+import {Notification}           from '../../shared/index';
 
 const logger = <Logger>LogManager.getLogger('project-manager');
 

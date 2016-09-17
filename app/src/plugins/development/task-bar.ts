@@ -1,7 +1,6 @@
-import {autoinject}     from 'aurelia-framework';
-import {withModal}      from '../../shared/decorators';
-import {DeveloperModal} from './developer-modal';
-import {useView}        from 'aurelia-framework';
+import {autoinject, useView} from 'aurelia-framework';
+import {DeveloperModal}      from './developer-modal';
+import {withModal}           from '../../shared/index';
 
 @useView('../task-bar/default-item.html')
 @autoinject()

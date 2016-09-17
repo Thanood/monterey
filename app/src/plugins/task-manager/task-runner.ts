@@ -1,12 +1,10 @@
 import {bindable, autoinject} from 'aurelia-framework';
 import {CommandRunnerService} from './command-runner-service';
-import {Notification}         from '../../shared/notification';
-import {Project}              from '../../shared/project';
-import {ApplicationState}     from '../../shared/application-state';
 import {CommandRunner}        from './command-runner';
 import {Command}              from './command';
 import {TaskManager}          from './task-manager';
 import {Task}                 from './task';
+import {Project, ApplicationState, Notification} from '../../shared/index';
 
 @autoinject()
 export class TaskRunner {

@@ -1,7 +1,5 @@
 import {autoinject, bindable} from 'aurelia-framework';
-import {ThemeManager}         from '../../../shared/theme-manager';
-import {Settings}             from '../../../shared/settings';
-import {Notification}         from '../../../shared/notification';
+import {Settings, ThemeManager, Notification} from '../../../shared/index';
 
 @autoinject()
 export class Themes {

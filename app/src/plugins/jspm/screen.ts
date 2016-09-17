@@ -7,10 +7,7 @@ import {Common}           from './common';
 import {TaskManager}      from '../../plugins/task-manager/task-manager';
 import {TaskManagerModal} from '../../plugins/task-manager/task-manager-modal';
 import {Main}             from '../../main/main';
-import {withModal}        from '../../shared/decorators';
-import {Project}          from '../../shared/project';
-import {Notification}     from '../../shared/notification';
-import {SelectedProject}  from '../../shared/selected-project';
+import {Project, withModal, Notification, SelectedProject} from '../../shared/index';
 
 @autoinject()
 export class Screen {

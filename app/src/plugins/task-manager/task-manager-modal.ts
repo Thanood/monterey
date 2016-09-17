@@ -6,14 +6,8 @@ import {ContextMenu}                   from 'context-menu/context-menu';
 import {TaskManager}                   from './task-manager';
 import {TRexDialog}                    from './components/t-rex-dialog';
 import {Task}                          from './task';
-import {Settings}                      from '../../shared/settings';
-import {withModal}                     from '../../shared/decorators';
-import {ApplicationState}              from '../../shared/application-state';
-import {TreeNode}                      from '../../shared/tree-list/tree-node';
-import {TreeListNode}                  from '../../shared/tree-list/tree-list-node';
-import {Project}                       from '../../shared/project';
-import {Notification}                  from '../../shared/notification';
 import {TaskRunner}                    from './task-runner';
+import {Settings, withModal, ApplicationState, TreeNode, TreeListNode, Project, Notification} from '../../shared/index';
 
 @autoinject()
 export class TaskManagerModal {

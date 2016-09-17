@@ -1,7 +1,7 @@
-import {autoinject, Container}               from 'aurelia-framework';
-import {Project}                             from '../../shared/project';
-import {Task}                                from '../task-manager/task';
-import {Command}                             from './command';
+import {autoinject, Container} from 'aurelia-framework';
+import {Project}               from '../../shared/index';
+import {Task}                  from '../task-manager/task';
+import {Command}               from './command';
 
 export interface CommandRunnerService {
   title?: string;

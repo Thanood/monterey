@@ -1,9 +1,7 @@
 import {bindable, autoinject} from 'aurelia-framework';
-import {Project}          from '../../shared/project';
-import {CommandTree}      from '../workflow/command-tree';
-import {ApplicationState} from '../../shared/application-state';
-import {Notification}     from '../../shared/notification';
-import {WorkflowCreator}  from './workflow-creator';
+import {CommandTree}          from '../workflow/command-tree';
+import {WorkflowCreator}      from './workflow-creator';
+import {ApplicationState, Notification, Project} from '../../shared/index';
 
 @autoinject()
 export class WorkflowTab {

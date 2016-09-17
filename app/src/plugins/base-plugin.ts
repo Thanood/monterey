@@ -1,4 +1,4 @@
-import {Project} from '../shared/project';
+import {Project} from '../shared/index';
 
 /**
  * A plugin is a component that can be used via a tile or a button in the menubar.

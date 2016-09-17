@@ -1,9 +1,8 @@
-import {autoinject, LogManager} from 'aurelia-framework';
-import {FS}                     from 'monterey-pal';
-import {GithubAPI}              from '../../shared/github-api';
-import {IStep}                  from '../istep';
-import {Notification}           from '../../shared/notification';
-import {Logger}                 from 'aurelia-logging';
+import {autoinject, LogManager}  from 'aurelia-framework';
+import {FS}                      from 'monterey-pal';
+import {IStep}                   from '../istep';
+import {Logger}                  from 'aurelia-logging';
+import {GithubAPI, Notification} from '../../shared/index';
 
 const logger = <Logger>LogManager.getLogger('zip-scaffolder');
 

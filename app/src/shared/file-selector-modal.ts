@@ -1,9 +1,9 @@
 import {inject, NewInstance}  from 'aurelia-framework';
 import {ValidationRules}      from 'aurelia-validatejs';
 import {ValidationController} from 'aurelia-validation';
-import {DialogController} from 'aurelia-dialog';
-import {Notification}     from '../../shared/notification';
-import {FS}               from 'monterey-pal';
+import {DialogController}     from 'aurelia-dialog';
+import {FS}                   from 'monterey-pal';
+import {Notification}         from './notification';
 
 @inject(DialogController, NewInstance.of(ValidationController), Notification)
 export class FileSelectorModal {

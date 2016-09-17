@@ -1,8 +1,7 @@
 import {autoinject} from 'aurelia-framework';
-import {NPMAPI}     from '../../shared/npm-api';
 import {FS, NPM}    from 'monterey-pal';
 import * as semver  from 'semver';
-import {Notification} from '../../shared/notification';
+import {NPMAPI, Notification} from '../../shared/index';
 
 @autoinject()
 export class Analyzer {

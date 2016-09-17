@@ -2,9 +2,6 @@ import {LogManager, autoinject} from 'aurelia-framework';
 import {Logger}        from 'aurelia-logging';
 import {BasePlugin}    from '../base-plugin';
 import {Detection}     from './detection';
-import {PluginManager} from '../../shared/plugin-manager';
-import {Project}       from '../../shared/project';
-import {Notification}  from '../../shared/notification';
 import {Workflow}      from '../workflow/workflow';
 import {Step}          from '../workflow/step';
 import {Errors}        from '../errors/errors';
@@ -12,6 +9,7 @@ import {Task}          from '../task-manager/task';
 import {CommandRunner} from '../task-manager/command-runner';
 import {CommandService} from './command-service';
 import {OS, FS}        from 'monterey-pal';
+import {PluginManager, Project, Notification} from '../../shared/index';
 
 const logger = <Logger>LogManager.getLogger('dotnet plugin');
 

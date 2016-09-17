@@ -1,6 +1,6 @@
-import {SupportModal} from './support-modal';
-import {withModal}    from '../../shared/decorators';
 import {useView}      from 'aurelia-framework';
+import {withModal}    from '../../shared/index';
+import {SupportModal} from './support-modal';
 
 @useView('../task-bar/default-item.html')
 export class TaskBar {

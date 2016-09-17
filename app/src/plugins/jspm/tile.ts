@@ -1,9 +1,8 @@
-import {useView, autoinject} from 'aurelia-framework';
-import {JSPMDetection}       from './jspm-detection';
-import {Common}              from './common';
-import {Project}             from '../../shared/project';
-import {Main}                from '../../main/main';
-import {Notification}        from '../../shared/notification';
+import {useView, autoinject}   from 'aurelia-framework';
+import {JSPMDetection}         from './jspm-detection';
+import {Common}                from './common';
+import {Project, Notification} from '../../shared/index';
+import {Main}                  from '../../main/main';
 
 @autoinject()
 @useView('plugins/default-tile.html')

@@ -1,10 +1,9 @@
-import {LauncherManager}        from './launcher-manager';
 import {observable, autoinject} from 'aurelia-framework';
 import {DialogController}       from 'aurelia-dialog';
-import {Notification}           from '../../shared/notification';
-import {Project}                from '../../shared/project';
 import {OS}                     from 'monterey-pal';
+import {Notification, Project}  from '../../shared/index';
 import {Main}                   from '../../main/main';
+import {LauncherManager}        from './launcher-manager';
 
 @autoinject
 export class Browser {

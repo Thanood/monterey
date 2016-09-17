@@ -1,7 +1,7 @@
 import {inject, observable, NewInstance} from 'aurelia-framework';
 import {ValidationRules}      from 'aurelia-validatejs';
 import {ValidationController} from 'aurelia-validation';
-import {GithubAPI}            from '../../shared/github-api';
+import {GithubAPI}            from '../../shared/index';
 import {IStep}                from '../istep';
 
 @inject(NewInstance.of(ValidationController), GithubAPI)

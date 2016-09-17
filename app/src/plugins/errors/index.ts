@@ -1,4 +1,4 @@
-import {PluginManager} from '../../shared/plugin-manager';
+import {PluginManager} from '../../shared/index';
 import {BasePlugin}    from '../base-plugin';
 
 export function configure(aurelia) {

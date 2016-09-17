@@ -1,5 +1,5 @@
 import {autoinject}       from 'aurelia-framework';
-import {SelectedProject}  from '../../shared/selected-project';
+import {SelectedProject}  from '../../shared/index';
 import {Main}             from '../../main/main';
 
 @autoinject()

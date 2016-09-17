@@ -1,7 +1,7 @@
-import {ApplicationState}   from '../../shared/application-state';
-import {TerminalState}      from './terminal-state';
 import {autoinject}         from 'aurelia-framework';
 import {DialogController}   from 'aurelia-dialog';
+import {ApplicationState}   from '../../shared/index';
+import {TerminalState}      from './terminal-state';
 
 @autoinject()
 export class TerminalModal {

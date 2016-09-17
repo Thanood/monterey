@@ -1,6 +1,6 @@
-import {autoinject}         from 'aurelia-framework';
-import {DialogController}   from 'aurelia-dialog';
-import {Notification}       from '../../shared/notification';
+import {autoinject}       from 'aurelia-framework';
+import {DialogController} from 'aurelia-dialog';
+import {Notification}     from '../../shared/index';
 
 @autoinject()
 export class ShareModal {

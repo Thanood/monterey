@@ -26,12 +26,14 @@ describe('GlobalExceptionHandler', () => {
   });
 
   it('registers error in Errors object', () => {
+    let spy = spyOn(console, 'log');
     let error = new Error('something went wrong');
     window.onerror('something went wrong', 'somefile.ts', 15, 23, error);
     expect(errors.add).toHaveBeenCalledWith(error);
   });
 
   it('passes error to aurelia-logger', () => {
+    let spy = spyOn(console, 'log');
     let logger = { error: jasmine.createSpy('logger.error') };
     LogManager.getLogger = () => logger;
     let error = new Error('something went wrong');
@@ -59,6 +61,7 @@ describe('GlobalExceptionHandler', () => {
   });
 
   it('logs uncaught promise rejections to console', () => {
+    let spy = spyOn(console, 'log');
     let logger = { error: jasmine.createSpy('logger.error') };
     LogManager.getLogger = () => logger;
     let evt = document.createEvent('Event');

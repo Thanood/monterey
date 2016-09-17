@@ -1,9 +1,7 @@
-import {autoinject}       from 'aurelia-framework';
-import {PluginManager}    from '../../shared/plugin-manager';
-import {BasePlugin}       from '../base-plugin';
-import {ApplicationState} from '../../shared/application-state';
-import {Settings}         from '../../shared/settings';
-import {SESSION}          from 'monterey-pal';
+import {autoinject} from 'aurelia-framework';
+import {SESSION}    from 'monterey-pal';
+import {BasePlugin} from '../base-plugin';
+import {ApplicationState, Settings, PluginManager} from '../../shared/index';
 
 export function configure(aurelia) {
   let pluginManager = <PluginManager>aurelia.container.get(PluginManager);

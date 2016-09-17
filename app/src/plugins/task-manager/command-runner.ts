@@ -1,11 +1,10 @@
-import {autoinject}           from 'aurelia-framework';
-import {CommandRunnerService} from './command-runner-service';
-import {CommandRunnerLocator} from './command-runner-locator';
-import {TaskManager}          from './task-manager';
-import {Task}                 from './task';
-import {Command}              from './command';
-import {Project}              from '../../shared/project';
-import {PluginManager}        from '../../shared/plugin-manager';
+import {autoinject}             from 'aurelia-framework';
+import {CommandRunnerService}   from './command-runner-service';
+import {CommandRunnerLocator}   from './command-runner-locator';
+import {TaskManager}            from './task-manager';
+import {Task}                   from './task';
+import {Command}                from './command';
+import {PluginManager, Project} from '../../shared/index';
 
 /**
  * The CommandRunner creates a Task from a Command ('gulp watch')

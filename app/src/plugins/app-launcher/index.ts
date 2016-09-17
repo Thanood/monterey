@@ -1,11 +1,9 @@
 import {autoinject, LogManager} from 'aurelia-framework';
-import {PluginManager}          from '../../shared/plugin-manager';
-import {ApplicationState}       from '../../shared/application-state';
-import {Project}                from '../../shared/project';
+import {OS}                     from 'monterey-pal';
 import {BasePlugin}             from '../base-plugin';
 import * as defaults            from './defaults.json!';
-import {OS}                     from 'monterey-pal';
 import {LauncherManager}        from './launcher-manager';
+import {ApplicationState, Project, PluginManager} from '../../shared/index';
 
 const logger = LogManager.getLogger('App launcher plugin');
 

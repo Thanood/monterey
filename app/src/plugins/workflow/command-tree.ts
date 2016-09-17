@@ -5,8 +5,7 @@ import {CommandRunner} from '../task-manager/command-runner';
 import {Workflow}      from './workflow';
 import {Phase}         from './phase';
 import {Step}          from './step';
-import {Project}       from '../../shared/project';
-import {RandomNumber}  from '../../shared/random-number';
+import {Project, RandomNumber} from '../../shared/index';
 
 /**
  * A serializable collection of Commands that can be converted into a Workflow

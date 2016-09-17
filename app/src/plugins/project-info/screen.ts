@@ -1,8 +1,7 @@
-import {autoinject, TaskQueue} from 'aurelia-framework';
-import {PluginManager}         from '../../shared/plugin-manager';
-import {Notification}          from '../../shared/notification';
-import {OS}                    from 'monterey-pal';
-import {Main}                  from '../../main/main';
+import {autoinject, TaskQueue}       from 'aurelia-framework';
+import {OS}                          from 'monterey-pal';
+import {Main}                        from '../../main/main';
+import {PluginManager, Notification} from '../../shared/index';
 
 @autoinject()
 export class Screen {

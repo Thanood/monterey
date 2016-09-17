@@ -1,6 +1,6 @@
-import {OS, FS}     from 'monterey-pal';
-import {Task}        from '../../plugins/task-manager/task';
-import {Project}     from '../../shared/project';
+import {OS, FS} from 'monterey-pal';
+import {Task}   from '../../plugins/task-manager/task';
+import {Project}from '../../shared/index';
 
 export class Common {
   installNPMDependencies(project: Project, deps = [], estimation = 'This takes minutes to complete') {

@@ -2,10 +2,7 @@ import {inject, NewInstance}  from 'aurelia-framework';
 import {ValidationRules}      from 'aurelia-validatejs';
 import {ValidationController} from 'aurelia-validation';
 import {DialogController}     from 'aurelia-dialog';
-import {Notification}         from '../../shared/notification';
-import {Project}              from '../../shared/project';
-import {ApplicationState}     from '../../shared/application-state';
-import {SelectedProject}      from '../../shared/selected-project';
+import {Notification, Project, ApplicationState, SelectedProject} from '../../shared/index';
 
 @inject(DialogController, NewInstance.of(ValidationController), ApplicationState, SelectedProject, Notification)
 export class RenameModal {

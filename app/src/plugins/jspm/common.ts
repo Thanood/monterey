@@ -2,7 +2,7 @@ import {LogManager} from 'aurelia-framework';
 import {Logger}     from 'aurelia-logging';
 import {JSPM, FS}   from 'monterey-pal';
 import {Task}       from '../../plugins/task-manager/task';
-import {Project}    from '../../shared/project';
+import {Project}    from '../../shared/index';
 
 const logger = <Logger>LogManager.getLogger('jspm-detection');
 

@@ -1,6 +1,6 @@
 import {bindable, autoinject} from 'aurelia-framework';
 import {LauncherManager}      from './launcher-manager';
-import {Project}              from '../../shared/project';
+import {Project}              from '../../shared/index';
 import {Main}                 from '../../main/main';
 
 @autoinject()

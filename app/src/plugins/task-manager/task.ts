@@ -1,4 +1,4 @@
-import {Project} from '../../shared/project';
+import {Project} from '../../shared/index';
 import {Command} from './command';
 import {OS, FS}  from 'monterey-pal';
 import 'moment';

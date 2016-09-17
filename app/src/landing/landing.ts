@@ -1,11 +1,8 @@
 import {autoinject, LogManager} from 'aurelia-framework';
 import {Logger}                 from 'aurelia-logging';
-import {Router}           from 'aurelia-router';
-import {withModal}        from '../shared/decorators';
-import {ApplicationState} from '../shared/application-state';
-import {ProjectFinder}    from '../shared/project-finder';
-import {ScaffoldProject}  from '../scaffolding/scaffold-project';
-import {PluginManager}    from '../shared/plugin-manager';
+import {Router}                 from 'aurelia-router';
+import {ScaffoldProject}        from '../scaffolding/scaffold-project';
+import {withModal, ApplicationState, ProjectFinder, PluginManager} from '../shared/index';
 
 const logger = <Logger>LogManager.getLogger('landing');
 

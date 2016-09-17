@@ -1,11 +1,10 @@
-import {autoinject, bindable}    from 'aurelia-framework';
-import {TaskManager}   from '../task-manager/task-manager';
-import {Task}          from '../task-manager/task';
-import {Workflow}      from './workflow';
-import {Step}          from './step';
-import {Phase}         from './phase';
-import {PluginManager} from '../../shared/plugin-manager';
-import {Project}       from '../../shared/project';
+import {autoinject, bindable}   from 'aurelia-framework';
+import {TaskManager}            from '../task-manager/task-manager';
+import {Task}                   from '../task-manager/task';
+import {Workflow}               from './workflow';
+import {Step}                   from './step';
+import {Phase}                  from './phase';
+import {PluginManager, Project} from '../../shared/index';
 
 @autoinject()
 export class WorkflowViewer {
