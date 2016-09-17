@@ -1,8 +1,7 @@
-import {autoinject, bindable} from 'aurelia-framework';
-import {Main}                 from '../../main/main';
-import {ShareModal}           from './share-modal';
-import {Browser}              from './browser';
-import {Project, withModal, RandomNumber, Notification, ApplicationState} from '../../shared/index';
+import {Main}       from '../../main/main';
+import {ShareModal} from './share-modal';
+import {Browser}    from './browser';
+import {Project, withModal, RandomNumber, Notification, ApplicationState, autoinject, bindable} from '../../shared/index';
 
 @autoinject()
 export class AppLauncherEditor {

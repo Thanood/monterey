@@ -1,6 +1,4 @@
-import {autoinject}      from 'aurelia-framework';
-import {ELECTRON, OS}    from 'monterey-pal';
-import {SelectedProject} from '../../shared/index';
+import {SelectedProject, autoinject, ELECTRON, OS} from '../../shared/index';
 
 @autoinject()
 export class TerminalState {

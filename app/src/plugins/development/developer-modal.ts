@@ -1,10 +1,7 @@
-import {autoinject}         from 'aurelia-framework';
-import {DialogController}   from 'aurelia-dialog';
-import {DialogService}      from 'aurelia-dialog';
-import {TaskManager, Task}  from '../task-manager/index';
-import {TaskManagerModal}   from '../task-manager/task-manager-modal';
-import {Tour}               from '../../main/components/tour';
-import {ApplicationState, SelectedProject} from '../../shared/index';
+import {TaskManager, Task} from '../task-manager/index';
+import {TaskManagerModal}  from '../task-manager/task-manager-modal';
+import {Tour}              from '../../main/components/tour';
+import {autoinject, DialogService, DialogController, ApplicationState, SelectedProject} from '../../shared/index';
 
 @autoinject()
 export class DeveloperModal {

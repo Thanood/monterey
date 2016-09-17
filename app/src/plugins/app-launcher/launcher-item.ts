@@ -1,7 +1,6 @@
-import {bindable, autoinject} from 'aurelia-framework';
-import {LauncherManager}      from './launcher-manager';
-import {Project}              from '../../shared/index';
-import {Main}                 from '../../main/main';
+import {LauncherManager} from './launcher-manager';
+import {Main}            from '../../main/main';
+import {bindable, autoinject, Project} from '../../shared/index';
 
 @autoinject()
 export class LauncherItem {

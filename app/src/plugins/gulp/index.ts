@@ -1,10 +1,9 @@
-import {autoinject}     from 'aurelia-framework';
 import {BasePlugin}     from '../base-plugin';
 import {Detection}      from './detection';
 import {CommandService} from './command-service';
 import {Workflow}       from '../workflow/workflow';
 import {Step}           from '../workflow/step';
-import {PluginManager, Project}                    from '../../shared/index';
+import {PluginManager, Project, autoinject} from '../../shared/index';
 import {Task, CommandRunner, CommandRunnerService} from '../task-manager/index';
 
 export function configure(aurelia) {

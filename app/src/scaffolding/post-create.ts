@@ -1,13 +1,12 @@
 import {autoinject, observable, LogManager} from 'aurelia-framework';
-import {Logger}           from 'aurelia-logging';
-import {DialogService}    from 'aurelia-dialog';
-import {FS}               from 'monterey-pal';
-import {IStep}            from './istep';
-import {ScaffoldProject}  from './scaffold-project';
-import {TaskManager}      from '../plugins/task-manager/task-manager';
-import {TaskManagerModal} from '../plugins/task-manager/task-manager-modal';
-import {Task}             from '../plugins/task-manager/task';
-import {WorkflowViewer}   from '../plugins/workflow/workflow-viewer';
+import {Logger}            from 'aurelia-logging';
+import {DialogService}     from 'aurelia-dialog';
+import {FS}                from 'monterey-pal';
+import {IStep}             from './istep';
+import {ScaffoldProject}   from './scaffold-project';
+import {TaskManager, Task} from '../plugins/task-manager/index';
+import {TaskManagerModal}  from '../plugins/task-manager/task-manager-modal';
+import {WorkflowViewer}    from '../plugins/workflow/workflow-viewer';
 import {Notification, Project, PluginManager, ProjectManager} from '../shared/index';
 
 const logger = <Logger>LogManager.getLogger('PostCreate');

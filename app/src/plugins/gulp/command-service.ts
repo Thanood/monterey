@@ -1,6 +1,4 @@
-import {autoinject}                from 'aurelia-framework';
-import {OS, FS}                    from 'monterey-pal';
-import {ApplicationState, Project} from '../../shared/index';
+import {ApplicationState, Project, OS, FS, autoinject} from '../../shared/index';
 import {Task, CommandRunnerService, Command} from '../task-manager/index';
 
 @autoinject()

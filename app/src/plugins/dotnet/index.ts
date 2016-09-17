@@ -1,14 +1,11 @@
-import {LogManager, autoinject} from 'aurelia-framework';
-import {Logger}                 from 'aurelia-logging';
 import {BasePlugin}             from '../base-plugin';
 import {Detection}              from './detection';
 import {Workflow}               from '../workflow/workflow';
 import {Step}                   from '../workflow/step';
 import {Errors}                 from '../errors/errors';
 import {CommandService}         from './command-service';
-import {OS, FS}                 from 'monterey-pal';
 import {Task, CommandRunner}    from '../task-manager/index';
-import {PluginManager, Project, Notification} from '../../shared/index';
+import {PluginManager, Project, Notification, OS, FS, Logger, LogManager, autoinject} from '../../shared/index';
 
 const logger = <Logger>LogManager.getLogger('dotnet plugin');
 

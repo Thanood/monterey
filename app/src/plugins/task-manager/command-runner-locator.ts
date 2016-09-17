@@ -1,12 +1,11 @@
-import {autoinject, Container}        from 'aurelia-framework';
 import {Command}                      from './command';
-import {Project}                      from '../../shared/index';
 import {CommandRunnerService}         from './command-runner-service';
 import {CommandService as Default}    from './default-command-service';
 import {CommandService as Gulp}       from '../gulp/command-service';
 import {CommandService as DotNet}     from '../dotnet/command-service';
 import {CommandService as AureliaCLI} from '../aurelia-cli/command-service';
 import {CommandService as Webpack}    from '../webpack/command-service';
+import {Project, autoinject, Container} from '../../shared/index';
 
 @autoinject()
 export class CommandRunnerLocator {

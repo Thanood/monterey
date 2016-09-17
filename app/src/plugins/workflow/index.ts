@@ -1,7 +1,6 @@
-import {autoinject}  from 'aurelia-framework';
 import {BasePlugin}  from '../base-plugin';
 import {CommandTree} from './command-tree';
-import {Project, PluginManager} from '../../shared/index';
+import {Project, PluginManager, autoinject} from '../../shared/index';
 
 export function configure(aurelia) {
   let pluginManager = <PluginManager>aurelia.container.get(PluginManager);

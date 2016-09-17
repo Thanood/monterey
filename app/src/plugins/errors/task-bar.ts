@@ -1,7 +1,6 @@
-import {autoinject, useView, BindingEngine, Disposable} from 'aurelia-framework';
 import {Errors}     from './errors';
 import {ErrorModal} from './error-modal';
-import {withModal}  from '../../shared/index';
+import {withModal, autoinject, useView, BindingEngine, Disposable} from '../../shared/index';
 
 @useView('../task-bar/default-item.html')
 @autoinject()

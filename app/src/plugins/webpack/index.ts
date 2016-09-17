@@ -1,11 +1,10 @@
-import {autoinject}             from 'aurelia-framework';
-import {Detection}              from './detection';
-import {BasePlugin}             from '../base-plugin';
-import {Task, CommandRunner}    from '../task-manager/index';
-import {Workflow}               from '../workflow/workflow';
-import {Step}                   from '../workflow/step';
-import {CommandService}         from './command-service';
-import {Project, PluginManager} from '../../shared/index';
+import {Detection}           from './detection';
+import {BasePlugin}          from '../base-plugin';
+import {Task, CommandRunner} from '../task-manager/index';
+import {Workflow}            from '../workflow/workflow';
+import {Step}                from '../workflow/step';
+import {CommandService}      from './command-service';
+import {Project, PluginManager, autoinject} from '../../shared/index';
 
 export function configure(aurelia) {
   let pluginManager = <PluginManager>aurelia.container.get(PluginManager);

@@ -1,5 +1,4 @@
-import {OS, FS}  from 'monterey-pal';
-import {Project} from '../../shared/index';
+import {OS, FS, Project} from '../../shared/index';
 import {CommandRunnerService, Task, Command} from '../task-manager/index';
 
 export class CommandService implements CommandRunnerService {

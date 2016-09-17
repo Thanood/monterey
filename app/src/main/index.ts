@@ -1,5 +1,4 @@
-import {Router}         from 'aurelia-router';
-import {ProjectManager} from '../shared/index';
+import {ProjectManager, Router} from '../shared/index';
 
 export function configure(aurelia) {
   let router = <Router>aurelia.container.get(Router);

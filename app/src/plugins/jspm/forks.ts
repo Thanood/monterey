@@ -1,6 +1,5 @@
-import {autoinject}       from 'aurelia-framework';
-import {DialogController} from 'aurelia-dialog';
-import * as moment        from  'moment';
+import {autoinject, DialogController} from '../../shared/index';
+import * as moment from  'moment';
 
 @autoinject()
 export class Forks {

@@ -1,9 +1,5 @@
-import {LogManager, autoinject}    from 'aurelia-framework';
-import {Logger}                    from 'aurelia-logging';
-import {DialogService}             from 'aurelia-dialog';
-import {FS}                        from 'monterey-pal';
-import {FileSelectorModal}         from '../../shared/file-selector-modal';
-import {Project, ApplicationState} from '../../shared/index';
+import {FileSelectorModal} from '../../shared/file-selector-modal';
+import {LogManager, autoinject, DialogService, Logger, FS, Project, ApplicationState} from '../../shared/index';
 
 const logger = <Logger>LogManager.getLogger('typings-detection');
 

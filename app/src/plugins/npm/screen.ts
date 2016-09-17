@@ -1,12 +1,9 @@
-import {autoinject}       from 'aurelia-framework';
-import {DialogService}    from 'aurelia-dialog';
-import {NPM}              from 'monterey-pal';
 import {TaskManager}      from '../../plugins/task-manager/task-manager';
 import {TaskManagerModal} from '../../plugins/task-manager/task-manager-modal';
 import {Main}             from '../../main/main';
 import {Common}           from './common';
 import {Analyzer}         from './analyzer';
-import {SelectedProject, Notification}  from '../../shared/index';
+import {SelectedProject, Notification, autoinject, NPM, DialogService}  from '../../shared/index';
 
 @autoinject()
 export class Screen {

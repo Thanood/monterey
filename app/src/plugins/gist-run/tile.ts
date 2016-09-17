@@ -1,6 +1,4 @@
-import {useView, autoinject} from 'aurelia-framework';
-import {OS}                  from 'monterey-pal';
-import {MontereyRegistries}  from '../../shared/index';
+import {MontereyRegistries, OS, useView, autoinject}  from '../../shared/index';
 
 @autoinject()
 @useView('plugins/default-tile.html')

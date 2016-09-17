@@ -1,9 +1,5 @@
-import {LogManager, autoinject} from 'aurelia-framework';
-import {Logger}            from 'aurelia-logging';
-import {DialogService}     from 'aurelia-dialog';
-import {FS}                from 'monterey-pal';
-import {ApplicationState, Project}  from '../../shared/index';
-import {FileSelectorModal}          from '../../shared/file-selector-modal';
+import {FileSelectorModal} from '../../shared/file-selector-modal';
+import {DialogService, FS, LogManager, autoinject, Logger, ApplicationState, Project}  from '../../shared/index';
 
 const logger = <Logger>LogManager.getLogger('aurelia-cli-detection');
 

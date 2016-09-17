@@ -37,6 +37,7 @@ System.config({
     "aurelia-history-browser": "npm:aurelia-history-browser@1.0.0",
     "aurelia-i18n": "npm:aurelia-i18n@1.1.2",
     "aurelia-loader-default": "npm:aurelia-loader-default@1.0.0",
+    "aurelia-logging": "npm:aurelia-logging@1.0.0",
     "aurelia-logging-console": "npm:aurelia-logging-console@1.0.0",
     "aurelia-metadata": "npm:aurelia-metadata@1.0.0",
     "aurelia-pal": "npm:aurelia-pal@1.0.0",

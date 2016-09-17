@@ -1,8 +1,5 @@
-import {LogManager} from 'aurelia-framework';
-import {Logger}     from 'aurelia-logging';
-import {JSPM, FS}   from 'monterey-pal';
-import {Task}       from '../task-manager/index';
-import {Project}    from '../../shared/index';
+import {Task} from '../task-manager/index';
+import {Project, JSPM, FS, Logger, LogManager} from '../../shared/index';
 
 const logger = <Logger>LogManager.getLogger('jspm-detection');
 

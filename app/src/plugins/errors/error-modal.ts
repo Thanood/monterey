@@ -1,8 +1,5 @@
-import {autoinject}       from 'aurelia-framework';
-import {DialogController} from 'aurelia-dialog';
-import {I18N}             from 'aurelia-i18n';
-import {Notification}     from '../../shared/index';
-import {Errors}           from './errors';
+import {Errors} from './errors';
+import {Notification, autoinject, I18N, DialogController} from '../../shared/index';
 
 @autoinject()
 export class ErrorModal {

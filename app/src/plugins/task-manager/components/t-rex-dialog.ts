@@ -1,5 +1,4 @@
-import {autoinject, bindable} from 'aurelia-framework';
-import {DialogController}     from 'aurelia-dialog';
+import {autoinject, bindable, DialogController} from '../../../shared/index';
 
 @autoinject()
 export class TRexDialog {

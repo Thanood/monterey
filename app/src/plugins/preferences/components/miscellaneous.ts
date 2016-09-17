@@ -1,6 +1,4 @@
-import {autoinject}        from 'aurelia-framework';
-import {EventAggregator}   from 'aurelia-event-aggregator';
-import {Settings, Setting, ApplicationState, Notification} from '../../../shared/index';
+import {Settings, Setting, ApplicationState, Notification, autoinject, EventAggregator} from '../../../shared/index';
 
 @autoinject()
 export class Miscellaneous {

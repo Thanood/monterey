@@ -1,6 +1,4 @@
-import {autoinject}      from 'aurelia-framework';
-import {NPM as NPMPal}   from 'monterey-pal';
-import {Notification}    from '../../../shared/index';
+import {Notification, NPM as NPMPal, autoinject}    from '../../../shared/index';
 
 @autoinject()
 export class NPM {

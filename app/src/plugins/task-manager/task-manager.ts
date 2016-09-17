@@ -1,8 +1,6 @@
-import {LogManager, autoinject} from 'aurelia-framework';
-import {EventAggregator}        from 'aurelia-event-aggregator';
-import {Project, RandomNumber, ApplicationState} from '../../shared/index';
-import {Errors}                 from '../errors/errors';
-import {Task}                   from './task';
+import {Errors} from '../errors/errors';
+import {Task}   from './task';
+import {Project, RandomNumber, ApplicationState, EventAggregator, LogManager, autoinject} from '../../shared/index';
 import 'moment';
 
 const logger = LogManager.getLogger('TaskManager');

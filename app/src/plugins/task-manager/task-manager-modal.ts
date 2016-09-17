@@ -1,13 +1,7 @@
-import {autoinject, observable}        from 'aurelia-framework';
-import {I18N}                          from 'aurelia-i18n';
-import {DialogController}              from 'aurelia-dialog';
-import {EventAggregator, Subscription} from 'aurelia-event-aggregator';
-import {ContextMenu}                   from 'context-menu/context-menu';
-import {TaskManager}                   from './task-manager';
-import {TRexDialog}                    from './components/t-rex-dialog';
-import {Task}                          from './task';
-import {TaskRunner}                    from './task-runner';
-import {Settings, withModal, ApplicationState, TreeNode, TreeListNode, Project, Notification} from '../../shared/index';
+import {TRexDialog}  from './components/t-rex-dialog';
+import {TaskManager, Task, TaskRunner} from './index';
+import {Settings, withModal, ApplicationState, TreeNode, TreeListNode, Project, Notification,
+  EventAggregator, Subscription, DialogController, I18N, autoinject, observable, ContextMenu} from '../../shared/index';
 
 @autoinject()
 export class TaskManagerModal {

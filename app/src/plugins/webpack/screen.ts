@@ -1,6 +1,5 @@
-import {autoinject}       from 'aurelia-framework';
-import {Project}          from '../../shared/index';
-import {Main}             from '../../main/main';
+import {Main} from '../../main/main';
+import {Project, autoinject} from '../../shared/index';
 
 @autoinject()
 export class Screen {

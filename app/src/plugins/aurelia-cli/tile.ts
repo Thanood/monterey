@@ -1,7 +1,6 @@
-import {autoinject, useView} from 'aurelia-framework';
-import {Detection}           from './detection';
-import {Main}                from '../../main/main';
-import {SelectedProject}     from '../../shared/index';
+import {Detection} from './detection';
+import {Main}      from '../../main/main';
+import {autoinject, useView, SelectedProject} from '../../shared/index';
 
 @useView('plugins/default-tile.html')
 @autoinject()

@@ -1,9 +1,5 @@
-import {LogManager, autoinject} from 'aurelia-framework';
-import {Logger}            from 'aurelia-logging';
-import {DialogService}     from 'aurelia-dialog';
-import {FS}                from 'monterey-pal';
 import {FileSelectorModal} from '../../shared/file-selector-modal';
-import {ApplicationState, Project} from '../../shared/index';
+import {ApplicationState, Project, FS, DialogService, Logger, LogManager, autoinject} from '../../shared/index';
 
 const logger = <Logger>LogManager.getLogger('dotnet-detection');
 

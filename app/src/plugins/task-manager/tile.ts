@@ -1,6 +1,5 @@
-import {useView, autoinject}        from 'aurelia-framework';
-import {TaskManagerModal}           from './task-manager-modal';
-import {withModal, SelectedProject} from '../../shared/index';
+import {TaskManagerModal} from './task-manager-modal';
+import {withModal, SelectedProject, useView, autoinject} from '../../shared/index';
 
 @autoinject()
 @useView('plugins/default-tile.html')

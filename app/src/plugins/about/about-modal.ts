@@ -1,6 +1,4 @@
-import {autoinject}         from 'aurelia-framework';
-import {DialogController}   from 'aurelia-dialog';
-import {FS, OS}             from 'monterey-pal';
+import {FS, OS, DialogController, autoinject} from '../../shared/index';
 
 @autoinject()
 export class AboutModal {

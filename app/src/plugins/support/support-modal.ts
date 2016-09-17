@@ -1,7 +1,4 @@
-import {autoinject}         from 'aurelia-framework';
-import {DialogController}   from 'aurelia-dialog';
-import {FS, ELECTRON}       from 'monterey-pal';
-import {MontereyRegistries} from '../../shared/index';
+import {MontereyRegistries, autoinject, FS, ELECTRON,  DialogController} from '../../shared/index';
 
 @autoinject()
 export class SupportModal {

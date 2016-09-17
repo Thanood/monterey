@@ -1,6 +1,5 @@
-import {Project} from '../../shared/index';
-import {Command} from './command';
-import {OS, FS}  from 'monterey-pal';
+import {Project, OS, FS} from '../../shared/index';
+import {Command}         from './command';
 import 'moment';
 
 export class Task implements Task {

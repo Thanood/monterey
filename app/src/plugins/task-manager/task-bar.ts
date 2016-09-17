@@ -1,9 +1,6 @@
-import {autoinject, bindable, useView} from 'aurelia-framework';
-import {EventAggregator, Subscription} from 'aurelia-event-aggregator';
-import {I18N}                          from 'aurelia-i18n';
-import {withModal, SelectedProject}    from '../../shared/index';
-import {TaskManager}                   from './task-manager';
-import {TaskManagerModal}              from './task-manager-modal';
+import {TaskManagerModal} from './task-manager-modal';
+import {TaskManager}      from './task-manager';
+import {withModal, SelectedProject, EventAggregator, Subscription, autoinject, bindable, useView, I18N} from '../../shared/index';
 
 @useView('../task-bar/default-item.html')
 @autoinject()

@@ -1,11 +1,10 @@
-import {autoinject}    from 'aurelia-framework';
 import {Workflow}      from '../workflow/workflow';
 import {Step}          from '../workflow/step';
 import {Task}          from '../task-manager/index';
 import {BasePlugin}    from '../base-plugin';
 import {JSPMDetection} from './jspm-detection';
 import {Common}        from './common';
-import {PluginManager, Project} from '../../shared/index';
+import {PluginManager, Project, autoinject} from '../../shared/index';
 
 export function configure(aurelia) {
   let pluginManager = <PluginManager>aurelia.container.get(PluginManager);

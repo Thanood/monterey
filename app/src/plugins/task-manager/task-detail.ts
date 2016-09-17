@@ -1,8 +1,7 @@
-import {bindable, autoinject}          from 'aurelia-framework';
-import {EventAggregator, Subscription} from 'aurelia-event-aggregator';
-import {Task}                          from './task';
-import {TaskManager}                   from './task-manager';
-import {Logger}                        from './components/logger';
+import {bindable, autoinject, EventAggregator, Subscription} from '../../shared/index';
+import {Task}        from './task';
+import {TaskManager} from './task-manager';
+import {Logger}      from './components/logger';
 
 @autoinject()
 export class TaskDetail {

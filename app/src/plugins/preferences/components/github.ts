@@ -1,7 +1,5 @@
-import {autoinject}       from 'aurelia-framework';
-import {EventAggregator}  from 'aurelia-event-aggregator';
-import {GithubCreds}      from '../../../shared/github-creds';
-import {ApplicationState, withModal, Notification} from '../../../shared/index';
+import {GithubCreds} from '../../../shared/github-creds';
+import {ApplicationState, withModal, Notification, autoinject, EventAggregator} from '../../../shared/index';
 
 @autoinject()
 export class Github {

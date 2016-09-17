@@ -1,9 +1,7 @@
-import {autoinject, bindable}            from 'aurelia-framework';
-import {RenameModal}                     from './rename-modal';
-import {EventAggregator, Subscription}   from 'aurelia-event-aggregator';
-import {ContextMenu}                     from 'context-menu/context-menu';
-import {I18N}                            from 'aurelia-i18n';
-import {withModal, ApplicationState, Project, Notification, SelectedProject, ProjectManager} from '../../shared/index';
+import {RenameModal} from './rename-modal';
+import {ContextMenu} from 'context-menu/context-menu';
+import {withModal, ApplicationState, Project, Notification, SelectedProject,
+  ProjectManager, I18N, EventAggregator, Subscription, autoinject, bindable} from '../../shared/index';
 
 @autoinject()
 export class ProjectList {

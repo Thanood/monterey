@@ -1,11 +1,10 @@
-import {autoinject}       from 'aurelia-framework';
-import {Workflow}         from '../workflow/workflow';
-import {Step}             from '../workflow/step';
-import {Task}             from '../task-manager/index';
-import {NPMDetection}     from './npm-detection';
-import {BasePlugin}       from '../base-plugin';
-import {Common}           from './common';
-import {PluginManager, ApplicationState, Project} from '../../shared/index';
+import {Workflow}     from '../workflow/workflow';
+import {Step}         from '../workflow/step';
+import {Task}         from '../task-manager/index';
+import {NPMDetection} from './npm-detection';
+import {BasePlugin}   from '../base-plugin';
+import {Common}       from './common';
+import {PluginManager, ApplicationState, Project, autoinject} from '../../shared/index';
 
 export function configure(aurelia) {
   let pluginManager = <PluginManager>aurelia.container.get(PluginManager);

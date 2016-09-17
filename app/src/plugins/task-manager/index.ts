@@ -1,8 +1,8 @@
-import {autoinject}              from 'aurelia-framework';
-import {PluginManager, Settings} from '../../shared/index';
-import {BasePlugin}              from '../base-plugin';
+import {PluginManager, Settings, autoinject} from '../../shared/index';
+import {BasePlugin} from '../base-plugin';
 export * from './task';
 export * from './task-manager';
+export * from './task-runner';
 export * from './command';
 export * from './command-runner';
 export * from './command-runner-service';

@@ -1,5 +1,4 @@
-import {bindable, autoinject} from 'aurelia-framework';
-import {ApplicationState}     from '../../shared/index';
+import {ApplicationState, bindable, autoinject} from '../../shared/index';
 
 @autoinject()
 export class Tour {
