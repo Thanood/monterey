@@ -1,5 +1,5 @@
 import {ProjectManager} from '../../../src/shared/project-manager';
-import {initializePAL} from 'monterey-pal';
+import {FS}             from 'monterey-pal';
 
 describe('ProjectManager removeProject', () => {
   let sut: ProjectManager;
@@ -171,22 +171,22 @@ describe('ProjectManager addProject', () => {
         });
       })
     };
-    initializePAL((fs) => {
-      fs.getDirName = (path) => {
-        let split = path.split('/');
-        return split[split.length - 1];
-      }
-    });
+    FS.getDirName = (path) => {
+      let split = path.split('/');
+      return split[split.length - 1];
+    };
     sut = new ProjectManager(pluginManager, state, notification, ea);
   });
 
   it('has all plugins evaluate the project', () => {
     let project = {
-      path: ''
+      path: 'c:/test',
+      someVar: 'foo'
     };
     sut.addProject(project);
 
-    expect(pluginManager.evaluateProject).toHaveBeenCalledWith(project);
+    expect(pluginManager.evaluateProject).toHaveBeenCalled();
+    expect((<any>pluginManager.evaluateProject).calls.argsFor(0)[0].someVar).toBe('foo');
   });
 
   it('sets project name to folder path if all else fails', async (d) => {
@@ -195,7 +195,7 @@ describe('ProjectManager addProject', () => {
     };
     let result = await sut.addProject(project);
 
-    expect(project.name).toBe('test');
+    expect(result.name).toBe('test');
 
     d();
   });
@@ -261,15 +261,12 @@ describe('ProjectManager verifyProjectsExistence', () => {
       publish: (msg) => {}
     };
     sut = new ProjectManager(null, state, notification, ea);
-    fs = {
-      folderExists: jasmine.createSpy('folderExists').and.callFake(param => {
-        return new Promise(resolve => {
-          if (param === '/existing') resolve(true);
-          if (param === '/nonexisting') resolve(false);
-        });
-      })
-    };
-    initializePAL((_fs) => Object.assign(_fs, fs));
+    FS.folderExists = jasmine.createSpy('folderExists').and.callFake(param => {
+      return new Promise(resolve => {
+        if (param === '/existing') resolve(true);
+        if (param === '/nonexisting') resolve(false);
+      });
+    });
   });
 
   it('removes projects where the folder doesn\'t exist anymore', async (d) => {

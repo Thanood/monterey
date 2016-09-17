@@ -68,25 +68,25 @@ describe('TaskManager taskbar', () => {
     this.taskManager.tasks = [];
     sut.propertyChanged();
 
-    expect(sut.taskManagerText).toBe('Task manager');
+    expect(sut.text).toBe('Task manager');
 
-    
+
     this.taskManager.tasks = [{ status: 'running' }];
     sut.propertyChanged();
 
-    expect(sut.taskManagerText).toBe('Task manager (1 running)');
+    expect(sut.text).toBe('Task manager (1 running)');
 
-    
+
     this.taskManager.tasks = [{ status: 'queued' }];
     sut.propertyChanged();
 
-    expect(sut.taskManagerText).toBe('Task manager (1 queued)');
+    expect(sut.text).toBe('Task manager (1 queued)');
 
-    
+
     this.taskManager.tasks = [{ status: 'running' }, { status: 'queued'}];
     sut.propertyChanged();
 
-    expect(sut.taskManagerText).toBe('Task manager (1 running, 1 queued)');
+    expect(sut.text).toBe('Task manager (1 running, 1 queued)');
   });
 
   it('disposes of subscriptions', () => {

@@ -41,14 +41,16 @@ export class ProjectManager {
   * Main entry point for adding projects to Monterey
   */
   async addProject(projectObj): Promise<Project> {
-    // have all plugins evaluate the project
-    projectObj = await this.pluginManager.evaluateProject(new Project(projectObj));
-
-    if (!projectObj.name) {
-      projectObj.name = FS.getDirName(projectObj.path);
-    }
-
     let project = new Project(projectObj);
+
+    // have all plugins evaluate the project
+    await this.pluginManager.evaluateProject(project);
+
+
+    // use the directory name as project name as fallback
+    if (!project.name) {
+      project.name = FS.getDirName(project.path);
+    }
 
     this.state.projects.push(project);
 
