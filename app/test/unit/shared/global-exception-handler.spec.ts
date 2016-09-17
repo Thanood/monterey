@@ -7,11 +7,14 @@ describe('GlobalExceptionHandler', () => {
   let sut: GlobalExceptionHandler;
   let ea;
   let errors;
+  let logger;
   let container: Container;
 
   beforeEach(() => {
     container = new Container();
     errors = { add: jasmine.createSpy('errors add') };
+    logger = { error: jasmine.createSpy('logger.error') };
+    LogManager.getLogger = () => logger;
     container.registerInstance(Errors, errors);
     sut = new GlobalExceptionHandler({
       container: container
@@ -34,8 +37,6 @@ describe('GlobalExceptionHandler', () => {
 
   it('passes error to aurelia-logger', () => {
     let spy = spyOn(console, 'log');
-    let logger = { error: jasmine.createSpy('logger.error') };
-    LogManager.getLogger = () => logger;
     let error = new Error('something went wrong');
     window.onerror('something went wrong', 'somefile.ts', 15, 23, error);
     expect(logger.error).toHaveBeenCalledWith(error);
