@@ -17,7 +17,7 @@ export class CommandRunner {
               private pluginManager: PluginManager) {}
 
   run(project: Project, command: Command) {
-    let service = this.serviceLocator.getHandler(command);
+    let service = this.serviceLocator.getHandler(project, command);
     let task = new Task(project, `${command.command} ${command.args.join(' ')}`);
 
     task.execute = this._executor(task, service, project, command);

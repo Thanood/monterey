@@ -1,24 +1,35 @@
 import {Step}     from '../../../../src/plugins/workflow/step';
 import {Workflow} from '../../../../src/plugins/workflow/workflow';
 import {Phase}    from '../../../../src/plugins/workflow/phase';
+import {Task}     from '../../../../src/plugins/task-manager/task';
+import {Project}  from '../../../../src/shared/project';
 import '../../setup';
 
 describe('Workflow', () => {
   let sut: Workflow;
+  let taskManager: any;
+  let project: Project;
 
   beforeEach(() => {
-    sut = new Workflow(null, null);
+    taskManager = {
+      addTask: jasmine.createSpy('addTask'),
+      startTask: jasmine.createSpy('startTask').and.returnValue(Promise.resolve())
+    };
+
+    project = new Project();
+
+    sut = new Workflow(taskManager, null);
     sut.addPhase(new Phase('dependencies'));
     sut.addPhase(new Phase('environment'));
     sut.addPhase(new Phase('run'));
 
-    sut.getPhase('dependencies').addStep(new Step('npm install', 'npm install', null));
-    sut.getPhase('dependencies').addStep(new Step('jspm install', 'jspm install', null));
+    sut.getPhase('dependencies').addStep(new Step('npm install', 'npm install', new Task(project, '', () => Promise.resolve())));
+    sut.getPhase('dependencies').addStep(new Step('jspm install', 'jspm install', new Task(project, '', () => Promise.resolve())));
 
-    sut.getPhase('environment').addStep(new Step('typings install', 'typings install', null));
+    sut.getPhase('environment').addStep(new Step('typings install', 'typings install', new Task(project, '', () => Promise.resolve())));
 
-    sut.getPhase('run').addStep(new Step('gulp watch', 'gulp watch', null));
-    sut.getPhase('run').addStep(new Step('dotnet run', 'dotnet run', null));
+    sut.getPhase('run').addStep(new Step('gulp watch', 'gulp watch', new Task(project, '', () => Promise.resolve())));
+    sut.getPhase('run').addStep(new Step('dotnet run', 'dotnet run', new Task(project, '', () => Promise.resolve())));
   });
 
   it('deselects following phases when a phase gets unchecked', () => {
@@ -124,5 +135,50 @@ describe('Workflow', () => {
     sut.onCheck(sut.getPhase('dependencies'));
 
     sut.getPhase('dependencies').steps.forEach(s => expect(s.checked).toBe(true));
+  });
+
+  it('start() adds all tasks to tasmanager', () => {
+    let spy = <jasmine.Spy>(sut.taskManager.addTask);
+    sut.start();
+
+    expect(spy.calls.count()).toBe(5);
+  });
+
+  it('start() keeps track of whether it is running', (done) => {
+    expect(sut.running).toBeFalsy();
+
+    let _r;
+
+    taskManager.startTask = jasmine.createSpy('startTask').and.returnValue(new Promise(r => _r = r));
+
+    sut.start()
+    .then(() => {
+      expect(sut.running).toBeFalsy();
+      done();
+    });
+
+    expect(sut.running).toBe(true);
+
+    _r();
+  });
+
+  it('start() starts all tasks out of the first phase that do not have a task dependency', () => {
+    let firstPhase = sut.getPhase('dependencies');
+
+    let withDepStep = new Step('with dep', 'with dep', new Task(project, '', () => Promise.resolve()));
+    withDepStep.task.dependsOn = firstPhase.steps[0].task;
+    firstPhase.addStep(withDepStep);
+
+    sut.start();
+
+    for (let x = 0; x < firstPhase.steps.length; x++) {
+      let step = firstPhase.steps[x];
+
+      if (step.task.dependsOn) {
+        expect(taskManager.startTask).not.toHaveBeenCalledWith(step.task);
+      } else {
+        expect(taskManager.startTask).toHaveBeenCalledWith(step.task);
+      }
+    }
   });
 });

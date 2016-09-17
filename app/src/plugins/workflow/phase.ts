@@ -21,6 +21,8 @@ export class Phase {
     }
 
     this.steps.push(step);
+
+    return step;
   }
 
   stepExists(identifier: string) {

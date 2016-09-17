@@ -13,7 +13,7 @@ export class CommandService implements CommandRunnerService {
     ];
   }
 
-  handle(command: Command) {
+  handle(project: Project, command: Command) {
     // this service handles only the execution of the npm start command
     return command.command === 'npm' && (command.args.length === 1 && command.args[0] === 'start');
   }

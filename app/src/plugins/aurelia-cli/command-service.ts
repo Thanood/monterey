@@ -14,7 +14,7 @@ export class CommandService implements CommandRunnerService {
     ];
   }
 
-  handle(command: Command) {
+  handle(project: Project, command: Command) {
     return command.command === 'au';
   }
 

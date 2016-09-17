@@ -32,21 +32,25 @@ export class CommandTree {
     let phase = new Phase(this.name);
     workflow.addPhase(phase);
 
-    if (this.command) {
-      phase.addStep(this._createStep(this.command, commandRunner, project));
-    }
-
-    this._getChildCommands(phase, project, commandRunner, this);
+    this._addSteps(phase, project, commandRunner, this, null);
 
     return workflow;
   }
 
-  _getChildCommands(phase: Phase, project: Project, commandRunner: CommandRunner, tree: CommandTree) {
-    for (let child of tree.children) {
-      phase.addStep(this._createStep(child.command, commandRunner, project));
+  _addSteps(phase: Phase, project: Project, commandRunner: CommandRunner, tree: CommandTree, parentStep: Step) {
+    let step;
 
-      if (child.children && child.children.length > 0) {
-        this._getChildCommands(phase, project, commandRunner, child);
+    if (tree.command) {
+      step = phase.addStep(this._createStep(tree.command, commandRunner, project));
+
+      if (parentStep) {
+        step.task.dependsOn = parentStep.task;
+      }
+    }
+
+    if (tree.children) {
+      for (let child of tree.children) {
+        this._addSteps(phase, project, commandRunner, child, step);
       }
     }
   }

@@ -62,7 +62,7 @@ System.config({
     "json": "github:systemjs/plugin-json@0.1.2",
     "moment": "npm:moment@2.14.1",
     "monterey-pal": "github:monterey-framework/monterey-pal@0.1.26",
-    "monterey-pal-electron": "github:monterey-framework/monterey-pal-electron@0.1.45",
+    "monterey-pal-electron": "github:monterey-framework/monterey-pal-electron@0.1.46",
     "semver": "npm:semver@5.3.0",
     "showdown": "github:showdownjs/showdown@1.4.3",
     "text": "github:systemjs/plugin-text@0.0.3",
@@ -299,9 +299,6 @@ System.config({
       "vm": "github:jspm/nodelibs-vm@0.1.0"
     },
     "npm:semver@5.3.0": {
-      "process": "github:jspm/nodelibs-process@0.1.2"
-    },
-    "npm:showdown@1.1.0": {
       "process": "github:jspm/nodelibs-process@0.1.2"
     },
     "npm:ticky@1.0.1": {

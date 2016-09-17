@@ -14,8 +14,8 @@ export class CommandService implements CommandRunnerService {
     ];
   }
 
-  handle(command: Command) {
-    return command.command === 'dotnet';
+  handle(project: Project, command: Command) {
+    return command.command === 'dotnet' && project.isUsingDotnetCore();
   }
 
   runCommand(project: Project, command: Command, task: Task, stdout, stderr) {

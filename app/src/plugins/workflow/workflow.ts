@@ -11,8 +11,8 @@ export class Workflow {
   running?: boolean;
   phases: Array<Phase> = [];
 
-  constructor(private taskManager: TaskManager,
-              private project: Project) { }
+  constructor(public taskManager: TaskManager,
+              public project: Project) { }
 
   addPhase(phase: Phase) {
     if (!this.getPhase(phase.identifier)) {
@@ -53,7 +53,18 @@ export class Workflow {
 
     this.running = true;
 
-    return this.taskManager.startTask(tasks[0])
+    let promises = [];
+
+    // start all tasks out of the first phase
+    // but only those tasks that do not depend on other tasks
+    for (let x = 0; x < this.phases[0].steps.length; x++) {
+      let step = this.phases[0].steps[x];
+      if (step.checked && !step.task.dependsOn) {
+        promises.push(this.taskManager.startTask(step.task));
+      }
+    }
+
+    return Promise.all(promises)
     .then(() => {
       this.running = false;
     })

@@ -1,11 +1,12 @@
 import {autoinject, Container}        from 'aurelia-framework';
+import {Project}                      from '../../shared/project';
 import {Command}                      from './command';
 import {CommandRunnerService}         from './command-runner-service';
+import {CommandService as Default}    from './default-command-service';
 import {CommandService as Gulp}       from '../gulp/command-service';
 import {CommandService as DotNet}     from '../dotnet/command-service';
 import {CommandService as AureliaCLI} from '../aurelia-cli/command-service';
 import {CommandService as Webpack}    from '../webpack/command-service';
-import {CommandService as Default}    from './default-command-service';
 
 @autoinject()
 export class CommandRunnerLocator {
@@ -22,9 +23,9 @@ export class CommandRunnerLocator {
   /**
    * Based on a Command, ask which CommandServices wants to handle the execution
    */
-  getHandler(command: Command) {
+  getHandler(project: Project, command: Command) {
     for (let service of this.services) {
-      if (service.handle(command)) {
+      if (service.handle(project, command)) {
         return service;
       }
     }

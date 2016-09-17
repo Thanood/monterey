@@ -35,7 +35,7 @@ export class CommandService implements CommandRunnerService {
     return commands;
   }
 
-  handle(command: Command) {
+  handle(project: Project, command: Command) {
     return command.command === 'gulp';
   }
 

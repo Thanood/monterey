@@ -15,7 +15,7 @@ export class CommandService implements CommandRunnerService {
    * The generic command service will handle all commands that
    * other command services don't handle
    */
-  handle(command: Command) {
+  handle(project: Project, command: Command) {
     return true;
   }
 
