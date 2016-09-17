@@ -6,19 +6,19 @@ describe('Gulp command-service', () => {
   let sut: CommandService;
 
   beforeEach(() => {
-    sut = new CommandService();
+    sut = new CommandService(null);
   });
 
   it('detects project url from output', () => {
     let project = new Project();
-    let task = new Task('gulp watch');
+    let task = new Task(project, 'gulp watch');
     let text = 'Local URL: http://localhost:9000\r\n';
     sut.tryGetPort(project, text, task);
     expect(project.__meta__.url).toBe('http://localhost:9000');
 
 
     project = new Project();
-    task = new Task('gulp watch');
+    task = new Task(project, 'gulp watch');
     text = 'Local: http://localhost:9005\r\n';
     sut.tryGetPort(project, text, task);
     expect(project.__meta__.url).toBe('http://localhost:9005');

@@ -3,7 +3,6 @@
 
   <ai-dialog class="support-modal" title="Support" width="600" height="300">
     <ai-dialog-body>
-
       <!-- Nav tabs -->
       <ul class="nav nav-tabs" role="tablist">
         <li role="presentation" class="active"><a href="#documentation" aria-controls="documentation" role="tab" data-toggle="tab" i18n="documentation"></a></li>
@@ -24,13 +23,15 @@
 
           <a href="https://gitter.im/monterey-framework/monterey" target="_blank" class="btn btn-primary">Gitter</a>
           <a href="https://github.com/monterey-framework/monterey/issues" target="_blank" class="btn btn-primary">Github</a>
-          
+
           <p>${'logs-can-be-found-in' | t}: ${logFolder}</p>
         </div>
       </div>
     </ai-dialog-body>
 
     <ai-dialog-footer>
+      <button class="btn btn-primary" click.delegate="startTour()">Start tour</button>
+
       <div class="align-right">
         <button class="btn btn-primary" click.trigger="dialogController.close()" i18n="close"></button>
       </div>
