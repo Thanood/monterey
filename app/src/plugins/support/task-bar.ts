@@ -5,6 +5,7 @@ import {SupportModal}       from './support-modal';
 export class TaskBar {
   img = 'images/support-25x25.png';
   tooltip = 'tooltip-support';
+  id = 'support';
   text = 'support';
 
   @withModal(SupportModal)

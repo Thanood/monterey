@@ -37,12 +37,12 @@ export class Tour {
         intro: 'These tiles represent Monterey features that can be used with the selected project',
         position: 'floating'
       }, {
-        element: $('task-bar .support')[0],
+        element: $('task-bar #support')[0],
         intro: 'Here you can find ways to contact the developers of Monterey',
         position: 'top-left-aligned',
         heightPadding: 0
       }, {
-        element: $('task-bar .taskmanager')[0],
+        element: $('task-bar #taskmanager')[0],
         intro: 'The taskmanager shows everything that Monterey is working on',
         position: 'top-left-aligned',
         heightPadding: 0

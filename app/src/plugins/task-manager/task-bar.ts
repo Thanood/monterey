@@ -13,6 +13,7 @@ export class TaskBar {
 
   text: string;
   tooltip = 'tooltip-taskmanager';
+  id = 'taskmanager';
   icon = 'glyphicon glyphicon-cog';
 
   constructor(private ea: EventAggregator,
