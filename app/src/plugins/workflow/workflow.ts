@@ -1,8 +1,7 @@
-import {Step}        from './step';
-import {Phase}       from './phase';
-import {Task}        from '../task-manager/task';
-import {TaskManager} from '../task-manager/task-manager';
-import {Project}     from '../../shared/index';
+import {Step}    from './step';
+import {Phase}   from './phase';
+import {Project} from '../../shared/index';
+import {Task, TaskManager} from '../task-manager/index';
 
 /**
  * A workflow is a combination of tasks. A task can run a command (gulp watch) or call an API (jspm's install api)

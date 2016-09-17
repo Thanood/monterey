@@ -1,9 +1,7 @@
 import {autoinject}                from 'aurelia-framework';
 import {OS, FS}                    from 'monterey-pal';
 import {ApplicationState, Project} from '../../shared/index';
-import {CommandRunnerService}      from '../task-manager/command-runner-service';
-import {Task}                      from '../task-manager/task';
-import {Command}                   from '../task-manager/command';
+import {Task, CommandRunnerService, Command} from '../task-manager/index';
 
 @autoinject()
 export class CommandService implements CommandRunnerService {

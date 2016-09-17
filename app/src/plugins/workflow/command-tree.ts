@@ -1,10 +1,7 @@
-import {Command}       from '../task-manager/command';
-import {TaskManager}   from '../task-manager/task-manager';
-import {Task}          from '../task-manager/task';
-import {CommandRunner} from '../task-manager/command-runner';
-import {Workflow}      from './workflow';
-import {Phase}         from './phase';
-import {Step}          from './step';
+import {Workflow} from './workflow';
+import {Phase}    from './phase';
+import {Step}     from './step';
+import {Task, CommandRunner, TaskManager, Command} from '../task-manager/index';
 import {Project, RandomNumber} from '../../shared/index';
 
 /**

@@ -1,6 +1,5 @@
 import {autoinject, bindable}   from 'aurelia-framework';
-import {TaskManager}            from '../task-manager/task-manager';
-import {Task}                   from '../task-manager/task';
+import {Task, TaskManager}      from '../task-manager/index';
 import {Workflow}               from './workflow';
 import {Step}                   from './step';
 import {Phase}                  from './phase';

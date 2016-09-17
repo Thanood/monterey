@@ -1,5 +1,5 @@
 import {OS, FS} from 'monterey-pal';
-import {Task}   from '../../plugins/task-manager/task';
+import {Task}   from '../../plugins/task-manager/index';
 import {Project}from '../../shared/index';
 
 export class Common {

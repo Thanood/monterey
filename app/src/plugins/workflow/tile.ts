@@ -1,13 +1,11 @@
 import {autoinject, useView} from 'aurelia-framework';
 import {Main}                from '../../main/main';
-import {CommandRunner}       from '../task-manager/command-runner';
-import {TaskManager}         from '../task-manager/task-manager';
-import {Task}                from '../task-manager/task';
 import {Workflow}            from './workflow';
 import {Phase}               from './phase';
 import {Step}                from './step';
 import {CommandTree}         from './command-tree';
-import {SelectedProject, Notification} from '../../shared/index';
+import {TaskManager, CommandRunner, Task} from '../task-manager/index';
+import {SelectedProject, Notification}    from '../../shared/index';
 
 @useView('plugins/default-tile.html')
 @autoinject()
