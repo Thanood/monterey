@@ -46,7 +46,8 @@ export class CommandService implements CommandRunnerService {
 
   // parse the output, try and find what url the project is running under
   tryGetPort(project: Project, text: string, task: Task) {
-    let matches = text.match(/Local: (.*)\s/);
+    let matches = text.match(/(?:Local|Local URL): (.*)\s/);
+    console.log(matches);
     if (matches && matches.length === 2) {
       project.__meta__.url = matches[1];
       task.estimation = null;
