@@ -1,7 +1,5 @@
 import {TaskManager, Task} from '../task-manager/index';
 import {TaskManagerModal}  from '../task-manager/task-manager-modal';
-import {Tour}              from '../../main/components/tour';
-import {Main}              from '../../main/main';
 import {autoinject, DialogService, DialogController, ApplicationState, SelectedProject} from '../../shared/index';
 
 @autoinject()
@@ -12,9 +10,7 @@ export class DeveloperModal {
               private taskManager: TaskManager,
               private dialogService: DialogService,
               private selectedProject: SelectedProject,
-              private main: Main,
-              private state: ApplicationState,
-              private tour: Tour) {
+              private state: ApplicationState) {
     this.project = selectedProject.current;
   }
 
@@ -58,11 +54,5 @@ export class DeveloperModal {
 
   throwError() {
     throw new Error('something terrible has happened');
-  }
-
-  startTour() {
-    this.main.returnToPluginList();
-    this.dialogController.cancel();
-    this.tour.start();
   }
 }
