@@ -17,27 +17,27 @@ describe('TaskDetail', () => {
 
   it('disables autoscroll when task has finished', () => {
     sut.task = new Task(null);
+    sut.autoScroll = true;
     sut.logger = <any>{
-      autoScroll: true,
       scrollDown: jasmine.createSpy('scrollDown')
     };
     ea.publish('TaskFinished', { task: sut.task });
-    expect(sut.logger.autoScroll).toBe(false);
+    expect(sut.autoScroll).toBe(false);
     expect(sut.logger.scrollDown).toHaveBeenCalled();
   });
 
   it('enables autoscroll only when selected task has not finished', () => {
+    sut.autoScroll = false;
     sut.task = new Task(null);
     sut.task.finished = false;
-    sut.logger = <any>{};
     sut.taskChanged();
-    expect(sut.logger.autoScroll).toBe(true);
-    
+    expect(sut.autoScroll).toBe(true);
+
+    sut.autoScroll = true;
     sut.task = new Task(null);
     sut.task.finished = true;
-    sut.logger = <any>{};
     sut.taskChanged();
-    expect(sut.logger.autoScroll).toBeFalsy();
+    expect(sut.autoScroll).toBeFalsy();
   });
 
   it('uses correct format for elapsed', () => {

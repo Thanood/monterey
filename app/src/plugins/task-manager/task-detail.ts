@@ -8,6 +8,7 @@ export class TaskDetail {
   @bindable task;
   logger: Logger;
   interval: any;
+  autoScroll: boolean;
   subscription: Subscription;
 
   constructor(private taskManager: TaskManager,
@@ -21,10 +22,10 @@ export class TaskDetail {
 
   taskFinished() {
     // disable autoscroll as soon as the task finishes
-    if (this.logger.autoScroll) {
+    if (this.autoScroll) {
       // but scroll down first, so the last message is visible
       this.logger.scrollDown();
-      this.logger.autoScroll = false;
+      this.autoScroll = false;
     }
   }
 
@@ -34,9 +35,7 @@ export class TaskDetail {
   }
 
   taskChanged() {
-    if (this.logger) {
-      this.logger.autoScroll = !this.task.finished;
-    }
+    this.autoScroll = this.task && !this.task.finished;
     this.updateElapsed();
   }
 

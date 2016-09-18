@@ -152,9 +152,10 @@ export class TaskManagerModal {
     }
   }
 
-  showFinishedChanged(newVal, oldVal) {
+  async showFinishedChanged(newVal, oldVal) {
     if (oldVal !== undefined) {
       this.settings.setValue('show-finished-tasks', this.showFinished);
+      await this.settings.save();
     }
     this.updateTree();
   }
