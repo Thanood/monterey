@@ -1,0 +1,41 @@
+<template>
+  <require from="./workflow-creator"></require>
+  <require from="../../shared/splitter"></require>
+
+  <div class="plugin-title-container">
+    <button class="returnToPluginListBtn btn btn-primary" click.delegate="goBack()" i18n="back"></button>
+    <h1 class="plugin-title">Workflow editor</h1>
+    <p class="project-title-plugin" if.bind="selectedProject.current.name">${selectedProject.current.name}</p>
+  </div>
+  <div class="plugin-content-container workflow-screen">
+    <p>
+      A workflow is a set of commands that get executed in a particular order
+    </p>
+
+    <div class="buttons">
+      <button class="btn btn-primary" click.delegate="createNew()">Create new workflow</button>
+      <button class="btn btn-primary" click.delegate="remove()" show.bind="selectedTree">Remove workflow</button>
+      <button class="btn btn-primary" click.delegate="addAsTile()" show.bind="selectedTree">${selectedTree && !selectedTree.tile ? 'Show as' : 'Don\'t show'} tile</button>
+      <button class="btn btn-primary" click.delegate="save()">Save</button>
+    </div>
+
+    <div class="overview" show.bind="trees.length > 0">
+      <div class="left" splitter="handle.bind: splitter">
+        <ul class="list-group">
+          <li class="list-group-item ${selectedTree === tree ? 'selected': ''}"
+              repeat.for="tree of trees"
+              click.delegate="selectedTree = tree">
+            <p>${tree.name}</p>
+          </li>
+        </ul>
+      </div>
+
+      <div ref="splitter"></div>
+
+      <div class="right" show.bind="selectedTree">
+        <h4 class="title">${selectedTree.name}</h4>
+        <workflow-creator tree.bind="selectedTree" view-model.ref="creator"></workflow-creator>
+      </div>
+    </div>
+  </div>
+</template>

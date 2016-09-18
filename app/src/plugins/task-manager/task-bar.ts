@@ -30,9 +30,7 @@ export class TaskBar {
   }
 
   @withModal(TaskManagerModal, function () { return { project: this.selectedProject.current }; })
-  onClick() {
-    this.ea.publish('RefreshTiles');
-  }
+  onClick() {}
 
   propertyChanged() {
     this.running = this.taskManager.tasks.filter(x => x.status === 'running').length;

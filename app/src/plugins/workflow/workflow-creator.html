@@ -1,0 +1,21 @@
+<template>
+  <require from="../task-manager/command-editor"></require>
+  <require from="./workflow-detail"></require>
+
+  <div class="left">
+    <button class="btn btn-primary" click.delegate="addCommand()">Add command</button>
+    <button class="btn btn-primary" click.delegate="removeCommand()">Remove command</button>
+
+    <div ref="treeDiv"></div>
+  </div>
+
+  <div class="right">
+    <h3 class="title">Workflow</h3>
+    <workflow-detail workflow.bind="tree"></workflow-detail>
+
+    <hr>
+
+    <h3 class="title" show.bind="selectedCommand">Selected command</h3>
+    <command-editor show.bind="selectedCommand" command.bind="selectedCommand"></command-editor>
+  </div>
+</template>

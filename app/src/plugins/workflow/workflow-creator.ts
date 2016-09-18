@@ -1,10 +1,9 @@
 import {bindable}    from 'aurelia-framework';
-import {CommandTree} from '../workflow/command-tree';
-import {Command}     from './command';
+import {CommandTree} from './command-tree';
+import {Command}     from '../task-manager/command';
 
 export class WorkflowCreator {
   @bindable tree: CommandTree;
-  workflow: CommandTree;
   treeDiv: Element;
   jsTree: JSTree;
   selectedCommand: Command;
@@ -17,7 +16,6 @@ export class WorkflowCreator {
 
   treeChanged() {
     this.selectedCommand = null;
-    this.workflow = null;
 
     this.refreshTree();
   }
@@ -118,10 +116,8 @@ export class WorkflowCreator {
       if (selected) {
         if (selected.command) {
           this.selectedCommand = selected.command;
-          this.workflow = null;
         } else {
           this.selectedCommand = null;
-          this.workflow = selected;
         }
       }
     });

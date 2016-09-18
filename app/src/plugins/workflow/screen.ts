@@ -1,21 +1,21 @@
+import {Main}            from '../../main/main';
 import {CommandTree}     from '../workflow/command-tree';
 import {WorkflowCreator} from './workflow-creator';
-import {ApplicationState, Notification, Project, bindable, autoinject} from '../../shared/index';
+import {ApplicationState, Notification, SelectedProject, bindable, autoinject} from '../../shared/index';
 
 @autoinject()
-export class WorkflowTab {
-  @bindable state: { project: Project };
+export class Screen {
   trees: Array<CommandTree> = [];
   selectedTree: CommandTree;
   creator: WorkflowCreator;
 
   constructor(private appState: ApplicationState,
-              private notification: Notification) {}
+              private main: Main,
+              private notification: Notification,
+              private selectedProject: SelectedProject) {}
 
-  stateChanged() {
-    if (!this.state) return;
-
-    let project = this.state.project;
+  attached() {
+    let project = this.selectedProject.current;
     this.trees = JSON.parse(JSON.stringify(project.workflowTrees));
 
     if (this.trees.length > 0) {
@@ -54,7 +54,7 @@ export class WorkflowTab {
   async save() {
     this.creator.refreshTree();
 
-    this.state.project.workflowTrees = JSON.parse(JSON.stringify(this.trees));
+    this.selectedProject.current.workflowTrees = JSON.parse(JSON.stringify(this.trees));
 
     await this.appState._save();
     this.notification.success('Saved');
@@ -75,5 +75,9 @@ export class WorkflowTab {
     await this.appState._save();
 
     this.notification.success(`Tile ${this.selectedTree.tile ? 'enabled'  : 'disabled'} for ${this.selectedTree.name}`);
+  }
+
+  goBack() {
+    this.main.returnToPluginList();
   }
 }

@@ -1,4 +1,4 @@
-workflow-tab {
+.workflow-screen {
   display: flex;
   flex-direction: column;
   height: 100%;
@@ -8,18 +8,18 @@ workflow-tab {
     margin-bottom: 3px;
   }
 
-  .overview {
+  > .overview {
     display: flex;
     flex-direction: row;
     height: 100%;
 
-    .left {
+    > .left {
       width: 180px;
       height: 100%;
       flex: 0 0 auto;
     }
 
-    .right {
+    > .right {
       height: 100%;
       flex: 1 1 auto;
       padding-left: 20px;
@@ -28,5 +28,15 @@ workflow-tab {
 
   .list-group {
     overflow: auto;
+  }
+}
+
+workflow-creator {
+  display: flex;
+  flex-direction: row;
+
+  .right {
+    flex: 1 1 auto;
+    margin-left: 5px;
   }
 }
