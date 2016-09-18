@@ -18,7 +18,7 @@ export class Plugin extends BasePlugin {
     for (let x of workflows) {
       tiles.push({
         name: `workflow-${x.name}`,
-        model: { title: x.name, tree: new CommandTree(x) },
+        model: { title: x.name, tree: x },
         viewModel: 'plugins/workflow/tile'
       });
     }

@@ -45,6 +45,22 @@
         height: 100%;
       }
 
+      category {
+        > .container {
+          display: flex;
+          flex-direction: row;
+          width: 100%;
+
+          .left, .right {
+            flex: 1 1 auto;
+          }
+
+          .right {
+            margin-left: 5px;
+          }
+        }
+      }
+
       .favorite-command-tile {
         .top {
           display: flex;

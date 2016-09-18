@@ -1,0 +1,34 @@
+<template>
+  <require from="../commands/command-editor"></require>
+
+  <p show.bind="cat.error">${cat.error}</p>
+
+  <div if.bind="cat.loading">
+    <p>Loading tasks... first time will take longer</p>
+    <i class="fa fa-spinner fa-spin fa-3x"></i>
+  </div>
+
+  <div class="container">
+    <div class="left">
+      <!-- list of commands for a service -->
+      <ul class="list-group" style="width: 100%; max-height: 380px; overflow: auto;">
+        <li class="list-group-item ${command === cat.selectedCommand ? 'selected' : ''}"
+            click.delegate="select(command)"
+            dblclick.delegate="parent.startCommand(cat.selectedCommand)"
+            repeat.for="command of cat.commands">
+            <p>${command.displayName}</p>
+        </li>
+      </ul>
+    </div>
+
+    <div class="right">
+      <command-editor command.bind="curr"></command-editor>
+
+      <!-- possible actions -->
+      <button class="btn btn-primary" click.delegate="parent.startCommand(curr)" disabled.bind="!curr">Start this task</button>
+      <button class="btn btn-primary" click.delegate="parent.favoriteCommand(curr)" disabled.bind="!curr">Favorite this task</button>
+    </div>
+  </div>
+
+  <button class="btn btn-primary" click.delegate="parent.loadCommands(project, cat, cat.service, false)">Refresh tasks</button>
+</template>

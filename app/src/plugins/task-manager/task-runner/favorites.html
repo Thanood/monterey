@@ -1,5 +1,6 @@
 <template>
   <require from="../commands/command-editor"></require>
+  <require from="../../../shared/converters/limit-text-size"></require>
 
   <button class="btn btn-primary" click.delegate="addingNew = !addingNew">Add new</button>
 
@@ -15,7 +16,7 @@
         repeat.for="favorite of items">
         <div class="top"
              click.delegate="start({ command: favorite })">
-          <p>${favorite.displayName}</p>
+          <p title.bind="favorite.displayName">${favorite.displayName | limitTextSize: 20}</p>
         </div>
         <div class="bottom" click.delegate="remove({ favorite: favorite})">
           <p>Remove</p>

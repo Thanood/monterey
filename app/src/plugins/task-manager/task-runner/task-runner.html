@@ -1,5 +1,6 @@
 <template>
   <require from="./favorites"></require>
+  <require from="./category"></require>
 
   <h3 class="title" style="margin: 0">${current.project.name} - Tasks</h3>
 
@@ -18,6 +19,7 @@
       </div>
 
       <favorites items.bind="current.favorites"
+                 show.bind="!loading"
                  start.call="startCommand(command)"
                  remove.call="removeFavorite(favorite)"
                  favorite-command.call="favoriteCommand(command)"></favorites>
@@ -26,27 +28,7 @@
     </div>
 
     <div repeat.for="category of current.categories" role="tabpanel" class="tab-pane" id="${category.title}">
-      <p show.bind="category.error">${category.error}</p>
-
-      <div if.bind="category.loading">
-        <p>Loading tasks... first time will take longer</p>
-        <i class="fa fa-spinner fa-spin fa-3x"></i>
-      </div>
-
-      <!-- list of commands for a service -->
-      <ul class="list-group" style="width: 100%; max-height: 380px; overflow: auto;">
-        <li class="list-group-item ${command === category.selectedCommand ? 'selected' : ''}"
-            click.delegate="category.selectedCommand = command"
-            dblclick.delegate="startCommand(category, command)"
-            repeat.for="command of category.commands">
-            <p>${command.description}</p>
-        </li>
-      </ul>
-
-      <!-- possible actions -->
-      <button class="btn btn-primary" click.delegate="startCommand(category.selectedCommand)" disabled.bind="!category.selectedCommand">Start this task</button>
-      <button class="btn btn-primary" click.delegate="favoriteCommand(category.selectedCommand)" disabled.bind="!category.selectedCommand">Favorite this task</button>
-      <button class="btn btn-primary" click.delegate="loadCommands(current.project, category, false)">Refresh tasks</button>
+      <category cat.bind="category" project.bind="current.project"></category>
     </div>
   </div>
 </template>

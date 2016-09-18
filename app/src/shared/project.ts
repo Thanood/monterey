@@ -60,9 +60,16 @@ export class Project {
       };
     }
 
+    // we store commands and commandtrees in the application state
+    // which get loaded as objects, not as class instances
     for (let x = 0; x < this.favoriteCommands.length; x++) {
       let cmd = this.favoriteCommands[x];
-      this.favoriteCommands[x] = new Command(cmd.command, cmd.args, cmd.description);
+      this.favoriteCommands[x] = new Command().fromObject(cmd);
+    }
+
+    for (let x = 0; x < this.workflowTrees.length; x++) {
+      let tree = this.workflowTrees[x];
+      this.workflowTrees[x] = new CommandTree().fromObject(tree);
     }
   }
 

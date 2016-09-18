@@ -17,7 +17,9 @@ export class CommandTree {
   name?: string = 'Workflow';
   children?: Array<CommandTree> = [];
 
-  constructor(obj: any) {
+  constructor(obj?: any) {
+    if (!obj) return;
+
     Object.assign(this, obj);
 
     if (!this.id) {
@@ -34,6 +36,28 @@ export class CommandTree {
     this._addSteps(phase, project, commandRunner, this, null);
 
     return workflow;
+  }
+
+  fromObject(t: CommandTree) {
+    function useCommands(tree: CommandTree) {
+      if (tree.command) {
+        tree.command = new Command().fromObject(tree.command);
+      }
+
+      if (!tree.children || tree.children.length === 0) {
+        return;
+      }
+
+      for (let x = 0; x < tree.children.length; x++) {
+        useCommands(tree.children[x]);
+      }
+    }
+
+    Object.assign(this, t);
+
+    useCommands(this);
+
+    return this;
   }
 
   _addSteps(phase: Phase, project: Project, commandRunner: CommandRunner, tree: CommandTree, parentStep: Step) {

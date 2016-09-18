@@ -60,6 +60,7 @@ export class TaskRunner {
       let service = services[x];
       let category = {
         title: service.title,
+        service: service,
         commands: []
       };
 
@@ -88,7 +89,6 @@ export class TaskRunner {
 
     try {
       category.commands = await service.getCommands(project, useCache);
-      category.commands.forEach(command => command.description = `${command.command} ${command.args.join(' ')}`);
     } catch (e) {
       category.error = `Failed to load tasks for this project (${e.message}). Did you install the npm modules?`;
     }
@@ -123,6 +123,11 @@ export class TaskRunner {
   }
 
   favoriteCommand(command: Command) {
+    if (!command.command) {
+      this.notification.error('All commands need to have a name');
+      return;
+    }
+
     this.current.favorites.push(command);
 
     this.current.project.favoriteCommands.push(command);
