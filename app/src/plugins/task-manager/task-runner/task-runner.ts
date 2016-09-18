@@ -95,7 +95,6 @@ export class TaskRunner {
       category.commands.forEach(command => {
         if (state.project.favoriteCommands.indexOf(command.description) > -1) {
           favorites.push({
-            category: category,
             command: command
           });
         }
@@ -123,13 +122,8 @@ export class TaskRunner {
     }
   }
 
-  startCommand(category: Category, command?: Command) {
-    if (!command && !category.selectedCommand) {
-      this.notification.warning('No task has been selected');
-      return;
-    }
-
-    let task = this.commandRunner.run(this.current.project, command || category.selectedCommand);
+  startCommand(command: Command) {
+    let task = this.commandRunner.run(this.current.project, command);
 
     this.taskManager.addTask(this.current.project, task);
     this.taskManager.startTask(task);
@@ -145,13 +139,12 @@ export class TaskRunner {
     this.current.favorites.splice(index, 1);
   }
 
-  favoriteCommand(category: Category) {
+  favoriteCommand(command: Command) {
     this.current.favorites.push({
-      category: category,
-      command: category.selectedCommand
+      command: command
     });
 
-    this.current.project.favoriteCommands.push(category.selectedCommand.description);
+    this.current.project.favoriteCommands.push(`${command.command} ${command.args.join(' ')}`);
     this.state._save();
     this.notification.success('Added the task to favorites');
   }
@@ -167,7 +160,6 @@ export interface Category {
 }
 
 export interface Favorite {
-  category: Category;
   command: Command;
 }
 

@@ -10,6 +10,7 @@ describe('CommandEditor', () => {
   });
 
   it('correctly splits command string into command with args', () => {
+    sut.command = { command: '', args: [] };
     sut.commandStr = 'gulp watch';
     sut.persist();
     expect(sut.command.command).toBe('gulp');

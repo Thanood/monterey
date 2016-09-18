@@ -2,18 +2,11 @@ import {bindable} from 'aurelia-framework';
 import {Command}  from './command';
 
 export class CommandEditor {
-  @bindable command: Command = {
-    command: '',
-    args: []
-  };
+  @bindable command: Command;
   @bindable commandStr: string;
 
   commandChanged() {
     if (!this.command) {
-      this.command = {
-        command: '',
-        args: []
-      };
       this.commandStr = '';
     } else {
       this.commandStr = `${this.command.command} ${this.command.args.join(' ')}`;
@@ -25,6 +18,8 @@ export class CommandEditor {
   }
 
   persist() {
+    if (!this.command) return;
+
     this.command.command = '';
     this.command.args = [];
 

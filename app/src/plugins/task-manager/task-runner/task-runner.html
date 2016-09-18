@@ -18,7 +18,10 @@
       </div>
 
       <p show.bind="!loading && current.favorites.length === 0">No favorites</p>
-      <favorites items.bind="current.favorites" start.call="startCommand(category, command)" remove.call="removeFavorite(favorite)"></favorites>
+      <favorites items.bind="current.favorites"
+                 start.call="startCommand(command)"
+                 remove.call="removeFavorite(favorite)"
+                 favorite-command.call="favoriteCommand(command)"></favorites>
     </div>
 
     <div repeat.for="category of current.categories" role="tabpanel" class="tab-pane" id="${category.title}">
@@ -40,8 +43,8 @@
       </ul>
 
       <!-- possible actions -->
-      <button class="btn btn-primary" click.delegate="startCommand(category)" disabled.bind="!category.selectedCommand">Start this task</button>
-      <button class="btn btn-primary" click.delegate="favoriteCommand(category)" disabled.bind="!category.selectedCommand">Favorite this task</button>
+      <button class="btn btn-primary" click.delegate="startCommand(category.selectedCommand)" disabled.bind="!category.selectedCommand">Start this task</button>
+      <button class="btn btn-primary" click.delegate="favoriteCommand(category.selectedCommand)" disabled.bind="!category.selectedCommand">Favorite this task</button>
       <button class="btn btn-primary" click.delegate="loadCommands(current.project, category, false)">Refresh tasks</button>
     </div>
   </div>

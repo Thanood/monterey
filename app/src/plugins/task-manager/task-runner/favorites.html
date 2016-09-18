@@ -14,8 +14,8 @@
     <div class="tile default-tile favorite-command-tile without-icon"
         repeat.for="favorite of items">
         <div class="top"
-             click.delegate="start({ category: favorite.category, command: favorite.command })">
-          <p>${favorite.command.description}</p>
+             click.delegate="start({ command: favorite.command })">
+          <p>${favorite.command.command} ${favorite.command.args.join(' ')}</p>
         </div>
         <div class="bottom" click.delegate="remove({ favorite: favorite})">
           <p>Remove</p>
