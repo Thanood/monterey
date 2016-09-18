@@ -49,6 +49,11 @@ export class WorkflowCreator {
   getSelectedTree(): CommandTree {
     let selection = this.jsTree.get_selected();
     let selectedNode = this.jsTree.get_node(selection[0]);
+
+    if (!selectedNode || !selectedNode.a_attr) {
+      return null;
+    }
+
     return this.nodes[selectedNode.a_attr.index];
   }
 

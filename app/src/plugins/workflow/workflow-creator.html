@@ -10,12 +10,12 @@
   </div>
 
   <div class="right">
-    <h3 class="title">Workflow</h3>
-    <workflow-detail workflow.bind="tree"></workflow-detail>
+    <h4 class="title" show.bind="selectedCommand">Command</h4>
+    <command-editor show.bind="selectedCommand" command.bind="selectedCommand"></command-editor>
 
     <hr>
 
-    <h3 class="title" show.bind="selectedCommand">Selected command</h3>
-    <command-editor show.bind="selectedCommand" command.bind="selectedCommand"></command-editor>
+    <h4 class="title">Workflow</h4>
+    <workflow-detail workflow.bind="tree"></workflow-detail>
   </div>
 </template>
