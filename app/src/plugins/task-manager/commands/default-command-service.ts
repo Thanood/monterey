@@ -1,5 +1,5 @@
-import {Project, OS, FS} from '../../shared/index';
-import {Task, CommandRunnerService, Command} from '../task-manager/index';
+import {Project, OS, FS} from '../../../shared/index';
+import {Task, CommandRunnerService, Command} from '../../task-manager/index';
 
 export class CommandService implements CommandRunnerService {
   title = 'Generic';

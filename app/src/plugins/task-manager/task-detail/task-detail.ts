@@ -1,7 +1,7 @@
-import {bindable, autoinject, EventAggregator, Subscription} from '../../shared/index';
-import {Task}        from './task';
-import {TaskManager} from './task-manager';
-import {Logger}      from './components/logger';
+import {Task}        from '../task';
+import {TaskManager} from '../task-manager';
+import {Logger}      from '../components/logger';
+import {bindable, autoinject, EventAggregator, Subscription} from '../../../shared/index';
 
 @autoinject()
 export class TaskDetail {

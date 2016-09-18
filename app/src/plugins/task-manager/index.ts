@@ -2,10 +2,10 @@ import {PluginManager, Settings, autoinject} from '../../shared/index';
 import {BasePlugin} from '../base-plugin';
 export * from './task';
 export * from './task-manager';
-export * from './task-runner';
-export * from './command';
-export * from './command-runner';
-export * from './command-runner-service';
+export * from './task-runner/task-runner';
+export * from './commands/command';
+export * from './commands/command-runner';
+export * from './commands/command-runner-service';
 
 export function configure(aurelia) {
   let pluginManager = <PluginManager>aurelia.container.get(PluginManager);

@@ -3,7 +3,7 @@ import {Detection}     from './detection';
 import {Task}          from '../task-manager/index';
 import {Workflow}      from '../workflow/workflow';
 import {Step}          from '../workflow/step';
-import {CommandRunner} from '../task-manager/command-runner';
+import {CommandRunner} from '../task-manager/commands/command-runner';
 import {Project, PluginManager, autoinject} from '../../shared/index';
 
 export function configure(aurelia) {

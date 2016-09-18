@@ -3,7 +3,7 @@ import {BasePlugin}            from '../plugins/base-plugin';
 import {Task}                  from '../plugins/task-manager/task';
 import {Workflow}              from '../plugins/workflow/workflow';
 import {Phase}                 from '../plugins/workflow/phase';
-import {CommandRunnerService}  from '../plugins/task-manager/command-runner-service';
+import {CommandRunnerService}  from '../plugins/task-manager/commands/command-runner-service';
 import {Project}               from './project';
 import {ApplicationState}      from './application-state';
 

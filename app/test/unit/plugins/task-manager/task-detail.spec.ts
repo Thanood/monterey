@@ -1,4 +1,4 @@
-import {TaskDetail} from '../../../../src/plugins/task-manager/task-detail';
+import {TaskDetail} from '../../../../src/plugins/task-manager/task-detail/task-detail';
 import {Task} from '../../../../src/plugins/task-manager/task';
 import {Container} from 'aurelia-framework';
 import {EventAggregator} from 'aurelia-event-aggregator';

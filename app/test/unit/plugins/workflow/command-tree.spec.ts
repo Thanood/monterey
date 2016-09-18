@@ -1,5 +1,5 @@
 import {CommandTree} from '../../../../src/plugins/workflow/command-tree';
-import {CommandRunner} from '../../../../src/plugins/task-manager/command-runner';
+import {CommandRunner} from '../../../../src/plugins/task-manager/index';
 import {Container}   from 'aurelia-dependency-injection';
 import {Project}     from '../../../../src/shared/project';
 

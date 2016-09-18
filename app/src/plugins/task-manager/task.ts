@@ -1,5 +1,5 @@
 import {Project, OS, FS} from '../../shared/index';
-import {Command}         from './command';
+import {Command}         from './commands/command';
 import 'moment';
 
 export class Task implements Task {

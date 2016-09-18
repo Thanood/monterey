@@ -1,9 +1,9 @@
 import {CommandRunnerService} from './command-runner-service';
 import {CommandRunnerLocator} from './command-runner-locator';
-import {TaskManager}          from './task-manager';
-import {Task}                 from './task';
 import {Command}              from './command';
-import {PluginManager, Project, autoinject} from '../../shared/index';
+import {TaskManager}          from '../task-manager';
+import {Task}                 from '../task';
+import {PluginManager, Project, autoinject} from '../../../shared/index';
 
 /**
  * The CommandRunner creates a Task from a Command ('gulp watch')
