@@ -23,11 +23,11 @@ export class Plugin extends BasePlugin {
       });
     }
 
-    tiles.push({
-      name: 'workflow-editor',
-      viewModel: 'plugins/workflow/editor-tile',
-      model: null
-    });
+    // tiles.push({
+    //   name: 'workflow-editor',
+    //   viewModel: 'plugins/workflow/editor-tile',
+    //   model: null
+    // });
 
     return tiles;
   }
