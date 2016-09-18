@@ -1,6 +1,5 @@
 import {WorkflowCreator} from '../../../../src/plugins/workflow/workflow-creator';
-import {Command}         from '../../../../src/plugins/task-manager/command';
-import {CommandTree}     from '../../../../src/plugins/workflow/command-tree';
+import {Command, CommandTree} from '../../../../src/plugins/task-manager/index';
 import {Container}       from 'aurelia-framework';
 
 describe('Workflow creator tree formatter', () => {
@@ -169,7 +168,7 @@ describe('Workflow creator', () => {
       children: [
         target
       ]
-    })
+    });
     expect(sut.getParent(target)).toBe(sut.tree);
   });
 
@@ -184,7 +183,7 @@ describe('Workflow creator', () => {
           ]
         })
       ]
-    })
+    });
     expect(sut.getParent(child)).toBe(parent);
   });
 });

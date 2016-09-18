@@ -4,7 +4,7 @@ import {Workflow}               from '../workflow/workflow';
 import {Step}                   from '../workflow/step';
 import {Errors}                 from '../errors/errors';
 import {CommandService}         from './command-service';
-import {Task, CommandRunner}    from '../task-manager/index';
+import {Task, CommandRunner, Command, CommandTree}    from '../task-manager/index';
 import {PluginManager, Project, Notification, OS, FS, Logger, LogManager, autoinject} from '../../shared/index';
 
 const logger = <Logger>LogManager.getLogger('dotnet plugin');
@@ -41,14 +41,11 @@ export class Plugin extends BasePlugin {
 
     if (project.isUsingDotnetCore()) {
       let workflow = project.addOrCreateWorkflow('Run');
-      workflow.children.push(<any>{
-        command: {
-          command: 'dotnet',
-          args: ['run']
-        }
-      });
+      workflow.children.push(new CommandTree({
+        command: new Command('dotnet', ['run'])
+      }));
 
-      project.favoriteCommands.push({ command: 'dotnet', args: ['run'] });
+      project.favoriteCommands.push(new Command('dotnet', ['run']));
     }
   }
 
@@ -69,11 +66,7 @@ export class Plugin extends BasePlugin {
       // making sure that dotnet is installed
       await OS.exec('dotnet --help', { cwd: cwd });
 
-      tasks.push(this.commandRunner.run(project, {
-        description: 'dotnet restore',
-        command: 'dotnet',
-        args: ['restore']
-      }));
+      tasks.push(this.commandRunner.run(project, new Command('dotnet', ['restore'])));
     } catch (err) {
       this.notification.error('Error during "dotnet --help", did you install dotnet core?');
       logger.error(err);
@@ -103,17 +96,13 @@ export class Plugin extends BasePlugin {
       if (!dotnetInstalled) return;
 
       if (!workflow.getPhase('environment').stepExists('dotnet restore')) {
-        workflow.getPhase('environment').addStep(new Step('dotnet restore', 'dotnet restore', this.commandRunner.run(project, {
-          command: 'dotnet',
-          args: ['restore']
-        })));
+        let cmd = new Command('dotnet', ['restore']);
+        workflow.getPhase('environment').addStep(new Step('dotnet restore', 'dotnet restore', this.commandRunner.run(project, cmd)));
       }
 
       if (!workflow.getPhase('run').stepExists('dotnet run')) {
-        workflow.getPhase('run').addStep(new Step('dotnet run', 'dotnet run', this.commandRunner.run(project, {
-          command: 'dotnet',
-          args: ['run']
-        })));
+        let cmd = new Command('dotnet', ['run']);
+        workflow.getPhase('run').addStep(new Step('dotnet run', 'dotnet run', this.commandRunner.run(project, cmd)));
       }
     }
 

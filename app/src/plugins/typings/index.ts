@@ -3,7 +3,7 @@ import {Detection}     from './detection';
 import {Task}          from '../task-manager/index';
 import {Workflow}      from '../workflow/workflow';
 import {Step}          from '../workflow/step';
-import {CommandRunner} from '../task-manager/commands/command-runner';
+import {CommandRunner, Command} from '../task-manager/index';
 import {Project, PluginManager, autoinject} from '../../shared/index';
 
 export function configure(aurelia) {
@@ -35,7 +35,7 @@ export class Plugin extends BasePlugin {
     await this.detection.findTypingsJSONFile(project);
 
     if (project.isUsingTypings()) {
-      project.favoriteCommands.push({ command: 'node', args: ['node_modules/typings/dist/bin.js', 'install'] });
+      project.favoriteCommands.push(new Command('node', ['node_modules/typings/dist/bin.js', 'install'], 'typings install'));
     }
   }
 
@@ -52,11 +52,8 @@ export class Plugin extends BasePlugin {
     let phase = workflow.getPhase('environment');
 
     if (!phase.stepExists('typings install')) {
-      phase.addStep(new Step('typings install', 'typings install', this.commandRunner.run(project, {
-        description: 'typings install',
-        command: 'node',
-        args: ['node_modules/typings/dist/bin.js', 'install']
-      })));
+      let cmd = new Command('node', ['node_modules/typings/dist/bin.js', 'install'], 'typings install');
+      phase.addStep(new Step('typings install', 'typings install', this.commandRunner.run(project, cmd)));
     }
   }
 }

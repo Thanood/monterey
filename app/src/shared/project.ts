@@ -1,6 +1,6 @@
 import {Task}        from '../plugins/task-manager/task';
-import {CommandTree} from '../plugins/workflow/command-tree';
 import {Command}     from '../plugins/task-manager/commands/command';
+import {CommandTree} from '../plugins/task-manager/commands/command-tree';
 
 export interface Project {
   packageJSONPath?: string;
@@ -58,6 +58,11 @@ export class Project {
       this.__meta__.taskmanager = {
         tasks: []
       };
+    }
+
+    for (let x = 0; x < this.favoriteCommands.length; x++) {
+      let cmd = this.favoriteCommands[x];
+      this.favoriteCommands[x] = new Command(cmd.command, cmd.args, cmd.description);
     }
   }
 

@@ -1,9 +1,16 @@
 import {CommandRunnerService} from './command-runner-service';
 
-export interface Command {
+export class Command {
   id?: number;
-  description?: string;
-  command: string;
-  args: Array<string>;
-  service?: CommandRunnerService;
+
+  constructor(public command: string,
+              public args: Array<string> = [],
+              public description?: string) {}
+
+  get displayName() {
+    if (this.description) {
+      return this.description;
+    }
+    return this.command + ' ' + this.args.join(' ');
+  }
 }

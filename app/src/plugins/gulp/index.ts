@@ -4,7 +4,7 @@ import {CommandService} from './command-service';
 import {Workflow}       from '../workflow/workflow';
 import {Step}           from '../workflow/step';
 import {PluginManager, Project, autoinject} from '../../shared/index';
-import {Task, CommandRunner, CommandRunnerService} from '../task-manager/index';
+import {Task, CommandRunner, Command, CommandTree, CommandRunnerService} from '../task-manager/index';
 
 export function configure(aurelia) {
   let pluginManager = <PluginManager>aurelia.container.get(PluginManager);
@@ -36,15 +36,12 @@ export class Plugin extends BasePlugin {
 
     if (project.isUsingGulp()) {
       let workflow = project.addOrCreateWorkflow('Run');
-      workflow.children.unshift(<any>{
-        command: {
-          command: 'gulp',
-          args: ['watch']
-        }
-      });
+      workflow.children.unshift(new CommandTree({
+        command: new Command('gulp', ['watch'])
+      }));
 
-      project.favoriteCommands.push({ command: 'gulp', args: ['watch'] });
-      project.favoriteCommands.push({ command: 'gulp', args: ['build'] });
+      project.favoriteCommands.push(new Command('gulp', ['watch']));
+      project.favoriteCommands.push(new Command('gulp', ['build']));
     }
   }
 
@@ -61,10 +58,7 @@ export class Plugin extends BasePlugin {
     let runPhase = workflow.getPhase('run');
 
     if (!runPhase.stepExists('gulp watch')) {
-      runPhase.addStep(new Step('gulp watch', 'gulp watch', this.commandRunner.run(project, {
-        command: 'gulp',
-        args: ['watch']
-      })));
+      runPhase.addStep(new Step('gulp watch', 'gulp watch', this.commandRunner.run(project, new Command('gulp', ['watch']))));
     }
   }
 

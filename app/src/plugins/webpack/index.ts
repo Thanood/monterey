@@ -1,10 +1,10 @@
 import {Detection}           from './detection';
 import {BasePlugin}          from '../base-plugin';
-import {Task, CommandRunner} from '../task-manager/index';
 import {Workflow}            from '../workflow/workflow';
 import {Step}                from '../workflow/step';
 import {CommandService}      from './command-service';
-import {Project, PluginManager, autoinject} from '../../shared/index';
+import {Command, CommandTree, CommandRunner} from '../task-manager/index';
+import {Project, Task,  PluginManager, autoinject} from '../../shared/index';
 
 export function configure(aurelia) {
   let pluginManager = <PluginManager>aurelia.container.get(PluginManager);
@@ -36,14 +36,11 @@ export class Plugin extends BasePlugin {
 
     if (project.isUsingWebpack()) {
       let workflow = project.addOrCreateWorkflow('Run');
-      workflow.children.push(<any>{
-        command: {
-          command: 'npm',
-          args: ['start']
-        }
-      });
+      workflow.children.push(new CommandTree({
+        command: new Command('npm', ['start'])
+      }));
 
-      project.favoriteCommands.push({ command: 'npm', args: ['start'] });
+      project.favoriteCommands.push(new Command('npm', ['start']));
     }
   }
 
@@ -60,10 +57,7 @@ export class Plugin extends BasePlugin {
     let runPhase = workflow.getPhase('run');
 
     if (!runPhase.stepExists('npm start')) {
-      runPhase.addStep(new Step('npm start', 'npm start', this.commandRunner.run(project, {
-        command: 'npm',
-        args: ['start']
-      })));
+      runPhase.addStep(new Step('npm start', 'npm start', this.commandRunner.run(project, new Command('npm', ['start']))));
     }
   }
 

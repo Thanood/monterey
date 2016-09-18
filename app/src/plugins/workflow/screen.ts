@@ -1,5 +1,5 @@
 import {Main}            from '../../main/main';
-import {CommandTree}     from '../workflow/command-tree';
+import {CommandTree}     from '../task-manager/index';
 import {WorkflowCreator} from './workflow-creator';
 import {ApplicationState, Notification, SelectedProject, bindable, autoinject} from '../../shared/index';
 

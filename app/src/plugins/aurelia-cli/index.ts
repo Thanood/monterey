@@ -1,9 +1,9 @@
 import {Detection}           from './detection';
 import {CommandService}      from './command-service';
 import {BasePlugin}          from '../base-plugin';
-import {CommandRunner, Task} from '../task-manager/index';
 import {Workflow}            from '../workflow/workflow';
 import {Step}                from '../workflow/step';
+import {CommandRunner, Task, Command, CommandTree} from '../task-manager/index';
 import {PluginManager, Project, Logger, FS, autoinject, LogManager} from '../../shared/index';
 
 const logger = <Logger>LogManager.getLogger('aurelia-cli-plugin');
@@ -38,15 +38,12 @@ export class Plugin extends BasePlugin {
 
     if (project.isUsingAureliaCLI()) {
       let workflow = project.addOrCreateWorkflow('Run');
-      workflow.children.push(<any>{
-        command: {
-          command: 'au',
-          args: ['run', '--watch']
-        }
-      });
+      workflow.children.push(new CommandTree({
+        command: new Command('au', ['run', '--watch'])
+      }));
 
-      project.favoriteCommands.push({ command: 'au', args: ['run'] });
-      project.favoriteCommands.push({ command: 'au', args: ['run', '--watch'] });
+      project.favoriteCommands.push(new Command('au', ['run']));
+      project.favoriteCommands.push(new Command('au', ['run', '--watch']));
     }
   }
 
@@ -63,10 +60,8 @@ export class Plugin extends BasePlugin {
     let phase = workflow.getPhase('run');
 
     if (!phase.stepExists('au run --watch')) {
-      phase.addStep(new Step('au run --watch', 'au run --watch', this.commandRunner.run(project, {
-        command: 'au',
-        args: ['run --watch']
-      })));
+      let command = new Command('au', ['run --watch']);
+      phase.addStep(new Step('au run --watch', 'au run --watch', this.commandRunner.run(project, command)));
     }
   }
 

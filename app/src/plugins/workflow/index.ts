@@ -1,5 +1,5 @@
 import {BasePlugin}  from '../base-plugin';
-import {CommandTree} from './command-tree';
+import {CommandTree} from '../task-manager/index';
 import {Project, PluginManager, autoinject} from '../../shared/index';
 
 export function configure(aurelia) {

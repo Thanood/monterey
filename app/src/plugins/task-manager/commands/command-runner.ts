@@ -16,7 +16,7 @@ export class CommandRunner {
 
   run(project: Project, command: Command) {
     let service = this.serviceLocator.getHandler(project, command);
-    let task = new Task(project, `${command.command} ${command.args.join(' ')}`);
+    let task = new Task(project, command.displayName);
 
     task.execute = this._executor(task, service, project, command);
     task.stoppable = true;

@@ -5,6 +5,7 @@ export * from './task-manager';
 export * from './task-runner/task-runner';
 export * from './commands/command';
 export * from './commands/command-runner';
+export * from './commands/command-tree';
 export * from './commands/command-runner-service';
 
 export function configure(aurelia) {

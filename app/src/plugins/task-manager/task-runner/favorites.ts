@@ -6,18 +6,12 @@ export class Favorites {
   @bindable start;
   @bindable remove;
   @bindable favoriteCommand;
-  newCommand: Command = {
-    command: '',
-    args: []
-  };
+  newCommand: Command = new Command('');
   addingNew: boolean;
 
   addFavorite() {
     this.favoriteCommand({ command: this.newCommand });
-    this.newCommand = {
-      command: '',
-      args: []
-    };
+    this.newCommand = new Command('');
     this.addingNew = false;
   }
 }

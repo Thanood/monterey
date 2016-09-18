@@ -2,8 +2,7 @@ import {Main}        from '../../main/main';
 import {Workflow}    from './workflow';
 import {Phase}       from './phase';
 import {Step}        from './step';
-import {CommandTree} from './command-tree';
-import {TaskManager, CommandRunner, Task} from '../task-manager/index';
+import {TaskManager, CommandRunner, CommandTree, Task} from '../task-manager/index';
 import {SelectedProject, Notification, autoinject, useView} from '../../shared/index';
 
 @useView('plugins/default-tile.html')

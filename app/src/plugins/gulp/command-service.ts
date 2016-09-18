@@ -24,7 +24,7 @@ export class CommandService implements CommandRunnerService {
     let commands: Array<Command> = [];
 
     tasks.forEach(task => {
-      commands.push({ command: 'gulp', args: [task], service: this });
+      commands.push(new Command('gulp', [task]));
     });
 
     return commands;

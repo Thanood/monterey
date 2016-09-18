@@ -15,7 +15,7 @@
         repeat.for="favorite of items">
         <div class="top"
              click.delegate="start({ command: favorite })">
-          <p>${favorite.command} ${favorite.args.join(' ')}</p>
+          <p>${favorite.displayName}</p>
         </div>
         <div class="bottom" click.delegate="remove({ favorite: favorite})">
           <p>Remove</p>

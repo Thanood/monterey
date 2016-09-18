@@ -1,8 +1,11 @@
-import {Workflow} from './workflow';
-import {Phase}    from './phase';
-import {Step}     from './step';
-import {Task, CommandRunner, TaskManager, Command} from '../task-manager/index';
-import {Project, RandomNumber} from '../../shared/index';
+import {Workflow}      from '../../workflow/workflow';
+import {Phase}         from '../../workflow/phase';
+import {Step}          from '../../workflow/step';
+import {Command}       from './command';
+import {CommandRunner} from './command-runner';
+import {Task}          from '../task';
+import {TaskManager}   from '../task-manager';
+import {Project, RandomNumber} from '../../../shared/index';
 
 /**
  * A serializable collection of Commands that can be converted into a Workflow

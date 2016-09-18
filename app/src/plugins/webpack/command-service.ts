@@ -6,7 +6,7 @@ export class CommandService implements CommandRunnerService {
 
   async getCommands(project: Project, useCache: boolean): Promise<Array<Command>> {
     return [
-      { command: 'npm', args: ['start'], service: this }
+      new Command('npm', ['start'])
     ];
   }
 

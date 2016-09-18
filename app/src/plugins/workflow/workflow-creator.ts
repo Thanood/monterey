@@ -1,6 +1,5 @@
-import {bindable}    from 'aurelia-framework';
-import {CommandTree} from './command-tree';
-import {Command}     from '../task-manager/commands/command';
+import {bindable} from 'aurelia-framework';
+import {Command, CommandTree} from '../task-manager/index';
 
 export class WorkflowCreator {
   @bindable tree: CommandTree;

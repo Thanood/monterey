@@ -6,8 +6,8 @@ export class CommandService implements CommandRunnerService {
 
   async getCommands(project: Project, useCache: boolean): Promise<Array<Command>> {
     return [
-      { command: 'dotnet', args: ['restore'], service: this },
-      { command: 'dotnet', args: ['run'], service: this }
+      new Command('dotnet', ['restore']),
+      new Command('dotnet', ['run'])
     ];
   }
 
