@@ -37,3 +37,9 @@
     list-style-type: none;
   }
 }
+
+.install-workflow > ol { padding-left: 0; }
+.install-workflow, .install-workflow ol { counter-reset: item }
+.install-workflow label { font-weight: normal; margin-bottom: 0; }
+.install-workflow li { display: block; }
+.install-workflow .counter:before { content: counters(item, ".") " "; counter-increment: item }
