@@ -1,5 +1,4 @@
 import {bindable} from 'aurelia-framework';
-import {Favorite} from './task-runner';
 import {Command}  from '../commands/command';
 
 export class Favorites {

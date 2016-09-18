@@ -9,8 +9,6 @@ import {Project, ApplicationState, Notification, bindable, autoinject} from '../
 export class TaskRunner {
   cache: Array<TaskRunnerState> = [];
   current: TaskRunnerState;
-
-  // @bindable project: Project;
   favoriteTab: Element;
   favoriteTabBody: Element;
   loading: boolean;
@@ -33,16 +31,6 @@ export class TaskRunner {
       this.current = this.cache.find(x => x.project === project);
       this.current.categories.splice(0);
       this.current.favorites.splice(0);
-    }
-
-    if (!project.favoriteCommands) {
-      project.favoriteCommands = [
-        'gulp watch',
-        'au run --watch',
-        'npm start',
-        'dotnet restore',
-        'gulp prepare-release'
-      ];
     }
 
     if (this.favoriteTab) {
@@ -68,14 +56,16 @@ export class TaskRunner {
     let state = this.current;
     let services = await this.commandRunner.getServices(state.project);
 
-    services.forEach(service => categories.push({
-      title: service.title,
-      service: service,
-      commands: []
-    }));
+    for (let x = 0; x < services.length; x++) {
+      let service = services[x];
+      let category = {
+        title: service.title,
+        commands: []
+      };
 
-    for (let x = 0; x < categories.length; x++) {
-      await this.loadCommands(state.project, categories[x], true);
+      await this.loadCommands(state.project, category, service, true);
+
+      categories.push(category);
     }
 
     state.categories = categories;
@@ -86,23 +76,10 @@ export class TaskRunner {
   }
 
   loadFavorites(state: TaskRunnerState) {
-    if (!state.project.favoriteCommands) return;
-
-    let categories = state.categories;
-    let favorites = state.favorites;
-
-    categories.forEach((category: Category) => {
-      category.commands.forEach(command => {
-        if (state.project.favoriteCommands.indexOf(command.description) > -1) {
-          favorites.push({
-            command: command
-          });
-        }
-      });
-    });
+    state.favorites = state.project.favoriteCommands.filter(x => x.command);
   }
 
-  async loadCommands(project: Project, category: Category, useCache: boolean) {
+  async loadCommands(project: Project, category: Category, service: CommandRunnerService, useCache: boolean) {
     category.commands.splice(0);
     category.selectedCommand = null;
     category.error = '';
@@ -110,7 +87,7 @@ export class TaskRunner {
     category.selectedCommand = null;
 
     try {
-      category.commands = await category.service.getCommands(project, useCache);
+      category.commands = await service.getCommands(project, useCache);
       category.commands.forEach(command => command.description = `${command.command} ${command.args.join(' ')}`);
     } catch (e) {
       category.error = `Failed to load tasks for this project (${e.message}). Did you install the npm modules?`;
@@ -131,20 +108,25 @@ export class TaskRunner {
     this.notification.success('Task has been started');
   }
 
-  removeFavorite(favorite: Favorite) {
+  removeFavorite(command: Command) {
     if (!confirm('Are you sure?')) {
       return;
     }
-    let index = this.current.favorites.indexOf(favorite);
+    let index = this.current.project.favoriteCommands.indexOf(command);
+    this.current.project.favoriteCommands.splice(index, 1);
+
+    index = this.current.favorites.indexOf(command);
     this.current.favorites.splice(index, 1);
+
+    this.state._save();
+    this.notification.success('Removed from favorites');
   }
 
   favoriteCommand(command: Command) {
-    this.current.favorites.push({
-      command: command
-    });
+    this.current.favorites.push(command);
 
-    this.current.project.favoriteCommands.push(`${command.command} ${command.args.join(' ')}`);
+    this.current.project.favoriteCommands.push(command);
+
     this.state._save();
     this.notification.success('Added the task to favorites');
   }
@@ -159,12 +141,8 @@ export interface Category {
   title: string;
 }
 
-export interface Favorite {
-  command: Command;
-}
-
 export interface TaskRunnerState {
   project: Project;
   categories: Array<Category>;
-  favorites: Array<Favorite>;
+  favorites: Array<Command>;
 }

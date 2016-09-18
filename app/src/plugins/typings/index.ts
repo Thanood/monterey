@@ -33,6 +33,10 @@ export class Plugin extends BasePlugin {
 
   async evaluateProject(project: Project) {
     await this.detection.findTypingsJSONFile(project);
+
+    if (project.isUsingTypings()) {
+      project.favoriteCommands.push({ command: 'node', args: ['node_modules/typings/dist/bin.js', 'install'] });
+    }
   }
 
   async getProjectInfoSections(project: Project) {

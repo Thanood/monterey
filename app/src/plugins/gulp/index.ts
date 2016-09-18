@@ -42,6 +42,9 @@ export class Plugin extends BasePlugin {
           args: ['watch']
         }
       });
+
+      project.favoriteCommands.push({ command: 'gulp', args: ['watch'] });
+      project.favoriteCommands.push({ command: 'gulp', args: ['build'] });
     }
   }
 

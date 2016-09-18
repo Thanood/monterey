@@ -9,7 +9,7 @@ export class CommandEditor {
     if (!this.command) {
       this.commandStr = '';
     } else {
-      this.commandStr = `${this.command.command} ${this.command.args.join(' ')}`;
+      this.commandStr = `${this.command.command} ${this.command.args.join(' ')}`.trim();
     }
   }
 

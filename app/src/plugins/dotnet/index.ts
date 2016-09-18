@@ -47,6 +47,8 @@ export class Plugin extends BasePlugin {
           args: ['run']
         }
       });
+
+      project.favoriteCommands.push({ command: 'dotnet', args: ['run'] });
     }
   }
 

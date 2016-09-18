@@ -44,6 +44,9 @@ export class Plugin extends BasePlugin {
           args: ['run', '--watch']
         }
       });
+
+      project.favoriteCommands.push({ command: 'au', args: ['run'] });
+      project.favoriteCommands.push({ command: 'au', args: ['run', '--watch'] });
     }
   }
 

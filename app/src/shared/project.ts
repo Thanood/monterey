@@ -1,5 +1,6 @@
 import {Task}        from '../plugins/task-manager/task';
 import {CommandTree} from '../plugins/workflow/command-tree';
+import {Command}     from '../plugins/task-manager/commands/command';
 
 export interface Project {
   packageJSONPath?: string;
@@ -45,7 +46,7 @@ export interface Project {
 export class Project {
   appLaunchers?: Array<any> = [];
   workflowTrees: Array<CommandTree> = [];
-  favoriteCommands: Array<string>;
+  favoriteCommands: Array<Command> = [];
 
   constructor(project = {}) {
     Object.assign(this, project);

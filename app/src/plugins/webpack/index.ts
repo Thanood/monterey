@@ -42,6 +42,8 @@ export class Plugin extends BasePlugin {
           args: ['start']
         }
       });
+
+      project.favoriteCommands.push({ command: 'npm', args: ['start'] });
     }
   }
 

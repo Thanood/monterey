@@ -17,11 +17,12 @@
         <i class="fa fa-spinner fa-spin fa-3x"></i>
       </div>
 
-      <p show.bind="!loading && current.favorites.length === 0">No favorites</p>
       <favorites items.bind="current.favorites"
                  start.call="startCommand(command)"
                  remove.call="removeFavorite(favorite)"
                  favorite-command.call="favoriteCommand(command)"></favorites>
+
+      <p show.bind="!loading && current.favorites.length === 0">No favorites</p>
     </div>
 
     <div repeat.for="category of current.categories" role="tabpanel" class="tab-pane" id="${category.title}">
