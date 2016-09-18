@@ -8,7 +8,9 @@
 Monterey is an extensible application that provides a graphical user interface for a collection of tools to simplify the creation, configuration and maintenance of Aurelia applications. 
 
 ### What does Monterey look like
-![](http://i.imgur.com/uB72OqT.png)
+
+![image](https://cloud.githubusercontent.com/assets/2712405/18616102/e62fe9b2-7d83-11e6-8a6d-5fec2da95fed.png)
+
 
 More screenshots [here](https://aurelia-ui-toolkits.gitbooks.io/monterey-user-manual/content/)
 

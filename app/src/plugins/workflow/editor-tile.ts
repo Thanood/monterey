@@ -6,6 +6,7 @@ import {autoinject, useView} from '../../shared/index';
 export class Tile {
   title: string = 'Workflows';
   img: string = 'images/workflow-editor.png';
+  tooltip = 'tooltip-workflow-editor';
 
   constructor(private main: Main) {
   }

@@ -12,6 +12,7 @@ export class Tile {
   img: string;
   workflow: Workflow;
   tree: CommandTree;
+  tooltip: string;
 
   constructor(private main: Main,
               private selectedProject: SelectedProject,
@@ -25,6 +26,10 @@ export class Tile {
 
   activate(model) {
     Object.assign(this, model.model);
+
+    if (this.tree.name.toLowerCase() === 'run') {
+      this.tooltip = 'tooltip-workflow-run';
+    }
 
     this.restoreWorkflow();
 
