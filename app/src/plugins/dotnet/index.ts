@@ -56,26 +56,6 @@ export class Plugin extends BasePlugin {
     return [];
   }
 
-  async getPostInstallTasks(project: Project): Promise<Array<Task>> {
-    if (!project.isUsingDotnetCore()) return;
-
-    let tasks = [];
-
-    let cwd = project.packageJSONPath ? FS.getFolderPath(project.packageJSONPath) : project.path;
-    try {
-      // making sure that dotnet is installed
-      await OS.exec('dotnet --help', { cwd: cwd });
-
-      tasks.push(this.commandRunner.run(project, new Command('dotnet', ['restore'])));
-    } catch (err) {
-      this.notification.error('Error during "dotnet --help", did you install dotnet core?');
-      logger.error(err);
-      this.errors.add(err);
-    }
-
-    return tasks;
-  }
-
   async resolvePostInstallWorkflow(project: Project, workflow: Workflow, pass: number) {
     if (!project.isUsingDotnetCore()) return;
 

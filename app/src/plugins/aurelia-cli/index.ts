@@ -4,7 +4,7 @@ import {BasePlugin}          from '../base-plugin';
 import {Workflow}            from '../workflow/workflow';
 import {Step}                from '../workflow/step';
 import {CommandRunner, Task, Command, CommandTree} from '../task-manager/index';
-import {PluginManager, Project, Logger, FS, autoinject, LogManager} from '../../shared/index';
+import {PluginManager, Project, Logger, Notification, FS, OS, autoinject, LogManager} from '../../shared/index';
 
 const logger = <Logger>LogManager.getLogger('aurelia-cli-plugin');
 
@@ -17,6 +17,7 @@ export function configure(aurelia) {
 @autoinject()
 export class Plugin extends BasePlugin {
   constructor(private detection: Detection,
+              private notification: Notification,
               private commandRunner: CommandRunner) {
     super();
   }
@@ -54,10 +55,19 @@ export class Plugin extends BasePlugin {
     return [];
   }
 
-  async resolvePostInstallWorkflow(project: Project, workflow: Workflow) {
+  async resolvePostInstallWorkflow(project: Project, workflow: Workflow, pass: number) {
     if (!project.isUsingAureliaCLI()) return;
 
     let phase = workflow.getPhase('run');
+
+    if (pass === 1) {
+      try {
+        await OS.exec('au help', { cwd: project.path });
+      } catch (err) {
+        this.notification.error('Error during "au help". Did you install aurelia-cli?');
+        logger.error(err);
+      }
+    }
 
     if (!phase.stepExists('au run --watch')) {
       let command = new Command('au', ['run --watch']);
