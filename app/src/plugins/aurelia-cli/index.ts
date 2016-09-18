@@ -70,7 +70,7 @@ export class Plugin extends BasePlugin {
     }
 
     if (!phase.stepExists('au run --watch')) {
-      let command = new Command('au', ['run --watch']);
+      let command = new Command('au', ['run', '--watch']);
       phase.addStep(new Step('au run --watch', 'au run --watch', this.commandRunner.run(project, command)));
     }
   }
