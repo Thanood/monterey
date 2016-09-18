@@ -2,16 +2,41 @@ import {bindable} from 'aurelia-framework';
 import {Command}  from './command';
 
 export class CommandEditor {
-  @bindable command: Command;
-  @bindable argsString: string;
+  @bindable command: Command = {
+    command: '',
+    args: []
+  };
+  @bindable commandStr: string;
 
   commandChanged() {
-    this.argsString = this.command ? this.command.args.join(' ') : '';
+    if (!this.command) {
+      this.command = {
+        command: '',
+        args: []
+      };
+      this.commandStr = '';
+    } else {
+      this.commandStr = `${this.command.command} ${this.command.args.join(' ')}`;
+    }
   }
 
-  argsStringChanged() {
-    if (this.command) {
-      this.command.args = this.argsString.split(' ');
+  commandStrChanged() {
+    this.persist();
+  }
+
+  persist() {
+    this.command.command = '';
+    this.command.args = [];
+
+    if (this.commandStr.length === 0) {
+      return;
+    }
+
+    let split = this.commandStr.split(' ');
+    this.command.command = split.length > 0 ? split[0] : this.commandStr;
+
+    if (split.length > 1) {
+      this.command.args = split.slice(1, split.length);
     }
   }
 }

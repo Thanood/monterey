@@ -49,7 +49,7 @@
 
       &.cap-first-letter {
         text-transform: inherit;
-        
+
         &:first-letter {
           text-transform: uppercase;
         }
@@ -70,8 +70,27 @@
         height: calc(~'100% - 92px');
         width: calc(~'100% - 5px');
         padding: 10px 0;
-        // tried box shadow, didn't work out
-        // box-shadow: @tile-shadow;
+      }
+
+      .favorite-command-tile {
+        &:hover {
+          background-color: inherit;
+          transition: none;
+        }
+        > .top:hover {
+          background-color: @backdrop-hover;
+          transition: background-color 150ms ease-in;
+        }
+        > .bottom {
+          border-top: 2px solid @accent-backdrop;
+          &:hover {
+            background-color: @remove;
+            transition: background-color 150ms ease-in;
+            p {
+              color: @white;
+            }
+          }
+        }
       }
     }
 

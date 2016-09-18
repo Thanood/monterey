@@ -137,6 +137,14 @@ export class TaskRunner {
     this.notification.success('Task has been started');
   }
 
+  removeFavorite(favorite: Favorite) {
+    if (!confirm('Are you sure?')) {
+      return;
+    }
+    let index = this.current.favorites.indexOf(favorite);
+    this.current.favorites.splice(index, 1);
+  }
+
   favoriteCommand(category: Category) {
     this.current.favorites.push({
       category: category,
@@ -149,7 +157,7 @@ export class TaskRunner {
   }
 }
 
-interface Category {
+export interface Category {
   service?: CommandRunnerService;
   commands: Array<Command>;
   selectedCommand?: Command;
@@ -158,12 +166,12 @@ interface Category {
   title: string;
 }
 
-interface Favorite {
+export interface Favorite {
   category: Category;
   command: Command;
 }
 
-interface TaskRunnerState {
+export interface TaskRunnerState {
   project: Project;
   categories: Array<Category>;
   favorites: Array<Favorite>;

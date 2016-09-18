@@ -1,7 +1,7 @@
 <template>
-  <h3 class="title" style="margin: 0">${current.project.name} - Tasks</h3>
+  <require from="./favorites"></require>
 
-  <!-- <p>Start a new task:</p> -->
+  <h3 class="title" style="margin: 0">${current.project.name} - Tasks</h3>
 
   <!-- Nav tabs -->
   <ul class="nav nav-tabs" ref="nav" role="tablist">
@@ -18,14 +18,7 @@
       </div>
 
       <p show.bind="!loading && current.favorites.length === 0">No favorites</p>
-      <!-- tiles for favorite commands -->
-      <div class="tiles-row">
-        <div class="tile default-tile without-icon"
-            click.delegate="startCommand(favorite.category, favorite.command)"
-            repeat.for="favorite of current.favorites">
-            <p>${favorite.command.description}</p>
-        </div>
-      </div>
+      <favorites items.bind="current.favorites" start.call="startCommand(category, command)" remove.call="removeFavorite(favorite)"></favorites>
     </div>
 
     <div repeat.for="category of current.categories" role="tabpanel" class="tab-pane" id="${category.title}">

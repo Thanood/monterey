@@ -1,0 +1,25 @@
+<template>
+  <require from="../commands/command-editor"></require>
+
+  <button class="btn btn-primary" click.delegate="addingNew = !addingNew">Add new</button>
+
+  <div show.bind="addingNew">
+    <command-editor command.two-way="newCommand"></command-editor>
+    <button class="btn btn-primary" click.delegate="addFavorite()">Add</button>
+  </div>
+
+  <!-- tiles for favorite commands -->
+  <!-- top part of the tile starts command, bottom part removes it -->
+  <div class="tiles-row">
+    <div class="tile default-tile favorite-command-tile without-icon"
+        repeat.for="favorite of items">
+        <div class="top"
+             click.delegate="start({ category: favorite.category, command: favorite.command })">
+          <p>${favorite.command.description}</p>
+        </div>
+        <div class="bottom" click.delegate="remove({ favorite: favorite})">
+          <p>Remove</p>
+        </div>
+    </div>
+  </div>
+</template>
