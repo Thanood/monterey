@@ -2,7 +2,7 @@
   <require from="../../../shared/converters/moment"></require>
   <require from="../components/logger"></require>
 
-  <h3 class="title cap-first-letter" style="margin: 0">${task.title}</h3>
+  <h3 class="title cap-first-letter" style="margin-top: 0">${task.title}</h3>
   <button if.bind="task.stoppable && !task.finished" class="btn btn-primary" click.delegate="stopTask(task)" i18n="end-task"></button>
   <p class="task-summary">
     <span>

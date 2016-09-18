@@ -1,29 +1,32 @@
 <template>
-  <h3>Miscellaneous</h3>
-  <div class="row" repeat.for="setting of _settings">
-    <div class="form-group col-md-6" show.bind="setting.visible != false">
-      <div if.bind="setting.type === 'boolean'">
-        <label class="control-label">
-          <input type="checkbox" checked.bind="setting.value">
-          <span>${setting.title}</span>
-        </label>
-      </div>
-      <div if.bind="setting.type === 'string'">
-        <div if.bind="!setting.options">
-          <label class="control-label">${setting.title}</label><br>
-          <input type="text" class="form-control" value.bind="setting.value">
+  <div class="row">
+    <div class="col-md-6">
+      <h3>Miscellaneous</h3>
+
+      <div class="row" repeat.for="setting of _settings" show.bind="setting.visible != false">
+        <div class="form-group" if.bind="setting.type === 'boolean'">
+          <label class="control-label">
+            <input type="checkbox" checked.bind="setting.value">
+            <span>${setting.title}</span>
+          </label>
         </div>
-        <div if.bind="setting.options">
-          <label class="control-label">${setting.title}</label><br>
-          <select class="form-control" value.bind="setting.value">
-            <option repeat.for="option of setting.options" model.bind="option.value">
-              ${option.display}
-            </option>
-          </select>
+        <div class="form-group" if.bind="setting.type === 'string'">
+          <div if.bind="!setting.options">
+            <label class="control-label">${setting.title}</label><br>
+            <input type="text" class="form-control" value.bind="setting.value">
+          </div>
+          <div if.bind="setting.options">
+            <label class="control-label">${setting.title}</label><br>
+            <select class="form-control" value.bind="setting.value">
+              <option repeat.for="option of setting.options" model.bind="option.value">
+                ${option.display}
+              </option>
+            </select>
+          </div>
         </div>
       </div>
+
+      <button click.delegate="save()" class="btn btn-primary" i18n="save"></button>
     </div>
   </div>
-
-  <button click.delegate="save()" class="btn btn-primary" i18n="save"></button>
 </template>

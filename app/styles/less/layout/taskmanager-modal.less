@@ -36,17 +36,37 @@
     flex: 1 1 auto;
     margin-left: 15px;
 
+    task-detail {
+      display: block;
+
+      .task-summary {
+        padding: 0;
+        margin: 0;
+      }
+    }
+
     task-runner {
       display: flex;
       flex-direction: column;
       height: 100%;
+
+      .nav-tabs {
+        margin-top: 15px;
+        width: calc(~'100% - 3px');
+      }
+
+      .tab-content {
+        height: calc(~'100% - 92px');
+        width: calc(~'100% - 5px');
+        padding: 10px 0;
+      }
 
       .tab-content, .tab-pane {
         height: 100%;
       }
 
       category {
-        > .container {
+        > .flex-container {
           display: flex;
           flex-direction: row;
           width: 100%;

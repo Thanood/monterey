@@ -1,18 +1,23 @@
 <template>
   <i class="fa fa-spinner fa-spin fa-3x" if.bind="loading"></i>
-  <h3>Manage NPM</h3>
-  <div class="form-group">
-    <label class="control-label">
-      <span>NPM Registry</span>
-      <input type="text" class="form-control" value.bind="npmRegistry">
-    </label>
-  </div>
-  <div class="form-group">
-    <label class="control-label">
-      <input type="checkbox" checked.bind="npmStrictSSL">
-      <span>Strict-SSL</span>
-    </label>
-  </div>
+  <div class="row">
+    <div class="col-md-6">
+      <h3>Manage NPM</h3>
 
-  <button click.delegate="save()" class="btn btn-primary" i18n="save"></button>
+      <div class="form-group">
+        <label class="control-label">
+          <span>NPM Registry</span>
+        </label>
+        <input type="text" class="form-control" value.bind="npmRegistry">
+      </div>
+      <div class="form-group">
+        <label class="control-label">
+          <input type="checkbox" checked.bind="npmStrictSSL">
+          <span>Strict-SSL</span>
+        </label>
+      </div>
+
+      <button click.delegate="save()" class="btn btn-primary" i18n="save"></button>
+    </div>
+  </div>
 </template>
