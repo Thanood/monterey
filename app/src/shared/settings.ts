@@ -10,6 +10,9 @@ export interface Setting {
   options?: Array<{ value: any, display: string }>;
 }
 
+/**
+ * The Settings class knows of all available settings in Monterey, and the value of these settings.
+ */
 @autoinject()
 export class Settings {
   settings: Array<Setting> = [];

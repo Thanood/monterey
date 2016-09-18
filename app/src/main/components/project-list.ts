@@ -3,6 +3,13 @@ import {ContextMenu} from 'context-menu/context-menu';
 import {withModal, ApplicationState, Project, Notification, SelectedProject,
   ProjectManager, I18N, EventAggregator, Subscription, autoinject, bindable} from '../../shared/index';
 
+/**
+ * The project list, shown at the left side of the main screen,
+ * contains all projects that are registered with Monterey.
+ * Clicking on projects out of this list will result in a change
+ * of the "SelectedProject", which all parts of Monterey uses
+ * to figure out what project is selected.
+ */
 @autoinject()
 export class ProjectList {
   @bindable disabled = false;

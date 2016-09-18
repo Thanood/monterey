@@ -6,6 +6,10 @@ import {Setting, SettingValue}     from './settings';
 
 const logger = <Logger>LogManager.getLogger('application-state');
 
+/**
+ * The `ApplicationState` is what's stored in the session (localStorage). Is is also restored on application start.
+ * The `__meta__` property is __not__ saved to session, so this object can be used to store "temporary" data
+ */
 export class ApplicationState {
 
   gitAuthorization: string;
@@ -23,7 +27,7 @@ export class ApplicationState {
   __meta__: any = {};
 
   /**
-  * restores the application state from session
+  * Restores the application state from session
   */
   async _loadStateFromSession() {
     Object.assign(this, await SESSION.get(this._getStateIdentifier()));
@@ -45,20 +49,25 @@ export class ApplicationState {
     logger.info('State saved');
   }
 
-  // by using the path as identifier we can have a different state for dev and actual use
+  /**
+   * Gets the unique identifier of the session
+   * by using the path as identifier we can have a different state for dev and actual use
+   */
   _getStateIdentifier() {
     let id = `state-${FS.getRootDir()}`;
 
-    // remove semver from the path. 
-    // we want the session to be kept when updating 
+    // remove semver from the path.
+    // we want the session to be kept when updating
     id = id.replace(/\bv?(?:0|[1-9]\d*)\.(?:0|[1-9]\d*)\.(?:0|[1-9]\d*)(?:-[\da-z\-]+(?:\.[\da-z\-]+)*)?(?:\+[\da-z\-]+(?:\.[\da-z\-]+)*)?\b/ig, '');
 
     // electron-json-storage does not handle special characters well
     return id.replace(/[`~!@#$%^&*()_|+=?;:'",.<>\{\}\[\]\\\/]/gi, '');
   }
 
-  // JSON.stringify does not take getter properties into account
-  // which sometimes lead to properties not being persisted into the session
+  /**
+   * JSON.stringify does not take getter properties into account
+   * which sometimes lead to properties not being persisted into the session
+   */
   _normalize(obj) {
     let normalized = {};
     let ignoreKeys = ['__meta__'];

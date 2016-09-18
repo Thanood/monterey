@@ -3,8 +3,16 @@ import {CommandTree} from '../plugins/workflow/command-tree';
 
 export interface Project {
   packageJSONPath?: string;
+
+  /**
+   * What is the project called? Shown in the ProjectList
+   */
   name?: string;
   installNPM?: boolean;
+
+  /**
+   * The root path of the project
+   */
   path: string;
 
   gulpfile?: string;
@@ -19,13 +27,21 @@ export interface Project {
   configJsPath?: string;
   jspmDefinition?: string;
 
-  // array of tile names, allows for reordering of tiles
+  /*
+   * array of tile identifiers, allows for reordering of tiles
+   */
   tiles?: Array<string>;
 
-  // won't be save in session
+  /**
+   * Won't be save in session, can be used to hold temporary data
+   */
   __meta__: any;
 }
 
+/**
+ * A Project (in its most basic form) is an object with a `path` which is the root path of the project.
+ * Often the Project contains everything Monterey knows about a project's setup
+ */
 export class Project {
   appLaunchers?: Array<any> = [];
   workflowTrees: Array<CommandTree> = [];

@@ -1,6 +1,10 @@
 import * as dragula from 'dragula';
 import {PluginManager, Project, ApplicationState, SelectedProject, autoinject, bindable, EventAggregator, TaskQueue} from '../../shared/index';
 
+/**
+ * This custom element gathers and renders tiles. It also uses dragula.js to
+ * enable drag and drop support for these tiles
+ */
 @autoinject()
 export class Tiles {
   tiles = [];

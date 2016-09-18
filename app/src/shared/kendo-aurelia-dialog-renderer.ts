@@ -2,20 +2,24 @@ import {transient} from 'aurelia-dependency-injection';
 import {DOM}       from 'aurelia-framework';
 import {DialogController, Renderer} from 'aurelia-dialog';
 
+/**
+ * The KendoAureliaDialogRenderer is an adapter for the aurelia-dialog, rendering a Kendo dialog
+ * instead of the default dialog of aurelia-dialog
+ */
 @transient()
 export class KendoAureliaDialogRenderer implements Renderer {
-    /**
-     * Gets an anchor for the ViewSlot to insert a view into.
-     * @returns A DOM element.
-     */
+  /**
+   * Gets an anchor for the ViewSlot to insert a view into.
+   * @returns A DOM element.
+   */
   getDialogContainer() {
     return DOM.createElement('div');
   }
 
   /**
-     * Displays the dialog.
-     * @returns Promise A promise that resolves when the dialog has been displayed.
-     */
+   * Displays the dialog.
+   * @returns Promise A promise that resolves when the dialog has been displayed.
+   */
   showDialog(dialogController: any) {
     let options = dialogController.settings.options;
     let aiDialog = jQuery(dialogController.slot.anchor).find('ai-dialog');
@@ -49,9 +53,9 @@ export class KendoAureliaDialogRenderer implements Renderer {
   }
 
   /**
-     * Hides the dialog.
-     * @returns Promise A promise that resolves when the dialog has been hidden.
-     */
+   * Hides the dialog.
+   * @returns Promise A promise that resolves when the dialog has been hidden.
+   */
   hideDialog(dialogController: any) {
 
     dialogController.slot.detached();

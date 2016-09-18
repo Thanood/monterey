@@ -6,6 +6,10 @@ import {ValidationController} from 'aurelia-validation';
 import {Notification}         from '../shared/index';
 import {FS}                   from 'monterey-pal';
 
+/**
+ * The ProjectName screen asks the user how the project should be named.
+ * It also checks whether or not the target folder already exists.
+ */
 @inject(NewInstance.of(ValidationController), BindingEngine, Notification)
 export class ProjectName {
   state;

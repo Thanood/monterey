@@ -3,7 +3,9 @@ import {LogManager} from 'aurelia-framework';
 
 const logger = LogManager.getLogger('workflow');
 
-// the workflow is the engine behind the wizard
+/**
+ * The workflow is the engine behind the wizard. It walks through a JSON file (activities.json) using next/previous actions
+ */
 export class Workflow {
   currentStep = <IStep>{
     id: 0,

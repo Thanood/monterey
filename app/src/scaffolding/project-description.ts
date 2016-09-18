@@ -2,6 +2,10 @@ import {autoinject}       from 'aurelia-framework';
 import {IStep}            from './istep';
 import {ScaffoldProject}  from './scaffold-project';
 
+/**
+ * The ProjectDescription screen shows what options the user selected
+ * in the wizard. This is the last chance for users to go back and make changes.
+ */
 @autoinject()
 export class ProjectDescription {
   state;

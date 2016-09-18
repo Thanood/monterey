@@ -2,6 +2,10 @@ import {autoinject}   from 'aurelia-framework';
 import {FS, ELECTRON} from 'monterey-pal';
 import {Settings}     from './settings';
 
+/**
+ * The FileSystemLogger is responsible for buffering log messages, and persisting
+ * the buffer to the filesystem. Every 10 seconds the buffer is persisted, only if the buffer is not empty.
+ */
 @autoinject()
 export class FileSystemLogger {
   logFolder: string;

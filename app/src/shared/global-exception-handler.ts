@@ -1,6 +1,10 @@
 import {LogManager}                      from 'aurelia-framework';
 import {Errors}                          from '../plugins/errors/errors';
 
+/**
+ * The GlobalExceptionHandler is responsible for catching global (uncaught) errors. It adds the errors to the Errors class
+ * which is used as "source" to render errors on the screen.
+ */
 export class GlobalExceptionHandler {
   constructor(aurelia) {
     let errors = <Errors>aurelia.container.get(Errors);

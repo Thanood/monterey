@@ -1,5 +1,8 @@
 import {ApplicationState, bindable, autoinject} from '../../shared/index';
 
+/**
+ * This custom element is used to start "tours" (intro.js)
+ */
 @autoinject()
 export class Tour {
 

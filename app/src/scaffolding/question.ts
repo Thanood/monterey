@@ -3,6 +3,10 @@ import {ValidationRules}               from 'aurelia-validatejs';
 import {ValidationController}          from 'aurelia-validation';
 import {IStep}                         from './istep';
 
+/**
+ * Question is a screen that asks a generic question, and sets the answer
+ * to a specific property of the wizard state
+ */
 @inject(NewInstance.of(ValidationController), Element)
 export class Question {
   @bindable step: IStep;

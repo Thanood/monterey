@@ -3,7 +3,8 @@ import {Logger} from 'aurelia-logging';
 import {FileSystemLogger} from './file-system-logger';
 
 /*
- * An implementation of the Appender interface.
+ * `MontereyLogAppender` is an adapter of aurelia-logging, and logs messages to the console and it
+ * passes msesages to the `FileSystemLogger`
  */
 @autoinject()
 export class MonteryLogAppender {

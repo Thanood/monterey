@@ -4,6 +4,9 @@ import {Notification}    from '../shared/notification';
 import {ProjectManager}  from '../shared/project-manager';
 import {Project}         from '../shared/project';
 
+/**
+* Opens a folder dialog and adds the selected folder as a project
+*/
 @autoinject()
 export class ProjectFinder {
 
@@ -11,9 +14,6 @@ export class ProjectFinder {
               private notification: Notification) {
   }
 
-  /**
-  * Opens a folder dialog and adds the selected folder as a project
-  */
   async openDialog(): Promise<Array<Project> | boolean> {
     let projectFolders: Array<string> = await FS.showOpenDialog({
       title: 'Select a project folder',

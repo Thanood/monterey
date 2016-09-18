@@ -2,6 +2,10 @@ import {autoinject}       from 'aurelia-framework';
 import {Project}          from './project';
 import {ApplicationState} from './application-state';
 
+/**
+ * Singleton object that knows which project is currently selected.
+ * Uses the observer pattern to notify when the selected project changes
+ */
 @autoinject()
 export class SelectedProject {
   current: Project;

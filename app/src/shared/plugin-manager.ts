@@ -7,6 +7,10 @@ import {CommandRunnerService}  from '../plugins/task-manager/command-runner-serv
 import {Project}               from './project';
 import {ApplicationState}      from './application-state';
 
+/**
+ * The PluginManager is aware of all plugins of Monterey. Plugins are required to register
+ * themselves with thte PluginManager, in order to be able to respond to system-wide events.
+ */
 @autoinject()
 export class PluginManager {
 

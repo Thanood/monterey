@@ -4,6 +4,9 @@ import {Logger}                 from 'aurelia-logging';
 
 const logger = <Logger>LogManager.getLogger('notification');
 
+/**
+ * Uses Toastr to render notifications on screen.
+ */
 export class Notification {
   info(message: string, title: string = undefined, overrides: ToastrOptions = undefined) {
     toastr.info(message, title, overrides);

@@ -5,6 +5,9 @@ import {DialogController}     from 'aurelia-dialog';
 import {FS}                   from 'monterey-pal';
 import {Notification}         from './notification';
 
+/**
+ * `FileSelectorModal` is a modal that asks the user to select a file and returns the file path to the caller
+ */
 @inject(DialogController, NewInstance.of(ValidationController), Notification)
 export class FileSelectorModal {
   model;

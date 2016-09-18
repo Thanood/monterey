@@ -4,6 +4,9 @@ import {ValidationController} from 'aurelia-validation';
 import {FS}                   from 'monterey-pal';
 import {IStep}                from './istep';
 
+/**
+ * The ProjectFolder screen asks the user where the project should be created.
+ */
 @inject(NewInstance.of(ValidationController))
 export class ProjectFolder {
   step: IStep;

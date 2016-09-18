@@ -9,6 +9,9 @@ import {EventAggregator}        from 'aurelia-event-aggregator';
 
 const logger = <Logger>LogManager.getLogger('project-manager');
 
+/**
+ * The ProjectManager is responsible for adding and removing projects from the ApplicationState.
+ */
 @autoinject()
 export class ProjectManager {
 

@@ -11,6 +11,11 @@ import {Notification, Project, PluginManager, ProjectManager} from '../shared/in
 
 const logger = <Logger>LogManager.getLogger('PostCreate');
 
+/**
+ * This screen is the last screen of the scaffolding wizard.
+ * It allows users to select which actions (workflow) to perform now that the project
+ * has been created. Often it is used to run commands like "npm install" or "jspm install"
+ */
 @autoinject()
 export class PostCreate {
   state;

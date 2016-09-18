@@ -2,6 +2,9 @@ import {ELECTRON, OS} from 'monterey-pal';
 import {LogManager}   from 'aurelia-framework';
 import {Notification} from './notification';
 
+/**
+ * IPC handles IPC communication with the main process
+ */
 export class IPC {
   constructor(aurelia) {
     let ipcRenderer = ELECTRON.getIpcRenderer();
@@ -22,6 +25,9 @@ export class IPC {
     });
   }
 
+  /**
+   * Sends the `monterey-ready` message to the Main screen. Indicating that the loading process has been completed.
+   */
   notifyMainOfStart() {
     ELECTRON.getIpcRenderer().send('monterey-ready');
   }

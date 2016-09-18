@@ -2,7 +2,7 @@ import {DialogService} from 'aurelia-dialog';
 import {Container}     from 'aurelia-framework';
 
 /**
-* the withModal decorator can decorate a method and will show a modal before the method gets executed
+* The withModal decorator can decorate a method and will show a modal before the method gets executed
 * only when the modal is confirmed (and not cancelled) will the method be called
 */
 export function withModal(modalClass, transformer: (param) => any = null, options: any = null) {

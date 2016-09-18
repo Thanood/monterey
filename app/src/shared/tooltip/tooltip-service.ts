@@ -10,6 +10,9 @@ interface TooltipSettings {
   target?: Element;
 }
 
+/**
+ * https://github.com/Gheoan/aurelia-tooltip was used as inspiration
+ */
 @autoinject()
 export class TooltipService {
   _viewModel: {};

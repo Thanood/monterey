@@ -5,6 +5,10 @@ import {Workflow}             from './workflow';
 import * as activities        from './activities.json!';
 import {ProjectManager, MontereyRegistries, Settings} from '../shared/index';
 
+/**
+ * ScaffoldProject is the wizard in which the scaffolding process takes place. ScaffoldProject
+ * takes care of propogating next/previous events to the scaffolding Workflow
+ */
 @autoinject()
 export class ScaffoldProject {
   state: any = {};

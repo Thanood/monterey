@@ -4,6 +4,11 @@ import {Tiles}                 from './components/tiles';
 import {ProjectList}           from './components/project-list';
 import {SelectedProject, Project, ProjectFinder, withModal, autoinject, singleton} from '../shared/index';
 
+/**
+ * Almost everything in Monterey is inside the Main screen.
+ * Plugins can tell the Main screen to show a particular screen (also called "plugin view")
+ * or they can tell the Main screen to return to the Tiles view
+ */
 @autoinject()
 @singleton()
 export class Main {
