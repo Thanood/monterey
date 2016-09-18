@@ -1,4 +1,4 @@
-import {WorkflowCreator} from '../../../../src/plugins/task-manager/workflow-creator';
+import {WorkflowCreator} from '../../../../src/plugins/workflow/workflow-creator';
 import {Command}         from '../../../../src/plugins/task-manager/command';
 import {CommandTree}     from '../../../../src/plugins/workflow/command-tree';
 import {Container}       from 'aurelia-framework';

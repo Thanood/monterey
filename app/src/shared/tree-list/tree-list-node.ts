@@ -21,6 +21,9 @@ export class TreeListNode {
     if (this.hasChildren()) {
       this.icon = 'glyphicon glyphicon-menu-down';
       this.expanded = true;
+    } else {
+      this.icon = 'glyphicon glyphicon-menu-right';
+      this.expanded = false;
     }
   }
 
@@ -40,10 +43,10 @@ export class TreeListNode {
     this.expanded = !this.expanded;
 
     if (this.expanded === true) {
-      this.icon = 'glyphicon glyphicon-menu-right';
+      this.icon = 'glyphicon glyphicon-menu-down';
     }
     else {
-      this.icon = 'glyphicon glyphicon-menu-down';
+      this.icon = 'glyphicon glyphicon-menu-right';
     }
   }
 }

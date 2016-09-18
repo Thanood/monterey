@@ -22,7 +22,7 @@ class Plugin extends BasePlugin {
       identifier: 'show-finished-tasks',
       title: 'Show finished tasks in taskmanager?',
       type: 'boolean',
-      value: true
+      value: false
     });
   }
   async getTaskBarItems(project) {

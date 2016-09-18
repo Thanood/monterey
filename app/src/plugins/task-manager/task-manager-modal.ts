@@ -123,15 +123,8 @@ export class TaskManagerModal {
 
       let projNode = new TreeListNode(proj.name, childNodes);
       projNode.title = proj.name;
-      projNode.icon = 'glyphicon glyphicon-menu-down';
       projNode.data = { project: proj };
       projNode.bold = true;
-
-      let newTaskNode = new TreeListNode(this.i18n.tr('start-new-task'));
-      newTaskNode.title = this.i18n.tr('start-new-task');
-      newTaskNode.data = { project: proj };
-      newTaskNode.icon = 'glyphicon glyphicon-plus';
-      projNode.children.push(newTaskNode);
 
       if (proj === this.selectedProject) {
         projNode.selected = true;
