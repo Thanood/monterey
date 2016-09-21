@@ -33,6 +33,17 @@ describe('TaskManager', () => {
     expect(task.status).toBe('queued');
   });
 
+  it ('addTask sests finished to false', () => {
+    let project = new Project();
+    let task = new Task(project, 'jspm install', () => Promise.resolve());
+
+    task.finished = true;
+
+    taskManager.addTask(project, task);
+
+    expect(task.finished).toBe(false);
+  });
+
   it ('addTask pushes task on projects meta property', () => {
     let project = new Project();
     let task = new Task(project, 'jspm install', () => Promise.resolve());

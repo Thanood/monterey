@@ -24,6 +24,7 @@ export class TaskManager {
     }
 
     task.status = 'queued';
+    task.finished = false;
     task.project = project;
     if (!task.logs) {
       task.logs = [];
