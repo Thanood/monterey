@@ -1,12 +1,8 @@
-import {inject, observable, NewInstance} from 'aurelia-framework';
-import {ValidationRules}      from 'aurelia-validatejs';
-import {ValidationController} from 'aurelia-validation';
-import {GithubAPI}            from '../../shared/index';
-import {IStep}                from '../istep';
+import {WorkflowContext} from '../workflow-context';
+import {GithubAPI, ValidationController, inject, observable, NewInstance, ValidationRules} from '../../shared/index';
 
 @inject(NewInstance.of(ValidationController), GithubAPI)
 export class UrlInput {
-  step: IStep;
   state;
   slug: string;
   @observable repo: string;
@@ -14,16 +10,16 @@ export class UrlInput {
   subdirectories = [];
   error: string;
   loading: boolean = false;
+  context: WorkflowContext;
 
   constructor(private validation: ValidationController,
               private githubAPI: GithubAPI) {
   }
 
-  async activate(model) {
-    this.state = model.state;
-    this.step = model.step;
-    this.step.execute = () => this.execute();
-    this.step.previous = () => this.previous();
+  async activate(model: { context: WorkflowContext }) {
+    this.context = model.context;
+    this.context.onNext(() => this.next());
+    this.state = model.context.state;
 
     if (this.state.github.repo) {
       this.repo = `https://github.com/${this.state.github.repo}`;
@@ -79,17 +75,9 @@ export class UrlInput {
     this.loading = false;
   }
 
-  async previous() {
-    return {
-      goToPreviousStep: true
-    };
-  }
-
-  async execute() {
+  async next() {
     if (this.validation.validate().length > 0) {
-      return {
-        goToNextStep: false
-      };
+      return false;
     }
 
     if (this.state.github.subfolder) {
@@ -98,8 +86,6 @@ export class UrlInput {
       this.state.name = this.slug.split('/')[1];
     }
 
-    return {
-      goToNextStep: true
-    };
+    return true;
   }
 }

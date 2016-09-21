@@ -3,7 +3,7 @@
 
   <ai-dialog class="scaffold-modal" title="Create new application" width="750">
     <ai-dialog-body>
-      
+
       <i class="fa fa-spinner fa-spin" style="display: block" if.bind="loading"></i>
 
       <div class="left-side" if.bind="!loading" splitter="handle.bind: splitter">
@@ -22,20 +22,22 @@
       <div ref="splitter" if.bind="!loading"></div>
 
       <div class="right-side" if.bind="!loading">
-        <h3 class="main-header-dialog">${title}</h3>
-        <compose view-model.bind="workflow.currentStep.viewModel"
-                model.bind="{ state: state, step: workflow.currentStep }"></compose>
+        <h3 class="main-header-dialog">${context.title}</h3>
+
+        <!-- the reason for binding the model to an object is so that aurelia fires the
+             activate() callback when the current step changes. This doesn't happen when you bind to the same object instance (such as the context which stays the same)-->
+        <compose view-model.bind="workflow.currentStep.viewModel" model.bind="{ context: context, step: context.workflow.currentStep }"></compose>
       </div>
     </ai-dialog-body>
 
     <ai-dialog-footer>
       <div class="align-right">
-        <button class="btn btn-primary" click.trigger="close()" tabindex="3">${closeBtnText}</button>
-        <button class="btn btn-primary" click.trigger="workflow.previous()" if.bind="!workflow.isLast && !workflow.isFirst" tabindex="2">
-          Previous
+        <button class="btn btn-primary" click.trigger="close()" show.bind="context.closeButtonVisible">${context.closeButtonText}</button>
+        <button class="btn btn-primary" click.trigger="previous()" show.bind="context.previousButtonVisible && !context.isFirstScreen">
+          ${context.previousButtonText}
         </button>
-        <button class="btn btn-primary" click.delegate="next()" tabindex="1" if.bind="!workflow.isLast">Next</button>
-      </div>  
+        <button class="btn btn-primary" click.delegate="next()" show.bind="context.nextButtonVisible">${context.nextButtonText}</button>
+      </div>
     </ai-dialog-footer>
   </ai-dialog>
 </template>
