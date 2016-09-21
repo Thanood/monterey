@@ -27,6 +27,8 @@ export class TaskBar {
     this.subscriptions.push(this.ea.subscribe('TaskAdded', () => this.propertyChanged()));
     this.subscriptions.push(this.ea.subscribe('TaskStarted', () => this.propertyChanged()));
     this.subscriptions.push(this.ea.subscribe('TaskFinished', (payload) => this.propertyChanged()));
+
+    this.propertyChanged();
   }
 
   @withModal(TaskManagerModal, function () { return { project: this.selectedProject.current }; })

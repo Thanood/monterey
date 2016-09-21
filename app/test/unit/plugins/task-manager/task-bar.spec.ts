@@ -12,7 +12,9 @@ describe('TaskManager taskbar', () => {
   beforeEach(() => {
     ea = new EventAggregator();
     let container = new Container();
-    this.taskManager = <any>{};
+    this.taskManager = <any>{
+      tasks: []
+    };
     container.registerInstance(TaskManager, this.taskManager);
     container.registerInstance(I18N, {
       tr: (key) => {
@@ -106,5 +108,14 @@ describe('TaskManager taskbar', () => {
     spies.forEach(spy => {
       expect(spy.dispose).toHaveBeenCalled();
     });
+  });
+
+  it('updates taskmanager text on attached', () => {
+    // when tasks were added to the taskmanager before the main screen became visible
+    // the text of the taskmanager toolbar item should be updated immediately
+    let spy = spyOn(sut, 'propertyChanged');
+    sut.attached();
+
+    expect(spy).toHaveBeenCalled();
   });
 });
