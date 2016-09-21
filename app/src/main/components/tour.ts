@@ -1,4 +1,4 @@
-import {ApplicationState, bindable, autoinject} from '../../shared/index';
+import {ApplicationState, EventAggregator, DialogService, Subscription, bindable, autoinject} from '../../shared/index';
 
 /**
  * This custom element is used to start "tours" (intro.js)
@@ -6,14 +6,31 @@ import {ApplicationState, bindable, autoinject} from '../../shared/index';
 @autoinject()
 export class Tour {
 
+  /**
+   * The delay allows aurelia to render all UI elements
+   * before the tour starts
+   */
   delay: number = 1000;
+  subscriptions: Array<Subscription> = [];
 
-  constructor(private state: ApplicationState) {}
+  constructor(private state: ApplicationState,
+              private dialogService: DialogService,
+              private ea: EventAggregator) {}
 
   attached() {
-    if (this.state.__meta__.firstStart) {
-      // delay the tour so that all UI elements are rendered
-      setTimeout(() => this.start(), this.delay);
+    let dialogControllers = (<any>this.dialogService).controllers;
+    let anyDialogsOpen = dialogControllers.length > 0;
+    let startedFirstTime = this.state.__meta__.firstStart;
+
+    if (startedFirstTime) {
+      if (!anyDialogsOpen) {
+        // delay the tour so that all UI elements are rendered
+        setTimeout(() => this.start(), this.delay);
+      } else {
+        this.subscriptions.push(this.ea.subscribeOnce('DialogClosed', () => {
+          this.start();
+        }));
+      }
     }
   }
 
