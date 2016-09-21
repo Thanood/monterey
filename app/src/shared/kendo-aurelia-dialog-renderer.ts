@@ -1,5 +1,6 @@
-import {transient} from 'aurelia-dependency-injection';
-import {DOM}       from 'aurelia-framework';
+import {transient, autoinject}      from 'aurelia-dependency-injection';
+import {EventAggregator}            from 'aurelia-event-aggregator';
+import {DOM}                        from 'aurelia-framework';
 import {DialogController, Renderer} from 'aurelia-dialog';
 
 /**
@@ -7,7 +8,11 @@ import {DialogController, Renderer} from 'aurelia-dialog';
  * instead of the default dialog of aurelia-dialog
  */
 @transient()
+@autoinject()
 export class KendoAureliaDialogRenderer implements Renderer {
+
+  constructor(private ea: EventAggregator) {}
+
   /**
    * Gets an anchor for the ViewSlot to insert a view into.
    * @returns A DOM element.
@@ -64,6 +69,8 @@ export class KendoAureliaDialogRenderer implements Renderer {
     let kendoWindow = jQuery(dialogController.slot.anchor).data('kendoWindow');
 
     kendoWindow.destroy();
+
+    this.ea.publish('DialogClosed', { controller: dialogController});
 
     return Promise.resolve();
   }
