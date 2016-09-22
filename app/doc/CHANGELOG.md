@@ -1,3 +1,15 @@
+<a name="0.4.1"></a>
+## [0.4.1](https://github.com/monterey-framework/monterey/compare/v0.4.0...v0.4.1) (2016-09-22)
+
+
+### Bug Fixes
+
+* **aurelia-cli:** do not offer to run "au run --watch" when aurelia-cli is not installed ([1f056d5](https://github.com/monterey-framework/monterey/commit/1f056d5))
+* **exit-procedure:** reload window after killing processes when in development ([184e64e](https://github.com/monterey-framework/monterey/commit/184e64e))
+* **workflow:** show taskmanager when starting workflow ([c0a18d7](https://github.com/monterey-framework/monterey/commit/c0a18d7))
+
+
+
 <a name="0.4.0"></a>
 # [0.4.0](https://github.com/monterey-framework/monterey/compare/v0.3.2...v0.4.0) (2016-09-21)
 
