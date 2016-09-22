@@ -61,17 +61,19 @@ export class Plugin extends BasePlugin {
     let phase = workflow.getPhase('run');
 
     if (pass === 1) {
+      let cli_installed = true;
       try {
         await OS.exec('au help', { cwd: project.path });
       } catch (err) {
+        cli_installed = false;
         this.notification.error('Error during "au help". Did you install aurelia-cli?');
         logger.error(err);
       }
-    }
 
-    if (!phase.stepExists('au run --watch')) {
-      let command = new Command('au', ['run', '--watch']);
-      phase.addStep(new Step('au run --watch', 'au run --watch', this.commandRunner.run(project, command)));
+      if (!phase.stepExists('au run --watch') && cli_installed) {
+        let command = new Command('au', ['run', '--watch']);
+        phase.addStep(new Step('au run --watch', 'au run --watch', this.commandRunner.run(project, command)));
+      }
     }
   }
 
