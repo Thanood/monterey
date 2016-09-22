@@ -1,6 +1,6 @@
 import {BasePlugin}  from '../base-plugin';
 import {CommandTree} from '../task-manager/index';
-import {Project, PluginManager, autoinject} from '../../shared/index';
+import {Project, Settings, PluginManager, autoinject} from '../../shared/index';
 
 export function configure(aurelia) {
   let pluginManager = <PluginManager>aurelia.container.get(PluginManager);
@@ -10,6 +10,18 @@ export function configure(aurelia) {
 
 @autoinject()
 export class Plugin extends BasePlugin {
+
+  constructor(private settings: Settings) {
+    super();
+
+    this.settings.addSetting({
+      identifier: 'show-taskmanager-on-workflow-start',
+      title: 'Show taskmanager when starting workflow (such as Run workflow)',
+      type: 'boolean',
+      value: true
+    });
+  }
+
   getTiles(project: Project, showIrrelevant) {
     let tiles = [];
 

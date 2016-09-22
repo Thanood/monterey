@@ -2,8 +2,9 @@ import {Main}        from '../../main/main';
 import {Workflow}    from './workflow';
 import {Phase}       from './phase';
 import {Step}        from './step';
+import {TaskManagerModal} from '../task-manager/task-manager-modal';
 import {TaskManager, CommandRunner, CommandTree, Task} from '../task-manager/index';
-import {SelectedProject, Notification, autoinject, useView} from '../../shared/index';
+import {SelectedProject, Settings, DialogService, Notification, autoinject, useView} from '../../shared/index';
 
 @useView('plugins/default-tile.html')
 @autoinject()
@@ -18,6 +19,8 @@ export class Tile {
               private selectedProject: SelectedProject,
               private commandRunner: CommandRunner,
               private notification: Notification,
+              private settings: Settings,
+              private dialogService: DialogService,
               private taskManager: TaskManager) {
     if (!selectedProject.current.__meta__.workflows) {
       selectedProject.current.__meta__.workflows = [];
@@ -88,10 +91,17 @@ export class Tile {
   start() {
     let project = this.selectedProject.current;
 
-    this.workflow.start()
-    .then(() => {
+    let started = this.workflow.start();
+
+    started.promise.then(() => {
       this.update();
     });
+
+    if (this.settings.getValue('show-taskmanager-on-workflow-start')) {
+      if (started.startedTasks.length > 0) {
+        this.dialogService.open({ viewModel: TaskManagerModal, model: { task: started.startedTasks[0] } });
+      }
+    }
 
     project.__meta__.workflows.push({ tree: this.tree, workflow: this.workflow });
   }
