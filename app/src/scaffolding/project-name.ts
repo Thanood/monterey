@@ -59,7 +59,7 @@ export class ProjectName {
         canContinue = true;
         this.observer.dispose();
       } else {
-        this.notification.error('Please select a project folder that does not exist yet');
+        this.notification.warning('Please select a project folder that does not exist yet');
       }
     }
 
