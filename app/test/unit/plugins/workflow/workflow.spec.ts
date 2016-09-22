@@ -149,10 +149,10 @@ describe('Workflow', () => {
 
     let _r;
 
-    taskManager.startTask = jasmine.createSpy('startTask').and.returnValue(new Promise(r => _r = r));
+    taskManager.startTask = jasmine.createSpy('startTask').and.returnValue({ promise: new Promise(r => _r = r) });
 
     sut.start()
-    .then(() => {
+    .promise.then(() => {
       expect(sut.running).toBeFalsy();
       done();
     });
