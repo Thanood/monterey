@@ -66,7 +66,7 @@ export class Plugin extends BasePlugin {
         await OS.exec('au help', { cwd: project.path });
       } catch (err) {
         cli_installed = false;
-        this.notification.error('Error during "au help". Did you install aurelia-cli?');
+        this.notification.error('Error during "au help". Did you install aurelia-cli? npm install aurelia-cli -g');
         logger.error(err);
       }
 
