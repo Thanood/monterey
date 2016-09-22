@@ -39,7 +39,7 @@ export class Workflow {
     let tasks: Array<Task> = this.getSelectedTasks();
 
     if (tasks.length === 0) {
-      return Promise.resolve();
+      return { promise: Promise.resolve(), startedTasks: [] };
     }
 
     tasks.forEach(task => {
@@ -53,23 +53,30 @@ export class Workflow {
     this.running = true;
 
     let promises = [];
+    let startedTasks: Array<Task> = [];
 
     // start all tasks out of the first phase
     // but only those tasks that do not depend on other tasks
     for (let x = 0; x < this.phases[0].steps.length; x++) {
       let step = this.phases[0].steps[x];
       if (step.checked && !step.task.dependsOn) {
+        startedTasks.push(step.task);
         promises.push(this.taskManager.startTask(step.task));
       }
     }
 
-    return Promise.all(promises)
+    let promise = Promise.all(promises)
     .then(() => {
       this.running = false;
     })
     .catch(() => {
       this.running = false;
     });
+
+    return {
+      promise: promise,
+      startedTasks: startedTasks
+    };
   }
 
   stop() {
