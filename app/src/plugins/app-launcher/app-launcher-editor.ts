@@ -80,7 +80,7 @@ export class AppLauncherEditor {
 
   async save() {
     if (this.launchers.filter(x => !x.data.title).length > 0) {
-      this.notification.error('All app launchers need a title');
+      this.notification.warning('All app launchers need a title');
       return;
     }
 

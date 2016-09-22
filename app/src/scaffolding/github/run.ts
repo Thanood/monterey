@@ -116,7 +116,7 @@ export class Run {
 
   async execute() {
     if (this.finished && this.failed) {
-      this.notification.error('Can\'t go to the next step until this step successfuly finishes');
+      this.notification.warning('Can\'t go to the next step until this step successfuly finishes');
       return;
     }
 

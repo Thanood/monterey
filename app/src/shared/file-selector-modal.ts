@@ -46,14 +46,14 @@ export class FileSelectorModal {
       if (paths.length === 1) {
         this.selectedFilePath = paths[0];
       } else if (paths.length > 1) {
-        this.notification.error('Please select one webpack.config.js file');
+        this.notification.warning('Please select one webpack.config.js file');
       };
     }
   }
 
   ok() {
     if (this.validation.validate().length > 0) {
-      this.notification.error('There are validation errors');
+      this.notification.warning('There are validation errors');
       return;
     }
 

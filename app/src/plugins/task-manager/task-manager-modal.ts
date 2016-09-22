@@ -71,12 +71,12 @@ export class TaskManagerModal {
     let task = <Task>treeListNode.data.task;
     builder.addItem({ title: this.i18n.tr('end-task'), onClick: () => {
       if (task.finished) {
-        this.notification.error(this.i18n.tr('task-has-already-finished'));
+        this.notification.warning(this.i18n.tr('task-has-already-finished'));
         return;
       }
 
       if (!task.stoppable) {
-        this.notification.error('task-cannot-be-stopped');
+        this.notification.warning('task-cannot-be-stopped');
         return;
       }
 

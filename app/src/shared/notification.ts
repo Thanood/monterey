@@ -15,7 +15,8 @@ export class Notification {
   error(message: string, title: string = undefined, overrides: ToastrOptions = undefined) {
     if (!overrides) {
       overrides = {
-        showDuration: 20000,
+        timeOut: 0,
+        extendedTimeOut: 0,
         closeButton: true
       };
     }

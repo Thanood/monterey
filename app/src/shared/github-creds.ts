@@ -24,7 +24,7 @@ export class GithubCreds {
 
   submit() {
     if (this.validation.validate().length > 0) {
-      this.notification.error('There are validation errors');
+      this.notification.warning('There are validation errors');
       return;
     }
 
