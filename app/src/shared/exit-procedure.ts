@@ -1,12 +1,12 @@
-import {OS} from 'monterey-pal';
+import {OS, SESSION} from 'monterey-pal';
 
 export class ExitProcedure {
   constructor() {
     // onbeforeunload is called before monterey is quit
     // which you can cancel by setting the returnValue
     // onbeforeunload is executed synchronously while we want to asynchrounsly cleanup
-    // so we cancel the first time it is called, cleanup and then 
-    // we close the window ourselves when cleanup is finished 
+    // so we cancel the first time it is called, cleanup and then
+    // we close the window ourselves when cleanup is finished
     let cleanedup = false;
     window.onbeforeunload = (e) => {
       if (!cleanedup) {
@@ -19,7 +19,13 @@ export class ExitProcedure {
           cleanedup = true;
           e.returnValue = 'do not close';
           console.log('cleaning up...');
-          Promise.all(promises).then(() => window.close());
+          Promise.all(promises).then(() => {
+            if (SESSION.getEnv() !== 'development') {
+              window.close();
+            } else {
+              location.reload();
+            }
+          });
         } // else, quit immediately
       }
     };
