@@ -25,12 +25,12 @@ describe('FileSystemLogger', () => {
 
   it ('sets logFilePath', () => {
     let date = new Date();
-    expect(sut.logFilePath.match(/c:\/appdata\/monterey\/logs\/....-..-..\.csv/).length > 0).toBe(true);
+    expect(sut.logFilePath.match(/c:\/appdata\/monterey\/logs\/....-..-..\.txt/).length > 0).toBe(true);
   });
 
   it ('uses unique file names per day', () => {
-    expect(sut.getLogFileName(new Date(2016, 5, 3))).toBe('2016-06-03.csv');
-    expect(sut.getLogFileName(new Date(2016, 10, 3))).toBe('2016-11-03.csv');
+    expect(sut.getLogFileName(new Date(2016, 5, 3))).toBe('2016-06-03.txt');
+    expect(sut.getLogFileName(new Date(2016, 10, 3))).toBe('2016-11-03.txt');
   });
 
   it ('creates logfolder if it doesn\'t exist', async (r) => {
@@ -52,13 +52,13 @@ describe('FileSystemLogger', () => {
 
   it('getModifiedDate returns correct date', async (r) => {
     FS.stat = async (p) => {
-      if (p === 'c:/file.csv') {
+      if (p === 'c:/file.txt') {
         return {
           mtime: new Date().getTime()
         };
       }
     };
-    let date = await sut.getModifiedDate('c:/file.csv');
+    let date = await sut.getModifiedDate('c:/file.txt');
     expect(date.getFullYear()).toBe(new Date().getFullYear());
     expect(date.getMonth()).toBe(new Date().getMonth());
     expect(date.getDay()).toBe(new Date().getDay());
@@ -109,16 +109,16 @@ describe('FileSystemLogger', () => {
   it('removes old logfiles', async (r) => {
     FS.unlink = jasmine.createSpy('FS.unlink');
     FS.readdir = async () => {
-      return ['1.csv', 
-              '2.csv', 
-              '3.csv', 
-              '4.csv', 
-              '5.csv'
+      return ['1.txt',
+              '2.txt',
+              '3.txt',
+              '4.txt',
+              '5.txt'
       ];
     }
 
     sut.getModifiedDate = async (path) => {
-      let oldLogs = ['c:/appdata/monterey/logs/1.csv', 'c:/appdata/monterey/logs/2.csv', 'c:/appdata/monterey/logs/3.csv'];
+      let oldLogs = ['c:/appdata/monterey/logs/1.txt', 'c:/appdata/monterey/logs/2.txt', 'c:/appdata/monterey/logs/3.txt'];
       let oldDate = new Date();
       oldDate.setFullYear(2000);
       if (oldLogs.indexOf(path) > -1) return oldDate;
@@ -127,11 +127,11 @@ describe('FileSystemLogger', () => {
 
     await sut._cleanupLogs(3);
 
-    expect(FS.unlink).toHaveBeenCalledWith('c:/appdata/monterey/logs/1.csv');
-    expect(FS.unlink).toHaveBeenCalledWith('c:/appdata/monterey/logs/2.csv');
-    expect(FS.unlink).toHaveBeenCalledWith('c:/appdata/monterey/logs/3.csv');
-    expect(FS.unlink).not.toHaveBeenCalledWith('c:/appdata/monterey/logs/4.csv');
-    expect(FS.unlink).not.toHaveBeenCalledWith('c:/appdata/monterey/logs/5.csv');
+    expect(FS.unlink).toHaveBeenCalledWith('c:/appdata/monterey/logs/1.txt');
+    expect(FS.unlink).toHaveBeenCalledWith('c:/appdata/monterey/logs/2.txt');
+    expect(FS.unlink).toHaveBeenCalledWith('c:/appdata/monterey/logs/3.txt');
+    expect(FS.unlink).not.toHaveBeenCalledWith('c:/appdata/monterey/logs/4.txt');
+    expect(FS.unlink).not.toHaveBeenCalledWith('c:/appdata/monterey/logs/5.txt');
 
     r();
   });
