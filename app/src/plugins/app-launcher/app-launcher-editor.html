@@ -11,7 +11,7 @@
   <button class="btn btn-primary" click.delegate="share(selectedLauncher)" disabled.bind="!selectedLauncher" i18n="share-app-launcher"></button>
 
   <p show.bind="launchers.length === 0" i18n="no-app-launchers"></p>
-  
+
   <div class="row" show.bind="launchers.length">
     <div class="col-md-4">
       <h3>Launchers:</h3>
@@ -19,9 +19,9 @@
         <li class="list-group-item ${launcher.id === selectedLauncher.id ? 'selected': ''}"
             repeat.for="launcher of launchers"
             click.delegate="selectLauncher(launcher)">
-          <span title.bind="launcher.data.title">
+          <p title.bind="launcher.data.title">
             ${launcher.data.title}
-          </span>
+          </p>
         </li>
       </ul>
     </div>

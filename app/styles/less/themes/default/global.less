@@ -41,7 +41,15 @@ p {
   cursor: pointer;
 
   &.selected {
-    background-color: @seashell;
+    background-color: @list-selected-background;
+
+    p {
+      color: @white;
+    }
+
+    &:hover {
+      background-color: lighten(@list-selected-background, 10%);
+    }
   }
 
   &:hover {

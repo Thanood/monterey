@@ -19,7 +19,7 @@
                 class="list-group-item ${terminal.id == terminalState.selectedTerminal.id ? 'selected': ''}"
                 repeat.for="terminal of terminalState.terminals"
                 click.delegate="setTerminal(terminal)">
-                ${terminal.name}
+                <p>${terminal.name}</p>
               </li>
             </ul>
           </div>
