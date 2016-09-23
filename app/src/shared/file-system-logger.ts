@@ -27,7 +27,7 @@ export class FileSystemLogger {
     let year = date.getFullYear();
     let month = date.getMonth().toString().length === 1 ? '0' + (date.getMonth() + 1) : date.getMonth() + 1;
     let day = date.getDate().toString().length === 1 ? '0' + date.getDate() : date.getDate();
-    return `${year}-${month}-${day}.csv`;
+    return `${year}-${month}-${day}.txt`;
   }
 
   // make sure that the logfile exists
