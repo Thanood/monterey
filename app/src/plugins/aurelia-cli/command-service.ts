@@ -22,8 +22,17 @@ export class CommandService implements CommandRunnerService {
     let result = OS.spawn(cmd, command.args, { cwd:  project.path }, out => {
       this.tryGetPort(project, out, task);
       stdout(out);
-    }, err => stderr(err));
+    }, err => {
+      this.warnENOENT(err, task);
+      stderr(err, task);
+    });
     return result;
+  }
+
+  warnENOENT(text: string, task: Task) {
+    if (text.match(/ENOENT/)) {
+      task.addTaskLog('ENOENT: Please install aurelia-cli: npm install aurelia-cli -g');
+    }
   }
 
   // parse the output, try and find what url the project is running under
