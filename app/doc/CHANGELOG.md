@@ -1,3 +1,19 @@
+<a name="0.4.2"></a>
+## [0.4.2](https://github.com/monterey-framework/monterey/compare/v0.4.1...v0.4.2) (2016-09-23)
+
+
+### Bug Fixes
+
+* **logging:** log to txt and not to csv ([dd01449](https://github.com/monterey-framework/monterey/commit/dd01449))
+* **styling:** highlight selected item in a list more ([1d98606](https://github.com/monterey-framework/monterey/commit/1d98606))
+
+
+### Features
+
+* **aurelia-cli:** explain how to install aurelia-cli ([6ee4d85](https://github.com/monterey-framework/monterey/commit/6ee4d85))
+
+
+
 <a name="0.4.1"></a>
 ## [0.4.1](https://github.com/monterey-framework/monterey/compare/v0.4.0...v0.4.1) (2016-09-22)
 
