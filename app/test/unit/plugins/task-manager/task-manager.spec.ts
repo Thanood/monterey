@@ -136,19 +136,57 @@ describe('TaskManager', () => {
     });
   });
 
-  it ('publishes TaskFinished', (r) => {
+  it ('when task throws error, the status should be \'failed\'', (r) => {
+    let project = new Project();
+    let task = new Task(project, 'jspm install', () => Promise.reject(new Error('something failed')));
+
+    spyOn(taskManager, 'addTaskLog');
+
+    taskManager.addTask(project, task);
+    taskManager.startTask(task)
+    .then(() => {
+      expect(task.status).toBe('failed');
+      r();
+    });
+  });
+
+  it ('error in task cancels all depending tasks', (r) => {
+    let project = new Project();
+    let npmInstall = new Task(project, 'npm install', () => Promise.reject(new Error('something failed')));
+    let jspmInstall = new Task(project, 'jspm install', () => Promise.resolve());
+    let gulpWatch = new Task(project, 'gulp watch', () => Promise.resolve());
+    jspmInstall.dependsOn = npmInstall;
+    gulpWatch.dependsOn = jspmInstall;
+
+    spyOn(taskManager, 'addTaskLog');
+
+    taskManager.addTask(project, npmInstall);
+    taskManager.addTask(project, jspmInstall);
+    taskManager.addTask(project, gulpWatch);
+
+    taskManager.startTask(npmInstall)
+    .then(() => {
+      expect(jspmInstall.status).toBe('stopped');
+      expect(gulpWatch.status).toBe('stopped');
+      expect(gulpWatch.finished).toBe(true);
+      expect(jspmInstall.finished).toBe(true);
+      r();
+    });
+  });
+
+  it ('publishes TaskFinished when task completes', (r) => {
     let project = new Project();
     let task = new Task(project, 'jspm install', () => Promise.resolve());
 
     taskManager.addTask(project, task);
     taskManager.startTask(task)
     .then(() => {
-      expect(ea.publish).toHaveBeenCalledWith('TaskFinished', { error: false, project: project, task: task });
+      expect(ea.publish).toHaveBeenCalledWith('TaskFinished', { project: project, task: task });
       r();
     });
   });
 
-  it ('publishes TaskFinished (with error true)', (r) => {
+  it ('publishes TaskFinished when task fails', (r) => {
     let project = new Project();
     let task = new Task(project, 'jspm install', () => Promise.reject(new Error('something failed')));
 
@@ -156,7 +194,7 @@ describe('TaskManager', () => {
     taskManager.startTask(task)
     .then(() => {
       expect(ea.publish).toHaveBeenCalled();
-      expect(ea.publish).toHaveBeenCalledWith('TaskFinished', { error: true, project: project, task: task });
+      expect(ea.publish).toHaveBeenCalledWith('TaskFinished', { project: project, task: task });
       r();
     });
   });
@@ -174,14 +212,14 @@ describe('TaskManager', () => {
     });
   });
 
-  it ('sets status to finished after completing a task', (r) => {
+  it ('sets status to completed after a task finishes without errors', (r) => {
     let project = new Project();
     let task = new Task(project, 'jspm install', () => Promise.resolve());
 
     taskManager.addTask(project, task);
     taskManager.startTask(task)
     .then(() => {
-      expect(task.status).toBe('finished');
+      expect(task.status).toBe('completed');
       r();
     });
   });
@@ -280,7 +318,7 @@ describe('TaskManager', () => {
     let task1 = new Task(project, 'npm install', () => new Promise(resolver => _resolver = resolver));
 
     taskManager.addTask(project, task1);
-    task1.status = 'finished';
+    task1.status = 'completed';
 
     await taskManager.startTask(task1);
     expect(task1.status).not.toBe('running');

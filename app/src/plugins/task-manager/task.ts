@@ -11,7 +11,7 @@ export class Task implements Task {
   finished?: boolean;
   description?: string;
   elapsed?: string;
-  status?: 'queued'|'stopped by user'|'running'|'finished';
+  status?: 'queued'|'stopped by user'|'running'|'completed'|'stopped'|'failed';
   stop?: (task: Task) => Promise<void>;
   estimation?: string;
   meta?: any = {};

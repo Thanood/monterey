@@ -59,16 +59,21 @@ export class TaskManager {
     this.addTaskLog(task, '-----STARTED-----');
 
     return task.execute().then((result) => {
-      this.addTaskLog(task, '-----FINISHED-----');
+      this.addTaskLog(task, '-----COMPLETED-----');
+      task.status = 'completed';
 
       logger.info(`task '${task.title}' for project '${task.project.name}' finished without error`);
-      this.finishTask(task, false);
+
+      this.finishTask(task);
       return result;
     }).catch((e) => {
+      task.status = 'failed';
+
       this.addTaskLog(task, '-----FINISHED WITH ERROR-----');
       this.addTaskLog(task, e.message);
       this.errors.add(e);
-      this.finishTask(task, true);
+
+      this.finishTask(task);
 
       let timeItTook = `${moment(task.end).diff(task.start, 'seconds')} seconds`;
       logger.info(`task '${task.title}' for project '${task.project.name}' finished with error (after it ran for ${timeItTook})`);
@@ -80,11 +85,7 @@ export class TaskManager {
     task.addTaskLog(text, level);
   }
 
-  finishTask(task: Task, errorred = false) {
-    if (task.status !== 'stopped by user') {
-      task.status = 'finished';
-    }
-
+  finishTask(task: Task) {
     // if the task has never started then it shouldn't have an end date
     if (task.start) {
       task.end = new Date();
@@ -93,11 +94,15 @@ export class TaskManager {
     task.description = null;
     task.finished = true;
 
-    if (task.status === 'finished') {
+    if (task.status !== 'failed' && task.status === 'completed') {
       this.startDependingTasks(task);
     }
 
-    this.ea.publish('TaskFinished', { error: errorred, project: task.project, task: task });
+    if (task.status === 'failed') {
+      this.stopDependingTasks(task);
+    }
+
+    this.ea.publish('TaskFinished', { project: task.project, task: task });
   }
 
   startDependingTasks(task: Task) {
@@ -106,6 +111,17 @@ export class TaskManager {
         this.startTask(t);
       }
     });
+  }
+
+  stopDependingTasks(task: Task) {
+    for (let i = 0; i < this.tasks.length; i++) {
+      let t = this.tasks[i];
+      if (t.dependsOn === task && t.status === 'queued') {
+        t.status = 'stopped';
+        t.finished = true;
+        this.stopDependingTasks(t);
+      }
+    }
   }
 
   async stopTask(task: Task) {
