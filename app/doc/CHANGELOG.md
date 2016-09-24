@@ -1,3 +1,18 @@
+<a name="0.4.3"></a>
+## [0.4.3](https://github.com/monterey-framework/monterey/compare/v0.4.2...v0.4.3) (2016-09-24)
+
+
+### Bug Fixes
+
+* **error-modal:** detach clipboardjs event handlers ([f0d543f](https://github.com/monterey-framework/monterey/commit/f0d543f))
+
+
+### Features
+
+* **task-manager:** stop all tasks when parent task fails ([2b592ac](https://github.com/monterey-framework/monterey/commit/2b592ac))
+
+
+
 <a name="0.4.2"></a>
 ## [0.4.2](https://github.com/monterey-framework/monterey/compare/v0.4.1...v0.4.2) (2016-09-23)
 
