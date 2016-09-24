@@ -6,6 +6,7 @@
       <p>All options in this screen apply to the selected project: <b>${selectedProject.current.name}</b></p>
 
       <button class="btn btn-primary" click.delegate="createDummyTasks()">Create dummy tasks</button>
+      <button class="btn btn-primary" click.delegate="createDummyTasks(true)">Create dummy tasks, first fails</button>
       <button class="btn btn-primary" click.delegate="throwError()">Throw error</button>
 
       <hr>

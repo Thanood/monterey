@@ -14,14 +14,20 @@ export class DeveloperModal {
     this.project = selectedProject.current;
   }
 
-  createDummyTasks() {
+  createDummyTasks(firstFails = false) {
     let firstPromise;
     let timeouts = [];
     let first = new Task(this.selectedProject.current, 'first task', () => {
-      return new Promise(r => {
+      return new Promise((r, reject) => {
         setTimeout(() => {
          if (!first.finished) r();
         }, 10000);
+
+        if (firstFails) {
+          setTimeout(() => {
+            reject(new Error('test'));
+          }, 4000);
+        }
 
         for (let x = 1; x <= 1000; x++) {
           setTimeout(() => first.addTaskLog('output'), x * 10);

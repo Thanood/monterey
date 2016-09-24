@@ -20,14 +20,14 @@ export class TaskManagerModal {
 
   taskTree: Array<TreeListNode>;
 
-  constructor(private dialogController: DialogController,
-              private taskManager: TaskManager,
-              private contextMenu: ContextMenu,
-              private notification: Notification,
-              private settings: Settings,
-              private i18n: I18N,
-              private ea: EventAggregator,
-              private state: ApplicationState) {
+  constructor(public dialogController: DialogController,
+              public taskManager: TaskManager,
+              public contextMenu: ContextMenu,
+              public notification: Notification,
+              public settings: Settings,
+              public i18n: I18N,
+              public ea: EventAggregator,
+              public state: ApplicationState) {
     // we need to update the tree when tasks are added, started and finished
     this.subscriptions.push(this.ea.subscribe('TaskStarted', (obj) => {
       this.selectedTask = obj.task;
@@ -92,34 +92,22 @@ export class TaskManagerModal {
     // where a TreeListNode can be a project (1st level) or task (2nd level)
     this.state.projects.forEach(proj => {
       let childNodes = [];
-      proj.__meta__.taskmanager.tasks.forEach(task => {
-        if (!task.finished || this.showFinished) {
-          let taskNode = new TreeListNode(task.title);
-          taskNode.title = task.title;
-          switch (task.status) {
-            case 'running':
-              taskNode.icon = 'glyphicon glyphicon-cog gly-spin';
-            break;
-            case 'queued':
-              taskNode.icon = 'glyphicon glyphicon-pause';
-            break;
-            case 'stopped by user':
-              taskNode.icon = 'glyphicon glyphicon-remove';
-            break;
-            case 'finished':
-              taskNode.icon = 'glyphicon glyphicon-ok';
-            break;
-          }
-          taskNode.data = { task: task };
 
-          // recover selection
-          if (task === this.selectedTask) {
-            taskNode.selected = true;
-          }
+      let tasks = this.getRelevantTasks(proj.__meta__.taskmanager.tasks, this.showFinished);
 
-          childNodes.push(taskNode);
+      for (let task of tasks) {
+        let taskNode = new TreeListNode(task.title);
+        taskNode.title = task.title;
+        taskNode.data = { task: task };
+        this.assignIcon(task, taskNode);
+
+        // recover selection
+        if (task === this.selectedTask) {
+          taskNode.selected = true;
         }
-      });
+
+        childNodes.push(taskNode);
+      }
 
       let projNode = new TreeListNode(proj.name, childNodes);
       projNode.title = proj.name;
@@ -138,6 +126,46 @@ export class TaskManagerModal {
     tree.sort((a: TreeListNode, b: TreeListNode) => b.children.map(x => x.data).length - a.children.map(x => x.data).length);
 
     this.taskTree = tree;
+  }
+
+  getRelevantTasks(tasks: Array<Task>, showFinished) {
+    if (showFinished) {
+      return tasks;
+    }
+
+    let result = [];
+
+    for (let task of tasks) {
+      if (['queued', 'running', 'failed'].indexOf(task.status) > -1) {
+        result.push(task);
+      }
+    }
+
+    return result;
+  }
+
+  /**
+   * Determines which icon to use based on the state of the task
+   */
+  assignIcon(task, taskNode) {
+    switch (task.status) {
+      case 'running':
+        taskNode.icon = 'glyphicon glyphicon-cog gly-spin';
+      break;
+      case 'queued':
+        taskNode.icon = 'glyphicon glyphicon-pause';
+      break;
+      case 'stopped':
+      case 'stopped by user':
+        taskNode.icon = 'glyphicon glyphicon-stop';
+      break;
+      case 'completed':
+        taskNode.icon = 'glyphicon glyphicon-ok';
+      break;
+      case 'failed':
+        taskNode.icon = 'glyphicon glyphicon-remove';
+      break;
+    }
   }
 
   selectedNodeChanged() {
