@@ -7,7 +7,7 @@
       <div class="left-side" splitter="handle.bind: splitter">
         <div class="error-list">
           <ul class="list-group">
-            <li class="list-group-item ${selectedError.id === error.id ? 'selected': ''}"
+            <li class="list-group-item ${selectedError === error ? 'selected': ''}"
                 repeat.for="error of errors.errors"
                 click.delegate="selectedError = error">
               <p>${error.message}</p>
