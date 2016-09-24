@@ -48,4 +48,8 @@ export class ErrorModal {
       console.log(e);
     });
   }
+
+  detached() {
+    this.clipboard.destroy();
+  }
 }
