@@ -1,3 +1,18 @@
+<a name="0.4.4"></a>
+## [0.4.4](https://github.com/monterey-framework/monterey/compare/v0.4.3...v0.4.4) (2016-09-28)
+
+
+### Bug Fixes
+
+* **gist-run:** use window.open to open gistrun so that it works on mac ([0f6b5af](https://github.com/monterey-framework/monterey/commit/0f6b5af))
+
+
+### Features
+
+* **all:** removed placeholder screens for dotnet/gulp/typings/aurelia-cli/webpack ([66a68fa](https://github.com/monterey-framework/monterey/commit/66a68fa))
+
+
+
 <a name="0.4.3"></a>
 ## [0.4.3](https://github.com/monterey-framework/monterey/compare/v0.4.2...v0.4.3) (2016-09-24)
 
