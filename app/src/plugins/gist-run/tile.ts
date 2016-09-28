@@ -15,6 +15,6 @@ export class Tile {
   async onClick() {
     let registry = await this.registries.getGistRun();
 
-    OS.openItem(registry && registry.latest ? registry.latest : 'https://gist.run/?id=14ac85668b3ca27dcd8ad6d3f6579fb0');
+    window.open(registry && registry.latest ? registry.latest : 'https://gist.run/?id=14ac85668b3ca27dcd8ad6d3f6579fb0', '_blank');
   }
 }
