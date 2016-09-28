@@ -33,6 +33,20 @@ describe('Settings', () => {
     expect(sut.settings.length).toBe(1);
   });
 
+  it('restores value from state', () => {
+    state.settingValues = [{
+      identifier: 'some-setting',
+      value: true
+    }];
+    sut.addSetting({
+      identifier: 'some-setting',
+      value: false,
+      type: 'boolean',
+      title: 'some setting'
+    });
+    expect(sut.settings[0].value).toBe(true);
+  });
+
   it('getSetting returns the correct setting or undefined', () => {
     expect(sut.getSetting('some-setting')).toBeUndefined();
 
@@ -55,6 +69,11 @@ describe('Settings', () => {
     });
 
     expect(sut.getValue('some-setting')).toBe(true);
+  });
+
+  it('getValue defaults to null', () => {
+    // some-setting does not exist
+    expect(sut.getValue('some-setting')).toBe(null);
   });
 
   it('setValue updates the value of the setting', () => {

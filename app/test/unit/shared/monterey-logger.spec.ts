@@ -43,4 +43,16 @@ describe('MonteryLogAppender', () => {
 
     expect(this.fsLogger.writeToBuffer).toHaveBeenCalledWith('info', 'test', '{"some":"object"}');
   });
+
+  it('handles log calls of all levels', () => {
+    let logger = <any>{};
+
+    spyOn(sut, 'send');
+    sut.debug(logger, 'foo', 'bar');
+    sut.info(logger, 'foo', 'bar');
+    sut.warn(logger, 'foo', 'bar');
+    sut.error(logger, 'foo', 'bar');
+
+    expect(sut.send).toHaveBeenCalledTimes(4);
+  });
 });

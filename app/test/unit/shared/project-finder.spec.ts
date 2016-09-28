@@ -37,4 +37,14 @@ describe('ProjectFinder', () => {
     expect(result[1]).toBe(false);
     r();
   });
+
+  it('returns false if no projects were selected', async (r) => {
+    FS.showOpenDialog = jasmine.createSpy('showOpenDialog').and.returnValue(null);
+    this.projectManager.addProjectByPath = async (p): Promise<any> => {};
+
+    let result = await sut.openDialog();
+
+    expect(result).toBe(false);
+    r();
+  });
 });
