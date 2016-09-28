@@ -1,17 +1,27 @@
 import {FileSystemLogger} from '../../../src/shared/file-system-logger';
 import {Container}    from 'aurelia-framework';
 import {ELECTRON, FS} from 'monterey-pal';
+import {Settings} from '../../../src/shared/settings';
 
 describe('FileSystemLogger', () => {
   let sut: FileSystemLogger;
   let container: Container;
+  let settings: Settings;
 
   beforeEach(() => {
     container = new Container();
+    settings = container.get(Settings);
     ELECTRON.getPath = (p: string) => {
       if (p === 'userData') return 'c:/appdata/monterey';
     };
     FS.join = (...args) => Array.prototype.slice.call(args).join('/');
+    FS.access = (p: any, x: any) => Promise.resolve(true);
+    FS.getConstants = () => {
+      return {
+        W_OK: true,
+        R_OK: true
+      };
+    };
     sut = container.get(FileSystemLogger);
   });
 
@@ -132,6 +142,64 @@ describe('FileSystemLogger', () => {
     expect(FS.unlink).toHaveBeenCalledWith('c:/appdata/monterey/logs/3.txt');
     expect(FS.unlink).not.toHaveBeenCalledWith('c:/appdata/monterey/logs/4.txt');
     expect(FS.unlink).not.toHaveBeenCalledWith('c:/appdata/monterey/logs/5.txt');
+
+    r();
+  });
+
+  it('does not clean up logfiles when the cleanup-logs is false', async (r) => {
+    spyOn(settings, 'getValue').and.returnValue(false);
+    let spy = spyOn(sut, '_cleanupLogs');
+    await sut.cleanupLogs();
+    expect(spy).not.toHaveBeenCalled();
+
+    r();
+  });
+
+  it('cleas up logfiles when the cleanup-logs is true', async (r) => {
+    spyOn(settings, 'getValue').and.returnValue(true);
+    let spy = spyOn(sut, '_cleanupLogs');
+    await sut.cleanupLogs();
+    expect(spy).toHaveBeenCalled();
+
+    r();
+  });
+
+  it('checks for read and write access before creating file or folder', async (r) => {
+    let spy = spyOn(FS, 'access');
+    spyOn(FS, 'getConstants').and.returnValue({ R_OK: true, W_OK: true });
+    await sut.fileOrFolderExists('c:/test');
+
+    expect(spy).toHaveBeenCalledWith('c:/test', true);
+
+    r();
+  });
+
+  it('logs that monterey has started', async (r) => {
+    let spy = spyOn(sut, 'writeToBuffer');
+
+    await sut.activate();
+
+    expect(spy).toHaveBeenCalledWith('info', 'monterey', 'application started');
+
+    r();
+  });
+
+  it('activates flush delay', async (r) => {
+    let spy = spyOn(sut, 'addFlushDelay');
+
+    await sut.activate();
+
+    expect(spy).toHaveBeenCalled();
+
+    r();
+  });
+
+  it('verifies (and creates) log file on activate', async (r) => {
+    let spy = spyOn(sut, 'verifyLogPathAndFile');
+
+    await sut.activate();
+
+    expect(spy).toHaveBeenCalled();
 
     r();
   });
