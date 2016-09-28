@@ -22,18 +22,6 @@ export class Plugin extends BasePlugin {
     super();
   }
 
-  getTiles(project: Project, showIrrelevant) {
-    if (!showIrrelevant && !project.aureliaJSONPath) {
-      return [];
-    }
-
-    return [{
-      name: 'aurelia-cli',
-      model: { relevant: !!project.aureliaJSONPath },
-      viewModel: 'plugins/aurelia-cli/tile'
-    }];
-  }
-
   async evaluateProject(project: Project) {
     await this.detection.findAureliaJSONConfig(project);
 

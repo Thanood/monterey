@@ -19,18 +19,6 @@ export class Plugin extends BasePlugin {
     super();
   }
 
-  getTiles(project: Project, showIrrelevant) {
-    if (!showIrrelevant && !project.isUsingTypings()) {
-      return [];
-    }
-
-    return [{
-      name: 'typings',
-      model: { relevant: project.isUsingTypings() },
-      viewModel: 'plugins/typings/tile'
-    }];
-  }
-
   async evaluateProject(project: Project) {
     await this.detection.findTypingsJSONFile(project);
 

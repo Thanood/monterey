@@ -19,18 +19,6 @@ export class Plugin extends BasePlugin {
     super();
   }
 
-  getTiles(project: Project, showIrrelevant) {
-    if (!showIrrelevant && !project.isUsingWebpack()) {
-      return [];
-    }
-
-    return [{
-      name: 'webpack',
-      model: { relevant: !!project.isUsingWebpack() },
-      viewModel: 'plugins/webpack/tile'
-    }];
-  }
-
   async evaluateProject(project: Project) {
     await this.detection.findWebpackConfig(project);
 

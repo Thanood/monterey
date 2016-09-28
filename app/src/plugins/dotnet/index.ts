@@ -24,18 +24,6 @@ export class Plugin extends BasePlugin {
     super();
   }
 
-  getTiles(project: Project, showIrrelevant) {
-    if (!showIrrelevant && !project.isUsingDotnetCore()) {
-      return [];
-    }
-
-    return [{
-      name: 'dotnet',
-      model: { relevant: project.isUsingDotnetCore() },
-      viewModel: 'plugins/dotnet/tile'
-    }];
-  }
-
   async evaluateProject(project: Project) {
     await this.detection.detect(project);
 

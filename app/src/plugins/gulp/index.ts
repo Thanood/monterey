@@ -19,18 +19,6 @@ export class Plugin extends BasePlugin {
     super();
   }
 
-  getTiles(project: Project, showIrrelevant) {
-    if (!showIrrelevant && !project.isUsingGulp()) {
-      return [];
-    }
-
-    return [{
-      name: 'gulp',
-      model: { relevant: project.isUsingGulp() },
-      viewModel: 'plugins/gulp/tile'
-    }];
-  }
-
   async evaluateProject(project: Project) {
     await this.detection.findGulpConfig(project);
 
