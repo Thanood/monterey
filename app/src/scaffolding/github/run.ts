@@ -1,8 +1,6 @@
-import {autoinject, LogManager}  from 'aurelia-framework';
-import {FS}                      from 'monterey-pal';
-import {IStep}                   from '../istep';
-import {Logger}                  from 'aurelia-logging';
-import {GithubAPI, Notification} from '../../shared/index';
+import {WorkflowContext} from '../workflow-context';
+import {IStep}           from '../istep';
+import {GithubAPI, Notification, FS, autoinject, LogManager, Logger} from '../../shared/index';
 
 const logger = <Logger>LogManager.getLogger('zip-scaffolder');
 
@@ -15,18 +13,18 @@ export class Run {
   step: IStep;
   model;
   state;
+  context: WorkflowContext;
   promise: Promise<void>;
 
   constructor(private githubAPI: GithubAPI,
               private notification: Notification) {
   }
 
-  async activate(model) {
-    this.model = model;
-    this.state = model.state;
-    this.step = model.step;
-    this.step.execute = () => this.execute();
-    this.step.previous = () => this.previous();
+  activate(model: { context: WorkflowContext }) {
+    this.state = model.context.state;
+    this.context = model.context;
+
+    this.context.onNext(() => this.next());
   }
 
   async previous() {
@@ -63,7 +61,7 @@ export class Run {
       this.finished = true;
       this.state.successful = true;
 
-      this.step.next();
+      this.context.next();
 
       try {
         FS.cleanupTemp();
@@ -114,14 +112,12 @@ export class Run {
     this.logs.push(`Moved directory to ${projectDir}....`);
   }
 
-  async execute() {
+  async next() {
     if (this.finished && this.failed) {
       this.notification.warning('Can\'t go to the next step until this step successfuly finishes');
       return;
     }
 
-    return {
-      goToNextStep: this.finished && !this.failed
-    };
+    return this.finished && !this.failed;
   }
 }

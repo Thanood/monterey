@@ -1,9 +1,8 @@
-import {autoinject, bindable} from 'aurelia-framework';
-import {DialogController}     from 'aurelia-dialog';
-import {FS, NPM}              from 'monterey-pal';
-import {Workflow}             from './workflow';
-import * as activities        from './activities.json!';
-import {ProjectManager, MontereyRegistries, Settings} from '../shared/index';
+import {DialogController} from 'aurelia-dialog';
+import {WorkflowContext}  from './workflow-context';
+import {Workflow}         from './workflow';
+import * as activities    from './activities.json!';
+import {MontereyRegistries, Settings, autoinject, observable} from '../shared/index';
 
 /**
  * ScaffoldProject is the wizard in which the scaffolding process takes place. ScaffoldProject
@@ -11,18 +10,44 @@ import {ProjectManager, MontereyRegistries, Settings} from '../shared/index';
  */
 @autoinject()
 export class ScaffoldProject {
-  state: any = {};
+  context: WorkflowContext;
   workflow: Workflow;
-  title: string = 'Create new application';
-  closeBtnText: string = 'Close';
-  @bindable selectedTemplate: ProjectTemplate;
-  templates: Array<ProjectTemplate> = [];
+  state: any;
   loading = false;
+  templates: Array<ProjectTemplate> = [];
+  @observable selectedTemplate: ProjectTemplate;
 
   constructor(private dialog: DialogController,
-              private projectManager: ProjectManager,
-              private settings: Settings,
-              private registries: MontereyRegistries) {
+              private registries: MontereyRegistries,
+              private settings: Settings) {}
+
+  async attached() {
+    this.loading = true;
+    await this.fillTemplateList();
+    this.reset();
+    this.loading = false;
+  }
+
+  reset() {
+    this.workflow = new Workflow(JSON.parse(JSON.stringify(activities.activities)));
+    this.context = this.workflow.context;
+    this.state = this.context.state;
+
+    // restore selected project folder of previous session
+    if (this.settings.getValue('new-project-folder')) {
+      this.state.path = this.settings.getValue('new-project-folder');
+    }
+
+    if (this.selectedTemplate && this.selectedTemplate.state) {
+
+      let clone = JSON.parse(JSON.stringify(this.selectedTemplate.state));
+
+      Object.assign(this.state, clone, {
+        source: this.selectedTemplate.source
+      });
+    }
+
+    this.workflow.next(1);
   }
 
   async fillTemplateList() {
@@ -65,23 +90,12 @@ export class ScaffoldProject {
         github: {}
       }
     });
-  }
 
-  async attached() {
-    this.loading = true;
-    await this.fillTemplateList();
     this.selectedTemplate = this.templates[0];
-    this.loading = false;
-  }
-
-  async next() {
-    this.title = 'Create new application';
-    this.closeBtnText = 'Close';
-    await this.workflow.next();
   }
 
   switchTemplate(template: ProjectTemplate) {
-    if (this.workflow && !this.workflow.isFirst) {
+    if (!this.workflow.isFirstScreen) {
       if (!confirm('Are you sure? Progress will be lost')) {
         return;
       }
@@ -90,43 +104,30 @@ export class ScaffoldProject {
     this.selectedTemplate = template;
   }
 
-  selectedTemplateChanged() {
-    let template = this.selectedTemplate.state ? JSON.parse(JSON.stringify(this.selectedTemplate.state)) : {};
-
-    this.state = Object.assign({}, template || {}, {
-      source: this.selectedTemplate.source
-    });
-
-    if (this.settings.getValue('new-project-folder')) {
-      this.state.path = this.settings.getValue('new-project-folder');
-    }
-
-    // copy activities JSON so multiple sessions can be started without new session inheriting answers
-    this.workflow = new Workflow(JSON.parse(JSON.stringify(activities)), this.state);
-  }
-
-  async close() {
-    if (!this.workflow.isLast) {
-      if (!confirm('Are you sure?')) {
+  close() {
+    if (!this.workflow.isFirstScreen) {
+      if (!confirm('Are you sure? Progress will be lost')) {
         return;
       }
     }
 
-    let curStep = this.workflow.currentStep;
-    if (curStep && curStep.project) {
-      await curStep.execute();
+    this.dialog.cancel();
+  }
 
-      // save the project directory so we can use that as default in
-      // next sessions
-      if (!this.settings.getValue('new-project-folder')) {
-        this.settings.setValue('new-project-folder', this.state.folder);
-        await this.settings.save();
-      }
+  async next() {
+    await this.context.next();
 
-      this.dialog.ok(curStep.project);
-    } else {
-      this.dialog.cancel();
+    if (this.context.workflow.isLastStep) {
+      this.dialog.ok(this.context.project);
     }
+  }
+
+  async previous() {
+    await this.context.previous();
+  }
+
+  selectedTemplateChanged() {
+    this.reset();
   }
 }
 

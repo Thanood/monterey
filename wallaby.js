@@ -10,6 +10,7 @@ module.exports = function(wallaby) {
 
       {pattern: 'app/jspm_packages/system.src.js', instrument: false},
       {pattern: 'app/config.js', instrument: false},
+      {pattern: 'app/src/**/*.json', instrument: false},
       {pattern: 'app/jspm_packages/npm/babel-core@5.8.38/browser.min.js', load: true, instrument: false},
       {pattern: 'app/src/**/*.ts', load: false},
       {pattern: 'app/test/unit/setup.ts', load: false},

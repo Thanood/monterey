@@ -27,7 +27,7 @@ describe('url-input scaffolding', () => {
     sut.repoChanged();
     expect(sut.slug).toBe('aurelia-ui-toolkits/cm-bridges');
 
-    
+
     sut.slug = 'test';
     sut.repo = 'https://google.com';
     sut.repoChanged();
@@ -50,13 +50,13 @@ describe('url-input scaffolding', () => {
   it ('gets project name from slug (or subfolder)', async (d) => {
     sut.slug = 'aurelia-ui-toolkits/cm-bridges';
     sut.state.github.subfolder = null;
-    await sut.execute();
+    await sut.next();
     expect(sut.state.name).toBe('cm-bridges');
 
 
     sut.slug = '';
     sut.state.github.subfolder = 'original';
-    await sut.execute();
+    await sut.next();
     expect(sut.state.name).toBe('original');
 
     d();

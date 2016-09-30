@@ -3,41 +3,41 @@ import {inject, NewInstance,
   BindingEngine, Disposable}  from 'aurelia-framework';
 import {ValidationRules}      from 'aurelia-validatejs';
 import {ValidationController} from 'aurelia-validation';
-import {Notification}         from '../shared/index';
 import {FS}                   from 'monterey-pal';
+import {Notification}         from '../shared/index';
+import {WorkflowContext}      from './workflow-context';
 
-/**
- * The ProjectName screen asks the user how the project should be named.
- * It also checks whether or not the target folder already exists.
- */
+// /**
+//  * The ProjectName screen asks the user how the project should be named.
+//  * It also checks whether or not the target folder already exists.
+//  */
 @inject(NewInstance.of(ValidationController), BindingEngine, Notification)
 export class ProjectName {
-  state;
-  step: IStep;
+
+  observer: Disposable;
+  state: any;
   available: boolean;
   textfield: Element;
-  observer: Disposable;
 
   constructor(private validation: ValidationController,
               private bindingEngine: BindingEngine,
               private notification: Notification) {
   }
 
-  async activate(model) {
-    this.state = model.state;
-    this.step = model.step;
-    this.step.execute = () => this.execute();
-    this.step.previous = () => this.previous();
+  activate(model: { context: WorkflowContext }) {
+    model.context.onNext(async () => await this.next());
+
+    this.state = model.context.state;
 
     // observe the name property, so we can check for project folder existence
     this.observer = this.bindingEngine.propertyObserver(this.state, 'name').subscribe(() => this.nameChanged());
-  }
 
-  attached() {
     ValidationRules
     .ensure('name').required()
     .on(this.state);
+  }
 
+  attached() {
     this.checkFolderExistence();
 
     // focus the textfield, so users can start typing immediately
@@ -48,15 +48,7 @@ export class ProjectName {
     this.checkFolderExistence();
   }
 
-  async checkFolderExistence() {
-    if (!this.state.name) return;
-
-    let path = FS.join(this.state.path, this.state.name);
-    let folderExists = await FS.folderExists(path);
-    this.available = !folderExists;
-  }
-
-  async execute() {
+  async next() {
     let canContinue = false;
 
     // wait for debounce to finish, gives a better user experience
@@ -71,18 +63,18 @@ export class ProjectName {
       }
     }
 
-    return {
-      goToNextStep: canContinue
-    };
+    return canContinue;
+  }
+
+  async checkFolderExistence() {
+    if (!this.state.name) return;
+
+    let path = FS.join(this.state.path, this.state.name);
+    let folderExists = await FS.folderExists(path);
+    this.available = !folderExists;
   }
 
   detached() {
     this.observer.dispose();
-  }
-
-  async previous() {
-    return {
-      goToPreviousStep: true
-    };
   }
 }

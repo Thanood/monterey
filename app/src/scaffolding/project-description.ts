@@ -1,36 +1,15 @@
-import {autoinject}       from 'aurelia-framework';
-import {IStep}            from './istep';
-import {ScaffoldProject}  from './scaffold-project';
+import {WorkflowContext} from './workflow-context';
 
-/**
- * The ProjectDescription screen shows what options the user selected
- * in the wizard. This is the last chance for users to go back and make changes.
- */
-@autoinject()
+// /**
+//  * The ProjectDescription screen shows what options the user selected
+//  * in the wizard. This is the last chance for users to go back and make changes.
+//  */
 export class ProjectDescription {
-  state;
-  step: IStep;
+  state: any;
 
-  constructor(private scaffoldProject: ScaffoldProject) {}
+  activate(model: { context: WorkflowContext }) {
+    this.state = model.context.state;
 
-  async activate(model) {
-    this.state = model.state;
-    this.step = model.step;
-    this.step.execute = () => this.execute();
-    this.step.previous = () => this.previous();
-
-    this.scaffoldProject.title = 'Project configuration';
-  }
-
-  async execute() {
-    return {
-      goToNextStep: true
-    };
-  }
-
-  async previous() {
-    return {
-      goToPreviousStep: true
-    };
+    model.context.title = 'Project configuration';
   }
 }

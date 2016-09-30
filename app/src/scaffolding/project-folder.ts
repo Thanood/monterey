@@ -1,41 +1,34 @@
-import {inject, NewInstance} from 'aurelia-framework';
-import {ValidationRules}      from 'aurelia-validatejs';
-import {ValidationController} from 'aurelia-validation';
-import {FS}                   from 'monterey-pal';
-import {IStep}                from './istep';
+import {WorkflowContext} from './workflow-context';
+import {FS, Settings, ValidationController, ValidationRules, inject, NewInstance} from '../shared/index';
 
 /**
  * The ProjectFolder screen asks the user where the project should be created.
  */
-@inject(NewInstance.of(ValidationController))
+@inject(NewInstance.of(ValidationController), Settings)
 export class ProjectFolder {
-  step: IStep;
-  state;
+  state: any;
 
-  constructor(private validation: ValidationController) {
+  constructor(private validation: ValidationController,
+              private settings: Settings) {
   }
 
-  async activate(model) {
-    this.state = model.state;
-    this.step = model.step;
-    this.step.execute = () => this.execute();
-    this.step.previous = () => this.previous();
+  activate(model: { context: WorkflowContext }) {
+    model.context.onNext(() => this.next());
+
+    this.state = model.context.state;
 
     ValidationRules
     .ensure('path').required()
     .on(this.state);
   }
 
-  async previous() {
-    return {
-      goToPreviousStep: false
-    };
-  }
+  async next() {
+    if (!this.settings.getValue('new-project-folder')) {
+      this.settings.setValue('new-project-folder', this.state.path);
+      await this.settings.save();
+    }
 
-  async execute() {
-    return {
-      goToNextStep: this.validation.validate().length === 0
-    };
+    return this.validation.validate().length === 0;
   }
 
   async directoryBrowser() {

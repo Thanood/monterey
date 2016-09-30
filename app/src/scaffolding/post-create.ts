@@ -1,13 +1,10 @@
-import {autoinject, observable, LogManager} from 'aurelia-framework';
-import {Logger}            from 'aurelia-logging';
-import {DialogService}     from 'aurelia-dialog';
-import {FS}                from 'monterey-pal';
-import {IStep}             from './istep';
+import {WorkflowContext} from './workflow-context';
 import {ScaffoldProject}   from './scaffold-project';
 import {TaskManager, Task} from '../plugins/task-manager/index';
 import {TaskManagerModal}  from '../plugins/task-manager/task-manager-modal';
 import {WorkflowViewer}    from '../plugins/workflow/workflow-viewer';
-import {Notification, Project, PluginManager, ProjectManager} from '../shared/index';
+import {Notification, Project, PluginManager, ProjectManager,
+  FS, Logger, DialogService, autoinject, observable, LogManager} from '../shared/index';
 
 const logger = <Logger>LogManager.getLogger('PostCreate');
 
@@ -19,10 +16,10 @@ const logger = <Logger>LogManager.getLogger('PostCreate');
 @autoinject()
 export class PostCreate {
   state;
-  step: IStep;
   project: Project;
   @observable checkedCount: number;
   selectedTasks: Array<Task>;
+  context: WorkflowContext;
   workflowViewer: WorkflowViewer;
 
   constructor(private projectManager: ProjectManager,
@@ -32,13 +29,14 @@ export class PostCreate {
               private notification: Notification,
               private taskManager: TaskManager) {}
 
-  async activate(model) {
-    this.state = model.state;
-    this.step = model.step;
-    this.step.execute = () => this.execute();
-    this.step.previous = () => this.previous();
 
-    this.scaffoldProject.title = 'The project has been created!';
+  async activate(model: { context: WorkflowContext }) {
+    this.context = model.context;
+    this.state = model.context.state;
+
+    this.context.onNext(() => this.next());
+
+    this.context.title = 'The project has been created!';
 
     await this.addProject();
   }
@@ -50,7 +48,7 @@ export class PostCreate {
 
     if (proj) {
       this.project = <Project>proj;
-      this.step.project = this.project;
+      this.context.project = this.project;
     }
   }
 
@@ -59,10 +57,12 @@ export class PostCreate {
   }
 
   checkedCountChanged() {
-    this.scaffoldProject.closeBtnText = this.checkedCount > 0 ? 'Start' : 'Close';
+    this.context.closeButtonVisible = false;
+    this.context.previousButtonVisible = false;
+    this.context.nextButtonText = this.checkedCount > 0 ? 'Start' : 'Close';
   }
 
-  async execute() {
+  async next() {
     if (this.checkedCount > 0) {
       this.workflowViewer.start();
 
@@ -73,14 +73,6 @@ export class PostCreate {
       logger.info(`No tasks were checked`);
     }
 
-    return {
-      goToNextStep: true
-    };
-  }
-
-  async previous() {
-    return {
-      goToPreviousStep: true
-    };
+    return true;
   }
 }
