@@ -10,7 +10,7 @@ export class GithubCreds {
   username: string;
   password: string;
 
-  constructor(private validation: ValidationController,
+  constructor(public validation: ValidationController,
               private dialog: DialogController,
               private state: ApplicationState,
               private notification: Notification) {}

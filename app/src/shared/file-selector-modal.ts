@@ -17,9 +17,9 @@ export class FileSelectorModal {
   filters: Array<any>;
   selectedFilePath: string;
 
-  constructor(private dialogController: DialogController,
-              private validation: ValidationController,
-              private notification: Notification) {
+  constructor(public dialogController: DialogController,
+              public validation: ValidationController,
+              public notification: Notification) {
   }
 
   activate(model) {
@@ -46,7 +46,7 @@ export class FileSelectorModal {
       if (paths.length === 1) {
         this.selectedFilePath = paths[0];
       } else if (paths.length > 1) {
-        this.notification.warning('Please select one webpack.config.js file');
+        this.notification.warning(`Please select one ${this.expectedFileName} file`);
       };
     }
   }
