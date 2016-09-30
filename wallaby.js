@@ -12,7 +12,8 @@ module.exports = function(wallaby) {
       {pattern: 'app/config.js', instrument: false},
       {pattern: 'app/jspm_packages/npm/babel-core@5.8.38/browser.min.js', load: true, instrument: false},
       {pattern: 'app/src/**/*.ts', load: false},
-      {pattern: 'app/test/unit/setup.ts', load: false}
+      {pattern: 'app/test/unit/setup.ts', load: false},
+      {pattern: 'app/test/unit/fakes/*.ts', load: false}
 
     ],
 

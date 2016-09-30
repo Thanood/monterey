@@ -1,43 +1,27 @@
 import {GithubCreds}  from '../../../src/shared/github-creds';
-import {Notification}  from '../../../src/shared/notification';
-import {ApplicationState}  from '../../../src/shared/application-state';
-import {ValidationController} from 'aurelia-validation';
-import {DialogController} from 'aurelia-dialog';
+import {Notification, NotificationFake, DialogController,
+  DialogControllerFake, ValidationController, ValidationControllerFake,
+  ApplicationState, ApplicationStateFake}  from '../fakes/index';
 import {Container} from 'aurelia-framework';
 
 describe('GithubCreds', () => {
   let sut: GithubCreds;
   let container: Container;
-  let notification: Notification;
-  let validation: ValidationController;
-  let dialogController: DialogController;
-  let state: ApplicationState;
 
   beforeEach(() => {
     container = new Container();
-    notification = <any>{
-      warning: jasmine.createSpy('warning')
-    };
-    validation = <any>{
-      validate: jasmine.createSpy('validate').and.returnValue([])
-    };
-    dialogController = <any> {
-      ok: jasmine.createSpy('ok')
-    };
-    state = <any>{
-      _save: jasmine.createSpy('_save')
-    };
-    container.registerInstance(ApplicationState, state);
-    container.registerInstance(Notification, notification);
-    container.registerInstance(DialogController, dialogController);
+    container.registerSingleton(Notification, NotificationFake);
+    container.registerSingleton(DialogController, DialogControllerFake);
+    container.registerSingleton(ApplicationState, ApplicationStateFake);
     sut = container.get(GithubCreds);
 
-    sut.validation = validation;
+    sut.validation = new ValidationControllerFake();
   });
 
   it('warns if there are validation errors', () => {
-    let spy = <jasmine.Spy>validation.validate;
-    spy.and.returnValue(['error', 'error']);
+    let validation = <ValidationControllerFake>sut.validation;
+    validation.validate.and.returnValue(['error', 'error']);
+    let notification = <Notification>container.get(Notification);
 
     sut.submit();
 
@@ -45,8 +29,7 @@ describe('GithubCreds', () => {
   });
 
   it('closes dialog if there are no validation errors', () => {
-    let spy = <jasmine.Spy>validation.validate;
-    spy.and.returnValue([]);
+    let dialogController = <DialogController>container.get(DialogController);
 
     sut.submit();
 
@@ -54,6 +37,7 @@ describe('GithubCreds', () => {
   });
 
   it('stores github creds as base64 hash of username:password', () => {
+    let state = <ApplicationStateFake>container.get(ApplicationState);
 
     // base64 of foo:bar is Zm9vOmJhcg==
     sut.username = 'foo';
@@ -65,6 +49,8 @@ describe('GithubCreds', () => {
   });
 
   it('saves session', () => {
+    let state = <ApplicationStateFake>container.get(ApplicationState);
+
     sut.username = 'foo';
     sut.password = 'bar';
 

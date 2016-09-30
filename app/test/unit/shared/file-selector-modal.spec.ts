@@ -1,33 +1,20 @@
 import {FileSelectorModal}  from '../../../src/shared/file-selector-modal';
-import {Notification}  from '../../../src/shared/notification';
-import {ValidationController} from 'aurelia-validation';
-import {DialogController} from 'aurelia-dialog';
+import {Notification, NotificationFake, DialogController, DialogControllerFake,
+  ValidationController, ValidationControllerFake}  from '../fakes/index';
 import {FS} from 'monterey-pal';
 import {Container} from 'aurelia-framework';
 
 describe('FileSelectorModal', () => {
   let sut: FileSelectorModal;
   let container: Container;
-  let notification: Notification;
-  let validation: ValidationController;
-  let dialogController: DialogController;
 
   beforeEach(() => {
     container = new Container();
-    notification = <any>{
-      warning: jasmine.createSpy('warning')
-    };
-    validation = <any>{
-      validate: jasmine.createSpy('validate')
-    };
-    dialogController = <any> {
-      ok: jasmine.createSpy('ok')
-    };
-    container.registerInstance(Notification, notification);
-    container.registerInstance(DialogController, dialogController);
+    container.registerSingleton(Notification, NotificationFake);
+    container.registerSingleton(DialogController, DialogControllerFake);
     sut = container.get(FileSelectorModal);
 
-    sut.validation = validation;
+    sut.validation = new ValidationControllerFake();
 
     FS.showOpenDialog = jasmine.createSpy('showOpenDialog');
   });
@@ -59,6 +46,7 @@ describe('FileSelectorModal', () => {
 
   it('warns when multiple files have been selected', async (r) => {
     FS.showOpenDialog = jasmine.createSpy('showOpenDialog').and.returnValue(Promise.resolve(['c:/first/test.js', 'c:/second/abcd.js']));
+    let notification = <Notification>container.get(Notification);
 
     sut.activate({
       expectedFileName: 'test.js',
@@ -88,8 +76,9 @@ describe('FileSelectorModal', () => {
   });
 
   it('warns if there are validation errors', () => {
-    let spy = <jasmine.Spy>validation.validate;
-    spy.and.returnValue(['error', 'error']);
+    let validation = <ValidationControllerFake>sut.validation;
+    validation.validate.and.returnValue(['error', 'error']);
+    let notification = <Notification>container.get(Notification);
 
     sut.ok();
 
@@ -97,8 +86,8 @@ describe('FileSelectorModal', () => {
   });
 
   it('closes dialog if there are no validation errors', () => {
-    let spy = <jasmine.Spy>validation.validate;
-    spy.and.returnValue([]);
+    let validation = <ValidationControllerFake>sut.validation;
+    let dialogController = <DialogController>container.get(DialogController);
 
     sut.selectedFilePath = 'c:/first/test.js';
 
