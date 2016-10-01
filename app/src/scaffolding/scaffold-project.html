@@ -33,7 +33,7 @@
     <ai-dialog-footer>
       <div class="align-right">
         <button class="btn btn-primary" click.trigger="close()" show.bind="context.closeButtonVisible">${context.closeButtonText}</button>
-        <button class="btn btn-primary" click.trigger="previous()" show.bind="context.previousButtonVisible && !context.isFirstScreen">
+        <button class="btn btn-primary" click.trigger="context.previous()" show.bind="context.previousButtonVisible && !context.isFirstScreen">
           ${context.previousButtonText}
         </button>
         <button class="btn btn-primary" click.delegate="next()" show.bind="context.nextButtonVisible">${context.nextButtonText}</button>

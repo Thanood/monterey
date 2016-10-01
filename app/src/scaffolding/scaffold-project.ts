@@ -122,10 +122,6 @@ export class ScaffoldProject {
     }
   }
 
-  async previous() {
-    await this.context.previous();
-  }
-
   selectedTemplateChanged() {
     this.reset();
   }
