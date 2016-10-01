@@ -34,20 +34,20 @@ describe('FileSystemLogger', () => {
   });
 
   it ('sets logFilePath', () => {
-    let date = new Date();
     expect(sut.logFilePath.match(/c:\/appdata\/monterey\/logs\/....-..-..\.txt/).length > 0).toBe(true);
   });
 
   it ('uses unique file names per day', () => {
     expect(sut.getLogFileName(new Date(2016, 5, 3))).toBe('2016-06-03.txt');
     expect(sut.getLogFileName(new Date(2016, 10, 3))).toBe('2016-11-03.txt');
+    expect(sut.getLogFileName(new Date(2016, 9, 3))).toBe('2016-10-03.txt');
   });
 
   it ('creates logfolder if it doesn\'t exist', async (r) => {
     spyOn(sut, 'fileOrFolderExists').and.returnValue(Promise.resolve(false));
     FS.mkdir = jasmine.createSpy('FS.mkdir');
     await sut.verifyLogPathAndFile();
-    expect(FS.mkdir).toHaveBeenCalledWith(sut.logFolder)
+    expect(FS.mkdir).toHaveBeenCalledWith(sut.logFolder);
     r();
   });
 
@@ -125,7 +125,7 @@ describe('FileSystemLogger', () => {
               '4.txt',
               '5.txt'
       ];
-    }
+    };
 
     sut.getModifiedDate = async (path) => {
       let oldLogs = ['c:/appdata/monterey/logs/1.txt', 'c:/appdata/monterey/logs/2.txt', 'c:/appdata/monterey/logs/3.txt'];

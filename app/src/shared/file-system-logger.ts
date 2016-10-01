@@ -25,8 +25,12 @@ export class FileSystemLogger {
 
   getLogFileName(date = new Date()) {
     let year = date.getFullYear();
-    let month = date.getMonth().toString().length === 1 ? '0' + (date.getMonth() + 1) : date.getMonth() + 1;
-    let day = date.getDate().toString().length === 1 ? '0' + date.getDate() : date.getDate();
+    let month = '0' + (date.getMonth() + 1);
+    let day = '0' + date.getDate();
+
+    month = month.slice(-2);
+    day = day.slice(-2);
+
     return `${year}-${month}-${day}.txt`;
   }
 
