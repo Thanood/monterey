@@ -59,6 +59,18 @@ describe('Workflow scaffolding engine', () => {
     expect(sut.currentStep.id).toBe(2);
   });
 
+  it('isFirstScreen', () => {
+    let step = <any>{foo: 'bar'};
+    sut.firstScreen = step;
+    sut.currentStep = step;
+    expect(sut.isFirstScreen).toBe(true);
+
+    let otherStep = <any>{foo: 'foobar'};
+    sut.firstScreen = step;
+    sut.currentStep = otherStep;
+    expect(sut.isFirstScreen).toBe(false);
+  });
+
   it('next() calls next function of accepting strategies', () => {
     class Strategy {
       accepts (step: IStep) { return true; }

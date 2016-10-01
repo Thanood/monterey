@@ -13,7 +13,7 @@ export class Question {
   step: IStep;
   state: any;
 
-  constructor(private validation: ValidationController,
+  constructor(public validation: ValidationController,
               private element: Element) {
   }
 

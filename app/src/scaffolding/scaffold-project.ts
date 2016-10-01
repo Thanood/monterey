@@ -96,7 +96,7 @@ export class ScaffoldProject {
 
   switchTemplate(template: ProjectTemplate) {
     if (!this.workflow.isFirstScreen) {
-      if (!confirm('Are you sure? Progress will be lost')) {
+      if (!this._confirm('Are you sure? Progress will be lost')) {
         return;
       }
     }
@@ -106,12 +106,16 @@ export class ScaffoldProject {
 
   close() {
     if (!this.workflow.isFirstScreen) {
-      if (!confirm('Are you sure? Progress will be lost')) {
+      if (!this._confirm('Are you sure? Progress will be lost')) {
         return;
       }
     }
 
     this.dialog.cancel();
+  }
+
+  _confirm(msg) {
+    return confirm(msg);
   }
 
   async next() {

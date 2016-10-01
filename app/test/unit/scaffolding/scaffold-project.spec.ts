@@ -22,6 +22,7 @@ describe('Scaffold project modal', () => {
     sut = container.get(ScaffoldProject);
     sut.reset();
     context = sut.context;
+    spyOn(sut, '_confirm');
   });
 
   it('copies JSON definition so old answers are cleared', () => {
@@ -102,5 +103,79 @@ describe('Scaffold project modal', () => {
     expect(dialog.ok).toHaveBeenCalled();
 
     r();
+  });
+
+  it('adds aurelia-cli skeleton template', async (r) => {
+    await sut.fillTemplateList();
+    expect(sut.templates.length).toBeGreaterThan(0);
+    expect(sut.templates[0].name).toBe('Aurelia-CLI');
+    r();
+  });
+
+  it('aurelia-cli sets default app name', async (r) => {
+    await sut.fillTemplateList();
+    expect(sut.templates[0].state.name).toBe('aurelia-app');
+    r();
+  });
+
+  it('adds skeleton templates', async (r) => {
+    let registry = <MontereyRegistriesFake>container.get(MontereyRegistries);
+    let spy = registry.getTemplates.and.returnValue(Promise.resolve([{
+      name: 'foo'
+    }, {
+      name: 'bar'
+    }]));
+    await sut.fillTemplateList();
+    expect(sut.templates[1].name).toBe('foo');
+    expect(sut.templates[2].name).toBe('bar');
+    r();
+  });
+
+  it('adds github template', async (r) => {
+    await sut.fillTemplateList();
+    expect(sut.templates.length).toBeGreaterThan(0);
+    expect(sut.templates[sut.templates.length - 1].name).toBe('GitHub');
+    r();
+  });
+
+  it('selects first template by default', async (r) => {
+    await sut.fillTemplateList();
+    expect(sut.selectedTemplate).toBe(sut.templates[0]);
+    r();
+  });
+
+  it('confirms action when user switches template and there is progress', () => {
+    let step1 = <any>{ id: 1 };
+    let step2 = <any>{ id: 1 };
+    sut.workflow.firstScreen = step1;
+    sut.workflow.currentStep = step2;
+    sut.switchTemplate(sut.templates[0]);
+
+    expect(sut._confirm).toHaveBeenCalledWith('Are you sure? Progress will be lost');
+  });
+
+  it('updates selectedTemplate', () => {
+    sut.switchTemplate(sut.templates[0]);
+    expect(sut.selectedTemplate).toBe(sut.templates[0]);
+
+    sut.switchTemplate(sut.templates[1]);
+    expect(sut.selectedTemplate).toBe(sut.templates[1]);
+  });
+
+  it('confirms action when user closes dialog and there is progress', () => {
+    let step1 = <any>{ id: 1 };
+    let step2 = <any>{ id: 1 };
+    sut.workflow.firstScreen = step1;
+    sut.workflow.currentStep = step2;
+    sut.close();
+
+    expect(sut._confirm).toHaveBeenCalledWith('Are you sure? Progress will be lost');
+  });
+
+  it('cancels dialog when user clicks on close', () => {
+    let dialogController = <DialogControllerFake>container.get(DialogController);
+    sut.close();
+
+    expect(dialogController.cancel).toHaveBeenCalled();
   });
 });
