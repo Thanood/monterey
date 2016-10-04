@@ -10,6 +10,7 @@ describe('ExitProcedure', () => {
     container = new Container();
     sut = container.get(ExitProcedure);
 
+    SESSION.getEnv = () => 'production';
     spyOn(OS, 'kill');
   });
 
@@ -28,7 +29,6 @@ describe('ExitProcedure', () => {
   });
 
   it('sets returnValue value so that monterey does not close immediately', async (r) => {
-    spyOn(SESSION, 'getEnv').and.returnValue('production');
     OS.processes = [{ id: 1 }, { id: 2 }, { id: 3 }];
 
     let closeSpy = spyOn(window, 'close');
@@ -42,7 +42,6 @@ describe('ExitProcedure', () => {
   });
 
   it('closes window in the end', async (r) => {
-    spyOn(SESSION, 'getEnv').and.returnValue('production');
     OS.processes = [{ id: 1 }, { id: 2 }, { id: 3 }];
 
     let closeSpy = spyOn(window, 'close');

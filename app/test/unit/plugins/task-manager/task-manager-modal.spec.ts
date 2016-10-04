@@ -34,7 +34,9 @@ describe('TaskManager modal', () => {
         if (key === 'show-finished-tasks') {
           return true;
         }
-      }
+      },
+      setValue: (key) => {},
+      save: () => Promise.resolve()
     });
     sut = <TaskManagerModal>container.get(TaskManagerModal);
   });
