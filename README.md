@@ -32,3 +32,6 @@ The user manual can be found [here](https://aurelia-ui-toolkits.gitbooks.io/mont
 
 ### Monterey technical documentation
 Please refer to [this gitbook](https://aurelia-ui-toolkits.gitbooks.io/monterey-technical-documentation/content/) for the technical documentation of Monterey, where [this chapter](https://aurelia-ui-toolkits.gitbooks.io/monterey-technical-documentation/content/cloning_and_running.html) explains how to set up Monterey for development.
+
+### Download stats
+https://monterey-framework.github.io/download-stats/
