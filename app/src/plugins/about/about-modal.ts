@@ -12,7 +12,7 @@ export class AboutModal {
   async activate() {
     let packageJSON = JSON.parse(await FS.readFile(FS.join(FS.getRootDir(), 'package.json')));
 
-    this.montereyVersion = packageJSON.version;
+    this.montereyVersion = packageJSON.version + '-Atom';
     this.nodeJSVersion = OS.getNodeVersion();
     this.electronVersion = OS.getElectronVersion();
   }
