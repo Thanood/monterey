@@ -44,6 +44,9 @@ export class Common {
   }
 
   _resolveJSPMLogMessage(msg: string) {
+    if (!msg) {
+      return '';
+    }
     return msg.replace(/(\s|\`|^)%([^%\n]+)%/g, '$1$2');
   }
 
