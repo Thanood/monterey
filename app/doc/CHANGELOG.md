@@ -1,3 +1,15 @@
+<a name="0.4.5"></a>
+## [0.4.5](https://github.com/monterey-framework/monterey/compare/v0.4.4...v0.4.5) (2016-10-06)
+
+
+### Bug Fixes
+
+* **file-system-logger:** fixed tests, resolved issue with the 9th month ([531e87a](https://github.com/monterey-framework/monterey/commit/531e87a))
+* **jspm:** some jspm message are null ([b893c8e](https://github.com/monterey-framework/monterey/commit/b893c8e))
+* **task-manager-modal:** translate task-cannot-be-stopped message ([1d5055f](https://github.com/monterey-framework/monterey/commit/1d5055f))
+
+
+
 <a name="0.4.4"></a>
 ## [0.4.4](https://github.com/monterey-framework/monterey/compare/v0.4.3...v0.4.4) (2016-09-28)
 
