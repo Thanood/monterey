@@ -1,3 +1,11 @@
+<a name="0.4.6"></a>
+## [0.4.6](https://github.com/monterey-framework/monterey/compare/v0.4.5...v0.4.6) (2016-10-07)
+
+
+### Bug Fixes
+
+* **electron:** lock down version of electron ([3968a8f](https://github.com/monterey-framework/monterey/commit/3968a8f))
+
 <a name="0.4.5"></a>
 ## [0.4.5](https://github.com/monterey-framework/monterey/compare/v0.4.4...v0.4.5) (2016-10-06)
 
