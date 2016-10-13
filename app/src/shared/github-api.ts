@@ -19,59 +19,57 @@ export class GithubAPI {
   async getLatestReleaseZIP(repository: string) {
     await this.confirmAuth();
 
-    return this.client.fetch(`${this.githubAPIUrl}/repos/${repository}/releases/latest`)
-      .then(response => {
+    return this.execute(`${this.githubAPIUrl}/repos/${repository}/releases/latest`)
+    .catch(error => {
+      if (error.statusCode === 404) {
+        // if we get a 404 then there probably hasn't been a release yet
+        // then return the zip url of the master branch
+        return {
+          zipball_url: `https://github.com/${repository}/archive/master.zip`,
+          tag_name: 'master'
+        };
+      }
 
-        let error;
-        let result;
+      throw error;
+    });
+  }
 
-        switch (response.status) {
-          case 200:
-            result = response.json();
-            break;
-          case 401:
-            error = new Error(`Github returned ${response.statusText}, please check you credentials and try again`);
-            break;
-          case 404:
-            // if we get a 404 then there probably hasn't been a release yet
-            // then return the zip url of the master branch
-            result = {
-              zipball_url: `https://github.com/${repository}/archive/master.zip`,
-              tag_name: 'master'
-            };
-            break;
-          default:
-            error = new Error(`Github returned ${response.statusText}`);
-        }
-
-        if (error) {
-          throw error;
-        } else {
-          return result;
-        }
-
-      });
+  /**
+   * Executes a request, throw error ({ status: number, message: string }) when statusCode
+   * is something else than 200
+   */
+  async execute(url: string) {
+    return this.client.fetch(url)
+    .then(response => {
+      if (response.status !== 200) {
+        throw {
+          status: response.status,
+          message: response.statusText
+        };
+      } else {
+        return response.json();
+      }
+    });
   }
 
   async getTags(repository: string) {
-    return this.client.fetch(`${this.githubAPIUrl}/repos/${repository}/tags`)
-    .then(response => response.json());
+    return this.execute(`${this.githubAPIUrl}/repos/${repository}/tags`);
   }
 
   async getLatestTag(repository: string) {
-    return this.client.fetch(`${this.githubAPIUrl}/repos/${repository}/releases/latest`)
+    return this.execute(`${this.githubAPIUrl}/repos/${repository}/releases/latest`)
     .then(response => {
+      return response.tag_name;
+    })
+    .catch(response => {
       if (response.status === 404) {
         return 'master';
-      } else {
-        return response.json()
-        .then(data => data.tag_name);
       }
     });
   }
 
   async getContents(repository: string, path: string = '') {
-    return this.client.fetch(`${this.githubAPIUrl}/repos/${repository}/contents/${path}`);
+    return this.execute(`${this.githubAPIUrl}/repos/${repository}/contents/${path}`);
   }
 
   async confirmAuth() {
