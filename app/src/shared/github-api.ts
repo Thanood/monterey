@@ -30,9 +30,7 @@ export class GithubAPI {
             result = response.json();
             break;
           case 401:
-            error = {
-              message: `Github returned ${response.statusText}, please check you credentials and try again`
-            };
+            error = new Error(`Github returned ${response.statusText}, please check you credentials and try again`);
             break;
           case 404:
             // if we get a 404 then there probably hasn't been a release yet
@@ -43,9 +41,7 @@ export class GithubAPI {
             };
             break;
           default:
-            error = {
-              message: `Github returned ${response.statusText}`
-            };
+            error = new Error(`Github returned ${response.statusText}`);
         }
 
         if (error) {
