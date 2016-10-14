@@ -56,6 +56,18 @@ export class GithubAPI {
     return this.execute(`${this.githubAPIUrl}/repos/${repository}/tags`);
   }
 
+  async getLatestRelease(repository: string) {
+    await this.confirmAuth();
+
+    return this.execute(`${this.githubAPIUrl}/repos/${repository}/releases/latest`);
+  }
+
+  async getReleases(repository: string) {
+    await this.confirmAuth();
+
+    return this.execute(`${this.githubAPIUrl}/repos/${repository}/releases`);
+  }
+
   async getLatestTag(repository: string) {
     return this.execute(`${this.githubAPIUrl}/repos/${repository}/releases/latest`)
     .then(response => {

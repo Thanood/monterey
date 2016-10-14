@@ -49,7 +49,10 @@ export async function configure(aurelia: Aurelia) {
     .feature('main')
     .feature('scaffolding')
     .feature('plugins')
-    .globalResources([System.normalizeSync('shared/tooltip/tooltip-attribute')]);
+    .globalResources([
+      System.normalizeSync('shared/tooltip/tooltip-attribute'),
+      System.normalizeSync('shared/spinner')
+    ]);
 
   // register monterey's log appender
   LogManager.addAppender(aurelia.container.get(MonteryLogAppender));

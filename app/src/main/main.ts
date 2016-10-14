@@ -1,8 +1,9 @@
 import {TaskManager}           from '../plugins/task-manager/index';
+import {Updater}               from '../updater/updater';
 import {ScaffoldProject}       from '../scaffolding/scaffold-project';
 import {Tiles}                 from './components/tiles';
 import {ProjectList}           from './components/project-list';
-import {SelectedProject, Project, ProjectFinder, withModal, autoinject, singleton} from '../shared/index';
+import {SelectedProject, Project, Settings, ProjectFinder, withModal, autoinject, singleton} from '../shared/index';
 
 /**
  * Almost everything in Monterey is inside the Main screen.
@@ -22,7 +23,22 @@ export class Main {
 
   constructor(private projectFinder: ProjectFinder,
               private selectedProject: SelectedProject,
-              private taskManager: TaskManager) {
+              private taskManager: TaskManager,
+              private updater: Updater,
+              private settings: Settings) {
+
+    this.settings.addSetting({
+      identifier: 'check-for-updates',
+      title: 'Check for updates?',
+      type: 'boolean',
+      value: true
+    });
+  }
+
+  async attached() {
+    if (this.settings.getValue('check-for-updates')) {
+      await this.updater.checkForUpdate();
+    }
   }
 
   async addProject() {

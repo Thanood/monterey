@@ -1,0 +1,28 @@
+<template>
+  <require from="../shared/converters/moment"></require>
+
+  <ai-dialog class="update-modal" width="600" title="Update available" height="500">
+    <ai-dialog-body>
+      <p if.bind="error">${error}</p>
+
+      <spinner if.bind="loading"></spinner>
+
+      <div show.bind="!error && !loading">
+        <p>There is a new update available. You are currently on <b>v${currentVersion}</b> and version <b>${latestRelease.name}</b> was released on <b>${latestRelease.created_at | moment}</b>.</p>
+
+        <div repeat.for="release of releases">
+          <hr>
+          <p>Release ${release.name} was created on ${release.created_at | moment}</p>
+          <div class="changelog" innerhtml.bind="release.body"></div>
+        </div>
+      </div>
+    </ai-dialog-body>
+
+    <ai-dialog-footer>
+      <div class="align-right">
+        <button class="btn btn-primary" click.trigger="dialogController.close()">Install update</button>
+        <button class="btn btn-primary" click.trigger="dialogController.close()" i18n="close"></button>
+      </div>
+    </ai-dialog-footer>
+  </ai-dialog>
+</template>

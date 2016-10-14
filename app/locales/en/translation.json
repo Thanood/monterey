@@ -85,5 +85,7 @@
   "tooltip-webpack":         "**Webpack**      <br> Webpack <br/>                                            [Documentation](https://aurelia-ui-toolkits.gitbooks.io/monterey-user-manual/content/features/webpack.html)",
 
   "tooltip-workflow-run":    "**Run**          <br> Starts the application <br/>                             [Documentation](https://aurelia-ui-toolkits.gitbooks.io/monterey-user-manual/content/features/run.html)",
-  "tooltip-workflow-editor": "**Workflows**    <br> A workflow is a combination of commands that is executed in a particular order"
+  "tooltip-workflow-editor": "**Workflows**    <br> A workflow is a combination of commands that is executed in a particular order",
+
+  "github-unauthorized": "Unauthorized to do GitHub API requests. Please make sure that your GitHub credentials are correct."
 }

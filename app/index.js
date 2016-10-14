@@ -21,7 +21,6 @@ fixPath();
 app.commandLine.appendSwitch('enable-transparent-visuals');
 
 const handleStartupEvent = require('./startuphandler.js');
-const update = require('./updater');
 
 // stores and retrieves the width, height, x and y position
 // of the window, in order to restore it after restarts
@@ -65,14 +64,6 @@ if (isDev() || !handleStartupEvent()) {
     }
 
     let ipcMain = electron.ipcMain;
-    ipcMain.on('monterey-ready', () => {
-      if (!isDev()) {
-        // check for updates
-        update(mainWindow);
-      } else {
-        notify(false, 'info', 'updater', 'skipping auto update, development mode is active');
-      }
-    });
 
     // open anchors with target="_blank" in new browser window
     mainWindow.webContents.on('new-window', function(e, url) {
