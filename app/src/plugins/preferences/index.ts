@@ -1,5 +1,6 @@
 import {autoinject}    from 'aurelia-framework';
 import {Settings, PluginManager} from '../../shared/index';
+import {OtherSettings}           from './other-settings';
 import {BasePlugin}              from '../base-plugin';
 
 export function configure(aurelia) {
@@ -11,26 +12,11 @@ export function configure(aurelia) {
 @autoinject()
 class Plugin extends BasePlugin {
 
-  constructor(private settings: Settings) {
+  constructor(private settings: Settings,
+              private otherSettings: OtherSettings) {
     super();
 
-    this.settings.addSetting({
-      identifier: 'theme',
-      title: 'Theme',
-      type: 'string',
-      visible: false,
-      value: 'default'
-    });
-
-    this.settings.addSetting({
-      identifier: 'language',
-      title: 'Language',
-      type: 'string',
-      value: 'en',
-      options: [
-        { value: 'en', display: 'English' }
-      ]
-    });
+    otherSettings.add(settings);
   }
 
   async getTaskBarItems(project) {
