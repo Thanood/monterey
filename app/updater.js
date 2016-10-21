@@ -1,10 +1,6 @@
-// const electron = require('electron');
-// const app = electron.app;
-// const autoUpdater = electron.autoUpdater;
-// const os = require('os');
+
 // const notify = require('./notify');
 
-// const UPDATE_SERVER_HOST = 'nuts.jeroenvinke.nl:443'
 
 // module.exports = function update (window) {
 //   const version = app.getVersion();
@@ -35,3 +31,31 @@
 //   autoUpdater.checkForUpdates();
 // }
 
+const electron = require('electron');
+const app = electron.app;
+const autoUpdater = electron.autoUpdater;
+const os = require('os');
+const UPDATE_SERVER_HOST = 'nuts.jeroenvinke.nl:443'
+
+module.exports = function update (eventCallback) {
+  autoUpdater.addListener('update-available', (event) => {
+    eventCallback('update-available');
+  });
+  autoUpdater.addListener('update-downloaded', (event, releaseNotes, releaseName, releaseDate, updateURL) => {
+    eventCallback('update-downloaded', releaseNotes, releaseName, releaseDate, updateURL);
+  });
+  autoUpdater.addListener('error', (error) => {
+    eventCallback('error', error);
+  });
+  autoUpdater.addListener('checking-for-update', (event) => {
+    eventCallback('checking-for-update', event);
+  });
+  autoUpdater.addListener('update-not-available', () => {
+    eventCallback('update-not-available');
+  });
+
+  let feedURL = `https://${UPDATE_SERVER_HOST}/update/${os.platform()}/${os.platform() === 'darwin' ? '?version=' + version : ''}`;
+  eventCallback('feed-url', feedURL);
+  autoUpdater.setFeedURL(feedURL);
+  autoUpdater.checkForUpdates();
+}

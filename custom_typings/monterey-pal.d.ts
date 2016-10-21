@@ -74,5 +74,6 @@ declare module 'monterey-pal' {
     getPty(): any;
     getPath(name: string): string;
     getGlobal(name: string): any;
+    getAutoUpdater(): any;
   }
 }

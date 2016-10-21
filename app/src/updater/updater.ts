@@ -1,6 +1,6 @@
-import {UpdateModal} from './update-modal';
-import {OS, ELECTRON, FS, SESSION} from 'monterey-pal';
-import {GithubAPI, autoinject, Settings, DialogService, Notification, Logger, LogManager} from '../shared/index';
+import {OS, ELECTRON, FS} from 'monterey-pal';
+import {Notifications, Notification} from '../plugins/notifications/notifications';
+import {GithubAPI, autoinject, Settings, DialogService, Notification as Toastr, IPC, Logger, LogManager} from '../shared/index';
 
 const logger = <Logger>LogManager.getLogger('updater');
 
@@ -8,8 +8,10 @@ const logger = <Logger>LogManager.getLogger('updater');
 export class Updater {
   constructor(private githubAPI: GithubAPI,
               private dialogService: DialogService,
-              private notification: Notification,
-              private settings: Settings) {}
+              private toastr: Toastr,
+              private notifications: Notifications,
+              private settings: Settings,
+              private ipc: IPC) {}
 
   async checkForUpdate() {
     if (!this.settings.getValue('check-for-updates')) {
@@ -21,28 +23,22 @@ export class Updater {
       return;
     }
 
-    logger.info('Update available, showing update modal');
+    logger.info('Update available, showing notification');
 
-    let result = await this.dialogService.open(UpdateModal);
-    if (!result.wasCancelled) {
-      await this.update();
-    } else {
-      logger.info('Update modal was cancelled');
-    }
+    this.notifications.add({
+      title: 'Update available',
+      icon: 'fa fa-arrow-up',
+      viewModel: 'updater/update-screen',
+      model: {},
+      type: 'Update'
+    } as Notification);
   }
 
-  async update() {
-    logger.info('Going to update');
-    // alert('update');
-    // let autoUpdater = ELECTRON.getAutoUpdater();
+  async update(eventCallback: (event, ...args) => void) {
+    ELECTRON.getGlobal('update')(eventCallback);
   }
 
   async needUpdate() {
-    if (SESSION.getEnv() === 'development') {
-      logger.info('Development mode detected, not going to update');
-      return false;
-    }
-
     try {
       let release = await this.githubAPI.getLatestRelease('monterey-framework/monterey');
       let latestVersion = release.name;
@@ -54,7 +50,7 @@ export class Updater {
       return latestVersion !== currentVersion;
     } catch (error) {
       if (error.status === 401) {
-        this.notification.info('Could not check for updates. GitHub returned "Unauthorized"');
+        this.toastr.info('Could not check for updates. GitHub returned "Unauthorized"');
       }
       return false;
     }

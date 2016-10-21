@@ -26,9 +26,16 @@ export class IPC {
   }
 
   /**
-   * Sends the `monterey-ready` message to the Main screen. Indicating that the loading process has been completed.
+   * Sends the `monterey-ready` message to the Main process. Indicating that the loading process has been completed.
    */
   notifyMainOfStart() {
-    ELECTRON.getIpcRenderer().send('monterey-ready');
+    this.send('monterey-ready');
+  }
+
+  /**
+   * Sends a message to the Main process
+   */
+  send(event: string) {
+    ELECTRON.getIpcRenderer().send(event);
   }
 }

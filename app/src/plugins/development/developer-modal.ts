@@ -1,6 +1,5 @@
 import {TaskManager, Task} from '../task-manager/index';
 import {TaskManagerModal}  from '../task-manager/task-manager-modal';
-import {UpdateModal}       from '../../updater/update-modal';
 import {autoinject, DialogService, DialogController, ApplicationState, SelectedProject, withModal} from '../../shared/index';
 
 @autoinject()
@@ -61,10 +60,5 @@ export class DeveloperModal {
 
   throwError() {
     throw new Error('something terrible has happened');
-  }
-
-  @withModal(UpdateModal)
-  showUpdateModal() {
-
   }
 }

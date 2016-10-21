@@ -69,6 +69,7 @@ export async function configure(aurelia: Aurelia) {
 
   let exitProcedure = new ExitProcedure();
   let ipc = new IPC(aurelia);
+  aurelia.container.registerInstance(IPC, ipc);
   let globalExceptionHandler = new GlobalExceptionHandler(aurelia);
 
 

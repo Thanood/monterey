@@ -27,6 +27,11 @@ describe('IPC', () => {
     expect(ipcRenderer.send).toHaveBeenCalledWith('monterey-ready');
   });
 
+  it('send() sends event to ipcrenderer', () => {
+    sut.send('foo');
+    expect(ipcRenderer.send).toHaveBeenCalledWith('foo');
+  });
+
   it('propogates message to logger', () => {
     let warnSpy = jasmine.createSpy('warn');
     LogManager.getLogger = (id) => {

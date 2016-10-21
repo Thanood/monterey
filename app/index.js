@@ -55,6 +55,9 @@ if (isDev() || !handleStartupEvent()) {
     global.paths = { application_state: '' };
     global.environment = environment;
     global.node_modules = path.join(__dirname, 'node_modules');
+    global.update = (e) => {
+      require('./updater')(e);
+    };
 
     mainWindow.loadURL(getIndex());
 

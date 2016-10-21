@@ -1,0 +1,18 @@
+<template>
+  <require from="../shared/converters/moment"></require>
+
+  <p if.bind="error">${error}</p>
+
+  <spinner if.bind="loading"></spinner>
+
+  <div show.bind="!error && !loading">
+    <button class="btn btn-primary" click.delegate="installUpdate()" disabled.bind="installing">Install update</button>
+
+    <p>There is a new update available. You are currently on <b>v${currentVersion}</b> and version <b>${latestRelease.name}</b> was released on <b>${latestRelease.created_at | moment}</b>.</p>
+
+    <div repeat.for="release of releases">
+      <hr>
+      <div class="changelog" innerhtml.bind="release.body"></div>
+    </div>
+  </div>
+</template>
