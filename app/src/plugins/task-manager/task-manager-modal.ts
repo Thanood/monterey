@@ -76,7 +76,7 @@ export class TaskManagerModal {
       }
 
       if (!task.stoppable) {
-        this.notification.warning('task-cannot-be-stopped');
+        this.notification.warning(this.i18n.tr('task-cannot-be-stopped'));
         return;
       }
 

@@ -26,5 +26,5 @@ Choose one of the two headings, delete the other.
 <!-- In case of a bug report, please follow the following steps to collect and send log files -->
 <!-- 1. Click the "Dump session to log" option in the menu (http://i.imgur.com/qWxi1Ef.png)
      2. Click the "Logs" option in the menu (http://i.imgur.com/Umh4zv9.png)
-     3. Navigate to the "logs" folder and attach the latest csv file to this issue
+     3. Navigate to the "logs" folder and attach the latest txt file to this issue
 -->

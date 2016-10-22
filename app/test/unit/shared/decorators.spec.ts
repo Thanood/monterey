@@ -13,18 +13,18 @@ describe('withModal', () => {
   });
 
   it('calls open on DialogService', () => {
-    spyOn(dialogService, 'open').and.returnValue(Promise.resolve());
+    spyOn(dialogService, 'open').and.returnValue(Promise.resolve({}));
 
     class Target {}
 
-    let descriptor = withModal(Target)(null, null, { value: null });
+    let descriptor = withModal(Target)(null, null, { value: () => {} });
     descriptor.value();
 
     expect(dialogService.open).toHaveBeenCalledWith({ viewModel: Target, model: undefined, options: null });
   });
 
   it('calls transformer function', () => {
-    spyOn(dialogService, 'open').and.returnValue(Promise.resolve());
+    spyOn(dialogService, 'open').and.returnValue(Promise.resolve({}));
     let spy = jasmine.createSpy('transformer');
 
     class Target {}
@@ -33,7 +33,7 @@ describe('withModal', () => {
       foo: 'bar'
     };
 
-    let descriptor = withModal(Target, spy)(null, null, { value: null });
+    let descriptor = withModal(Target, spy)(null, null, { value: () => {} });
     descriptor.value(args);
 
     expect(spy).toHaveBeenCalledWith(args);
