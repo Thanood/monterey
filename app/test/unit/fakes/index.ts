@@ -5,6 +5,6 @@ export * from './dialog-service';
 export * from './validation';
 export * from './application-state';
 export * from './monterey-registries';
-export {Notifications, NotificationsFake} from './notifications';
+export * from './messages';
 export * from './settings';
 export * from './logger';

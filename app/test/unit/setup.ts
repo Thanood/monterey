@@ -5,6 +5,5 @@ initialize();
 import {configureLogger} from './fakes/index';
 configureLogger();
 
-beforeEach(() => {
-  configureLogger();
-});
+
+

@@ -1,5 +1,5 @@
 import {Updater}    from '../../../src/updater/updater';
-import {GithubAPI, GithubAPIFake, DialogService, DialogServiceFake, Settings, logger, SettingsFake, Notifications, NotificationsFake} from '../fakes/index';
+import {GithubAPI, GithubAPIFake, DialogService, DialogServiceFake, Settings, logger, SettingsFake, Messages, MessagesFake, Notification, NotificationFake} from '../fakes/index';
 import {Container}  from 'aurelia-dependency-injection';
 import {SESSION}    from 'monterey-pal';
 import {LogManager} from 'aurelia-framework';
@@ -14,7 +14,8 @@ describe('Updater', () => {
     container.registerSingleton(GithubAPI, GithubAPIFake);
     container.registerSingleton(DialogService, DialogServiceFake);
     container.registerSingleton(Settings, SettingsFake);
-    container.registerSingleton(Notifications, NotificationsFake);
+    container.registerSingleton(Messages, MessagesFake);
+    container.registerSingleton(Notification, NotificationFake);
 
     let settings = container.get(Settings);
     settings.getValue = (key) => {
@@ -26,11 +27,11 @@ describe('Updater', () => {
   });
 
   it('adds notification when update is available', async (r) => {
-    let notifications = container.get(Notifications);
+    let messages = container.get(Messages);
     setupUpdate(container, sut);
     await sut.checkForUpdate();
     expect(logger.info).toHaveBeenCalledWith(jasmine.anything(), 'Update available, showing notification');
-    expect(notifications.add).toHaveBeenCalled();
+    expect(messages.add).toHaveBeenCalled();
     r();
   });
 

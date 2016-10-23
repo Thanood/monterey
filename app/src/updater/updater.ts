@@ -1,6 +1,6 @@
 import {OS, ELECTRON, FS} from 'monterey-pal';
 import {Messages, Message} from '../plugins/messages/messages';
-import {GithubAPI, autoinject, Settings, DialogService, Notification as Toastr, Logger, LogManager} from '../shared/index';
+import {GithubAPI, autoinject, Settings, DialogService, Notification, Logger, LogManager} from '../shared/index';
 
 const logger = <Logger>LogManager.getLogger('updater');
 
@@ -8,7 +8,7 @@ const logger = <Logger>LogManager.getLogger('updater');
 export class Updater {
   constructor(private githubAPI: GithubAPI,
               private dialogService: DialogService,
-              private toastr: Toastr,
+              private notification: Notification,
               private messages: Messages,
               private settings: Settings) {}
 
@@ -49,7 +49,7 @@ export class Updater {
       return latestVersion !== currentVersion;
     } catch (error) {
       if (error.status === 401) {
-        this.toastr.info('Could not check for updates. GitHub returned "Unauthorized"');
+        this.notification.info('Could not check for updates. GitHub returned "Unauthorized"');
       }
       return false;
     }
