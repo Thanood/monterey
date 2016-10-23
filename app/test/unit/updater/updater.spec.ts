@@ -1,7 +1,8 @@
 import {Updater}    from '../../../src/updater/updater';
-import {GithubAPI, GithubAPIFake, DialogService, DialogServiceFake, Settings, SettingsFake} from '../fakes/index';
+import {GithubAPI, GithubAPIFake, DialogService, DialogServiceFake, Settings, logger, SettingsFake, Notifications, NotificationsFake} from '../fakes/index';
 import {Container}  from 'aurelia-dependency-injection';
 import {SESSION}    from 'monterey-pal';
+import {LogManager} from 'aurelia-framework';
 import '../setup';
 
 describe('Updater', () => {
@@ -13,6 +14,7 @@ describe('Updater', () => {
     container.registerSingleton(GithubAPI, GithubAPIFake);
     container.registerSingleton(DialogService, DialogServiceFake);
     container.registerSingleton(Settings, SettingsFake);
+    container.registerSingleton(Notifications, NotificationsFake);
 
     let settings = container.get(Settings);
     settings.getValue = (key) => {
@@ -23,58 +25,12 @@ describe('Updater', () => {
     SESSION.getEnv = () => 'production';
   });
 
-  it('does not open update modal when update is not necessary', async (r) => {
-    let dialogService = container.get(DialogService);
-
-    spyOn(sut, 'needUpdate').and.returnValue(Promise.resolve(false));
-
-    await sut.checkForUpdate();
-
-    expect(dialogService.open).not.toHaveBeenCalled();
-    r();
-  });
-
-  it('opens update modal when update is available', async (r) => {
-    let dialogService = container.get(DialogService);
-
-    spyOn(sut, 'needUpdate').and.returnValue(Promise.resolve(true));
-
-    await sut.checkForUpdate();
-
-    expect(dialogService.open).toHaveBeenCalled();
-    r();
-  });
-
-  it('does not update when update dialog gets cancelled', async (r) => {
-    let dialogService = container.get(DialogService);
-    dialogService.open.and.returnValue(Promise.resolve({ wasCancelled: true }));
-
-    spyOn(sut, 'needUpdate').and.returnValue(Promise.resolve(true));
-    spyOn(sut, 'update').and.returnValue(Promise.resolve());
-
-    await sut.checkForUpdate();
-
-    expect(sut.update).not.toHaveBeenCalled();
-    r();
-  });
-
-  it('updates when update modal has not been cancelled', async (r) => {
-    let dialogService = container.get(DialogService);
-    dialogService.open.and.returnValue(Promise.resolve({ wasCancelled: false }));
-
-    spyOn(sut, 'needUpdate').and.returnValue(Promise.resolve(true));
-    spyOn(sut, 'update').and.returnValue(Promise.resolve());
-
-    await sut.checkForUpdate();
-
-    expect(sut.update).toHaveBeenCalled();
-    r();
-  });
-
-  it('does not update when in development', async (r) => {
+  it('adds notification when update is available', async (r) => {
+    let notifications = container.get(Notifications);
     setupUpdate(container, sut);
-    SESSION.getEnv = () => 'development';
-    expect(await sut.needUpdate()).toBe(false);
+    await sut.checkForUpdate();
+    expect(logger.info).toHaveBeenCalledWith(jasmine.anything(), 'Update available, showing notification');
+    expect(notifications.add).toHaveBeenCalled();
     r();
   });
 

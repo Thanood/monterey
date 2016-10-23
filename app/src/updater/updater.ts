@@ -1,6 +1,6 @@
 import {OS, ELECTRON, FS} from 'monterey-pal';
 import {Notifications, Notification} from '../plugins/notifications/notifications';
-import {GithubAPI, autoinject, Settings, DialogService, Notification as Toastr, IPC, Logger, LogManager} from '../shared/index';
+import {GithubAPI, autoinject, Settings, DialogService, Notification as Toastr, Logger, LogManager} from '../shared/index';
 
 const logger = <Logger>LogManager.getLogger('updater');
 
@@ -10,8 +10,7 @@ export class Updater {
               private dialogService: DialogService,
               private toastr: Toastr,
               private notifications: Notifications,
-              private settings: Settings,
-              private ipc: IPC) {}
+              private settings: Settings) {}
 
   async checkForUpdate() {
     if (!this.settings.getValue('check-for-updates')) {
