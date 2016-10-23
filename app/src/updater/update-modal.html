@@ -5,9 +5,9 @@
     <ai-dialog-body>
       <p if.bind="error">${error}</p>
 
-      <spinner if.bind="loading"></spinner>
-
       <p repeat.for="log of logs">${log}</p>
+
+      <spinner if.bind="loading"></spinner>
     </ai-dialog-body>
 
     <ai-dialog-footer>

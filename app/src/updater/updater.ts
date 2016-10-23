@@ -33,8 +33,12 @@ export class Updater {
     } as Message);
   }
 
-  async update(eventCallback: (event, ...args) => void) {
-    ELECTRON.getGlobal('update')(eventCallback);
+  update(eventCallback: (event, ...args) => void) {
+    try {
+      ELECTRON.getGlobal('update')(eventCallback);
+    } catch (e) {
+      throw e;
+    }
   }
 
   async needUpdate() {

@@ -1,5 +1,7 @@
-import {autoinject, DialogController, I18N, SESSION, Notification} from '../shared/index';
+import {autoinject, DialogController, I18N, SESSION, Notification, Logger, LogManager} from '../shared/index';
 import {Updater} from './updater';
+
+const logger = <Logger>LogManager.getLogger('update-modal');
 
 @autoinject()
 export class UpdateModal {
@@ -23,48 +25,39 @@ export class UpdateModal {
     //   return false;
     // }
 
-
-    // autoUpdater.addListener('update-available', (event) => {
-    //   eventCallback('update-available');
-    // });
-    // autoUpdater.addListener('update-downloaded', (event, releaseNotes, releaseName, releaseDate, updateURL) => {
-    //   eventCallback('update-downloaded', releaseNotes, releaseName, releaseDate, updateURL);
-    // });
-    // autoUpdater.addListener('error', (error) => {
-    //   eventCallback('error', error);
-    // });
-    // autoUpdater.addListener('checking-for-update', (event) => {
-    //   eventCallback('checking-for-update', event);
-    // });
-    // autoUpdater.addListener('update-not-available', () => {
-    //   eventCallback('update-not-available');
-
-
     this.loading = true;
-    this.updater.update((event, ...args) => {
-      let msg = event;
-      switch (event) {
-        case 'update-available':
-          msg = 'Update available. Downloading now...';
-          break;
-        case 'update-downloaded':
-          msg = 'Update downloaded. It will be installed on quit';
-          break;
-        case 'error':
-          msg = `Error: ${JSON.stringify(args[0])}`;
-          break;
-        case 'checking-for-update':
-          msg = 'Checking for update...';
-          break;
-        case 'update-not-available':
-          msg = 'No update available';
-          break;
-        case 'feed-url':
-          msg = `Using feed url: ${args[0]}`;
-          break;
-      }
-      this.logs.push(msg);
-    });
-    this.loading = false;
+    try {
+      this.updater.update((event, ...args) => {
+        let msg = event;
+        switch (event) {
+          case 'update-available':
+            msg = 'Update available. Downloading now...';
+            break;
+          case 'update-downloaded':
+            msg = 'Update downloaded. It will be installed on quit';
+            break;
+          case 'error':
+            msg = `Error: ${JSON.stringify(args[0])}`;
+            this.loading = false;
+            break;
+          case 'checking-for-update':
+            msg = 'Checking for update...';
+            break;
+          case 'update-not-available':
+            msg = 'No update available';
+              this.loading = false;
+            break;
+          case 'feed-url':
+            msg = `Using feed url: ${args[0]}`;
+            break;
+        }
+        this.logs.push(msg);
+        logger.info(msg);
+      });
+    } catch (e) {
+      this.logs.push(`Error: ${e.message}`);
+      logger.error(e);
+      this.loading = false;
+    }
   }
 }
