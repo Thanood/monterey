@@ -9,7 +9,7 @@ gulp.task('clean', function() {
     .pipe(vinylPaths(del));
 });
 
-gulp.task('clean-logs', function() {
-  return gulp.src(['./app/logs/*.csv'])
+gulp.task('clean-installer-dist', function() {
+  return gulp.src(['./dist/**/*.*'])
     .pipe(vinylPaths(del));
 });
