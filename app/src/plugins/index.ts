@@ -17,5 +17,5 @@ export function configure(aurelia) {
   aurelia.feature('plugins/task-manager');
   aurelia.feature('plugins/about');
   aurelia.feature('plugins/development');
-  aurelia.feature('plugins/notifications');
+  aurelia.feature('plugins/messages');
 }

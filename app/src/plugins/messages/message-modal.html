@@ -1,0 +1,41 @@
+<template>
+  <require from="../../shared/converters/limit-text-size"></require>
+  <require from="../../shared/splitter"></require>
+
+  <ai-dialog class="message-modal" title="Messages" width="730" height="470">
+    <ai-dialog-body>
+      <div class="left-side" splitter="handle.bind: splitter">
+        <div class="message-list">
+          <ul class="list-group">
+            <li class="list-group-item ${selectedMessage === message ? 'selected': ''}"
+                repeat.for="message of messages.messages"
+                click.delegate="selectedMessage = message">
+              <i if.bind="message.icon" class.bind="message.icon"></i>
+              <p>${message.title}</p> 
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <div ref="splitter"></div>
+
+      <div class="right-side" show.bind="selectedMessage">
+        <p class="title">${selectedMessage.title | limitTextSize: 50}</p>
+        <div if.bind="selectedMessage.html" innerhtml.bind="selectedMessage.html"></div>
+        <compose if.bind="selectedMessage.viewModel" 
+                 view-model.bind="selectedMessage.viewModel" 
+                 model.bind="selectedMessage.model"></compose>
+      </div>
+
+      <div class="right-side" show.bind="messages.messages.length === 0">
+        <p i18n="no-messages"></p>
+      </div>
+    </ai-dialog-body>
+
+    <ai-dialog-footer>
+      <div class="align-right">
+        <button class="btn btn-primary" click.trigger="dialogController.close()" i18n="close"></button>
+      </div>
+    </ai-dialog-footer>
+  </ai-dialog>
+</template>

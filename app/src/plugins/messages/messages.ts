@@ -1,28 +1,28 @@
 import {RandomNumber} from '../../shared/index';
 
-export class Notifications {
-  notifications: Array<Notification> = [];
+export class Messages {
+  messages: Array<Message> = [];
 
-  add(notification: Notification) {
-    notification.id = new RandomNumber().create();
-    notification.created = new Date();
-    this.notifications.push(notification);
+  add(message: Message) {
+    message.id = new RandomNumber().create();
+    message.created = new Date();
+    this.messages.push(message);
   }
 }
 
-export interface Notification {
+export interface Message {
   /**
-   * Unique identifier of a notification
+   * Unique identifier of a message
    */
   id?: number;
 
   /**
-   * Icon of the notification (fa fa-remove)
+   * Icon of the message (fa fa-remove)
    */
   icon?: string;
 
   /**
-   * Short title of the notification
+   * Short title of the message
    */
   title: string;
 
@@ -32,7 +32,7 @@ export interface Notification {
   body?: string;
 
   /**
-   * When was the notification created
+   * When was the message created
    */
   created?: Date;
 

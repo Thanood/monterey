@@ -1,5 +1,5 @@
 import {OS, ELECTRON, FS} from 'monterey-pal';
-import {Notifications, Notification} from '../plugins/notifications/notifications';
+import {Messages, Message} from '../plugins/messages/messages';
 import {GithubAPI, autoinject, Settings, DialogService, Notification as Toastr, Logger, LogManager} from '../shared/index';
 
 const logger = <Logger>LogManager.getLogger('updater');
@@ -9,7 +9,7 @@ export class Updater {
   constructor(private githubAPI: GithubAPI,
               private dialogService: DialogService,
               private toastr: Toastr,
-              private notifications: Notifications,
+              private messages: Messages,
               private settings: Settings) {}
 
   async checkForUpdate() {
@@ -24,13 +24,13 @@ export class Updater {
 
     logger.info('Update available, showing notification');
 
-    this.notifications.add({
+    this.messages.add({
       title: 'Update available',
       icon: 'fa fa-arrow-up',
       viewModel: 'updater/update-screen',
       model: {},
       type: 'Update'
-    } as Notification);
+    } as Message);
   }
 
   async update(eventCallback: (event, ...args) => void) {

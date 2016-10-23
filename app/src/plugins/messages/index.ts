@@ -9,6 +9,6 @@ export function configure(aurelia) {
 
 class Plugin extends BasePlugin {
   async getTaskBarItems(project) {
-    return ['plugins/notifications/task-bar'];
+    return ['plugins/messages/task-bar'];
   }
 }
