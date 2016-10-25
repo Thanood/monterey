@@ -8,3 +8,5 @@ export * from './monterey-registries';
 export * from './messages';
 export * from './settings';
 export * from './logger';
+export * from './ipc';
+export * from './updater';

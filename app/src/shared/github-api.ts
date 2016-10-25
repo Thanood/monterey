@@ -57,14 +57,10 @@ export class GithubAPI {
   }
 
   async getLatestRelease(repository: string) {
-    await this.confirmAuth();
-
     return this.execute(`${this.githubAPIUrl}/repos/${repository}/releases/latest`);
   }
 
   async getReleases(repository: string) {
-    await this.confirmAuth();
-
     return this.execute(`${this.githubAPIUrl}/repos/${repository}/releases`);
   }
 

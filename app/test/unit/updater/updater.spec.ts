@@ -1,5 +1,5 @@
 import {Updater}    from '../../../src/updater/updater';
-import {GithubAPI, GithubAPIFake, DialogService, DialogServiceFake, Settings, logger, SettingsFake, Messages, MessagesFake, Notification, NotificationFake} from '../fakes/index';
+import {GithubAPI, GithubAPIFake, DialogService, DialogServiceFake, Settings, logger, SettingsFake, Messages, MessagesFake, Notification, NotificationFake, IPC, IPCFake} from '../fakes/index';
 import {Container}  from 'aurelia-dependency-injection';
 import {SESSION}    from 'monterey-pal';
 import {LogManager} from 'aurelia-framework';
@@ -16,6 +16,7 @@ describe('Updater', () => {
     container.registerSingleton(Settings, SettingsFake);
     container.registerSingleton(Messages, MessagesFake);
     container.registerSingleton(Notification, NotificationFake);
+    container.registerSingleton(IPC, IPCFake);
 
     let settings = container.get(Settings);
     settings.getValue = (key) => {
@@ -24,6 +25,26 @@ describe('Updater', () => {
 
     sut = container.get(Updater);
     SESSION.getEnv = () => 'production';
+  });
+
+  it('does not check for update when setting tells monterey not to', async (r) => {
+    let spy = spyOn(sut, 'needUpdate');
+    let settings = container.get(Settings);
+    settings.getValue = (key) => {
+      if (key === 'check-for-updates') return false;
+      return true;
+    };
+    await sut.checkForUpdate();
+    expect(spy).not.toHaveBeenCalled();
+    r();
+  });
+
+  it('does not add notification when update is not available', async (r) => {
+    let messages = container.get(Messages);
+    spyOn(sut, 'needUpdate').and.returnValue(Promise.resolve(false));
+    await sut.checkForUpdate();
+    expect(messages.add).not.toHaveBeenCalled();
+    r();
   });
 
   it('adds notification when update is available', async (r) => {

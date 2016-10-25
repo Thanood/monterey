@@ -10,6 +10,7 @@ gulp.task('clean', function() {
 });
 
 gulp.task('clean-installer-dist', function() {
-  return gulp.src(['./dist/**/*.*'])
-    .pipe(vinylPaths(del));
+  return del([
+    './dist/**/*'
+  ]);
 });

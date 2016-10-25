@@ -16,6 +16,11 @@ showdown.extension('targetblank', function () {
   ];
 });
 
+/**
+ * The `UpdateScreen` is the screen in the Message center that
+ * shows all release changelogs of Monterey and allows you to
+ * install an update
+ */
 @autoinject()
 export class UpdateScreen {
   error: string;

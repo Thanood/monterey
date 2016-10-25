@@ -24,10 +24,9 @@
   "scripts": {
     "postinstall": "install-app-deps",
     "pack": "build --dir",
-    "dist": "gulp clean-installer-dist && build",
+    "dist": "gulp clean-installer-dist && gulp build && build",
     "setup": "node utils -setup && node utils -rebuild-native",
-    "rebuild-native": "node utils -rebuild-native",
-    "test-build": "gulp rename-index && build && gulp rename-index-back"
+    "rebuild-native": "node utils -rebuild-native"
   },
   "directories": {
     "app": "app"

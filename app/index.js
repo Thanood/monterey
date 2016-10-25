@@ -55,9 +55,6 @@ if (isDev() || !handleStartupEvent()) {
     global.paths = { application_state: '' };
     global.environment = environment;
     global.node_modules = path.join(__dirname, 'node_modules');
-    global.update = (e) => {
-      require('./updater')(e);
-    };
 
     mainWindow.loadURL(getIndex());
 
@@ -67,6 +64,10 @@ if (isDev() || !handleStartupEvent()) {
     }
 
     let ipcMain = electron.ipcMain;
+
+    ipcMain.on('update:start', () => {
+      require('./updater')();
+    });
 
     // open anchors with target="_blank" in new browser window
     mainWindow.webContents.on('new-window', function(e, url) {

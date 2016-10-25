@@ -1,16 +1,22 @@
 import {OS, ELECTRON, FS} from 'monterey-pal';
 import {Messages, Message} from '../plugins/messages/messages';
-import {GithubAPI, autoinject, Settings, DialogService, Notification, Logger, LogManager} from '../shared/index';
+import {GithubAPI, autoinject, Settings, DialogService, Notification, Logger, LogManager, IPC} from '../shared/index';
 
 const logger = <Logger>LogManager.getLogger('updater');
 
+/**
+ * The `Updater` module is responsible for checking for updates,
+ * adding a message to the message center if there is an update available, and
+ * installing of an update
+ */
 @autoinject()
 export class Updater {
   constructor(private githubAPI: GithubAPI,
               private dialogService: DialogService,
               private notification: Notification,
               private messages: Messages,
-              private settings: Settings) {}
+              private settings: Settings,
+              private ipc: IPC) {}
 
   async checkForUpdate() {
     if (!this.settings.getValue('check-for-updates')) {
@@ -33,12 +39,8 @@ export class Updater {
     } as Message);
   }
 
-  update(eventCallback: (event, ...args) => void) {
-    try {
-      ELECTRON.getGlobal('update')(eventCallback);
-    } catch (e) {
-      throw e;
-    }
+  update() {
+    this.ipc.send('update:start');
   }
 
   async needUpdate() {

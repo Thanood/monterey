@@ -6,13 +6,15 @@ import {Notification} from './notification';
  * IPC handles IPC communication with the main process
  */
 export class IPC {
+  ipcRenderer: any;
+
   constructor(aurelia) {
-    let ipcRenderer = ELECTRON.getIpcRenderer();
+    this.ipcRenderer = ELECTRON.getIpcRenderer();
     let notification = <Notification>aurelia.container.get(Notification);
 
     // the main process sends all messages to the renderer process via the ipcRenderer.
     // this way the render process is in control of what gets logged in the logfile and what's displayed on screen
-    ipcRenderer.on('message', (event: string, visible: boolean, id: string, level: string, message: string) => {
+    this.ipcRenderer.on('message', (event: string, visible: boolean, id: string, level: string, message: string) => {
       let logger = LogManager.getLogger(id);
       if (visible) {
         if (notification[level]) {
@@ -23,6 +25,18 @@ export class IPC {
         logger[level](message);
       }
     });
+  }
+
+  on(channel: string, listener) {
+    this.ipcRenderer.on(channel, listener);
+  }
+
+  removeListener(channel: string, listener) {
+    this.ipcRenderer.removeListener(channel, listener);
+  }
+
+  removeAllListeners(channel: string) {
+    this.ipcRenderer.removeAllListeners(channel);
   }
 
   /**

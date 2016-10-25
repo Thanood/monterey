@@ -1,61 +1,42 @@
-
-// const notify = require('./notify');
-
-
-// module.exports = function update (window) {
-//   const version = app.getVersion();
-
-//   notify(false, 'info', 'updater', `current version: ${version}`);
-
-//   autoUpdater.addListener('update-available', (event) => {
-//     notify(false, 'info', 'updater', 'A new update is available');
-//   });
-//   autoUpdater.addListener('update-downloaded', (event, releaseNotes, releaseName, releaseDate, updateURL) => {
-//     notify(true, 'success', 'updater', `Version ${releaseName} has been downloaded and will be automatically installed on Quit`);
-//   });
-//   autoUpdater.addListener('error', (error) => {
-//     notify(false, 'info', 'updater', `Error: Failed to update: ${error}`);
-//   });
-//   autoUpdater.addListener('checking-for-update', (event) => {
-//     notify(false, 'info', 'updater', 'checking-for-update');
-//   });
-//   autoUpdater.addListener('update-not-available', () => {
-//     notify(false, 'info', 'updater', 'update-not-available');
-//   });
-
-//   let feedURL = `https://${UPDATE_SERVER_HOST}/update/${os.platform()}/${os.platform() === 'darwin' ? '?version=' + version : ''}`;
-//   notify(false, 'info', 'updater', `using update feed url: ${feedURL}`);
-//   autoUpdater.setFeedURL(feedURL);
-
-//   notify(false, 'info', 'updater', 'checking for updates now');
-//   autoUpdater.checkForUpdates();
-// }
-
 const electron = require('electron');
+const BrowserWindowElectron = electron.BrowserWindow;
+const WebContents = BrowserWindowElectron.WebContents;
 const app = electron.app;
 const autoUpdater = electron.autoUpdater;
 const os = require('os');
 const UPDATE_SERVER_HOST = 'nuts.jeroenvinke.nl:443'
 
-module.exports = function update (eventCallback) {
+const key = 'update:message';
+
+module.exports = function update () {
   autoUpdater.addListener('update-available', (event) => {
-    eventCallback('update-available');
+    sendMsg(key, 'update-available');
   });
   autoUpdater.addListener('update-downloaded', (event, releaseNotes, releaseName, releaseDate, updateURL) => {
-    eventCallback('update-downloaded', releaseNotes, releaseName, releaseDate, updateURL);
+    sendMsg(key, 'update-downloaded', releaseNotes, releaseName, releaseDate, updateURL);
   });
   autoUpdater.addListener('error', (error) => {
-    eventCallback('error', error);
+    sendMsg(key, 'error', error.message);
   });
   autoUpdater.addListener('checking-for-update', (event) => {
-    eventCallback('checking-for-update', event);
+    sendMsg(key, 'checking-for-update', event);
   });
   autoUpdater.addListener('update-not-available', () => {
-    eventCallback('update-not-available');
+    sendMsg(key, 'update-not-available');
   });
 
   let feedURL = `https://${UPDATE_SERVER_HOST}/update/${os.platform()}/${os.platform() === 'darwin' ? '?version=' + version : ''}`;
-  eventCallback('feed-url', feedURL);
+  sendMsg(key, 'feed-url', feedURL);
   autoUpdater.setFeedURL(feedURL);
   autoUpdater.checkForUpdates();
+}
+
+function sendMsg(key, ...params) {
+  let windows = BrowserWindowElectron.getAllWindows();
+  if (windows.length == 0) {
+    return;
+  }
+
+  params.unshift(key);
+  windows[0].webContents.send.apply(windows[0].webContents, params);
 }
