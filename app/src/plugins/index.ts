@@ -1,21 +1,22 @@
 export function configure(aurelia) {
-  aurelia.feature('plugins/workflow');
-  aurelia.feature('plugins/app-launcher');
-  aurelia.feature('plugins/npm');
-  aurelia.feature('plugins/jspm');
-  aurelia.feature('plugins/aurelia-cli');
-  aurelia.feature('plugins/gulp');
-  aurelia.feature('plugins/webpack');
-  aurelia.feature('plugins/typings');
-  aurelia.feature('plugins/dotnet');
-  aurelia.feature('plugins/project-info');
-  aurelia.feature('plugins/preferences');
-  aurelia.feature('plugins/gist-run');
-  aurelia.feature('plugins/errors');
-  aurelia.feature('plugins/support');
-  aurelia.feature('plugins/terminal');
-  aurelia.feature('plugins/task-manager');
   aurelia.feature('plugins/about');
+  aurelia.feature('plugins/app-launcher');
+  aurelia.feature('plugins/aurelia-cli');
   aurelia.feature('plugins/development');
+  aurelia.feature('plugins/dotnet');
+  aurelia.feature('plugins/errors');
+  aurelia.feature('plugins/gist-run');
+  aurelia.feature('plugins/gulp');
+  aurelia.feature('plugins/jspm');
+  aurelia.feature('plugins/layout-manager');
   aurelia.feature('plugins/messages');
+  aurelia.feature('plugins/npm');
+  aurelia.feature('plugins/preferences');
+  aurelia.feature('plugins/project-info');
+  aurelia.feature('plugins/support');
+  aurelia.feature('plugins/task-manager');
+  aurelia.feature('plugins/terminal');
+  aurelia.feature('plugins/typings');  
+  aurelia.feature('plugins/webpack');
+  aurelia.feature('plugins/workflow');
 }
