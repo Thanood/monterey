@@ -5,6 +5,7 @@ import {Main}       from '../../main/main';
 export class Screen {
   tabs = [
     { element: null, title: 'Miscellaneous', viewModel: './components/miscellaneous' },
+    { element: null, title: 'Tools layout', viewModel: './components/layout' },
     { element: null, title: 'Github', viewModel: './components/github' },
     { element: null, title: 'NPM', viewModel: './components/npm' },
     { element: null, title: 'Endpoints', viewModel: './components/endpoints' },

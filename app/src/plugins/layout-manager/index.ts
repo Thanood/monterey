@@ -10,7 +10,7 @@ export function configure(aurelia) {
 class Plugin extends BasePlugin {
  getTiles(project, showIrrelevant) {
    return [{
-     name: 'Layoutmanager',
+     name: 'layout-manager',
      viewModel: 'plugins/layout-manager/tile'
    }];
  }
