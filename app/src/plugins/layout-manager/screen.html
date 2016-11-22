@@ -1,0 +1,12 @@
+<template>
+  <div class="plugin-title-container">
+    <button class="returnToPluginListBtn btn btn-primary" click.delegate="goBack()" i18n="back"></button>
+    <h1 class="plugin-title" i18n="Layout manager"></h1>
+    <p class="project-title-plugin" if.bind="selectedProject.current.name">${selectedProject.current.name}</p>
+  </div>
+  <div class="plugin-content-container">
+
+    <i class="fa fa-spinner fa-spin fa-3x" if.bind="loading"></i>
+
+  </div>
+</template>

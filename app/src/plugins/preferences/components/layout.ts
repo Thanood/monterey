@@ -1,25 +1,30 @@
-import {Settings, LayoutManager, Notification, autoinject, bindable} from '../../../shared/index';
+import {Main} from '../../../main/main';
+import {Project, SelectedProject, Settings, LayoutManager, Notification, autoinject, bindable} from '../../../shared/index';
 
 @autoinject()
 export class Layout {
-  //@bindable selectedLayout;
 
-  constructor(private layoutManager: LayoutManager,
+  tabs: Element;
+  activeTab = 'Global';
+
+ constructor(private layoutManager: LayoutManager,
               private notification: Notification,
-              private settings: Settings) {
-    //this.selectedLayout = settings.getValue('layout');
+              private settings: Settings,
+              private main: Main,
+              private selectedProject: SelectedProject             
+              ) {
   }
+  
 
-  selectedThemeChanged(newVal, oldVal) {
-    if (newVal) {
-      //this.layoutManager.load(this.selectedLayout);
-    }
-  }
+  attached() {
+    $(this.tabs).on('show.bs.tab', (e) => {
+      this.activeTab = $(e.target).text();
+    });
+  }	
+
+ 
 
   async save() {
-    //await this.settings.setValue('theme', this.selectedLayout);
-    //await this.settings.save();
-
     this.notification.success('Changes saved');
   }
 }

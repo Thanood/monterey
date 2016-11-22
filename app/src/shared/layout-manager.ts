@@ -1,7 +1,7 @@
 import {DOM} from 'aurelia-pal';
 
 /**
- * Loads and unloads themes
+ * Loads tools global layout settings
  */
 export class LayoutManager {
 }
