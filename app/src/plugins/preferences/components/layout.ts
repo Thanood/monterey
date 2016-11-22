@@ -4,25 +4,23 @@ import {Project, SelectedProject, Settings, LayoutManager, Notification, autoinj
 @autoinject()
 export class Layout {
 
-  tabs: Element;
+  layout_tabs: Element;
   activeTab = 'Global';
 
  constructor(private layoutManager: LayoutManager,
               private notification: Notification,
               private settings: Settings,
               private main: Main,
-              private selectedProject: SelectedProject             
+              private selectedProject: SelectedProject
               ) {
   }
-  
 
   attached() {
-    $(this.tabs).on('show.bs.tab', (e) => {
+    $(this.layout_tabs).on('show.bs.tab', (e) => {
+      console.log(e);
       this.activeTab = $(e.target).text();
     });
-  }	
-
- 
+  }
 
   async save() {
     this.notification.success('Changes saved');
