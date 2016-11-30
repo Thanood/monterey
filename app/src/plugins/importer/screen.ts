@@ -1,9 +1,15 @@
+import {autoinject} from 'aurelia-framework';
 import {Main} from '../../main/main';
-import {PluginManager, Notification, OS, autoinject, TaskQueue} from '../../shared/index';
+import {PluginManager, Notification, OS, TaskQueue} from '../../shared/index';
 
 @autoinject()
 export class Screen {
   project;
+  tabs = [
+    { element: null, title: 'Project-creation1', viewModel: './components/project-creation1' },
+    { element: null, title: 'Project-creation2', viewModel: './components/project-creation2' },    
+    { element: null, title: 'NPM',               viewModel: './components/npm' }
+  ];
   
   constructor(private pluginManager: PluginManager,
               private taskQueue: TaskQueue,

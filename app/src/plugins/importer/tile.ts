@@ -6,11 +6,11 @@ import {Main}                from '../../main/main';
 export class Tile {
  title: string;
  img: string;
- tooltip = 'tooltip-layout-manager';
+ tooltip = 'tooltip-importer';
 
  constructor(private main: Main) {
-   this.title = 'Layout';
-   this.img = 'http://icons.iconarchive.com/icons/custom-icon-design/flatastic-8/72/Layout-icon.png';
+   this.title = 'Importer';
+   this.img = 'images/importer.png';
  }
 
  activate(model) {
@@ -18,6 +18,6 @@ export class Tile {
   }
 
  async onClick() {
-    this.main.activateScreen('plugins/layout-manager/screen');
+    this.main.activateScreen('plugins/importer/screen');
   }
 }

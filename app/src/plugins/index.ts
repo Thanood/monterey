@@ -7,8 +7,8 @@ export function configure(aurelia) {
   aurelia.feature('plugins/errors');
   aurelia.feature('plugins/gist-run');
   aurelia.feature('plugins/gulp');
+  aurelia.feature('plugins/importer');  
   aurelia.feature('plugins/jspm');
-  aurelia.feature('plugins/layout-manager');
   aurelia.feature('plugins/messages');
   aurelia.feature('plugins/npm');
   aurelia.feature('plugins/preferences');

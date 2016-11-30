@@ -1,0 +1,33 @@
+<template>
+  <div class="plugin-title-container">
+    <button class="returnToPluginListBtn btn btn-primary" click.delegate="goBack()" i18n="back"></button>
+    <h1 class="plugin-title" i18n="Importer"></h1>
+    <p class="project-title-plugin" if.bind="selectedProject.current.name">${selectedProject.current.name}</p>
+  </div>
+  <div class="plugin-content-container">
+
+    <i class="fa fa-spinner fa-spin fa-3x" if.bind="loading"></i>
+
+    <!-- Nav tabs -->
+    
+    <ul class="nav nav-tabs" role="tablist" ref="importer_tabs">
+      <li role="presentation" class="active"><a href="#project-creation1" aria-controls="global" role="tab" data-toggle="tab" i18n="Project-creation1"></a></li>
+      <li role="presentation"><a href="#project-creation2" aria-controls="project" role="tab" data-toggle="tab" i18n="project-creation2"></a></li>
+      <li role="presentation"><a href="#npm" aria-controls="project" role="tab" data-toggle="tab" i18n="npm"></a></li>
+
+    </ul>
+
+    <div class="tab-content launcher-tabs">
+      <div role="tabpanel" class="tab-pane active" id="global">
+        <layout-editor project.bind="selectedProject.current" global.bind="true" if.bind="activeTab === 'Global'"></layout-editor>
+      </div>
+      <div role="tabpanel" class="tab-pane" id="project">
+        <layout-editor project.bind="selectedProject.current" global.bind="false" if.bind="activeTab === 'Project-specific'"></layout-editor>
+      </div>
+     <div role="tabpanel" class="tab-pane" id="project">
+        <layout-editor project.bind="selectedProject.current" global.bind="false" if.bind="activeTab === 'Project-specific'"></layout-editor>
+      </div>      
+    </div>
+
+  </div>
+</template>
