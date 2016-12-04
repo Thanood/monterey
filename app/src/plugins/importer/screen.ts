@@ -5,7 +5,7 @@ import {PluginManager, Notification, OS, TaskQueue} from '../../shared/index';
 @autoinject()
 export class Screen {
   project;
-  tabs = [
+  importer_tabs = [
     { element: null, title: 'Project-creation1', viewModel: './components/project-creation1' },
     { element: null, title: 'Project-creation2', viewModel: './components/project-creation2' },    
     { element: null, title: 'NPM',               viewModel: './components/npm' }
