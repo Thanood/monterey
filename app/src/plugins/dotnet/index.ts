@@ -35,6 +35,8 @@ export class Plugin extends BasePlugin {
 
       project.favoriteCommands.push(new Command('dotnet', ['run']));
     }
+
+    return project;
   }
 
   async getProjectInfoSections(project: Project) {

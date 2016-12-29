@@ -35,6 +35,8 @@ export class Plugin extends BasePlugin {
     if (project.packageJSONPath) {
       await this.jspmDetection.findJspmConfig(project);
     }
+
+    return project;
   }
 
   async getProjectInfoSections(project: Project) {

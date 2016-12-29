@@ -30,6 +30,8 @@ export class Plugin extends BasePlugin {
 
       project.favoriteCommands.push(new Command('npm', ['start']));
     }
+
+    return project;
   }
 
   async getProjectInfoSections(project: Project) {

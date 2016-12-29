@@ -6,7 +6,7 @@ import {RandomNumber}     from './random-number';
 
 @autoinject
 export class MontereyRegistries {
-  state;
+  state: ApplicationState;
   client: HttpClient;
   cache = {
     templates: null,
@@ -36,7 +36,7 @@ export class MontereyRegistries {
 
     return this.getClient().fetch(`project-templates.json`)
     .then(response => response.json())
-    .then(data => { this.cache.templates = data.templates; return data.templates; });
+    .then(data => { this.cache.templates = (data as any).templates; return (data as any).templates; });
   }
 
   async getGistRun() {
@@ -73,7 +73,8 @@ export class MontereyRegistries {
     let data = await this.getClient().fetch(`launchers/${platform}/${path}/launcher.json`)
     .then(response => response.json())
     .then(json => {
-      return json;
+      // should be valid because json is actually "any" and not "Response"
+      return json as any;
     });
 
     // Get the icon as a blob

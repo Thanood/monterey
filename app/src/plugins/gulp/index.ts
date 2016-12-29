@@ -31,6 +31,8 @@ export class Plugin extends BasePlugin {
       project.favoriteCommands.push(new Command('gulp', ['watch']));
       project.favoriteCommands.push(new Command('gulp', ['build']));
     }
+
+    return project;
   }
 
   async getProjectInfoSections(project: Project) {

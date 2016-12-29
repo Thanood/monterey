@@ -34,6 +34,8 @@ export class Plugin extends BasePlugin {
       project.favoriteCommands.push(new Command('au', ['run']));
       project.favoriteCommands.push(new Command('au', ['run', '--watch']));
     }
+
+    return project;
   }
 
   async getProjectInfoSections(project) {

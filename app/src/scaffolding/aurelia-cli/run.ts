@@ -9,7 +9,7 @@ export class Run {
   finished = false;
   state;
   context: WorkflowContext;
-  promise: Promise<void>;
+  promise: Promise<{}>;
 
   constructor(private notification: Notification) {
   }

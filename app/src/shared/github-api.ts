@@ -38,7 +38,7 @@ export class GithubAPI {
    * Executes a request, throw error ({ status: number, message: string }) when statusCode
    * is something else than 200
    */
-  async execute(url: string) {
+  async execute(url: string): Promise<any> {
     return this.client.fetch(url)
     .then(response => {
       if (response.status !== 200) {

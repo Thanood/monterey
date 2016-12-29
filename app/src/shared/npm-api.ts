@@ -17,6 +17,6 @@ export class NPMAPI {
   async getLatest(repository: string) {
     return this.client.fetch(`${this.npmAPIUrl}-/package/${repository}/dist-tags`)
     .then(response => response.json())
-    .then(data => data.latest);
+    .then(data => (data as any).latest);
   }
 }

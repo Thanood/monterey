@@ -25,6 +25,8 @@ export class Plugin extends BasePlugin {
     if (project.isUsingTypings()) {
       project.favoriteCommands.push(new Command('node', ['node_modules/typings/dist/bin.js', 'install'], 'typings install'));
     }
+
+    return project;
   }
 
   async getProjectInfoSections(project: Project) {
