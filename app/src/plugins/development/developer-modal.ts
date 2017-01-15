@@ -2,6 +2,8 @@ import {TaskManager, Task} from '../task-manager/index';
 import {TaskManagerModal}  from '../task-manager/task-manager-modal';
 import {autoinject, DialogService, DialogController, ApplicationState, SelectedProject, withModal} from '../../shared/index';
 
+import {AureliaSamStore} from '../../aurelia-sam/aurelia-sam';
+
 @autoinject()
 export class DeveloperModal {
   project;
@@ -10,7 +12,9 @@ export class DeveloperModal {
               private taskManager: TaskManager,
               private dialogService: DialogService,
               private selectedProject: SelectedProject,
-              private state: ApplicationState) {
+              private state: ApplicationState,
+              private store: AureliaSamStore
+              ) {
     this.project = selectedProject.current;
   }
 
@@ -56,6 +60,11 @@ export class DeveloperModal {
     this.taskManager.addTask(this.selectedProject.current, second);
 
     this.taskManager.startTask(first);
+  }
+
+  dumpSamHistory() {
+    const history = this.store.getHistory();
+    console.log('[dumpSamHistory]', history);
   }
 
   throwError() {
