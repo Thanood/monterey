@@ -1,8 +1,10 @@
-import {LogManager}                from 'aurelia-framework';
+import {autoinject, LogManager}                from 'aurelia-framework';
 import {Logger}                    from 'aurelia-logging';
 import {SESSION, FS}               from 'monterey-pal';
 import {Project}                   from './project';
 import {Setting, SettingValue}     from './settings';
+
+import {AureliaSamStore} from '../aurelia-sam/aurelia-sam';
 
 const logger = <Logger>LogManager.getLogger('application-state');
 
@@ -10,6 +12,7 @@ const logger = <Logger>LogManager.getLogger('application-state');
  * The `ApplicationState` is what's stored in the session (localStorage). Is is also restored on application start.
  * The `__meta__` property is __not__ saved to session, so this object can be used to store "temporary" data
  */
+@autoinject()
 export class ApplicationState {
 
   gitAuthorization: string;
@@ -26,6 +29,21 @@ export class ApplicationState {
   };
   __meta__: any = {};
 
+  constructor(private store: AureliaSamStore) {
+    this.store.subscribe(model => {
+      logger.debug('[store] - ', model);
+    });
+    this.store.registerAction({
+      intent: {
+        what: 'save'
+      },
+      execute: (state) => {
+        logger.debug('[store] - action "save"', state);
+        return state;
+      }
+    });
+  }
+
   /**
   * Restores the application state from session
   */
@@ -35,6 +53,8 @@ export class ApplicationState {
     for (let i = 0; i < this.projects.length; i++) {
       this.projects[i] = new Project(this.projects[i]);
     }
+
+    this.store.registerModel('projects', this.projects);
   }
 
   async _isNew(): Promise<boolean> {
@@ -47,6 +67,7 @@ export class ApplicationState {
   async _save() {
     await SESSION.set(this._getStateIdentifier(), this._normalize(this));
     logger.info('State saved');
+    this.store.dispatch('save', this.projects);
   }
 
   /**
@@ -70,7 +91,7 @@ export class ApplicationState {
    */
   _normalize(obj) {
     let normalized = {};
-    let ignoreKeys = ['__meta__'];
+    let ignoreKeys = ['__meta__', 'store'];
     let keys = Object.keys(obj);
     for (let i = 0; i < keys.length; i++) {
       let key = keys[i];
